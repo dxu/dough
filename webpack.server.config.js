@@ -9,11 +9,11 @@ var node_modules = fs.readdirSync('node_modules')
 
 module.exports = {
   devtool: "source-map",
-  entry: "./js/entry.js",
+  entry: "./js/server/routes.js",
   externals: node_modules,
   output: {
     path: __dirname + '/dist',
-    filename: "bundle.js"
+    filename: "routes.js"
   },
   module: {
     loaders: [
