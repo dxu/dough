@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run client & npm run server",
+    "start": "npm run client & npm run server & nodemon server.dist.js",
     "client": "webpack --progress --colors --watch --config webpack.client.config.js",
     "server": "webpack --progress --colors --watch --config webpack.server.config.js"
   },
@@ -25,6 +25,7 @@
     "cross-env": "^1.0.7",
     "devtron": "^1.1.2",
     "express": "^4.13.4",
+    "nodemon": "^1.10.0",
     "transform-loader": "^0.2.3",
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.6.1",
