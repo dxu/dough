@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --progress --colors --watch"
+    "start": "npm run client & npm run server",
+    "client": "webpack --progress --colors --watch --config webpack.client.config.js",
+    "server": "webpack --progress --colors --watch --config webpack.server.config.js"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
@@ -37,5 +39,8 @@
   "bugs": {
     "url": "https://github.com/apophanystudios/truce/issues"
   },
-  "homepage": "https://github.com/apophanystudios/truce#readme"
+  "homepage": "https://github.com/apophanystudios/truce#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }
