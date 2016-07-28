@@ -2,18 +2,22 @@ var path = require('path'),
     fs   = require('fs')
 
 // http://jlongster.com/Backend-Apps-with-Webpack--Part-I
-var node_modules = fs.readdirSync('node_modules')
+var node_modules = {}
+
+fs.readdirSync('node_modules')
   .filter(function(x) {
     return x !== '.bin'
   })
+  .forEach(mod => { node_modules[mod] = `commonjs ${mod}`; });
 
 module.exports = {
   devtool: "source-map",
-  entry: "./js/server/routes.js",
+  entry: "./js/server/server.js",
   externals: node_modules,
+  target: 'node',
   output: {
-    path: __dirname + '/dist',
-    filename: "routes.js"
+    path: __dirname,
+    filename: "server.dist.js"
   },
   module: {
     loaders: [
