@@ -1,8 +1,16 @@
-var path = require('path');
+var path = require('path'),
+    fs   = require('fs')
+
+// http://jlongster.com/Backend-Apps-with-Webpack--Part-I
+var node_modules = fs.readdirSync('node_modules')
+  .filter(function(x) {
+    return x !== '.bin'
+  })
 
 module.exports = {
   devtool: "source-map",
   entry: "./js/entry.js",
+  externals: node_modules,
   output: {
     path: __dirname + '/dist',
     filename: "bundle.js"
