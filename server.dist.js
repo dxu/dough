@@ -58,6 +58,13 @@
 	
 	var app = (0, _express2.default)();
 	
+	// set the view engine to ejs
+	app.set('view engine', 'ejs');
+	
+	app.use('/assets', _express2.default.static('assets'));
+	app.use('/css', _express2.default.static('css'));
+	app.use('/js', _express2.default.static('dist'));
+	
 	app.use('/', _router2.default);
 	
 	app.listen(3000, function () {
@@ -90,7 +97,7 @@
 	
 	// define the home page route
 	router.get('/', function (req, res) {
-	  res.send('hi');
+	  res.render('index');
 	});
 	
 	exports.default = router;
