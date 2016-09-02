@@ -6,8 +6,8 @@ module.exports = {
   context: __dirname,
   entry: "./lib/entry.js",
   output: {
-    path: __dirname + '/dist',
-    filename: "bundle.js"
+    path: __dirname + '/examples/dist',
+    filename: "truce.js"
   },
   module: {
     loaders: [

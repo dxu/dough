@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run client & npm run lib & npm run server & nodemon ./examples/server.dist.js",
-    "client": "webpack --progress --colors --watch --config ./examples/webpack.client.config.js",
+    "start": "npm run lib",
     "lib": "webpack --progress --colors --watch --config webpack.lib.config.js",
-    "server": "webpack --progress --colors --watch --config ./examples/webpack.server.config.js"
+    "update": "git submodule update --remote"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
