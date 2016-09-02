@@ -1,0 +1,4 @@
+[submodule "examples"]
+	path = examples
+	url = git@github.com:apophanystudios/examples.git
+	branch = master
