@@ -6,6 +6,9 @@
  * @param uuidHash - hash function for determining uuid
  *
  * Usage:
+ * Can only take in objects with a built in onCollision(object) method
+ *
+ *
  * Pass in a bucket hash function that will determine the bucket index in which the object is located
  * Pass in the uuid hash function referencing the item
  * Pass in the Collision function for determining the collision of two polygons or game objects (AABB, Separating Axis, etc)
@@ -22,9 +25,9 @@
  *
  */
 class SpatialHash {
-  constructor(comparator, collision, bucketHash, uuidHash) {
+  constructor(comparator, didCollide, bucketHash, uuidHash) {
     this.comparator = comparator
-    this.collision = collision
+    this.didCollide = didCollide
     this.items = {}
   }
 
@@ -43,10 +46,13 @@ class SpatialHash {
     let bucketHash = this.bucketHash(item)
     let itemHash = uuidHash(item)
     for (other in this.items[bucketHash]) {
-      if (item !== other && this.collision(other, item)) {
+      if (item !== other && this.didCollide(other, item)) {
+        item.onCollision(other)
+        other.onCollision(item)
         return true
       }
     }
+    return false
   }
 }
 
