@@ -7,7 +7,7 @@ module.exports = {
   entry: "./lib/entry.js",
   output: {
     path: __dirname + '/examples/dist',
-    filename: "truce.js"
+    filename: "pew.js"
   },
   module: {
     loaders: [

@@ -1,7 +1,7 @@
 {
-  "name": "truce",
+  "name": "pew",
   "version": "1.0.0",
-  "description": "truce",
+  "description": "pew",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -29,14 +29,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/apophanystudios/truce.git"
+    "url": "git+https://github.com/apophanystudios/pew.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/apophanystudios/truce/issues"
+    "url": "https://github.com/apophanystudios/pew/issues"
   },
-  "homepage": "https://github.com/apophanystudios/truce#readme",
+  "homepage": "https://github.com/apophanystudios/pew#readme",
   "dependencies": {
   }
 }
