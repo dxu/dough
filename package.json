@@ -4,8 +4,7 @@
   "description": "pew",
   "main": "index.js",
   "scripts": {
-    "setup": "npm install && git submodule init && npm run updateExamples && cd examples && npm install && cd ..",
-    "updateExamples": "git submodule update",
+    "setup": "npm install && cd examples && npm install && cd ..",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cd examples && npm start && cd .. & npm run lib",
     "lib": "webpack --progress --colors --watch --config webpack.lib.config.js",
