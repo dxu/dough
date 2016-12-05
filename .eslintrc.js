@@ -293,7 +293,7 @@ module.exports = {
     'flowtype/delimiter-dangle': [1, 'always-multiline'],
     'flowtype/generic-spacing': 1,
     'flowtype/no-dupe-keys': 1,
-    'flowtype/no-primitive-constructor-types': 2
+    'flowtype/no-primitive-constructor-types': 2,
     'flowtype/no-weak-types': 0,
     'flowtype/object-type-delimiter': 1,
     'flowtype/require-parameter-type': [2, 'always'],
