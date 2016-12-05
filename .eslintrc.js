@@ -288,16 +288,18 @@ module.exports = {
     'babel/no-await-in-loop': 1,
 
     // flowtype (https://github.com/gajus/eslint-plugin-flowtype)
-    'flowtype/boolean-style': 1,
+    'flowtype/boolean-style': [1, 'bool'],
     'flowtype/define-flow-type': 1,
     'flowtype/delimiter-dangle': [1, 'always-multiline'],
     'flowtype/generic-spacing': 1,
-    'flowtype/no-dupe-keys': 0,
+    'flowtype/no-dupe-keys': 1,
     'flowtype/no-weak-types': 0,
     'flowtype/object-type-delimiter': 1,
-    'flowtype/require-parameter-type': 0,
-    'flowtype/require-return-type': 0,
-    'flowtype/require-valid-file-annotation': 0,
+    'flowtype/require-parameter-type': [2, 'always'],
+    'flowtype/require-return-type': [
+      2, 'always', { annotateUndefined: 'always' }
+    ],
+    'flowtype/require-valid-file-annotation': 2,
     'flowtype/semi': 1,
     'flowtype/sort-keys': 0,
     'flowtype/space-after-type-colon': [1, 'always'],
