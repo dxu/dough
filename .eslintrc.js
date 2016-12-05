@@ -293,6 +293,7 @@ module.exports = {
     'flowtype/delimiter-dangle': [1, 'always-multiline'],
     'flowtype/generic-spacing': 1,
     'flowtype/no-dupe-keys': 1,
+    'flowtype/no-primitive-constructor-types': 2
     'flowtype/no-weak-types': 0,
     'flowtype/object-type-delimiter': 1,
     'flowtype/require-parameter-type': [2, 'always'],
@@ -300,9 +301,10 @@ module.exports = {
       2, 'always', { annotateUndefined: 'always' }
     ],
     'flowtype/require-valid-file-annotation': 2,
+    'flowtype/require-variable-type': 2,
     'flowtype/semi': 1,
     'flowtype/sort-keys': 0,
-    'flowtype/space-after-type-colon': [1, 'always'],
+    'flowtype/space-after-type-colon': 0,
     'flowtype/space-before-generic-bracket': 1,
     'flowtype/space-before-type-colon': 1,
     'flowtype/type-id-match': 0,
