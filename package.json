@@ -47,5 +47,8 @@
     "url": "https://github.com/apophanystudios/pew/issues"
   },
   "homepage": "https://github.com/apophanystudios/pew#readme",
-  "dependencies": {}
+  "dependencies": {
+    "brfs": "*",
+    "pixi.js": "^4.2.3"
+  }
 }
