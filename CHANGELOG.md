@@ -1,4 +1,8 @@
 # 0.0.0
+## rc.10
+- Flowify Gob, Pool, Vector2
+- Restructure examples
+- Implement predictive SAT collision algorithm, add friction and bounciness.
 
 ## rc.9
 
