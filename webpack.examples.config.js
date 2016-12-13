@@ -6,7 +6,7 @@ module.exports = {
   context: __dirname,
   entry: "./lib/entry.js",
   output: {
-    path: __dirname + '/examples/dist',
+    path: __dirname + '/examples',
     filename: "pew.js"
   },
   module: {
