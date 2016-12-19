@@ -301,7 +301,9 @@ module.exports = {
       2, 'always', { annotateUndefined: 'always' }
     ],
     'flowtype/require-valid-file-annotation': 2,
-    'flowtype/require-variable-type': 2,
+    'flowtype/require-variable-type': [
+      2, { 'excludeVariableMatch': '[i|j|k]', }  // ignore for loop variables
+    ],
     'flowtype/semi': 1,
     'flowtype/sort-keys': 0,
     'flowtype/space-after-type-colon': 0,
