@@ -5,4 +5,4 @@
 [libs]
 
 [options]
-suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
+suppress_comment= \\(.\\|\n\\)*\\$[\\bFlowFixMe\\b|\\binvariant\\b]
