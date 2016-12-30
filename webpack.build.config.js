@@ -27,7 +27,7 @@ module.exports = {
     // https://gist.github.com/mjackson/ecd3914ebee934f4daf4
     postLoaders: [
       {
-        include: path.resolve(__dirname, 'node_modules/pixi.js'),
+        include: path.resolve(__dirname + path.sep, 'node_modules/pixi.js'),
         loader: 'transform/cacheable?brfs'
       }
     ]

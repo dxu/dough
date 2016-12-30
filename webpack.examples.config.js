@@ -3,10 +3,10 @@ var path = require('path'),
 
 module.exports = {
   devtool: "source-map",
-  context: __dirname,
+  context: path.join(__dirname),
   entry: "./lib/entry.js",
   output: {
-    path: __dirname + '/examples',
+    path: path.join(__dirname, '/examples'),
     filename: "pew.js"
   },
   module: {
@@ -28,7 +28,7 @@ module.exports = {
     // https://gist.github.com/mjackson/ecd3914ebee934f4daf4
     postLoaders: [
       {
-        include: path.resolve(__dirname, 'node_modules/pixi.js'),
+        include: path.join(__dirname, 'node_modules/pixi.js'),
         loader: 'transform/cacheable?brfs'
       }
     ]
