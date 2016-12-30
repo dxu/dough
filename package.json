@@ -9,7 +9,7 @@
     "updateExamples": "git submodule update",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run examples",
-    "examples": "./node_modules/webpack/bin/webpack.js --progress --colors --watch --config webpack.examples.config.js",
+    "examples": "./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --colors --watch-poll --config webpack.examples.config.js",
     "update": "git submodule update --remote",
     "flow": "flow; test $? -eq 0 -o $? -eq 2"
   },
@@ -50,6 +50,7 @@
   "homepage": "https://github.com/apophanystudios/pew#readme",
   "dependencies": {
     "brfs": "*",
-    "pixi.js": "^4.2.3"
+    "pixi.js": "^4.2.3",
+    "webpack-dev-server": "^1.16.2"
   }
 }
