@@ -23,9 +23,46 @@ declare module "matter-js" {
   declare type Vector = {};
   declare type Render = {};
 
-//   declare class Bodies {
-//     static circle(x: number, y: number, radius: number, options?: Object, maxSides?)
-//   }
+  declare class Bodies {
+    static circle(
+      x: number,
+      y: number,
+      radius: number,
+      options?: BodyOptionsType,
+      maxSides?: number,
+    ): Body;
+    static fromVertices(
+      x: number,
+      y: number,
+      vector?: Array<Array<Vector>>,
+      options?: BodyOptionsType,
+      flagInternal?: bool,
+      removeCollinear?: number,
+      minimumArea?: number
+    ): Body;
+    static polygon(
+      x: number,
+      y: number,
+      sides: number,
+      radius: number,
+      options: BodyOptionsType,
+    ): Body;
+    static rectangle(
+      x: number,
+      y: number,
+      width: number,
+      height: number,
+      options?: BodyOptionsType,
+    ): Body;
+    static trapezoid(
+      x: number,
+      y: number,
+      width: number,
+      height: number,
+      slope: number,
+      options?: BodyOptionsType
+    ): Body;
+  }
 
 
   declare type BodyOptionsType = {
