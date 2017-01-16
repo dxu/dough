@@ -1,7 +1,4 @@
 declare module "matter-js" {
-
-  declare type BodyOptionsType = Object;
-  declare type EngineOptionsType = Object;
   declare type SpritePropertiesType = {
     texture: string,
     xOffset: number,
@@ -9,6 +6,7 @@ declare module "matter-js" {
     yOffset: number,
     yScale: number,
   };
+
   declare type RenderPropertiesType = {
     fillStyle: string,
     lineWidth: number,
@@ -17,16 +15,6 @@ declare module "matter-js" {
     strokeStyle: string,
     visible: bool,
   };
-  declare type CompositeOptionsType = {
-    bodies: Array<Body>,
-    composites: Array<Composite>,
-    constraints: Array<Constraint>,
-    id: number,
-    isModified: bool,
-    label: String,
-    parent: Composite,
-    type: String,
-  };
 
   declare type Bounds = {};
   declare type World = {};
@@ -34,6 +22,53 @@ declare module "matter-js" {
   declare type Constraint = {};
   declare type Vector = {};
   declare type Render = {};
+
+//   declare class Bodies {
+//     static circle(x: number, y: number, radius: number, options?: Object, maxSides?)
+//   }
+
+
+  declare type BodyOptionsType = {
+    angle: number,
+    angularSpeed: number,
+    angularVelocity: number,
+    area: string,
+    axes: Array<Vector>,
+    bounds: Bounds,
+    collisionFilter: {
+      goup: number,
+      category: number,
+      mask: number,
+    },
+    density: number,
+    force: Vector,
+    friction: number,
+    frictionAir: number,
+    frictionStatic: number,
+    id: number,
+    inertia: number,
+    inverseInertia: number,
+    inverseMass: number,
+    isSensor: bool,
+    isSleeping: bool,
+    isStatic: bool,
+    label: string,
+    mass: number,
+    motion: number,
+    parent: Body,
+    parts: Array<Body>,
+    position: Vector,
+    render: RenderPropertiesType,
+    restitution: number,
+    sleepThreshold: number,
+    slop: number,
+    speed: number,
+    timeScale: number,
+    torque: number,
+    type: string,
+    velocity: Vector,
+    vertices: Array<Vector>,
+  };
 
   declare class Body {
     static applyForce(body: Body, position: Vector, force: Vector): void;
@@ -56,6 +91,7 @@ declare module "matter-js" {
     static translate(body: Body, translation: Vector): void;
     static update(body: Body, deltaTime: number, timeScale: number, correction: number): void;
 
+    // BodyOptionsType
     angle: number,
     angularSpeed: number,
     angularVelocity: number,
@@ -97,6 +133,17 @@ declare module "matter-js" {
     vertices: Array<Vector>,
   }
 
+  declare type CompositeOptionsType = {
+    bodies: Array<Body>,
+    composites: Array<Composite>,
+    constraints: Array<Constraint>,
+    id: number,
+    isModified: bool,
+    label: String,
+    parent: Composite,
+    type: String,
+  };
+
   declare class Composite {
     static add(composite: Composite, object: Object): Composite;
     static allBodies(composite: Composite): Array<Body>;
@@ -111,6 +158,7 @@ declare module "matter-js" {
     static scale(composite: Composite, scaleX: number, scaleY: number, point: Vector, recursive?: bool): void;
     static setModified(composite: Composite, isModified: bool, updateParents?: bool, updateChildren?: bool): void;
     static translate(composite: Composite, translation: Vector, recursive: bool): void;
+
     // CompositeOptionsType
     bodies: Array<Body>,
     composites: Array<Composite>,
@@ -122,6 +170,21 @@ declare module "matter-js" {
     type: String,
   }
 
+  declare type EngineOptionsType = {
+    broadphase: Grid,
+    constraintIterations: number,
+    enableSleeping: bool,
+    positionIterations: number,
+    // DEPRECATED!
+    render: Render,
+    timing: {
+      timeScale: number,
+      timestamp: number,
+      velocityIterations: number,
+    },
+    world: World,
+  };
+
   declare class Engine {
     static clear(engine: Engine): void;
     static create(options?: EngineOptionsType): Engine;
@@ -130,6 +193,7 @@ declare module "matter-js" {
     // delta defaults to 16.666, correction defaults to 1
     static update(engine: Engine, delta: number, correction: number): void;
 
+    // EngineOptionsType
     broadphase: Grid,
     constraintIterations: number,
     enableSleeping: bool,
@@ -143,4 +207,5 @@ declare module "matter-js" {
     },
     world: World,
   }
+
 }
