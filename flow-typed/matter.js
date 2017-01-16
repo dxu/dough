@@ -20,7 +20,6 @@ declare module "matter-js" {
   declare type World = {};
   declare type Grid = {};
   declare type Constraint = {};
-  declare type Vector = {};
   declare type Render = {};
 
   declare class Bodies {
@@ -245,4 +244,25 @@ declare module "matter-js" {
     world: World,
   }
 
+  declare class Vector {
+    static add(vectorA: Vector, vectorB: Vector, output?: Vector): Vector;
+    static angle(vectorA: Vector, vectorB: Vector): number;
+    static clone(vector: Vector): Vector;
+    static create(x: number, y: number): Vector;
+    static cross(vectorA: Vector, vectorB: Vector): number;
+    static cross3(vectorA: Vector, vectorB: Vector, vectorC: Vector): number;
+    static div(vector: Vector, scalar: number): Vector;
+    static dot(vectorA: Vector, vectorB: Vector): number;
+    static magnitude(vector: Vector): number;
+    static magnitudeSquared(vector: Vector): number;
+    static mult(vector: Vector, scalar: number): Vector;
+    static neg(vector: Vector): Vector;
+    static normalize(vector: Vector): Vector;
+    static perp(vector: Vector, negate?: bool): Vector;
+    static rotate(vector: Vector, angle: number): Vector;
+    static rotateAbout(vector: Vector, angle: number, point: Vector, output?: Vector): Vector;
+    static sub(vectorA: Vector, vectorB: Vector, output?: Vector): Vector;
+    x: number,
+    y: number,
+  }
 }
