@@ -1,20 +1,20 @@
 declare module "matter-js" {
-  declare type SpritePropertiesType = {
+  declare type SpritePropertiesType = {|
     texture: string,
     xOffset: number,
     xScale: number,
     yOffset: number,
     yScale: number,
-  };
+  |};
 
-  declare type RenderPropertiesType = {
+  declare type RenderPropertiesType = {|
     fillStyle: string,
     lineWidth: number,
     opacity: number,
     sprite: SpritePropertiesType,
     strokeStyle: string,
     visible: bool,
-  };
+  |};
 
   declare type Bounds = {};
   declare type World = {};
@@ -64,7 +64,7 @@ declare module "matter-js" {
   }
 
 
-  declare type BodyOptionsType = {
+  declare type BodyOptionsType = {|
     angle?: number,
     angularSpeed?: number,
     angularVelocity?: number,
@@ -104,7 +104,7 @@ declare module "matter-js" {
     type?: string,
     velocity?: Vector,
     vertices?: Array<Vector>,
-  };
+  |};
 
   declare class Body {
     static applyForce(body: Body, position: Vector, force: Vector): void;
@@ -169,7 +169,7 @@ declare module "matter-js" {
     vertices?: Array<Vector>,
   }
 
-  declare type CompositeOptionsType = {
+  declare type CompositeOptionsType = {|
     bodies: Array<Body>,
     composites: Array<Composite>,
     constraints: Array<Constraint>,
@@ -178,7 +178,7 @@ declare module "matter-js" {
     label: String,
     parent: Composite,
     type: String,
-  };
+  |};
 
   declare class Composite {
     static add(composite: Composite, object: Object): Composite;
@@ -206,7 +206,7 @@ declare module "matter-js" {
     type: String,
   }
 
-  declare type EngineOptionsType = {
+  declare type EngineOptionsType = {|
     broadphase: Grid,
     constraintIterations: number,
     enableSleeping: bool,
@@ -219,7 +219,7 @@ declare module "matter-js" {
       velocityIterations: number,
     },
     world: World,
-  };
+  |};
 
   declare class Engine {
     static clear(engine: Engine): void;
