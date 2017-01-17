@@ -227,7 +227,7 @@ module.exports = {
     'operator-assignment': 1,
     'operator-linebreak': 0,
     'padded-blocks': [1, 'never'],
-    'quote-props': [1, 'consistent-as-needed', {"numbers: true"}],
+    'quote-props': [1, 'consistent-as-needed', {"numbers": true}],
     'quotes': [1, 'single', 'avoid-escape'],
     'require-jsdoc': 0,
     'semi-spacing': 1,
