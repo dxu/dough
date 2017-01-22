@@ -17,7 +17,41 @@ declare module "matter-js" {
   |};
 
   declare type Bounds = {};
-  declare type World = {};
+  declare type WorldPropertiesType = {|
+    // Copy pasted from CompositeOptionsType
+    bodies?: Array<Body>,
+    composites?: Array<Composite>,
+    constraints?: Array<Constraint>,
+    id?: number,
+    isModified?: bool,
+    label?: String,
+    parent?: Composite,
+    type?: String,
+    // New properties
+    bounds?: Bounds,
+    gravity?: {|
+      scale: number,
+      x: number,
+      y: number,
+    |}
+  |};
+
+  declare class World extends Composite{
+    static addBody(world: World, body: Body): World;
+    static addComposite(world: World, composite: Composite): World;
+    static addConstraint(world: World, constraint: Constraint): World;
+    static clear(world: Composite, keepStatic: bool): void;
+    static create(options?: WorldPropertiesType): World;
+
+    // WorldOptionsType
+    bounds?: Bounds,
+    gravity?: {|
+      scale: number,
+      x: number,
+      y: number,
+    |}
+  }
+
   declare type Grid = {};
   declare type Constraint = {};
   declare type Render = {};
@@ -170,21 +204,21 @@ declare module "matter-js" {
   }
 
   declare type CompositeOptionsType = {|
-    bodies: Array<Body>,
-    composites: Array<Composite>,
-    constraints: Array<Constraint>,
-    id: number,
-    isModified: bool,
-    label: String,
-    parent: Composite,
-    type: String,
+    bodies?: Array<Body>,
+    composites?: Array<Composite>,
+    constraints?: Array<Constraint>,
+    id?: number,
+    isModified?: bool,
+    label?: String,
+    parent?: Composite,
+    type?: String,
   |};
 
   declare class Composite {
     static add(composite: Composite, object: Object): Composite;
     static allBodies(composite: Composite): Array<Body>;
     static allConstraints(composite: Composite): Array<Constraint>;
-    static clear(composite: Composite, keepStatic: bool, deep?: bool): Composite;
+    static clear(composite: Composite, keepStatic: bool, deep?: bool): void;
     static create(options?: CompositeOptionsType): Composite;
     static get(composite: Composite, id: number, type: number): Object;
     static move(compositeA: Composite, objects: Array<Object>, compositeB: Composite): Composite;
@@ -196,14 +230,14 @@ declare module "matter-js" {
     static translate(composite: Composite, translation: Vector, recursive: bool): void;
 
     // CompositeOptionsType
-    bodies: Array<Body>,
-    composites: Array<Composite>,
-    constraints: Array<Constraint>,
-    id: number,
-    isModified: bool,
-    label: String,
-    parent: Composite,
-    type: String,
+    bodies?: Array<Body>,
+    composites?: Array<Composite>,
+    constraints?: Array<Constraint>,
+    id?: number,
+    isModified?: bool,
+    label?: String,
+    parent?: Composite,
+    type?: String,
   }
 
   declare type EngineOptionsType = {|
