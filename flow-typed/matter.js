@@ -261,7 +261,7 @@ declare module "matter-js" {
     static merge(engineA: Engine, engineB: Engine): void;
     static run(engine: Engine): void;
     // delta defaults to 16.666, correction defaults to 1
-    static update(engine: Engine, delta: number, correction: number): void;
+    static update(engine: Engine, delta: number, correction?: number): void;
 
     // EngineOptionsType
     broadphase: Grid,
