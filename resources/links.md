@@ -15,3 +15,11 @@ https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_t
 These are the collision detection + velocity resolution methods:
 https://www.geometrictools.com/Documentation/MethodOfSeparatingAxes.pdf
 http://vobarian.com/collisions/2dcollisions2.pdf
+
+
+
+
+
+https://www.niksula.hut.fi/~hkankaan/Homepages/gravity.html
+http://codeflow.org/entries/2010/aug/28/integration-by-example-euler-vs-verlet-vs-runge-kutta/
+http://gafferongames.com/game-physics/integration-basics/
