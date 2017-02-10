@@ -50,6 +50,7 @@
   "homepage": "https://github.com/apophanystudios/pew#readme",
   "dependencies": {
     "brfs": "*",
+    "matter-collision-events": "^0.0.1",
     "matter-js": "^0.11.1",
     "pixi.js": "^4.2.3"
   }
