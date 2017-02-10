@@ -1,4 +1,5 @@
 declare module "matter-js" {
+  declare function use(plugin: Object | string): void;
   declare type SpritePropertiesType = {|
     texture: string,
     xOffset: number,
@@ -161,6 +162,12 @@ declare module "matter-js" {
     static translate(body: Body, translation: Vector): void;
     static update(body: Body, deltaTime: number, timeScale: number, correction: number): void;
 
+    /* start matter-collision-events */
+    onCollide: (pair: Pair) => void;
+    onCollideActive: (pair: Pair) => void;
+    onCollideEnd: (pair: Pair) => void;
+    /* end matter-collision-events */
+
     // BodyOptionsType
     angle: number,
     angularSpeed: number,
@@ -299,4 +306,15 @@ declare module "matter-js" {
     x: number,
     y: number,
   }
+
+
+
+  declare class Plugin {
+    static use(module: Object, plugins?: Object): void;
+    static register(plugin: Object): void;
+  }
+  declare class Pair {
+
+  }
+
 }
