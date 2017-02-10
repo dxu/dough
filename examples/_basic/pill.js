@@ -20,6 +20,7 @@ class Pill extends Pew.Gob {
     }
   }
   onCollide(gob) {
+    console.log('hit a gob!')
     // if (gob instanceof Pill) {
     //   this.maxVelocity =
     //     new Pew.Vector2(

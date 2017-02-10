@@ -50,11 +50,11 @@
 	
 	var _gob2 = _interopRequireDefault(_gob);
 	
-	var _public = __webpack_require__(184);
+	var _public = __webpack_require__(187);
 	
 	var CONST = _interopRequireWildcard(_public);
 	
-	var _pool = __webpack_require__(185);
+	var _pool = __webpack_require__(188);
 	
 	var _pool2 = _interopRequireDefault(_pool);
 	
@@ -62,13 +62,25 @@
 	
 	var _vector2 = _interopRequireDefault(_vector);
 	
-	var _entry = __webpack_require__(187);
+	var _entry = __webpack_require__(190);
 	
 	var _entry2 = _interopRequireDefault(_entry);
+	
+	var _matterJs = __webpack_require__(185);
+	
+	var _matterJs2 = _interopRequireDefault(_matterJs);
+	
+	var _matterCollisionEvents = __webpack_require__(192);
+	
+	var _matterCollisionEvents2 = _interopRequireDefault(_matterCollisionEvents);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	_matterJs2.default.Plugin.register(_matterCollisionEvents2.default);
+	
+	_matterJs2.default.use('matter-collision-events');
 	
 	window.Pew = {
 	  Colliders: _entry2.default,
@@ -99,13 +111,13 @@
 	
 	var PIXI = _interopRequireWildcard(_pixi);
 	
-	var _private = __webpack_require__(181);
+	var _private = __webpack_require__(184);
 	
-	var _matterJs = __webpack_require__(182);
+	var _matterJs = __webpack_require__(185);
 	
 	var _matterJs2 = _interopRequireDefault(_matterJs);
 	
-	var _util = __webpack_require__(183);
+	var _util = __webpack_require__(186);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -210,6 +222,9 @@
 	          _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x, this.rigidbody.velocity.y));
 	          _matterJs2.default.Body.setAngularVelocity(this.collider.body, this.rigidbody.angularVelocity);
 	        }
+	        this.collider.body.onCollide = this.onCollide;
+	        this.collider.body.onCollideEnd = this.onCollideEnd;
+	        this.collider.body.onCollideActive = this.onCollideActive;
 	      }
 	    }
 	
@@ -353,13 +368,19 @@
 	
 	  }, {
 	    key: 'onCollide',
-	    value: function onCollide(obj) {}
+	    value: function onCollide(pair) {}
+	  }, {
+	    key: 'onCollideEnd',
+	    value: function onCollideEnd(pair) {}
+	  }, {
+	    key: 'onCollideActive',
+	    value: function onCollideActive(pair) {}
+	  }, {
+	    key: 'destroy',
+	
 	
 	    // remove all references. Enforce asynchronicity so that it will finish one
 	    // update before executing
-	
-	  }, {
-	    key: 'destroy',
 	    value: function destroy() {
 	      var _this = this;
 	
@@ -614,7 +635,19 @@
 	exports.__esModule = true;
 	exports.loader = exports.prepare = exports.particles = exports.mesh = exports.loaders = exports.interaction = exports.filters = exports.extras = exports.extract = exports.accessibility = undefined;
 	
-	var _deprecation = __webpack_require__(4);
+	var _polyfill = __webpack_require__(4);
+	
+	Object.keys(_polyfill).forEach(function (key) {
+	    if (key === "default" || key === "__esModule") return;
+	    Object.defineProperty(exports, key, {
+	        enumerable: true,
+	        get: function get() {
+	            return _polyfill[key];
+	        }
+	    });
+	});
+	
+	var _deprecation = __webpack_require__(9);
 	
 	Object.keys(_deprecation).forEach(function (key) {
 	    if (key === "default" || key === "__esModule") return;
@@ -626,7 +659,7 @@
 	    });
 	});
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	Object.keys(_core).forEach(function (key) {
 	    if (key === "default" || key === "__esModule") return;
@@ -638,47 +671,45 @@
 	    });
 	});
 	
-	__webpack_require__(152);
-	
-	var _accessibility = __webpack_require__(157);
+	var _accessibility = __webpack_require__(173);
 	
 	var accessibility = _interopRequireWildcard(_accessibility);
 	
-	var _extract = __webpack_require__(160);
+	var _extract = __webpack_require__(176);
 	
 	var extract = _interopRequireWildcard(_extract);
 	
-	var _extras = __webpack_require__(125);
+	var _extras = __webpack_require__(133);
 	
 	var extras = _interopRequireWildcard(_extras);
 	
-	var _filters = __webpack_require__(134);
+	var _filters = __webpack_require__(142);
 	
 	var filters = _interopRequireWildcard(_filters);
 	
-	var _interaction = __webpack_require__(163);
+	var _interaction = __webpack_require__(179);
 	
 	var interaction = _interopRequireWildcard(_interaction);
 	
-	var _loaders = __webpack_require__(168);
+	var _loaders = __webpack_require__(160);
 	
 	var loaders = _interopRequireWildcard(_loaders);
 	
-	var _mesh = __webpack_require__(113);
+	var _mesh = __webpack_require__(121);
 	
 	var mesh = _interopRequireWildcard(_mesh);
 	
-	var _particles = __webpack_require__(120);
+	var _particles = __webpack_require__(128);
 	
 	var particles = _interopRequireWildcard(_particles);
 	
-	var _prepare = __webpack_require__(146);
+	var _prepare = __webpack_require__(154);
 	
 	var prepare = _interopRequireWildcard(_prepare);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
-	// import polyfills
+	// import polyfills. Done as an export to make sure polyfills are imported first
 	exports.accessibility = accessibility;
 	exports.extract = extract;
 	exports.extras = extras;
@@ -719,29 +750,281 @@
 
 	'use strict';
 	
-	var _core = __webpack_require__(5);
+	__webpack_require__(5);
+	
+	__webpack_require__(7);
+	
+	__webpack_require__(8);
+	
+	if (!window.ArrayBuffer) {
+	    window.ArrayBuffer = Array;
+	}
+	
+	if (!window.Float32Array) {
+	    window.Float32Array = Array;
+	}
+	
+	if (!window.Uint32Array) {
+	    window.Uint32Array = Array;
+	}
+	
+	if (!window.Uint16Array) {
+	    window.Uint16Array = Array;
+	}
+	//# sourceMappingURL=index.js.map
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _objectAssign = __webpack_require__(6);
+	
+	var _objectAssign2 = _interopRequireDefault(_objectAssign);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	if (!Object.assign) {
+	    Object.assign = _objectAssign2.default;
+	} // References:
+	// https://github.com/sindresorhus/object-assign
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+	//# sourceMappingURL=Object.assign.js.map
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	/*
+	object-assign
+	(c) Sindre Sorhus
+	@license MIT
+	*/
+	
+	'use strict';
+	/* eslint-disable no-unused-vars */
+	var getOwnPropertySymbols = Object.getOwnPropertySymbols;
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+	
+	function toObject(val) {
+		if (val === null || val === undefined) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+	
+		return Object(val);
+	}
+	
+	function shouldUseNative() {
+		try {
+			if (!Object.assign) {
+				return false;
+			}
+	
+			// Detect buggy property enumeration order in older V8 versions.
+	
+			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+			var test1 = new String('abc');  // eslint-disable-line no-new-wrappers
+			test1[5] = 'de';
+			if (Object.getOwnPropertyNames(test1)[0] === '5') {
+				return false;
+			}
+	
+			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+			var test2 = {};
+			for (var i = 0; i < 10; i++) {
+				test2['_' + String.fromCharCode(i)] = i;
+			}
+			var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+				return test2[n];
+			});
+			if (order2.join('') !== '0123456789') {
+				return false;
+			}
+	
+			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+			var test3 = {};
+			'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+				test3[letter] = letter;
+			});
+			if (Object.keys(Object.assign({}, test3)).join('') !==
+					'abcdefghijklmnopqrst') {
+				return false;
+			}
+	
+			return true;
+		} catch (err) {
+			// We don't expect any of the above to throw, but better to be safe.
+			return false;
+		}
+	}
+	
+	module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+		var from;
+		var to = toObject(target);
+		var symbols;
+	
+		for (var s = 1; s < arguments.length; s++) {
+			from = Object(arguments[s]);
+	
+			for (var key in from) {
+				if (hasOwnProperty.call(from, key)) {
+					to[key] = from[key];
+				}
+			}
+	
+			if (getOwnPropertySymbols) {
+				symbols = getOwnPropertySymbols(from);
+				for (var i = 0; i < symbols.length; i++) {
+					if (propIsEnumerable.call(from, symbols[i])) {
+						to[symbols[i]] = from[symbols[i]];
+					}
+				}
+			}
+		}
+	
+		return to;
+	};
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
+	
+	// References:
+	// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+	// https://gist.github.com/1579671
+	// http://updates.html5rocks.com/2012/05/requestAnimationFrame-API-now-with-sub-millisecond-precision
+	// https://gist.github.com/timhall/4078614
+	// https://github.com/Financial-Times/polyfill-service/tree/master/polyfills/requestAnimationFrame
+	
+	// Expected to be used with Browserfiy
+	// Browserify automatically detects the use of `global` and passes the
+	// correct reference of `global`, `self`, and finally `window`
+	
+	var ONE_FRAME_TIME = 16;
+	
+	// Date.now
+	if (!(Date.now && Date.prototype.getTime)) {
+	    Date.now = function now() {
+	        return new Date().getTime();
+	    };
+	}
+	
+	// performance.now
+	if (!(global.performance && global.performance.now)) {
+	    (function () {
+	        var startTime = Date.now();
+	
+	        if (!global.performance) {
+	            global.performance = {};
+	        }
+	
+	        global.performance.now = function () {
+	            return Date.now() - startTime;
+	        };
+	    })();
+	}
+	
+	// requestAnimationFrame
+	var lastTime = Date.now();
+	var vendors = ['ms', 'moz', 'webkit', 'o'];
+	
+	for (var x = 0; x < vendors.length && !global.requestAnimationFrame; ++x) {
+	    var p = vendors[x];
+	
+	    global.requestAnimationFrame = global[p + 'RequestAnimationFrame'];
+	    global.cancelAnimationFrame = global[p + 'CancelAnimationFrame'] || global[p + 'CancelRequestAnimationFrame'];
+	}
+	
+	if (!global.requestAnimationFrame) {
+	    global.requestAnimationFrame = function (callback) {
+	        if (typeof callback !== 'function') {
+	            throw new TypeError(callback + 'is not a function');
+	        }
+	
+	        var currentTime = Date.now();
+	        var delay = ONE_FRAME_TIME + lastTime - currentTime;
+	
+	        if (delay < 0) {
+	            delay = 0;
+	        }
+	
+	        lastTime = currentTime;
+	
+	        return setTimeout(function () {
+	            lastTime = Date.now();
+	            callback(performance.now());
+	        }, delay);
+	    };
+	}
+	
+	if (!global.cancelAnimationFrame) {
+	    global.cancelAnimationFrame = function (id) {
+	        return clearTimeout(id);
+	    };
+	}
+	//# sourceMappingURL=requestAnimationFrame.js.map
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	// References:
+	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sign
+	
+	if (!Math.sign) {
+	    Math.sign = function mathSign(x) {
+	        x = Number(x);
+	
+	        if (x === 0 || isNaN(x)) {
+	            return x;
+	        }
+	
+	        return x > 0 ? 1 : -1;
+	    };
+	}
+	//# sourceMappingURL=Math.sign.js.map
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _mesh = __webpack_require__(113);
+	var _mesh = __webpack_require__(121);
 	
 	var mesh = _interopRequireWildcard(_mesh);
 	
-	var _particles = __webpack_require__(120);
+	var _particles = __webpack_require__(128);
 	
 	var particles = _interopRequireWildcard(_particles);
 	
-	var _extras = __webpack_require__(125);
+	var _extras = __webpack_require__(133);
 	
 	var extras = _interopRequireWildcard(_extras);
 	
-	var _filters = __webpack_require__(134);
+	var _filters = __webpack_require__(142);
 	
 	var filters = _interopRequireWildcard(_filters);
 	
-	var _prepare = __webpack_require__(146);
+	var _prepare = __webpack_require__(154);
 	
 	var prepare = _interopRequireWildcard(_prepare);
+	
+	var _loaders = __webpack_require__(160);
+	
+	var loaders = _interopRequireWildcard(_loaders);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -1406,19 +1689,19 @@
 	            var fontSizeIndex = -1;
 	
 	            this._fontSize = 26;
-	            for (var _i = 0; _i < splits.length; ++_i) {
-	                if (splits[_i].match(/(px|pt|em|%)/)) {
-	                    fontSizeIndex = _i;
-	                    this._fontSize = splits[_i];
+	            for (var i = 0; i < splits.length; ++i) {
+	                if (splits[i].match(/(px|pt|em|%)/)) {
+	                    fontSizeIndex = i;
+	                    this._fontSize = splits[i];
 	                    break;
 	                }
 	            }
 	
 	            // we can now search for fontWeight as we know it must occur before the fontSize
 	            this._fontWeight = 'normal';
-	            for (var _i2 = 0; _i2 < fontSizeIndex; ++_i2) {
-	                if (splits[_i2].match(/(bold|bolder|lighter|100|200|300|400|500|600|700|800|900)/)) {
-	                    this._fontWeight = splits[_i2];
+	            for (var _i = 0; _i < fontSizeIndex; ++_i) {
+	                if (splits[_i].match(/(bold|bolder|lighter|100|200|300|400|500|600|700|800|900)/)) {
+	                    this._fontWeight = splits[_i];
 	                    break;
 	                }
 	            }
@@ -1426,8 +1709,8 @@
 	            // and finally join everything together after the fontSize in case the font family has multiple words
 	            if (fontSizeIndex > -1 && fontSizeIndex < splits.length - 1) {
 	                this._fontFamily = '';
-	                for (var _i3 = fontSizeIndex + 1; _i3 < splits.length; ++_i3) {
-	                    this._fontFamily += splits[_i3] + ' ';
+	                for (var _i2 = fontSizeIndex + 1; _i2 < splits.length; ++_i2) {
+	                    this._fontFamily += splits[_i2] + ' ';
 	                }
 	
 	                this._fontFamily = this._fontFamily.slice(0, -1);
@@ -1575,18 +1858,73 @@
 	        return NaN;
 	    }
 	});
+	
+	Object.defineProperties(loaders.Resource.prototype, {
+	    isJson: {
+	        get: function get() {
+	            warn('The isJson property is deprecated, please use `resource.type === Resource.TYPE.JSON`.');
+	
+	            return this.type === loaders.Loader.Resource.TYPE.JSON;
+	        }
+	    },
+	    isXml: {
+	        get: function get() {
+	            warn('The isXml property is deprecated, please use `resource.type === Resource.TYPE.XML`.');
+	
+	            return this.type === loaders.Loader.Resource.TYPE.XML;
+	        }
+	    },
+	    isImage: {
+	        get: function get() {
+	            warn('The isImage property is deprecated, please use `resource.type === Resource.TYPE.IMAGE`.');
+	
+	            return this.type === loaders.Loader.Resource.TYPE.IMAGE;
+	        }
+	    },
+	    isAudio: {
+	        get: function get() {
+	            warn('The isAudio property is deprecated, please use `resource.type === Resource.TYPE.AUDIO`.');
+	
+	            return this.type === loaders.Loader.Resource.TYPE.AUDIO;
+	        }
+	    },
+	    isVideo: {
+	        get: function get() {
+	            warn('The isVideo property is deprecated, please use `resource.type === Resource.TYPE.VIDEO`.');
+	
+	            return this.type === loaders.Loader.Resource.TYPE.VIDEO;
+	        }
+	    }
+	});
+	
+	Object.defineProperties(loaders.Loader.prototype, {
+	    before: {
+	        get: function get() {
+	            warn('The before() method is deprecated, please use pre().');
+	
+	            return this.pre;
+	        }
+	    },
+	    after: {
+	        get: function get() {
+	            warn('The after() method is deprecated, please use use().');
+	
+	            return this.use;
+	        }
+	    }
+	});
 	//# sourceMappingURL=deprecation.js.map
 
 /***/ },
-/* 5 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
-	exports.Filter = exports.SpriteMaskFilter = exports.Quad = exports.RenderTarget = exports.ObjectRenderer = exports.WebGLManager = exports.Shader = exports.CanvasRenderTarget = exports.TextureUvs = exports.VideoBaseTexture = exports.BaseRenderTexture = exports.RenderTexture = exports.BaseTexture = exports.Texture = exports.CanvasGraphicsRenderer = exports.GraphicsRenderer = exports.GraphicsData = exports.Graphics = exports.TextStyle = exports.Text = exports.SpriteRenderer = exports.CanvasTinter = exports.CanvasSpriteRenderer = exports.Sprite = exports.TransformBase = exports.TransformStatic = exports.Transform = exports.Container = exports.DisplayObject = exports.Bounds = exports.glCore = exports.WebGLRenderer = exports.CanvasRenderer = exports.ticker = exports.utils = exports.settings = undefined;
+	exports.autoDetectRenderer = exports.Application = exports.Filter = exports.SpriteMaskFilter = exports.Quad = exports.RenderTarget = exports.ObjectRenderer = exports.WebGLManager = exports.Shader = exports.CanvasRenderTarget = exports.TextureUvs = exports.VideoBaseTexture = exports.BaseRenderTexture = exports.RenderTexture = exports.BaseTexture = exports.Texture = exports.CanvasGraphicsRenderer = exports.GraphicsRenderer = exports.GraphicsData = exports.Graphics = exports.TextStyle = exports.Text = exports.SpriteRenderer = exports.CanvasTinter = exports.CanvasSpriteRenderer = exports.Sprite = exports.TransformBase = exports.TransformStatic = exports.Transform = exports.Container = exports.DisplayObject = exports.Bounds = exports.glCore = exports.WebGLRenderer = exports.CanvasRenderer = exports.ticker = exports.utils = exports.settings = undefined;
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	Object.keys(_const).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -1598,7 +1936,7 @@
 	  });
 	});
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
 	Object.keys(_math).forEach(function (key) {
 	  if (key === "default" || key === "__esModule") return;
@@ -1610,7 +1948,7 @@
 	  });
 	});
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
 	Object.defineProperty(exports, 'glCore', {
 	  enumerable: true,
@@ -1619,7 +1957,7 @@
 	  }
 	});
 	
-	var _Bounds = __webpack_require__(33);
+	var _Bounds = __webpack_require__(39);
 	
 	Object.defineProperty(exports, 'Bounds', {
 	  enumerable: true,
@@ -1628,7 +1966,7 @@
 	  }
 	});
 	
-	var _DisplayObject = __webpack_require__(34);
+	var _DisplayObject = __webpack_require__(40);
 	
 	Object.defineProperty(exports, 'DisplayObject', {
 	  enumerable: true,
@@ -1637,7 +1975,7 @@
 	  }
 	});
 	
-	var _Container = __webpack_require__(43);
+	var _Container = __webpack_require__(49);
 	
 	Object.defineProperty(exports, 'Container', {
 	  enumerable: true,
@@ -1646,7 +1984,7 @@
 	  }
 	});
 	
-	var _Transform = __webpack_require__(42);
+	var _Transform = __webpack_require__(48);
 	
 	Object.defineProperty(exports, 'Transform', {
 	  enumerable: true,
@@ -1655,7 +1993,7 @@
 	  }
 	});
 	
-	var _TransformStatic = __webpack_require__(40);
+	var _TransformStatic = __webpack_require__(46);
 	
 	Object.defineProperty(exports, 'TransformStatic', {
 	  enumerable: true,
@@ -1664,7 +2002,7 @@
 	  }
 	});
 	
-	var _TransformBase = __webpack_require__(41);
+	var _TransformBase = __webpack_require__(47);
 	
 	Object.defineProperty(exports, 'TransformBase', {
 	  enumerable: true,
@@ -1673,7 +2011,7 @@
 	  }
 	});
 	
-	var _Sprite = __webpack_require__(46);
+	var _Sprite = __webpack_require__(52);
 	
 	Object.defineProperty(exports, 'Sprite', {
 	  enumerable: true,
@@ -1682,7 +2020,7 @@
 	  }
 	});
 	
-	var _CanvasSpriteRenderer = __webpack_require__(62);
+	var _CanvasSpriteRenderer = __webpack_require__(68);
 	
 	Object.defineProperty(exports, 'CanvasSpriteRenderer', {
 	  enumerable: true,
@@ -1691,7 +2029,7 @@
 	  }
 	});
 	
-	var _CanvasTinter = __webpack_require__(71);
+	var _CanvasTinter = __webpack_require__(77);
 	
 	Object.defineProperty(exports, 'CanvasTinter', {
 	  enumerable: true,
@@ -1700,7 +2038,7 @@
 	  }
 	});
 	
-	var _SpriteRenderer = __webpack_require__(72);
+	var _SpriteRenderer = __webpack_require__(78);
 	
 	Object.defineProperty(exports, 'SpriteRenderer', {
 	  enumerable: true,
@@ -1709,7 +2047,7 @@
 	  }
 	});
 	
-	var _Text = __webpack_require__(98);
+	var _Text = __webpack_require__(104);
 	
 	Object.defineProperty(exports, 'Text', {
 	  enumerable: true,
@@ -1718,7 +2056,7 @@
 	  }
 	});
 	
-	var _TextStyle = __webpack_require__(99);
+	var _TextStyle = __webpack_require__(105);
 	
 	Object.defineProperty(exports, 'TextStyle', {
 	  enumerable: true,
@@ -1727,7 +2065,7 @@
 	  }
 	});
 	
-	var _Graphics = __webpack_require__(100);
+	var _Graphics = __webpack_require__(106);
 	
 	Object.defineProperty(exports, 'Graphics', {
 	  enumerable: true,
@@ -1736,7 +2074,7 @@
 	  }
 	});
 	
-	var _GraphicsData = __webpack_require__(101);
+	var _GraphicsData = __webpack_require__(107);
 	
 	Object.defineProperty(exports, 'GraphicsData', {
 	  enumerable: true,
@@ -1745,7 +2083,7 @@
 	  }
 	});
 	
-	var _GraphicsRenderer = __webpack_require__(103);
+	var _GraphicsRenderer = __webpack_require__(109);
 	
 	Object.defineProperty(exports, 'GraphicsRenderer', {
 	  enumerable: true,
@@ -1754,7 +2092,7 @@
 	  }
 	});
 	
-	var _CanvasGraphicsRenderer = __webpack_require__(112);
+	var _CanvasGraphicsRenderer = __webpack_require__(118);
 	
 	Object.defineProperty(exports, 'CanvasGraphicsRenderer', {
 	  enumerable: true,
@@ -1763,7 +2101,7 @@
 	  }
 	});
 	
-	var _Texture = __webpack_require__(47);
+	var _Texture = __webpack_require__(53);
 	
 	Object.defineProperty(exports, 'Texture', {
 	  enumerable: true,
@@ -1772,7 +2110,7 @@
 	  }
 	});
 	
-	var _BaseTexture = __webpack_require__(48);
+	var _BaseTexture = __webpack_require__(54);
 	
 	Object.defineProperty(exports, 'BaseTexture', {
 	  enumerable: true,
@@ -1781,7 +2119,7 @@
 	  }
 	});
 	
-	var _RenderTexture = __webpack_require__(65);
+	var _RenderTexture = __webpack_require__(71);
 	
 	Object.defineProperty(exports, 'RenderTexture', {
 	  enumerable: true,
@@ -1790,7 +2128,7 @@
 	  }
 	});
 	
-	var _BaseRenderTexture = __webpack_require__(66);
+	var _BaseRenderTexture = __webpack_require__(72);
 	
 	Object.defineProperty(exports, 'BaseRenderTexture', {
 	  enumerable: true,
@@ -1799,7 +2137,7 @@
 	  }
 	});
 	
-	var _VideoBaseTexture = __webpack_require__(58);
+	var _VideoBaseTexture = __webpack_require__(64);
 	
 	Object.defineProperty(exports, 'VideoBaseTexture', {
 	  enumerable: true,
@@ -1808,7 +2146,7 @@
 	  }
 	});
 	
-	var _TextureUvs = __webpack_require__(61);
+	var _TextureUvs = __webpack_require__(67);
 	
 	Object.defineProperty(exports, 'TextureUvs', {
 	  enumerable: true,
@@ -1817,7 +2155,7 @@
 	  }
 	});
 	
-	var _CanvasRenderTarget = __webpack_require__(68);
+	var _CanvasRenderTarget = __webpack_require__(74);
 	
 	Object.defineProperty(exports, 'CanvasRenderTarget', {
 	  enumerable: true,
@@ -1826,7 +2164,7 @@
 	  }
 	});
 	
-	var _Shader = __webpack_require__(87);
+	var _Shader = __webpack_require__(93);
 	
 	Object.defineProperty(exports, 'Shader', {
 	  enumerable: true,
@@ -1835,7 +2173,7 @@
 	  }
 	});
 	
-	var _WebGLManager = __webpack_require__(74);
+	var _WebGLManager = __webpack_require__(80);
 	
 	Object.defineProperty(exports, 'WebGLManager', {
 	  enumerable: true,
@@ -1844,7 +2182,7 @@
 	  }
 	});
 	
-	var _ObjectRenderer = __webpack_require__(73);
+	var _ObjectRenderer = __webpack_require__(79);
 	
 	Object.defineProperty(exports, 'ObjectRenderer', {
 	  enumerable: true,
@@ -1853,7 +2191,7 @@
 	  }
 	});
 	
-	var _RenderTarget = __webpack_require__(84);
+	var _RenderTarget = __webpack_require__(90);
 	
 	Object.defineProperty(exports, 'RenderTarget', {
 	  enumerable: true,
@@ -1862,7 +2200,7 @@
 	  }
 	});
 	
-	var _Quad = __webpack_require__(85);
+	var _Quad = __webpack_require__(91);
 	
 	Object.defineProperty(exports, 'Quad', {
 	  enumerable: true,
@@ -1871,7 +2209,7 @@
 	  }
 	});
 	
-	var _SpriteMaskFilter = __webpack_require__(77);
+	var _SpriteMaskFilter = __webpack_require__(83);
 	
 	Object.defineProperty(exports, 'SpriteMaskFilter', {
 	  enumerable: true,
@@ -1880,7 +2218,7 @@
 	  }
 	});
 	
-	var _Filter = __webpack_require__(78);
+	var _Filter = __webpack_require__(84);
 	
 	Object.defineProperty(exports, 'Filter', {
 	  enumerable: true,
@@ -1888,25 +2226,42 @@
 	    return _interopRequireDefault(_Filter).default;
 	  }
 	});
-	exports.autoDetectRenderer = autoDetectRenderer;
 	
-	var _utils = __webpack_require__(44);
+	var _Application = __webpack_require__(119);
+	
+	Object.defineProperty(exports, 'Application', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_Application).default;
+	  }
+	});
+	
+	var _autoDetectRenderer = __webpack_require__(120);
+	
+	Object.defineProperty(exports, 'autoDetectRenderer', {
+	  enumerable: true,
+	  get: function get() {
+	    return _autoDetectRenderer.autoDetectRenderer;
+	  }
+	});
+	
+	var _utils = __webpack_require__(50);
 	
 	var utils = _interopRequireWildcard(_utils);
 	
-	var _ticker = __webpack_require__(59);
+	var _ticker = __webpack_require__(65);
 	
 	var ticker = _interopRequireWildcard(_ticker);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
-	var _CanvasRenderer = __webpack_require__(63);
+	var _CanvasRenderer = __webpack_require__(69);
 	
 	var _CanvasRenderer2 = _interopRequireDefault(_CanvasRenderer);
 	
-	var _WebGLRenderer = __webpack_require__(75);
+	var _WebGLRenderer = __webpack_require__(81);
 	
 	var _WebGLRenderer2 = _interopRequireDefault(_WebGLRenderer);
 	
@@ -1921,42 +2276,10 @@
 	exports.WebGLRenderer = _WebGLRenderer2.default; /**
 	                                                  * @namespace PIXI
 	                                                  */
-	
-	/**
-	 * This helper function will automatically detect which renderer you should be using.
-	 * WebGL is the preferred renderer as it is a lot faster. If webGL is not supported by
-	 * the browser then this function will return a canvas renderer
-	 *
-	 * @memberof PIXI
-	 * @function autoDetectRenderer
-	 * @param {number} [width=800] - the width of the renderers view
-	 * @param {number} [height=600] - the height of the renderers view
-	 * @param {object} [options] - The optional renderer parameters
-	 * @param {HTMLCanvasElement} [options.view] - the canvas to use as a view, optional
-	 * @param {boolean} [options.transparent=false] - If the render view is transparent, default false
-	 * @param {boolean} [options.antialias=false] - sets antialias (only applicable in chrome at the moment)
-	 * @param {boolean} [options.preserveDrawingBuffer=false] - enables drawing buffer preservation, enable this if you
-	 *      need to call toDataUrl on the webgl context
-	 * @param {number} [options.resolution=1] - The resolution / device pixel ratio of the renderer, retina would be 2
-	 * @param {boolean} [noWebGL=false] - prevents selection of WebGL renderer, even if such is present
-	 * @return {PIXI.WebGLRenderer|PIXI.CanvasRenderer} Returns WebGL renderer if available, otherwise CanvasRenderer
-	 */
-	function autoDetectRenderer() {
-	  var width = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 800;
-	  var height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 600;
-	  var options = arguments[2];
-	  var noWebGL = arguments[3];
-	
-	  if (!noWebGL && utils.isWebGLSupported()) {
-	    return new _WebGLRenderer2.default(width, height, options);
-	  }
-	
-	  return new _CanvasRenderer2.default(width, height, options);
-	}
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 6 */
+/* 11 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1971,7 +2294,7 @@
 	 * @name VERSION
 	 * @type {string}
 	 */
-	var VERSION = exports.VERSION = '4.2.3';
+	var VERSION = exports.VERSION = '4.3.4';
 	
 	/**
 	 * Two Pi.
@@ -2276,14 +2599,14 @@
 	//# sourceMappingURL=const.js.map
 
 /***/ },
-/* 7 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Point = __webpack_require__(8);
+	var _Point = __webpack_require__(13);
 	
 	Object.defineProperty(exports, 'Point', {
 	  enumerable: true,
@@ -2292,7 +2615,7 @@
 	  }
 	});
 	
-	var _ObservablePoint = __webpack_require__(9);
+	var _ObservablePoint = __webpack_require__(14);
 	
 	Object.defineProperty(exports, 'ObservablePoint', {
 	  enumerable: true,
@@ -2301,7 +2624,7 @@
 	  }
 	});
 	
-	var _Matrix = __webpack_require__(10);
+	var _Matrix = __webpack_require__(15);
 	
 	Object.defineProperty(exports, 'Matrix', {
 	  enumerable: true,
@@ -2310,7 +2633,7 @@
 	  }
 	});
 	
-	var _GroupD = __webpack_require__(11);
+	var _GroupD = __webpack_require__(16);
 	
 	Object.defineProperty(exports, 'GroupD8', {
 	  enumerable: true,
@@ -2319,7 +2642,7 @@
 	  }
 	});
 	
-	var _Circle = __webpack_require__(12);
+	var _Circle = __webpack_require__(17);
 	
 	Object.defineProperty(exports, 'Circle', {
 	  enumerable: true,
@@ -2328,7 +2651,7 @@
 	  }
 	});
 	
-	var _Ellipse = __webpack_require__(14);
+	var _Ellipse = __webpack_require__(19);
 	
 	Object.defineProperty(exports, 'Ellipse', {
 	  enumerable: true,
@@ -2337,7 +2660,7 @@
 	  }
 	});
 	
-	var _Polygon = __webpack_require__(15);
+	var _Polygon = __webpack_require__(20);
 	
 	Object.defineProperty(exports, 'Polygon', {
 	  enumerable: true,
@@ -2346,7 +2669,7 @@
 	  }
 	});
 	
-	var _Rectangle = __webpack_require__(13);
+	var _Rectangle = __webpack_require__(18);
 	
 	Object.defineProperty(exports, 'Rectangle', {
 	  enumerable: true,
@@ -2355,7 +2678,7 @@
 	  }
 	});
 	
-	var _RoundedRectangle = __webpack_require__(16);
+	var _RoundedRectangle = __webpack_require__(21);
 	
 	Object.defineProperty(exports, 'RoundedRectangle', {
 	  enumerable: true,
@@ -2368,7 +2691,7 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 8 */
+/* 13 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2463,7 +2786,7 @@
 	//# sourceMappingURL=Point.js.map
 
 /***/ },
-/* 9 */
+/* 14 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2541,7 +2864,6 @@
 	     * The position of the displayObject on the x axis relative to the local coordinates of the parent.
 	     *
 	     * @member {number}
-	     * @memberof PIXI.ObservablePoint#
 	     */
 	
 	
@@ -2549,15 +2871,9 @@
 	        key: "x",
 	        get: function get() {
 	            return this._x;
-	        }
-	
-	        /**
-	         * Sets the X component.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            if (this._x !== value) {
 	                this._x = value;
 	                this.cb.call(this.scope);
@@ -2568,22 +2884,15 @@
 	         * The position of the displayObject on the x axis relative to the local coordinates of the parent.
 	         *
 	         * @member {number}
-	         * @memberof PIXI.ObservablePoint#
 	         */
 	
 	    }, {
 	        key: "y",
 	        get: function get() {
 	            return this._y;
-	        }
-	
-	        /**
-	         * Sets the Y component.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            if (this._y !== value) {
 	                this._y = value;
 	                this.cb.call(this.scope);
@@ -2598,7 +2907,7 @@
 	//# sourceMappingURL=ObservablePoint.js.map
 
 /***/ },
-/* 10 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2607,7 +2916,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _Point = __webpack_require__(8);
+	var _Point = __webpack_require__(13);
 	
 	var _Point2 = _interopRequireDefault(_Point);
 	
@@ -2975,10 +3284,10 @@
 	        var c = this.c;
 	        var d = this.d;
 	
-	        var skewX = Math.atan2(-c, d);
+	        var skewX = -Math.atan2(-c, d);
 	        var skewY = Math.atan2(b, a);
 	
-	        var delta = Math.abs(1 - skewX / skewY);
+	        var delta = Math.abs(skewX + skewY);
 	
 	        if (delta < 0.00001) {
 	            transform.rotation = skewY;
@@ -3121,14 +3430,14 @@
 	//# sourceMappingURL=Matrix.js.map
 
 /***/ },
-/* 11 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Matrix = __webpack_require__(10);
+	var _Matrix = __webpack_require__(15);
 	
 	var _Matrix2 = _interopRequireDefault(_Matrix);
 	
@@ -3196,8 +3505,8 @@
 	 * This is the small part of gameofbombs.com portal system. It works.
 	 *
 	 * @author Ivan @ivanpopelyshev
-	 *
-	 * @namespace PIXI.GroupD8
+	 * @class
+	 * @memberof PIXI
 	 */
 	var GroupD8 = {
 	    E: 0,
@@ -3239,7 +3548,7 @@
 	    /**
 	     * Adds 180 degrees to rotation. Commutative operation.
 	     *
-	     * @method
+	     * @memberof PIXI.GroupD8
 	     * @param {number} rotation - The number to rotate.
 	     * @returns {number} rotated number
 	     */
@@ -3250,6 +3559,7 @@
 	    /**
 	     * I dont know why sometimes width and heights needs to be swapped. We'll fix it later.
 	     *
+	     * @memberof PIXI.GroupD8
 	     * @param {number} rotation - The number to check.
 	     * @returns {boolean} Whether or not the width/height should be swapped.
 	     */
@@ -3258,6 +3568,7 @@
 	    },
 	
 	    /**
+	     * @memberof PIXI.GroupD8
 	     * @param {number} dx - TODO
 	     * @param {number} dy - TODO
 	     *
@@ -3292,6 +3603,7 @@
 	    /**
 	     * Helps sprite to compensate texture packer rotation.
 	     *
+	     * @memberof PIXI.GroupD8
 	     * @param {PIXI.Matrix} matrix - sprite world matrix
 	     * @param {number} rotation - The rotation factor to use.
 	     * @param {number} tx - sprite anchoring
@@ -3314,18 +3626,18 @@
 	//# sourceMappingURL=GroupD8.js.map
 
 /***/ },
-/* 12 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Rectangle = __webpack_require__(13);
+	var _Rectangle = __webpack_require__(18);
 	
 	var _Rectangle2 = _interopRequireDefault(_Rectangle);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -3432,7 +3744,7 @@
 	//# sourceMappingURL=Circle.js.map
 
 /***/ },
-/* 13 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -3441,7 +3753,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -3506,7 +3818,6 @@
 	     * returns the left edge of the rectangle
 	     *
 	     * @member {number}
-	     * @memberof PIXI.Rectangle#
 	     */
 	
 	
@@ -3621,19 +3932,15 @@
 	    /**
 	     * Enlarges this rectangle to include the passed rectangle.
 	     *
-	     * @param {PIXI.Rectangle} rect - The rectangle to include.
+	     * @param {PIXI.Rectangle} rectangle - The rectangle to include.
 	     */
 	
 	
-	    Rectangle.prototype.enlarge = function enlarge(rect) {
-	        if (rect === Rectangle.EMPTY) {
-	            return;
-	        }
-	
-	        var x1 = Math.min(this.x, rect.x);
-	        var x2 = Math.max(this.x + this.width, rect.x + rect.width);
-	        var y1 = Math.min(this.y, rect.y);
-	        var y2 = Math.max(this.y + this.height, rect.y + rect.height);
+	    Rectangle.prototype.enlarge = function enlarge(rectangle) {
+	        var x1 = Math.min(this.x, rectangle.x);
+	        var x2 = Math.max(this.x + this.width, rectangle.x + rectangle.width);
+	        var y1 = Math.min(this.y, rectangle.y);
+	        var y2 = Math.max(this.y + this.height, rectangle.y + rectangle.height);
 	
 	        this.x = x1;
 	        this.width = x2 - x1;
@@ -3651,7 +3958,6 @@
 	         * returns the right edge of the rectangle
 	         *
 	         * @member {number}
-	         * @memberof PIXI.Rectangle
 	         */
 	
 	    }, {
@@ -3664,7 +3970,6 @@
 	         * returns the top edge of the rectangle
 	         *
 	         * @member {number}
-	         * @memberof PIXI.Rectangle
 	         */
 	
 	    }, {
@@ -3677,7 +3982,6 @@
 	         * returns the bottom edge of the rectangle
 	         *
 	         * @member {number}
-	         * @memberof PIXI.Rectangle
 	         */
 	
 	    }, {
@@ -3707,18 +4011,18 @@
 	//# sourceMappingURL=Rectangle.js.map
 
 /***/ },
-/* 14 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Rectangle = __webpack_require__(13);
+	var _Rectangle = __webpack_require__(18);
 	
 	var _Rectangle2 = _interopRequireDefault(_Rectangle);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -3833,18 +4137,18 @@
 	//# sourceMappingURL=Ellipse.js.map
 
 /***/ },
-/* 15 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Point = __webpack_require__(8);
+	var _Point = __webpack_require__(13);
 	
 	var _Point2 = _interopRequireDefault(_Point);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -3968,14 +4272,14 @@
 	//# sourceMappingURL=Polygon.js.map
 
 /***/ },
-/* 16 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -4105,18 +4409,18 @@
 	//# sourceMappingURL=RoundedRectangle.js.map
 
 /***/ },
-/* 17 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var gl = {
-	    createContext:          __webpack_require__(18),
-	    setVertexAttribArrays:  __webpack_require__(19),
-	    GLBuffer:               __webpack_require__(20),
-	    GLFramebuffer:          __webpack_require__(21),
-	    GLShader:               __webpack_require__(23),
-	    GLTexture:              __webpack_require__(22),
-	    VertexArrayObject:      __webpack_require__(31),
-	    shader:                 __webpack_require__(32)
+	    createContext:          __webpack_require__(23),
+	    setVertexAttribArrays:  __webpack_require__(24),
+	    GLBuffer:               __webpack_require__(25),
+	    GLFramebuffer:          __webpack_require__(26),
+	    GLShader:               __webpack_require__(28),
+	    GLTexture:              __webpack_require__(27),
+	    VertexArrayObject:      __webpack_require__(37),
+	    shader:                 __webpack_require__(38)
 	};
 	
 	// Export for Node-compatible environments
@@ -4136,7 +4440,7 @@
 
 
 /***/ },
-/* 18 */
+/* 23 */
 /***/ function(module, exports) {
 
 	
@@ -4168,7 +4472,7 @@
 
 
 /***/ },
-/* 19 */
+/* 24 */
 /***/ function(module, exports) {
 
 	// var GL_MAP = {};
@@ -4229,7 +4533,7 @@
 
 
 /***/ },
-/* 20 */
+/* 25 */
 /***/ function(module, exports) {
 
 	var EMPTY_ARRAY_BUFFER = new ArrayBuffer(0);
@@ -4259,7 +4563,7 @@
 	     *
 	     * @member {WebGLBuffer}
 	     */
-		this.buffer = gl.createBuffer(); 
+		this.buffer = gl.createBuffer();
 	
 		/**
 	     * The type of the buffer
@@ -4286,6 +4590,8 @@
 		{
 			this.upload(data);
 		}
+	
+		this._updateID = 0;
 	};
 	
 	/**
@@ -4352,11 +4658,11 @@
 
 
 /***/ },
-/* 21 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var Texture = __webpack_require__(22);
+	var Texture = __webpack_require__(27);
 	
 	/**
 	 * Helper class to create a webGL Framebuffer
@@ -4446,6 +4752,8 @@
 	    // TODO.. this is depth AND stencil?
 	    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_STENCIL_ATTACHMENT, gl.RENDERBUFFER, this.stencil);
 	    gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_STENCIL,  this.width  , this.height );
+	
+	
 	};
 	
 	/**
@@ -4462,7 +4770,7 @@
 	    var gl = this.gl;
 	
 	    gl.clearColor(r, g, b, a);
-	    gl.clear(gl.COLOR_BUFFER_BIT);
+	    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	};
 	
 	/**
@@ -4546,6 +4854,8 @@
 	    var fbo = new Framebuffer(gl, width, height);
 	    fbo.enableTexture(texture);
 	
+	    //fbo.enableStencil(); // get this back on soon!
+	
 	    fbo.unbind();
 	
 	    return fbo;
@@ -4579,7 +4889,7 @@
 
 
 /***/ },
-/* 22 */
+/* 27 */
 /***/ function(module, exports) {
 
 	
@@ -4675,7 +4985,7 @@
 	
 		if(newHeight !== this.height || newWidth !== this.width)
 		{
-	    	gl.texImage2D(gl.TEXTURE_2D, 0, this.format, this.format, this.type, source);
+			gl.texImage2D(gl.TEXTURE_2D, 0, this.format, this.format, this.type, source);
 		}
 		else
 		{
@@ -4724,7 +5034,7 @@
 		else
 		{
 			// TODO support for other types
-			this.type = gl.UNSIGNED_BYTE;
+			this.type = this.type || gl.UNSIGNED_BYTE;
 		}
 	
 		// what type of data?
@@ -4918,14 +5228,15 @@
 
 
 /***/ },
-/* 23 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var compileProgram = __webpack_require__(24),
-		extractAttributes = __webpack_require__(25),
-		extractUniforms = __webpack_require__(28),
-		generateUniformAccessObject = __webpack_require__(30);
+	var compileProgram = __webpack_require__(29),
+		extractAttributes = __webpack_require__(30),
+		extractUniforms = __webpack_require__(33),
+		setPrecision = __webpack_require__(35),
+		generateUniformAccessObject = __webpack_require__(36);
 	
 	/**
 	 * Helper class to create a webGL Shader
@@ -4935,8 +5246,10 @@
 	 * @param gl {WebGLRenderingContext}
 	 * @param vertexSrc {string|string[]} The vertex shader source as an array of strings.
 	 * @param fragmentSrc {string|string[]} The fragment shader source as an array of strings.
+	 * @param precision {precision]} The float precision of the shader. Options are 'lowp', 'mediump' or 'highp'.
+	 * @param attributeLocations {object} A key value pair showing which location eact attribute should sit eg {position:0, uvs:1}
 	 */
-	var Shader = function(gl, vertexSrc, fragmentSrc)
+	var Shader = function(gl, vertexSrc, fragmentSrc, precision, attributeLocations)
 	{
 		/**
 		 * The current WebGL rendering context
@@ -4945,14 +5258,19 @@
 		 */
 		this.gl = gl;
 	
+		if(precision)
+		{
+			vertexSrc = setPrecision(vertexSrc, precision);
+			fragmentSrc = setPrecision(fragmentSrc, precision);
+		}
+	
 		/**
 		 * The shader program
 		 *
 		 * @member {WebGLProgram}
 		 */
 		// First compile the program..
-		this.program = compileProgram(gl, vertexSrc, fragmentSrc);
-	
+		this.program = compileProgram(gl, vertexSrc, fragmentSrc, attributeLocations);
 	
 		/**
 		 * The attributes of the shader as an object containing the following properties
@@ -4967,7 +5285,7 @@
 		// next extract the attributes
 		this.attributes = extractAttributes(gl, this.program);
 	
-	    var uniformData = extractUniforms(gl, this.program);
+	    this.uniformData = extractUniforms(gl, this.program);
 	
 		/**
 		 * The uniforms of the shader as an object containing the following properties
@@ -4977,7 +5295,8 @@
 		 * }
 		 * @member {Object}
 		 */
-	    this.uniforms = generateUniformAccessObject( gl, uniformData );
+		this.uniforms = generateUniformAccessObject( gl, this.uniformData );
+	
 	};
 	/**
 	 * Uses this shader
@@ -4993,14 +5312,20 @@
 	 */
 	Shader.prototype.destroy = function()
 	{
-		// var gl = this.gl;
+		this.attributes = null;
+		this.uniformData = null;
+		this.uniforms = null;
+	
+		var gl = this.gl;
+		gl.deleteProgram(this.program);
 	};
+	
 	
 	module.exports = Shader;
 
 
 /***/ },
-/* 24 */
+/* 29 */
 /***/ function(module, exports) {
 
 	
@@ -5010,9 +5335,10 @@
 	 * @param gl {WebGLRenderingContext} The current WebGL context {WebGLProgram}
 	 * @param vertexSrc {string|string[]} The vertex shader source as an array of strings.
 	 * @param fragmentSrc {string|string[]} The fragment shader source as an array of strings.
+	 * @param attributeLocations {Object} An attribute location map that lets you manually set the attribute locations
 	 * @return {WebGLProgram} the shader program
 	 */
-	var compileProgram = function(gl, vertexSrc, fragmentSrc)
+	var compileProgram = function(gl, vertexSrc, fragmentSrc, attributeLocations)
 	{
 	    var glVertShader = compileShader(gl, gl.VERTEX_SHADER, vertexSrc);
 	    var glFragShader = compileShader(gl, gl.FRAGMENT_SHADER, fragmentSrc);
@@ -5021,6 +5347,17 @@
 	
 	    gl.attachShader(program, glVertShader);
 	    gl.attachShader(program, glFragShader);
+	
+	    // optionally, set the attributes manually for the program rather than letting WebGL decide..
+	    if(attributeLocations)
+	    {
+	        for(var i in attributeLocations)
+	        {
+	            gl.bindAttribLocation(program, attributeLocations[i], i);
+	        }
+	    }
+	
+	
 	    gl.linkProgram(program);
 	
 	    // if linking fails, then log and cleanup
@@ -5074,12 +5411,12 @@
 
 
 /***/ },
-/* 25 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
-	var mapType = __webpack_require__(26);
-	var mapSize = __webpack_require__(27);
+	var mapType = __webpack_require__(31);
+	var mapSize = __webpack_require__(32);
 	
 	/**
 	 * Extracts the attributes
@@ -5121,7 +5458,7 @@
 
 
 /***/ },
-/* 26 */
+/* 31 */
 /***/ function(module, exports) {
 
 	
@@ -5173,7 +5510,7 @@
 
 
 /***/ },
-/* 27 */
+/* 32 */
 /***/ function(module, exports) {
 
 	/**
@@ -5215,11 +5552,11 @@
 
 
 /***/ },
-/* 28 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mapType = __webpack_require__(26);
-	var defaultValue = __webpack_require__(29);
+	var mapType = __webpack_require__(31);
+	var defaultValue = __webpack_require__(34);
 	
 	/**
 	 * Extracts the uniforms
@@ -5256,7 +5593,7 @@
 
 
 /***/ },
-/* 29 */
+/* 34 */
 /***/ function(module, exports) {
 
 	/**
@@ -5340,7 +5677,31 @@
 
 
 /***/ },
-/* 30 */
+/* 35 */
+/***/ function(module, exports) {
+
+	/**
+	 * Sets the float precision on the shader. If the precision is already present this function will do nothing
+	 * @param {string} src       the shader source
+	 * @param {string} precision The float precision of the shader. Options are 'lowp', 'mediump' or 'highp'.
+	 *
+	 * @return {string} modified shader source
+	 */
+	var setPrecision = function(src, precision)
+	{
+	    if(src.substring(0, 9) !== 'precision')
+	    {
+	        return 'precision ' + precision + ' float;\n' + src;
+	    }
+	
+	    return src;
+	};
+	
+	module.exports = setPrecision;
+
+
+/***/ },
+/* 36 */
 /***/ function(module, exports) {
 
 	/**
@@ -5367,6 +5728,7 @@
 	
 	        var nameTokens = fullName.split('.');
 	        var name = nameTokens[nameTokens.length - 1];
+	
 	
 	        var uniformGroup = getUniformGroup(nameTokens, uniforms);
 	
@@ -5486,12 +5848,12 @@
 
 
 /***/ },
-/* 31 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	
 	// state object//
-	var setVertexAttribArrays = __webpack_require__( 19 );
+	var setVertexAttribArrays = __webpack_require__( 24 );
 	
 	/**
 	 * Helper class to work with WebGL VertexArrayObjects (vaos)
@@ -5626,19 +5988,20 @@
 	            lastBuffer = attrib.buffer;
 	        }
 	
-	        //attrib.attribute.pointer(attrib.type, attrib.normalized, attrib.stride, attrib.start);
 	        gl.vertexAttribPointer(attrib.attribute.location,
-	                               attrib.attribute.size, attrib.type || gl.FLOAT,
+	                               attrib.attribute.size,
+	                               attrib.type || gl.FLOAT,
 	                               attrib.normalized || false,
 	                               attrib.stride || 0,
 	                               attrib.start || 0);
-	
-	
 	    }
 	
 	    setVertexAttribArrays(gl, this.attributes, this.nativeState);
 	
-	    this.indexBuffer.bind();
+	    if(this.indexBuffer)
+	    {
+	        this.indexBuffer.bind();
+	    }
 	
 	    return this;
 	};
@@ -5711,7 +6074,16 @@
 	VertexArrayObject.prototype.draw = function(type, size, start)
 	{
 	    var gl = this.gl;
-	    gl.drawElements(type, size, gl.UNSIGNED_SHORT, start || 0);
+	
+	    if(this.indexBuffer)
+	    {
+	        gl.drawElements(type, size || this.indexBuffer.data.length, gl.UNSIGNED_SHORT, (start || 0) * 2 );
+	    }
+	    else
+	    {
+	        // TODO need a better way to calculate size..
+	        gl.drawArrays(type, start, size || this.getSize());
+	    }
 	
 	    return this;
 	};
@@ -5735,31 +6107,38 @@
 	    this.nativeVaoExtension = null;
 	    this.nativeVao = null;
 	};
+	
+	VertexArrayObject.prototype.getSize = function()
+	{
+	    var attrib = this.attributes[0];
+	    return attrib.buffer.data.length / (( attrib.stride/4 ) || attrib.attribute.size);
+	};
 
 
 /***/ },
-/* 32 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
-	    compileProgram: __webpack_require__(24),
-	    defaultValue: __webpack_require__(29),
-	    extractAttributes: __webpack_require__(25),
-	    extractUniforms: __webpack_require__(28),
-	    generateUniformAccessObject: __webpack_require__(30),
-	    mapSize: __webpack_require__(27),
-	    mapType: __webpack_require__(26)  
+	    compileProgram: __webpack_require__(29),
+	    defaultValue: __webpack_require__(34),
+	    extractAttributes: __webpack_require__(30),
+	    extractUniforms: __webpack_require__(33),
+	    generateUniformAccessObject: __webpack_require__(36),
+	    setPrecision: __webpack_require__(35),
+	    mapSize: __webpack_require__(32),
+	    mapType: __webpack_require__(31)
 	};
 
 /***/ },
-/* 33 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -6099,7 +6478,7 @@
 	//# sourceMappingURL=Bounds.js.map
 
 /***/ },
-/* 34 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -6108,29 +6487,29 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _eventemitter = __webpack_require__(35);
+	var _eventemitter = __webpack_require__(41);
 	
 	var _eventemitter2 = _interopRequireDefault(_eventemitter);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
-	var _TransformStatic = __webpack_require__(40);
+	var _TransformStatic = __webpack_require__(46);
 	
 	var _TransformStatic2 = _interopRequireDefault(_TransformStatic);
 	
-	var _Transform = __webpack_require__(42);
+	var _Transform = __webpack_require__(48);
 	
 	var _Transform2 = _interopRequireDefault(_Transform);
 	
-	var _Bounds = __webpack_require__(33);
+	var _Bounds = __webpack_require__(39);
 	
 	var _Bounds2 = _interopRequireDefault(_Bounds);
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -6540,7 +6919,6 @@
 	     * An alias to position.x
 	     *
 	     * @member {number}
-	     * @memberof PIXI.DisplayObject#
 	     */
 	
 	
@@ -6557,15 +6935,9 @@
 	        key: 'x',
 	        get: function get() {
 	            return this.position.x;
-	        }
-	
-	        /**
-	         * Sets the X position of the object.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.transform.position.x = value;
 	        }
 	
@@ -6574,22 +6946,15 @@
 	         * An alias to position.y
 	         *
 	         * @member {number}
-	         * @memberof PIXI.DisplayObject#
 	         */
 	
 	    }, {
 	        key: 'y',
 	        get: function get() {
 	            return this.position.y;
-	        }
-	
-	        /**
-	         * Sets the Y position of the object.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.transform.position.y = value;
 	        }
 	
@@ -6597,7 +6962,6 @@
 	         * Current transform of the object based on world (parent) factors
 	         *
 	         * @member {PIXI.Matrix}
-	         * @memberof PIXI.DisplayObject#
 	         * @readonly
 	         */
 	
@@ -6611,7 +6975,6 @@
 	         * Current transform of the object based on local factors: position, scale, other stuff
 	         *
 	         * @member {PIXI.Matrix}
-	         * @memberof PIXI.DisplayObject#
 	         * @readonly
 	         */
 	
@@ -6626,22 +6989,15 @@
 	         * Assignment by value since pixi-v4.
 	         *
 	         * @member {PIXI.Point|PIXI.ObservablePoint}
-	         * @memberof PIXI.DisplayObject#
 	         */
 	
 	    }, {
 	        key: 'position',
 	        get: function get() {
 	            return this.transform.position;
-	        }
-	
-	        /**
-	         * Copies the point to the position of the object.
-	         *
-	         * @param {PIXI.Point} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.transform.position.copy(value);
 	        }
 	
@@ -6650,22 +7006,15 @@
 	         * Assignment by value since pixi-v4.
 	         *
 	         * @member {PIXI.Point|PIXI.ObservablePoint}
-	         * @memberof PIXI.DisplayObject#
 	         */
 	
 	    }, {
 	        key: 'scale',
 	        get: function get() {
 	            return this.transform.scale;
-	        }
-	
-	        /**
-	         * Copies the point to the scale of the object.
-	         *
-	         * @param {PIXI.Point} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.transform.scale.copy(value);
 	        }
 	
@@ -6674,22 +7023,15 @@
 	         * Assignment by value since pixi-v4.
 	         *
 	         * @member {PIXI.Point|PIXI.ObservablePoint}
-	         * @memberof PIXI.DisplayObject#
 	         */
 	
 	    }, {
 	        key: 'pivot',
 	        get: function get() {
 	            return this.transform.pivot;
-	        }
-	
-	        /**
-	         * Copies the point to the pivot of the object.
-	         *
-	         * @param {PIXI.Point} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.transform.pivot.copy(value);
 	        }
 	
@@ -6698,22 +7040,15 @@
 	         * Assignment by value since pixi-v4.
 	         *
 	         * @member {PIXI.ObservablePoint}
-	         * @memberof PIXI.DisplayObject#
 	         */
 	
 	    }, {
 	        key: 'skew',
 	        get: function get() {
 	            return this.transform.skew;
-	        }
-	
-	        /**
-	         * Copies the point to the skew of the object.
-	         *
-	         * @param {PIXI.Point} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.transform.skew.copy(value);
 	        }
 	
@@ -6721,22 +7056,15 @@
 	         * The rotation of the object in radians.
 	         *
 	         * @member {number}
-	         * @memberof PIXI.DisplayObject#
 	         */
 	
 	    }, {
 	        key: 'rotation',
 	        get: function get() {
 	            return this.transform.rotation;
-	        }
-	
-	        /**
-	         * Sets the rotation of the object.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.transform.rotation = value;
 	        }
 	
@@ -6744,7 +7072,6 @@
 	         * Indicates if the object is globally visible.
 	         *
 	         * @member {boolean}
-	         * @memberof PIXI.DisplayObject#
 	         * @readonly
 	         */
 	
@@ -6773,22 +7100,15 @@
 	         * @todo For the moment, PIXI.CanvasRenderer doesn't support PIXI.Sprite as mask.
 	         *
 	         * @member {PIXI.Graphics|PIXI.Sprite}
-	         * @memberof PIXI.DisplayObject#
 	         */
 	
 	    }, {
 	        key: 'mask',
 	        get: function get() {
 	            return this._mask;
-	        }
-	
-	        /**
-	         * Sets the mask.
-	         *
-	         * @param {PIXI.Graphics|PIXI.Sprite} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            if (this._mask) {
 	                this._mask.renderable = true;
 	            }
@@ -6806,22 +7126,15 @@
 	         * To remove filters simply set this property to 'null'
 	         *
 	         * @member {PIXI.Filter[]}
-	         * @memberof PIXI.DisplayObject#
 	         */
 	
 	    }, {
 	        key: 'filters',
 	        get: function get() {
 	            return this._filters && this._filters.slice();
-	        }
-	
-	        /**
-	         * Shallow copies the array to the filters of the object.
-	         *
-	         * @param {PIXI.Filter[]} value - The filters to set.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._filters = value && value.slice();
 	        }
 	    }]);
@@ -6837,7 +7150,7 @@
 	//# sourceMappingURL=DisplayObject.js.map
 
 /***/ },
-/* 35 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7154,18 +7467,18 @@
 
 
 /***/ },
-/* 36 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _maxRecommendedTextures = __webpack_require__(37);
+	var _maxRecommendedTextures = __webpack_require__(43);
 	
 	var _maxRecommendedTextures2 = _interopRequireDefault(_maxRecommendedTextures);
 	
-	var _canUploadSameBuffer = __webpack_require__(39);
+	var _canUploadSameBuffer = __webpack_require__(45);
 	
 	var _canUploadSameBuffer2 = _interopRequireDefault(_canUploadSameBuffer);
 	
@@ -7368,7 +7681,7 @@
 	//# sourceMappingURL=settings.js.map
 
 /***/ },
-/* 37 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7376,7 +7689,7 @@
 	exports.__esModule = true;
 	exports.default = maxRecommendedTextures;
 	
-	var _ismobilejs = __webpack_require__(38);
+	var _ismobilejs = __webpack_require__(44);
 	
 	var _ismobilejs2 = _interopRequireDefault(_ismobilejs);
 	
@@ -7394,7 +7707,7 @@
 	//# sourceMappingURL=maxRecommendedTextures.js.map
 
 /***/ },
-/* 38 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -7537,7 +7850,7 @@
 
 
 /***/ },
-/* 39 */
+/* 45 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -7555,7 +7868,7 @@
 	//# sourceMappingURL=canUploadSameBuffer.js.map
 
 /***/ },
-/* 40 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7564,9 +7877,9 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _TransformBase2 = __webpack_require__(41);
+	var _TransformBase2 = __webpack_require__(47);
 	
 	var _TransformBase3 = _interopRequireDefault(_TransformBase2);
 	
@@ -7586,217 +7899,197 @@
 	 * @memberof PIXI
 	 */
 	var TransformStatic = function (_TransformBase) {
-	  _inherits(TransformStatic, _TransformBase);
-	
-	  /**
-	   *
-	   */
-	  function TransformStatic() {
-	    _classCallCheck(this, TransformStatic);
+	    _inherits(TransformStatic, _TransformBase);
 	
 	    /**
-	    * The coordinate of the object relative to the local coordinates of the parent.
-	    *
-	    * @member {PIXI.ObservablePoint}
-	    */
-	    var _this = _possibleConstructorReturn(this, _TransformBase.call(this));
-	
-	    _this.position = new _math.ObservablePoint(_this.onChange, _this, 0, 0);
-	
-	    /**
-	     * The scale factor of the object.
 	     *
-	     * @member {PIXI.ObservablePoint}
 	     */
-	    _this.scale = new _math.ObservablePoint(_this.onChange, _this, 1, 1);
+	    function TransformStatic() {
+	        _classCallCheck(this, TransformStatic);
 	
-	    /**
-	     * The pivot point of the displayObject that it rotates around
-	     *
-	     * @member {PIXI.ObservablePoint}
-	     */
-	    _this.pivot = new _math.ObservablePoint(_this.onChange, _this, 0, 0);
+	        /**
+	        * The coordinate of the object relative to the local coordinates of the parent.
+	        *
+	        * @member {PIXI.ObservablePoint}
+	        */
+	        var _this = _possibleConstructorReturn(this, _TransformBase.call(this));
 	
-	    /**
-	     * The skew amount, on the x and y axis.
-	     *
-	     * @member {PIXI.ObservablePoint}
-	     */
-	    _this.skew = new _math.ObservablePoint(_this.updateSkew, _this, 0, 0);
+	        _this.position = new _math.ObservablePoint(_this.onChange, _this, 0, 0);
 	
-	    _this._rotation = 0;
+	        /**
+	         * The scale factor of the object.
+	         *
+	         * @member {PIXI.ObservablePoint}
+	         */
+	        _this.scale = new _math.ObservablePoint(_this.onChange, _this, 1, 1);
 	
-	    _this._sr = Math.sin(0);
-	    _this._cr = Math.cos(0);
-	    _this._cy = Math.cos(0); // skewY);
-	    _this._sy = Math.sin(0); // skewY);
-	    _this._nsx = Math.sin(0); // skewX);
-	    _this._cx = Math.cos(0); // skewX);
+	        /**
+	         * The pivot point of the displayObject that it rotates around
+	         *
+	         * @member {PIXI.ObservablePoint}
+	         */
+	        _this.pivot = new _math.ObservablePoint(_this.onChange, _this, 0, 0);
 	
-	    _this._localID = 0;
-	    _this._currentLocalID = 0;
-	    return _this;
-	  }
+	        /**
+	         * The skew amount, on the x and y axis.
+	         *
+	         * @member {PIXI.ObservablePoint}
+	         */
+	        _this.skew = new _math.ObservablePoint(_this.updateSkew, _this, 0, 0);
 	
-	  /**
-	   * Called when a value changes.
-	   *
-	   * @private
-	   */
+	        _this._rotation = 0;
 	
+	        _this._cx = 1; // cos rotation + skewY;
+	        _this._sx = 0; // sin rotation + skewY;
+	        _this._cy = 0; // cos rotation + Math.PI/2 - skewX;
+	        _this._sy = 1; // sin rotation + Math.PI/2 - skewX;
 	
-	  TransformStatic.prototype.onChange = function onChange() {
-	    this._localID++;
-	  };
-	
-	  /**
-	   * Called when skew changes
-	   *
-	   * @private
-	   */
-	
-	
-	  TransformStatic.prototype.updateSkew = function updateSkew() {
-	    this._cy = Math.cos(this.skew._y);
-	    this._sy = Math.sin(this.skew._y);
-	    this._nsx = Math.sin(this.skew._x);
-	    this._cx = Math.cos(this.skew._x);
-	
-	    this._localID++;
-	  };
-	
-	  /**
-	   * Updates only local matrix
-	   */
-	
-	
-	  TransformStatic.prototype.updateLocalTransform = function updateLocalTransform() {
-	    var lt = this.localTransform;
-	
-	    if (this._localID !== this._currentLocalID) {
-	      // get the matrix values of the displayobject based on its transform properties..
-	      var a = this._cr * this.scale._x;
-	      var b = this._sr * this.scale._x;
-	      var c = -this._sr * this.scale._y;
-	      var d = this._cr * this.scale._y;
-	
-	      lt.a = this._cy * a + this._sy * c;
-	      lt.b = this._cy * b + this._sy * d;
-	      lt.c = this._nsx * a + this._cx * c;
-	      lt.d = this._nsx * b + this._cx * d;
-	
-	      lt.tx = this.position._x - (this.pivot._x * lt.a + this.pivot._y * lt.c);
-	      lt.ty = this.position._y - (this.pivot._x * lt.b + this.pivot._y * lt.d);
-	      this._currentLocalID = this._localID;
-	
-	      // force an update..
-	      this._parentID = -1;
-	    }
-	  };
-	
-	  /**
-	   * Updates the values of the object and applies the parent's transform.
-	   *
-	   * @param {PIXI.Transform} parentTransform - The transform of the parent of this object
-	   */
-	
-	
-	  TransformStatic.prototype.updateTransform = function updateTransform(parentTransform) {
-	    var pt = parentTransform.worldTransform;
-	    var wt = this.worldTransform;
-	    var lt = this.localTransform;
-	
-	    if (this._localID !== this._currentLocalID) {
-	      // get the matrix values of the displayobject based on its transform properties..
-	      var a = this._cr * this.scale._x;
-	      var b = this._sr * this.scale._x;
-	      var c = -this._sr * this.scale._y;
-	      var d = this._cr * this.scale._y;
-	
-	      lt.a = this._cy * a + this._sy * c;
-	      lt.b = this._cy * b + this._sy * d;
-	      lt.c = this._nsx * a + this._cx * c;
-	      lt.d = this._nsx * b + this._cx * d;
-	
-	      lt.tx = this.position._x - (this.pivot._x * lt.a + this.pivot._y * lt.c);
-	      lt.ty = this.position._y - (this.pivot._x * lt.b + this.pivot._y * lt.d);
-	      this._currentLocalID = this._localID;
-	
-	      // force an update..
-	      this._parentID = -1;
-	    }
-	
-	    if (this._parentID !== parentTransform._worldID) {
-	      // concat the parent matrix with the objects transform.
-	      wt.a = lt.a * pt.a + lt.b * pt.c;
-	      wt.b = lt.a * pt.b + lt.b * pt.d;
-	      wt.c = lt.c * pt.a + lt.d * pt.c;
-	      wt.d = lt.c * pt.b + lt.d * pt.d;
-	      wt.tx = lt.tx * pt.a + lt.ty * pt.c + pt.tx;
-	      wt.ty = lt.tx * pt.b + lt.ty * pt.d + pt.ty;
-	
-	      this._parentID = parentTransform._worldID;
-	
-	      // update the id of the transform..
-	      this._worldID++;
-	    }
-	  };
-	
-	  /**
-	   * Decomposes a matrix and sets the transforms properties based on it.
-	   *
-	   * @param {PIXI.Matrix} matrix - The matrix to decompose
-	   */
-	
-	
-	  TransformStatic.prototype.setFromMatrix = function setFromMatrix(matrix) {
-	    matrix.decompose(this);
-	    this._localID++;
-	  };
-	
-	  /**
-	   * The rotation of the object in radians.
-	   *
-	   * @member {number}
-	   * @memberof PIXI.TransformStatic#
-	   */
-	
-	
-	  _createClass(TransformStatic, [{
-	    key: 'rotation',
-	    get: function get() {
-	      return this._rotation;
+	        _this._localID = 0;
+	        _this._currentLocalID = 0;
+	        return _this;
 	    }
 	
 	    /**
-	     * Sets the rotation of the transform.
+	     * Called when a value changes.
 	     *
-	     * @param {number} value - The value to set to.
+	     * @private
 	     */
-	    ,
-	    set: function set(value) {
-	      this._rotation = value;
-	      this._sr = Math.sin(value);
-	      this._cr = Math.cos(value);
-	      this._localID++;
-	    }
-	  }]);
 	
-	  return TransformStatic;
+	
+	    TransformStatic.prototype.onChange = function onChange() {
+	        this._localID++;
+	    };
+	
+	    /**
+	     * Called when skew or rotation changes
+	     *
+	     * @private
+	     */
+	
+	
+	    TransformStatic.prototype.updateSkew = function updateSkew() {
+	        this._cx = Math.cos(this._rotation + this.skew._y);
+	        this._sx = Math.sin(this._rotation + this.skew._y);
+	        this._cy = -Math.sin(this._rotation - this.skew._x); // cos, added PI/2
+	        this._sy = Math.cos(this._rotation - this.skew._x); // sin, added PI/2
+	
+	        this._localID++;
+	    };
+	
+	    /**
+	     * Updates only local matrix
+	     */
+	
+	
+	    TransformStatic.prototype.updateLocalTransform = function updateLocalTransform() {
+	        var lt = this.localTransform;
+	
+	        if (this._localID !== this._currentLocalID) {
+	            // get the matrix values of the displayobject based on its transform properties..
+	            lt.a = this._cx * this.scale._x;
+	            lt.b = this._sx * this.scale._x;
+	            lt.c = this._cy * this.scale._y;
+	            lt.d = this._sy * this.scale._y;
+	
+	            lt.tx = this.position._x - (this.pivot._x * lt.a + this.pivot._y * lt.c);
+	            lt.ty = this.position._y - (this.pivot._x * lt.b + this.pivot._y * lt.d);
+	            this._currentLocalID = this._localID;
+	
+	            // force an update..
+	            this._parentID = -1;
+	        }
+	    };
+	
+	    /**
+	     * Updates the values of the object and applies the parent's transform.
+	     *
+	     * @param {PIXI.Transform} parentTransform - The transform of the parent of this object
+	     */
+	
+	
+	    TransformStatic.prototype.updateTransform = function updateTransform(parentTransform) {
+	        var lt = this.localTransform;
+	
+	        if (this._localID !== this._currentLocalID) {
+	            // get the matrix values of the displayobject based on its transform properties..
+	            lt.a = this._cx * this.scale._x;
+	            lt.b = this._sx * this.scale._x;
+	            lt.c = this._cy * this.scale._y;
+	            lt.d = this._sy * this.scale._y;
+	
+	            lt.tx = this.position._x - (this.pivot._x * lt.a + this.pivot._y * lt.c);
+	            lt.ty = this.position._y - (this.pivot._x * lt.b + this.pivot._y * lt.d);
+	            this._currentLocalID = this._localID;
+	
+	            // force an update..
+	            this._parentID = -1;
+	        }
+	
+	        if (this._parentID !== parentTransform._worldID) {
+	            // concat the parent matrix with the objects transform.
+	            var pt = parentTransform.worldTransform;
+	            var wt = this.worldTransform;
+	
+	            wt.a = lt.a * pt.a + lt.b * pt.c;
+	            wt.b = lt.a * pt.b + lt.b * pt.d;
+	            wt.c = lt.c * pt.a + lt.d * pt.c;
+	            wt.d = lt.c * pt.b + lt.d * pt.d;
+	            wt.tx = lt.tx * pt.a + lt.ty * pt.c + pt.tx;
+	            wt.ty = lt.tx * pt.b + lt.ty * pt.d + pt.ty;
+	
+	            this._parentID = parentTransform._worldID;
+	
+	            // update the id of the transform..
+	            this._worldID++;
+	        }
+	    };
+	
+	    /**
+	     * Decomposes a matrix and sets the transforms properties based on it.
+	     *
+	     * @param {PIXI.Matrix} matrix - The matrix to decompose
+	     */
+	
+	
+	    TransformStatic.prototype.setFromMatrix = function setFromMatrix(matrix) {
+	        matrix.decompose(this);
+	        this._localID++;
+	    };
+	
+	    /**
+	     * The rotation of the object in radians.
+	     *
+	     * @member {number}
+	     */
+	
+	
+	    _createClass(TransformStatic, [{
+	        key: 'rotation',
+	        get: function get() {
+	            return this._rotation;
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
+	            this._rotation = value;
+	            this.updateSkew();
+	        }
+	    }]);
+	
+	    return TransformStatic;
 	}(_TransformBase3.default);
 	
 	exports.default = TransformStatic;
 	//# sourceMappingURL=TransformStatic.js.map
 
 /***/ },
-/* 41 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -7880,7 +8173,7 @@
 	//# sourceMappingURL=TransformBase.js.map
 
 /***/ },
-/* 42 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -7889,9 +8182,9 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _TransformBase2 = __webpack_require__(41);
+	var _TransformBase2 = __webpack_require__(47);
 	
 	var _TransformBase3 = _interopRequireDefault(_TransformBase2);
 	
@@ -7958,27 +8251,25 @@
 	     */
 	    _this._rotation = 0;
 	
-	    _this._sr = Math.sin(0);
-	    _this._cr = Math.cos(0);
-	    _this._cy = Math.cos(0); // skewY);
-	    _this._sy = Math.sin(0); // skewY);
-	    _this._nsx = Math.sin(0); // skewX);
-	    _this._cx = Math.cos(0); // skewX);
+	    _this._cx = 1; // cos rotation + skewY;
+	    _this._sx = 0; // sin rotation + skewY;
+	    _this._cy = 0; // cos rotation + Math.PI/2 - skewX;
+	    _this._sy = 1; // sin rotation + Math.PI/2 - skewX;
 	    return _this;
 	  }
 	
 	  /**
-	   * Updates the skew values when the skew changes.
+	   * Updates the skew values when the skew or rotation changes.
 	   *
 	   * @private
 	   */
 	
 	
 	  Transform.prototype.updateSkew = function updateSkew() {
-	    this._cy = Math.cos(this.skew.y);
-	    this._sy = Math.sin(this.skew.y);
-	    this._nsx = Math.sin(this.skew.x);
-	    this._cx = Math.cos(this.skew.x);
+	    this._cx = Math.cos(this._rotation + this.skew._y);
+	    this._sx = Math.sin(this._rotation + this.skew._y);
+	    this._cy = -Math.sin(this._rotation - this.skew._x); // cos, added PI/2
+	    this._sy = Math.cos(this._rotation - this.skew._x); // sin, added PI/2
 	  };
 	
 	  /**
@@ -7988,15 +8279,14 @@
 	
 	  Transform.prototype.updateLocalTransform = function updateLocalTransform() {
 	    var lt = this.localTransform;
-	    var a = this._cr * this.scale.x;
-	    var b = this._sr * this.scale.x;
-	    var c = -this._sr * this.scale.y;
-	    var d = this._cr * this.scale.y;
 	
-	    lt.a = this._cy * a + this._sy * c;
-	    lt.b = this._cy * b + this._sy * d;
-	    lt.c = this._nsx * a + this._cx * c;
-	    lt.d = this._nsx * b + this._cx * d;
+	    lt.a = this._cx * this.scale.x;
+	    lt.b = this._sx * this.scale.x;
+	    lt.c = this._cy * this.scale.y;
+	    lt.d = this._sy * this.scale.y;
+	
+	    lt.tx = this.position.x - (this.pivot.x * lt.a + this.pivot.y * lt.c);
+	    lt.ty = this.position.y - (this.pivot.x * lt.b + this.pivot.y * lt.d);
 	  };
 	
 	  /**
@@ -8007,24 +8297,20 @@
 	
 	
 	  Transform.prototype.updateTransform = function updateTransform(parentTransform) {
-	    var pt = parentTransform.worldTransform;
-	    var wt = this.worldTransform;
 	    var lt = this.localTransform;
 	
-	    var a = this._cr * this.scale.x;
-	    var b = this._sr * this.scale.x;
-	    var c = -this._sr * this.scale.y;
-	    var d = this._cr * this.scale.y;
-	
-	    lt.a = this._cy * a + this._sy * c;
-	    lt.b = this._cy * b + this._sy * d;
-	    lt.c = this._nsx * a + this._cx * c;
-	    lt.d = this._nsx * b + this._cx * d;
+	    lt.a = this._cx * this.scale.x;
+	    lt.b = this._sx * this.scale.x;
+	    lt.c = this._cy * this.scale.y;
+	    lt.d = this._sy * this.scale.y;
 	
 	    lt.tx = this.position.x - (this.pivot.x * lt.a + this.pivot.y * lt.c);
 	    lt.ty = this.position.y - (this.pivot.x * lt.b + this.pivot.y * lt.d);
 	
 	    // concat the parent matrix with the objects transform.
+	    var pt = parentTransform.worldTransform;
+	    var wt = this.worldTransform;
+	
 	    wt.a = lt.a * pt.a + lt.b * pt.c;
 	    wt.b = lt.a * pt.b + lt.b * pt.d;
 	    wt.c = lt.c * pt.a + lt.d * pt.c;
@@ -8050,7 +8336,6 @@
 	   * The rotation of the object in radians.
 	   *
 	   * @member {number}
-	   * @memberof PIXI.Transform#
 	   */
 	
 	
@@ -8058,18 +8343,11 @@
 	    key: 'rotation',
 	    get: function get() {
 	      return this._rotation;
-	    }
-	
-	    /**
-	     * Set the rotation of the transform.
-	     *
-	     * @param {number} value - The value to set to.
-	     */
-	    ,
-	    set: function set(value) {
+	    },
+	    set: function set(value) // eslint-disable-line require-jsdoc
+	    {
 	      this._rotation = value;
-	      this._sr = Math.sin(value);
-	      this._cr = Math.cos(value);
+	      this.updateSkew();
 	    }
 	  }]);
 	
@@ -8080,7 +8358,7 @@
 	//# sourceMappingURL=Transform.js.map
 
 /***/ },
-/* 43 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8089,9 +8367,9 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _DisplayObject2 = __webpack_require__(34);
+	var _DisplayObject2 = __webpack_require__(40);
 	
 	var _DisplayObject3 = _interopRequireDefault(_DisplayObject2);
 	
@@ -8394,8 +8672,6 @@
 	
 	    /**
 	     * Updates the transform on all children of this container for rendering
-	     *
-	     * @private
 	     */
 	
 	
@@ -8604,6 +8880,10 @@
 	     *  have been set to that value
 	     * @param {boolean} [options.children=false] - if set to true, all the children will have their destroy
 	     *  method called as well. 'options' will be passed on to those calls.
+	     * @param {boolean} [options.texture=false] - Only used for child Sprites if options.children is set to true
+	     *  Should it destroy the texture of the child sprite
+	     * @param {boolean} [options.baseTexture=false] - Only used for child Sprites if options.children is set to true
+	     *  Should it destroy the base texture of the child sprite
 	     */
 	
 	
@@ -8625,7 +8905,6 @@
 	     * The width of the Container, setting this will actually modify the scale to achieve the value set
 	     *
 	     * @member {number}
-	     * @memberof PIXI.Container#
 	     */
 	
 	
@@ -8633,15 +8912,9 @@
 	        key: 'width',
 	        get: function get() {
 	            return this.scale.x * this.getLocalBounds().width;
-	        }
-	
-	        /**
-	         * Sets the width of the container by modifying the scale.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            var width = this.getLocalBounds().width;
 	
 	            if (width !== 0) {
@@ -8657,22 +8930,15 @@
 	         * The height of the Container, setting this will actually modify the scale to achieve the value set
 	         *
 	         * @member {number}
-	         * @memberof PIXI.Container#
 	         */
 	
 	    }, {
 	        key: 'height',
 	        get: function get() {
 	            return this.scale.y * this.getLocalBounds().height;
-	        }
-	
-	        /**
-	         * Sets the height of the container by modifying the scale.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            var height = this.getLocalBounds().height;
 	
 	            if (height !== 0) {
@@ -8696,7 +8962,7 @@
 	//# sourceMappingURL=Container.js.map
 
 /***/ },
-/* 44 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -8717,21 +8983,21 @@
 	exports.sign = sign;
 	exports.removeItems = removeItems;
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
-	var _eventemitter = __webpack_require__(35);
+	var _eventemitter = __webpack_require__(41);
 	
 	var _eventemitter2 = _interopRequireDefault(_eventemitter);
 	
-	var _pluginTarget = __webpack_require__(45);
+	var _pluginTarget = __webpack_require__(51);
 	
 	var _pluginTarget2 = _interopRequireDefault(_pluginTarget);
 	
-	var _ismobilejs = __webpack_require__(38);
+	var _ismobilejs = __webpack_require__(44);
 	
 	var isMobile = _interopRequireWildcard(_ismobilejs);
 	
@@ -8814,16 +9080,17 @@
 	 * @memberof PIXI.utils
 	 * @function getResolutionOfUrl
 	 * @param {string} url - the image path
+	 * @param {number} [defaultValue=1] - the defaultValue if no filename prefix is set.
 	 * @return {number} resolution / device pixel ratio of an asset
 	 */
-	function getResolutionOfUrl(url) {
+	function getResolutionOfUrl(url, defaultValue) {
 	    var resolution = _settings2.default.RETINA_PREFIX.exec(url);
 	
 	    if (resolution) {
 	        return parseFloat(resolution[1]);
 	    }
 	
-	    return 1;
+	    return defaultValue !== undefined ? defaultValue : 1;
 	}
 	
 	/**
@@ -9037,7 +9304,7 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 45 */
+/* 51 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -9107,7 +9374,7 @@
 	//# sourceMappingURL=pluginTarget.js.map
 
 /***/ },
-/* 46 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9116,17 +9383,17 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _Texture = __webpack_require__(47);
+	var _Texture = __webpack_require__(53);
 	
 	var _Texture2 = _interopRequireDefault(_Texture);
 	
-	var _Container2 = __webpack_require__(43);
+	var _Container2 = __webpack_require__(49);
 	
 	var _Container3 = _interopRequireDefault(_Container2);
 	
@@ -9257,6 +9524,18 @@
 	
 	        _this._transformID = -1;
 	        _this._textureID = -1;
+	
+	        _this._transformTrimmedID = -1;
+	        _this._textureTrimmedID = -1;
+	
+	        /**
+	         * Plugin that is responsible for rendering this element.
+	         * Allows to customize the rendering process without overriding '_renderWebGL' & '_renderCanvas' methods.
+	         *
+	         * @member {string}
+	         * @default 'sprite'
+	         */
+	        _this.pluginName = 'sprite';
 	        return _this;
 	    }
 	
@@ -9269,6 +9548,7 @@
 	
 	    Sprite.prototype._onTextureUpdate = function _onTextureUpdate() {
 	        this._textureID = -1;
+	        this._textureTrimmedID = -1;
 	
 	        // so if _width is 0 then width was not set..
 	        if (this._width) {
@@ -9289,6 +9569,7 @@
 	
 	    Sprite.prototype._onAnchorUpdate = function _onAnchorUpdate() {
 	        this._transformID = -1;
+	        this._transformTrimmedID = -1;
 	    };
 	
 	    /**
@@ -9366,7 +9647,12 @@
 	    Sprite.prototype.calculateTrimmedVertices = function calculateTrimmedVertices() {
 	        if (!this.vertexTrimmedData) {
 	            this.vertexTrimmedData = new Float32Array(8);
+	        } else if (this._transformTrimmedID === this.transform._worldID && this._textureTrimmedID === this._texture._updateID) {
+	            return;
 	        }
+	
+	        this._transformTrimmedID = this.transform._worldID;
+	        this._textureTrimmedID = this._texture._updateID;
 	
 	        // lets do some special trim code!
 	        var texture = this._texture;
@@ -9418,8 +9704,8 @@
 	    Sprite.prototype._renderWebGL = function _renderWebGL(renderer) {
 	        this.calculateVertices();
 	
-	        renderer.setObjectRenderer(renderer.plugins.sprite);
-	        renderer.plugins.sprite.render(this);
+	        renderer.setObjectRenderer(renderer.plugins[this.pluginName]);
+	        renderer.plugins[this.pluginName].render(this);
 	    };
 	
 	    /**
@@ -9431,7 +9717,7 @@
 	
 	
 	    Sprite.prototype._renderCanvas = function _renderCanvas(renderer) {
-	        renderer.plugins.sprite.render(this);
+	        renderer.plugins[this.pluginName].render(this);
 	    };
 	
 	    /**
@@ -9600,26 +9886,19 @@
 	     * The width of the sprite, setting this will actually modify the scale to achieve the value set
 	     *
 	     * @member {number}
-	     * @memberof PIXI.Sprite#
 	     */
 	
 	
 	    _createClass(Sprite, [{
 	        key: 'width',
 	        get: function get() {
-	            return Math.abs(this.scale.x) * this.texture.orig.width;
-	        }
-	
-	        /**
-	         * Sets the width of the sprite by modifying the scale.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	            return Math.abs(this.scale.x) * this._texture.orig.width;
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            var s = (0, _utils.sign)(this.scale.x) || 1;
 	
-	            this.scale.x = s * value / this.texture.orig.width;
+	            this.scale.x = s * value / this._texture.orig.width;
 	            this._width = value;
 	        }
 	
@@ -9627,25 +9906,18 @@
 	         * The height of the sprite, setting this will actually modify the scale to achieve the value set
 	         *
 	         * @member {number}
-	         * @memberof PIXI.Sprite#
 	         */
 	
 	    }, {
 	        key: 'height',
 	        get: function get() {
-	            return Math.abs(this.scale.y) * this.texture.orig.height;
-	        }
-	
-	        /**
-	         * Sets the height of the sprite by modifying the scale.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	            return Math.abs(this.scale.y) * this._texture.orig.height;
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            var s = (0, _utils.sign)(this.scale.y) || 1;
 	
-	            this.scale.y = s * value / this.texture.orig.height;
+	            this.scale.y = s * value / this._texture.orig.height;
 	            this._height = value;
 	        }
 	
@@ -9656,22 +9928,15 @@
 	         * Setting the anchor to 1,1 would mean the texture's origin point will be the bottom right corner
 	         *
 	         * @member {PIXI.ObservablePoint}
-	         * @memberof PIXI.Sprite#
 	         */
 	
 	    }, {
 	        key: 'anchor',
 	        get: function get() {
 	            return this._anchor;
-	        }
-	
-	        /**
-	         * Copies the anchor to the sprite.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._anchor.copy(value);
 	        }
 	
@@ -9680,7 +9945,6 @@
 	         * 0xFFFFFF will remove any tint effect.
 	         *
 	         * @member {number}
-	         * @memberof PIXI.Sprite#
 	         * @default 0xFFFFFF
 	         */
 	
@@ -9688,15 +9952,9 @@
 	        key: 'tint',
 	        get: function get() {
 	            return this._tint;
-	        }
-	
-	        /**
-	         * Sets the tint of the sprite.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._tint = value;
 	            this._tintRGB = (value >> 16) + (value & 0xff00) + ((value & 0xff) << 16);
 	        }
@@ -9705,22 +9963,15 @@
 	         * The texture that the sprite is using
 	         *
 	         * @member {PIXI.Texture}
-	         * @memberof PIXI.Sprite#
 	         */
 	
 	    }, {
 	        key: 'texture',
 	        get: function get() {
 	            return this._texture;
-	        }
-	
-	        /**
-	         * Sets the texture of the sprite.
-	         *
-	         * @param {PIXI.Texture} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            if (this._texture === value) {
 	                return;
 	            }
@@ -9729,6 +9980,7 @@
 	            this.cachedTint = 0xFFFFFF;
 	
 	            this._textureID = -1;
+	            this._textureTrimmedID = -1;
 	
 	            if (value) {
 	                // wait for the texture to load
@@ -9748,7 +10000,7 @@
 	//# sourceMappingURL=Sprite.js.map
 
 /***/ },
-/* 47 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -9757,25 +10009,25 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _BaseTexture = __webpack_require__(48);
+	var _BaseTexture = __webpack_require__(54);
 	
 	var _BaseTexture2 = _interopRequireDefault(_BaseTexture);
 	
-	var _VideoBaseTexture = __webpack_require__(58);
+	var _VideoBaseTexture = __webpack_require__(64);
 	
 	var _VideoBaseTexture2 = _interopRequireDefault(_VideoBaseTexture);
 	
-	var _TextureUvs = __webpack_require__(61);
+	var _TextureUvs = __webpack_require__(67);
 	
 	var _TextureUvs2 = _interopRequireDefault(_TextureUvs);
 	
-	var _eventemitter = __webpack_require__(35);
+	var _eventemitter = __webpack_require__(41);
 	
 	var _eventemitter2 = _interopRequireDefault(_eventemitter);
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -10212,7 +10464,6 @@
 	     * The frame specifies the region of the base texture that this texture uses.
 	     *
 	     * @member {PIXI.Rectangle}
-	     * @memberof PIXI.Texture#
 	     */
 	
 	
@@ -10220,15 +10471,9 @@
 	        key: 'frame',
 	        get: function get() {
 	            return this._frame;
-	        }
-	
-	        /**
-	         * Set the frame.
-	         *
-	         * @param {Rectangle} frame - The new frame to set.
-	         */
-	        ,
-	        set: function set(frame) {
+	        },
+	        set: function set(frame) // eslint-disable-line require-jsdoc
+	        {
 	            this._frame = frame;
 	
 	            this.noFrame = false;
@@ -10263,15 +10508,9 @@
 	        key: 'rotate',
 	        get: function get() {
 	            return this._rotate;
-	        }
-	
-	        /**
-	         * Set the rotation
-	         *
-	         * @param {number} rotate - The new rotation to set.
-	         */
-	        ,
-	        set: function set(rotate) {
+	        },
+	        set: function set(rotate) // eslint-disable-line require-jsdoc
+	        {
 	            this._rotate = rotate;
 	            if (this.valid) {
 	                this._updateUvs();
@@ -10287,7 +10526,7 @@
 	    }, {
 	        key: 'width',
 	        get: function get() {
-	            return this.orig ? this.orig.width : 0;
+	            return this.orig.width;
 	        }
 	
 	        /**
@@ -10299,7 +10538,7 @@
 	    }, {
 	        key: 'height',
 	        get: function get() {
-	            return this.orig ? this.orig.height : 0;
+	            return this.orig.height;
 	        }
 	    }]);
 	
@@ -10324,7 +10563,7 @@
 	//# sourceMappingURL=Texture.js.map
 
 /***/ },
-/* 48 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -10333,21 +10572,21 @@
 	
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
-	var _eventemitter = __webpack_require__(35);
+	var _eventemitter = __webpack_require__(41);
 	
 	var _eventemitter2 = _interopRequireDefault(_eventemitter);
 	
-	var _determineCrossOrigin = __webpack_require__(49);
+	var _determineCrossOrigin = __webpack_require__(55);
 	
 	var _determineCrossOrigin2 = _interopRequireDefault(_determineCrossOrigin);
 	
-	var _bitTwiddle = __webpack_require__(57);
+	var _bitTwiddle = __webpack_require__(63);
 	
 	var _bitTwiddle2 = _interopRequireDefault(_bitTwiddle);
 	
@@ -11031,7 +11270,7 @@
 	//# sourceMappingURL=BaseTexture.js.map
 
 /***/ },
-/* 49 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -11039,7 +11278,7 @@
 	exports.__esModule = true;
 	exports.default = determineCrossOrigin;
 	
-	var _url2 = __webpack_require__(50);
+	var _url2 = __webpack_require__(56);
 	
 	var _url3 = _interopRequireDefault(_url2);
 	
@@ -11091,7 +11330,7 @@
 	//# sourceMappingURL=determineCrossOrigin.js.map
 
 /***/ },
-/* 50 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -11117,8 +11356,8 @@
 	
 	'use strict';
 	
-	var punycode = __webpack_require__(51);
-	var util = __webpack_require__(53);
+	var punycode = __webpack_require__(57);
+	var util = __webpack_require__(59);
 	
 	exports.parse = urlParse;
 	exports.resolve = urlResolve;
@@ -11193,7 +11432,7 @@
 	      'gopher:': true,
 	      'file:': true
 	    },
-	    querystring = __webpack_require__(54);
+	    querystring = __webpack_require__(60);
 	
 	function urlParse(url, parseQueryString, slashesDenoteHost) {
 	  if (url && util.isObject(url) && url instanceof Url) return url;
@@ -11829,7 +12068,7 @@
 
 
 /***/ },
-/* 51 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/*! https://mths.be/punycode v1.3.2 by @mathias */
@@ -12361,10 +12600,10 @@
 	
 	}(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(52)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(58)(module), (function() { return this; }())))
 
 /***/ },
-/* 52 */
+/* 58 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -12380,7 +12619,7 @@
 
 
 /***/ },
-/* 53 */
+/* 59 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -12402,17 +12641,17 @@
 
 
 /***/ },
-/* 54 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	exports.decode = exports.parse = __webpack_require__(55);
-	exports.encode = exports.stringify = __webpack_require__(56);
+	exports.decode = exports.parse = __webpack_require__(61);
+	exports.encode = exports.stringify = __webpack_require__(62);
 
 
 /***/ },
-/* 55 */
+/* 61 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -12498,7 +12737,7 @@
 
 
 /***/ },
-/* 56 */
+/* 62 */
 /***/ function(module, exports) {
 
 	// Copyright Joyent, Inc. and other Node contributors.
@@ -12568,7 +12807,7 @@
 
 
 /***/ },
-/* 57 */
+/* 63 */
 /***/ function(module, exports) {
 
 	/**
@@ -12778,7 +13017,7 @@
 
 
 /***/ },
-/* 58 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -12787,13 +13026,13 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _BaseTexture2 = __webpack_require__(48);
+	var _BaseTexture2 = __webpack_require__(54);
 	
 	var _BaseTexture3 = _interopRequireDefault(_BaseTexture2);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _ticker = __webpack_require__(59);
+	var _ticker = __webpack_require__(65);
 	
 	var ticker = _interopRequireWildcard(_ticker);
 	
@@ -13062,7 +13301,6 @@
 	     * Should the base texture automatically update itself, set to true by default
 	     *
 	     * @member {boolean}
-	     * @memberof PIXI.VideoBaseTexture#
 	     */
 	
 	
@@ -13070,15 +13308,9 @@
 	        key: 'autoUpdate',
 	        get: function get() {
 	            return this._autoUpdate;
-	        }
-	
-	        /**
-	         * Sets autoUpdate property.
-	         *
-	         * @param {number} value - enable auto update or not
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            if (value !== this._autoUpdate) {
 	                this._autoUpdate = value;
 	
@@ -13116,7 +13348,7 @@
 	//# sourceMappingURL=VideoBaseTexture.js.map
 
 /***/ },
-/* 59 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13124,7 +13356,7 @@
 	exports.__esModule = true;
 	exports.Ticker = exports.shared = undefined;
 	
-	var _Ticker = __webpack_require__(60);
+	var _Ticker = __webpack_require__(66);
 	
 	var _Ticker2 = _interopRequireDefault(_Ticker);
 	
@@ -13184,7 +13416,7 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 60 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -13193,11 +13425,11 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
-	var _eventemitter = __webpack_require__(35);
+	var _eventemitter = __webpack_require__(41);
 	
 	var _eventemitter2 = _interopRequireDefault(_eventemitter);
 	
@@ -13540,7 +13772,7 @@
 	     * {@link PIXI.ticker.Ticker#speed}, which is specific
 	     * to scaling {@link PIXI.ticker.Ticker#deltaTime}.
 	     *
-	     * @memberof PIXI.ticker.Ticker#
+	     * @member {number}
 	     * @readonly
 	     */
 	
@@ -13559,7 +13791,7 @@
 	         * When setting this property it is clamped to a value between
 	         * `0` and `PIXI.settings.TARGET_FPMS * 1000`.
 	         *
-	         * @memberof PIXI.ticker.Ticker#
+	         * @member {number}
 	         * @default 10
 	         */
 	
@@ -13567,15 +13799,9 @@
 	        key: 'minFPS',
 	        get: function get() {
 	            return 1000 / this._maxElapsedMS;
-	        }
-	
-	        /**
-	         * Sets the min fps.
-	         *
-	         * @param {number} fps - value to set.
-	         */
-	        ,
-	        set: function set(fps) {
+	        },
+	        set: function set(fps) // eslint-disable-line require-jsdoc
+	        {
 	            // Clamp: 0 to TARGET_FPMS
 	            var minFPMS = Math.min(Math.max(0, fps) / 1000, _settings2.default.TARGET_FPMS);
 	
@@ -13590,14 +13816,14 @@
 	//# sourceMappingURL=Ticker.js.map
 
 /***/ },
-/* 61 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _GroupD = __webpack_require__(11);
+	var _GroupD = __webpack_require__(16);
 	
 	var _GroupD2 = _interopRequireDefault(_GroupD);
 	
@@ -13699,22 +13925,22 @@
 	//# sourceMappingURL=TextureUvs.js.map
 
 /***/ },
-/* 62 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _CanvasRenderer = __webpack_require__(63);
+	var _CanvasRenderer = __webpack_require__(69);
 	
 	var _CanvasRenderer2 = _interopRequireDefault(_CanvasRenderer);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _CanvasTinter = __webpack_require__(71);
+	var _CanvasTinter = __webpack_require__(77);
 	
 	var _CanvasTinter2 = _interopRequireDefault(_CanvasTinter);
 	
@@ -13856,34 +14082,34 @@
 	//# sourceMappingURL=CanvasSpriteRenderer.js.map
 
 /***/ },
-/* 63 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _SystemRenderer2 = __webpack_require__(64);
+	var _SystemRenderer2 = __webpack_require__(70);
 	
 	var _SystemRenderer3 = _interopRequireDefault(_SystemRenderer2);
 	
-	var _CanvasMaskManager = __webpack_require__(67);
+	var _CanvasMaskManager = __webpack_require__(73);
 	
 	var _CanvasMaskManager2 = _interopRequireDefault(_CanvasMaskManager);
 	
-	var _CanvasRenderTarget = __webpack_require__(68);
+	var _CanvasRenderTarget = __webpack_require__(74);
 	
 	var _CanvasRenderTarget2 = _interopRequireDefault(_CanvasRenderTarget);
 	
-	var _mapCanvasBlendModesToPixi = __webpack_require__(69);
+	var _mapCanvasBlendModesToPixi = __webpack_require__(75);
 	
 	var _mapCanvasBlendModesToPixi2 = _interopRequireDefault(_mapCanvasBlendModesToPixi);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
@@ -14007,6 +14233,8 @@
 	
 	        this.emit('prerender');
 	
+	        var rootResolution = this.resolution;
+	
 	        if (renderTexture) {
 	            renderTexture = renderTexture.baseTexture || renderTexture;
 	
@@ -14074,7 +14302,29 @@
 	        displayObject.renderCanvas(this);
 	        this.context = tempContext;
 	
+	        this.resolution = rootResolution;
+	
 	        this.emit('postrender');
+	    };
+	
+	    /**
+	     * Clear the canvas of renderer.
+	     *
+	     * @param {string} [clearColor] - Clear the canvas with this color, except the canvas is transparent.
+	     */
+	
+	
+	    CanvasRenderer.prototype.clear = function clear(clearColor) {
+	        var context = this.context;
+	
+	        clearColor = clearColor || this._backgroundColorString;
+	
+	        if (!this.transparent && clearColor) {
+	            context.fillStyle = clearColor;
+	            context.fillRect(0, 0, this.width, this.height);
+	        } else {
+	            context.clearRect(0, 0, this.width, this.height);
+	        }
 	    };
 	
 	    /**
@@ -14146,7 +14396,7 @@
 	//# sourceMappingURL=CanvasRenderer.js.map
 
 /***/ },
-/* 64 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14155,25 +14405,25 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
-	var _Container = __webpack_require__(43);
+	var _Container = __webpack_require__(49);
 	
 	var _Container2 = _interopRequireDefault(_Container);
 	
-	var _RenderTexture = __webpack_require__(65);
+	var _RenderTexture = __webpack_require__(71);
 	
 	var _RenderTexture2 = _interopRequireDefault(_RenderTexture);
 	
-	var _eventemitter = __webpack_require__(35);
+	var _eventemitter = __webpack_require__(41);
 	
 	var _eventemitter2 = _interopRequireDefault(_eventemitter);
 	
@@ -14459,7 +14709,6 @@
 	   * The background color to fill if not transparent
 	   *
 	   * @member {number}
-	   * @memberof PIXI.SystemRenderer#
 	   */
 	
 	
@@ -14467,15 +14716,9 @@
 	    key: 'backgroundColor',
 	    get: function get() {
 	      return this._backgroundColor;
-	    }
-	
-	    /**
-	     * Sets the background color.
-	     *
-	     * @param {number} value - The value to set to.
-	     */
-	    ,
-	    set: function set(value) {
+	    },
+	    set: function set(value) // eslint-disable-line require-jsdoc
+	    {
 	      this._backgroundColor = value;
 	      this._backgroundColorString = (0, _utils.hex2string)(value);
 	      (0, _utils.hex2rgb)(value, this._backgroundColorRgba);
@@ -14489,18 +14732,18 @@
 	//# sourceMappingURL=SystemRenderer.js.map
 
 /***/ },
-/* 65 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _BaseRenderTexture = __webpack_require__(66);
+	var _BaseRenderTexture = __webpack_require__(72);
 	
 	var _BaseRenderTexture2 = _interopRequireDefault(_BaseRenderTexture);
 	
-	var _Texture2 = __webpack_require__(47);
+	var _Texture2 = __webpack_require__(53);
 	
 	var _Texture3 = _interopRequireDefault(_Texture2);
 	
@@ -14518,8 +14761,7 @@
 	 * __Hint__: All DisplayObjects (i.e. Sprites) that render to a RenderTexture should be preloaded
 	 * otherwise black rectangles will be drawn instead.
 	 *
-	 * A RenderTexture takes a snapshot of any Display Object given to its render method. The position
-	 * and rotation of the given Display Objects is ignored. For example:
+	 * A RenderTexture takes a snapshot of any Display Object given to its render method. For example:
 	 *
 	 * ```js
 	 * let renderer = PIXI.autoDetectRenderer(1024, 1024, { view: canvas, ratio: 1 });
@@ -14534,15 +14776,16 @@
 	 * renderer.render(sprite, renderTexture);
 	 * ```
 	 *
-	 * The Sprite in this case will be rendered to a position of 0,0. To render this sprite at its actual
-	 * position a Container should be used:
+	 * The Sprite in this case will be rendered using its local transform. To render this sprite at 0,0
+	 * you can clear the transform
 	 *
 	 * ```js
-	 * let doc = new PIXI.Container();
 	 *
-	 * doc.addChild(sprite);
+	 * sprite.setTransform()
 	 *
-	 * renderer.render(doc, renderTexture);  // Renders to center of renderTexture
+	 * let renderTexture = new PIXI.RenderTexture.create(100, 100);
+	 *
+	 * renderer.render(sprite, renderTexture);  // Renders to center of RenderTexture
 	 * ```
 	 *
 	 * @class
@@ -14644,18 +14887,18 @@
 	//# sourceMappingURL=RenderTexture.js.map
 
 /***/ },
-/* 66 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _BaseTexture2 = __webpack_require__(48);
+	var _BaseTexture2 = __webpack_require__(54);
 	
 	var _BaseTexture3 = _interopRequireDefault(_BaseTexture2);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
@@ -14692,18 +14935,17 @@
 	 * baseRenderTexture.render(sprite);
 	 * ```
 	 *
-	 * The Sprite in this case will be rendered to a position of 0,0. To render this sprite at its actual
-	 * position a Container should be used:
+	 * The Sprite in this case will be rendered using its local transform. To render this sprite at 0,0
+	 * you can clear the transform
 	 *
 	 * ```js
-	 * let doc = new PIXI.Container();
 	 *
-	 * doc.addChild(sprite);
+	 * sprite.setTransform()
 	 *
 	 * let baseRenderTexture = new PIXI.BaseRenderTexture(100, 100);
 	 * let renderTexture = new PIXI.RenderTexture(baseRenderTexture);
 	 *
-	 * renderer.render(doc, renderTexture);  // Renders to center of RenderTexture
+	 * renderer.render(sprite, renderTexture);  // Renders to center of RenderTexture
 	 * ```
 	 *
 	 * @class
@@ -14812,14 +15054,14 @@
 	//# sourceMappingURL=BaseRenderTexture.js.map
 
 /***/ },
-/* 67 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -14984,7 +15226,7 @@
 	//# sourceMappingURL=CanvasMaskManager.js.map
 
 /***/ },
-/* 68 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14993,7 +15235,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
@@ -15078,7 +15320,6 @@
 	   * The width of the canvas buffer in pixels.
 	   *
 	   * @member {number}
-	   * @memberof PIXI.CanvasRenderTarget#
 	   */
 	
 	
@@ -15086,15 +15327,9 @@
 	    key: 'width',
 	    get: function get() {
 	      return this.canvas.width;
-	    }
-	
-	    /**
-	     * Sets the width.
-	     *
-	     * @param {number} val - The value to set.
-	     */
-	    ,
-	    set: function set(val) {
+	    },
+	    set: function set(val) // eslint-disable-line require-jsdoc
+	    {
 	      this.canvas.width = val;
 	    }
 	
@@ -15102,22 +15337,15 @@
 	     * The height of the canvas buffer in pixels.
 	     *
 	     * @member {number}
-	     * @memberof PIXI.CanvasRenderTarget#
 	     */
 	
 	  }, {
 	    key: 'height',
 	    get: function get() {
 	      return this.canvas.height;
-	    }
-	
-	    /**
-	     * Sets the height.
-	     *
-	     * @param {number} val - The value to set.
-	     */
-	    ,
-	    set: function set(val) {
+	    },
+	    set: function set(val) // eslint-disable-line require-jsdoc
+	    {
 	      this.canvas.height = val;
 	    }
 	  }]);
@@ -15129,7 +15357,7 @@
 	//# sourceMappingURL=CanvasRenderTarget.js.map
 
 /***/ },
-/* 69 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -15137,9 +15365,9 @@
 	exports.__esModule = true;
 	exports.default = mapCanvasBlendModesToPixi;
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _canUseNewCanvasBlendModes = __webpack_require__(70);
+	var _canUseNewCanvasBlendModes = __webpack_require__(76);
 	
 	var _canUseNewCanvasBlendModes2 = _interopRequireDefault(_canUseNewCanvasBlendModes);
 	
@@ -15201,7 +15429,7 @@
 	//# sourceMappingURL=mapCanvasBlendModesToPixi.js.map
 
 /***/ },
-/* 70 */
+/* 76 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -15212,7 +15440,7 @@
 	 * Creates a little colored canvas
 	 *
 	 * @ignore
-	 * @param {number} color - The color to make the canvas
+	 * @param {string} color - The color to make the canvas
 	 * @return {canvas} a small canvas element
 	 */
 	function createColoredCanvas(color) {
@@ -15266,16 +15494,16 @@
 	//# sourceMappingURL=canUseNewCanvasBlendModes.js.map
 
 /***/ },
-/* 71 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _canUseNewCanvasBlendModes = __webpack_require__(70);
+	var _canUseNewCanvasBlendModes = __webpack_require__(76);
 	
 	var _canUseNewCanvasBlendModes2 = _interopRequireDefault(_canUseNewCanvasBlendModes);
 	
@@ -15284,7 +15512,8 @@
 	/**
 	 * Utility methods for Sprite/Texture tinting.
 	 *
-	 * @namespace PIXI.CanvasTinter
+	 * @class
+	 * @memberof PIXI
 	 */
 	var CanvasTinter = {
 	    /**
@@ -15506,46 +15735,46 @@
 	//# sourceMappingURL=CanvasTinter.js.map
 
 /***/ },
-/* 72 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _ObjectRenderer2 = __webpack_require__(73);
+	var _ObjectRenderer2 = __webpack_require__(79);
 	
 	var _ObjectRenderer3 = _interopRequireDefault(_ObjectRenderer2);
 	
-	var _WebGLRenderer = __webpack_require__(75);
+	var _WebGLRenderer = __webpack_require__(81);
 	
 	var _WebGLRenderer2 = _interopRequireDefault(_WebGLRenderer);
 	
-	var _createIndicesForQuads = __webpack_require__(86);
+	var _createIndicesForQuads = __webpack_require__(92);
 	
 	var _createIndicesForQuads2 = _interopRequireDefault(_createIndicesForQuads);
 	
-	var _generateMultiTextureShader = __webpack_require__(95);
+	var _generateMultiTextureShader = __webpack_require__(101);
 	
 	var _generateMultiTextureShader2 = _interopRequireDefault(_generateMultiTextureShader);
 	
-	var _checkMaxIfStatmentsInShader = __webpack_require__(96);
+	var _checkMaxIfStatmentsInShader = __webpack_require__(102);
 	
 	var _checkMaxIfStatmentsInShader2 = _interopRequireDefault(_checkMaxIfStatmentsInShader);
 	
-	var _BatchBuffer = __webpack_require__(97);
+	var _BatchBuffer = __webpack_require__(103);
 	
 	var _BatchBuffer2 = _interopRequireDefault(_BatchBuffer);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
 	var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
 	
-	var _bitTwiddle = __webpack_require__(57);
+	var _bitTwiddle = __webpack_require__(63);
 	
 	var _bitTwiddle2 = _interopRequireDefault(_bitTwiddle);
 	
@@ -15596,7 +15825,7 @@
 	        _this.vertByteSize = _this.vertSize * 4;
 	
 	        /**
-	         * The number of images in the SpriteBatch before it flushes.
+	         * The number of images in the SpriteRenderer before it flushes.
 	         *
 	         * @member {number}
 	         */
@@ -15679,7 +15908,7 @@
 	            // build the vao object that will render..
 	            this.vaos[i] = this.renderer.createVao().addIndex(this.indexBuffer).addAttribute(this.vertexBuffers[i], shader.attributes.aVertexPosition, gl.FLOAT, false, this.vertByteSize, 0).addAttribute(this.vertexBuffers[i], shader.attributes.aTextureCoord, gl.UNSIGNED_SHORT, true, this.vertByteSize, 2 * 4).addAttribute(this.vertexBuffers[i], shader.attributes.aColor, gl.UNSIGNED_BYTE, true, this.vertByteSize, 3 * 4).addAttribute(this.vertexBuffers[i], shader.attributes.aTextureId, gl.FLOAT, false, this.vertByteSize, 4 * 4);
 	
-	            /* eslint-disable max-len */
+	            /* eslint-enable max-len */
 	        }
 	
 	        this.vao = this.vaos[0];
@@ -15715,7 +15944,7 @@
 	        // get the uvs for the texture
 	
 	        // if the uvs have not updated then no point rendering just yet!
-	        if (!sprite.texture._uvs) {
+	        if (!sprite._texture._uvs) {
 	            return;
 	        }
 	
@@ -15885,9 +16114,11 @@
 	            uint32View[index + 12] = uvs[2];
 	            uint32View[index + 17] = uvs[3];
 	
-	            uint32View[index + 3] = uint32View[index + 8] = uint32View[index + 13] = uint32View[index + 18] = sprite._tintRGB + (sprite.worldAlpha * 255 << 24);
+	            /* eslint-disable max-len */
+	            uint32View[index + 3] = uint32View[index + 8] = uint32View[index + 13] = uint32View[index + 18] = sprite._tintRGB + (Math.min(sprite.worldAlpha, 1) * 255 << 24);
 	
 	            float32View[index + 4] = float32View[index + 9] = float32View[index + 14] = float32View[index + 19] = nextTexture._virtalBoundId;
+	            /* eslint-enable max-len */
 	
 	            index += 20;
 	        }
@@ -15896,13 +16127,17 @@
 	
 	        if (!_settings2.default.CAN_UPLOAD_SAME_BUFFER) {
 	            // this is still needed for IOS performance..
-	            // it really does not like uploading to  the same buffer in a single frame!
+	            // it really does not like uploading to the same buffer in a single frame!
 	            if (this.vaoMax <= this.vertexCount) {
 	                this.vaoMax++;
 	                this.vertexBuffers[this.vertexCount] = _pixiGlCore2.default.GLBuffer.createVertexBuffer(gl, null, gl.STREAM_DRAW);
 	
+	                /* eslint-disable max-len */
+	
 	                // build the vao object that will render..
 	                this.vaos[this.vertexCount] = this.renderer.createVao().addIndex(this.indexBuffer).addAttribute(this.vertexBuffers[this.vertexCount], this.shader.attributes.aVertexPosition, gl.FLOAT, false, this.vertByteSize, 0).addAttribute(this.vertexBuffers[this.vertexCount], this.shader.attributes.aTextureCoord, gl.UNSIGNED_SHORT, true, this.vertByteSize, 2 * 4).addAttribute(this.vertexBuffers[this.vertexCount], this.shader.attributes.aColor, gl.UNSIGNED_BYTE, true, this.vertByteSize, 3 * 4).addAttribute(this.vertexBuffers[this.vertexCount], this.shader.attributes.aTextureId, gl.FLOAT, false, this.vertByteSize, 4 * 4);
+	
+	                /* eslint-enable max-len */
 	            }
 	
 	            this.renderer.bindVao(this.vaos[this.vertexCount]);
@@ -15974,7 +16209,7 @@
 	    };
 	
 	    /**
-	     * Destroys the SpriteBatch.
+	     * Destroys the SpriteRenderer.
 	     *
 	     */
 	
@@ -16024,14 +16259,14 @@
 	//# sourceMappingURL=SpriteRenderer.js.map
 
 /***/ },
-/* 73 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _WebGLManager2 = __webpack_require__(74);
+	var _WebGLManager2 = __webpack_require__(80);
 	
 	var _WebGLManager3 = _interopRequireDefault(_WebGLManager2);
 	
@@ -16106,7 +16341,7 @@
 	//# sourceMappingURL=ObjectRenderer.js.map
 
 /***/ },
-/* 74 */
+/* 80 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -16165,68 +16400,68 @@
 	//# sourceMappingURL=WebGLManager.js.map
 
 /***/ },
-/* 75 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _SystemRenderer2 = __webpack_require__(64);
+	var _SystemRenderer2 = __webpack_require__(70);
 	
 	var _SystemRenderer3 = _interopRequireDefault(_SystemRenderer2);
 	
-	var _MaskManager = __webpack_require__(76);
+	var _MaskManager = __webpack_require__(82);
 	
 	var _MaskManager2 = _interopRequireDefault(_MaskManager);
 	
-	var _StencilManager = __webpack_require__(82);
+	var _StencilManager = __webpack_require__(88);
 	
 	var _StencilManager2 = _interopRequireDefault(_StencilManager);
 	
-	var _FilterManager = __webpack_require__(83);
+	var _FilterManager = __webpack_require__(89);
 	
 	var _FilterManager2 = _interopRequireDefault(_FilterManager);
 	
-	var _RenderTarget = __webpack_require__(84);
+	var _RenderTarget = __webpack_require__(90);
 	
 	var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
 	
-	var _ObjectRenderer = __webpack_require__(73);
+	var _ObjectRenderer = __webpack_require__(79);
 	
 	var _ObjectRenderer2 = _interopRequireDefault(_ObjectRenderer);
 	
-	var _TextureManager = __webpack_require__(89);
+	var _TextureManager = __webpack_require__(95);
 	
 	var _TextureManager2 = _interopRequireDefault(_TextureManager);
 	
-	var _BaseTexture = __webpack_require__(48);
+	var _BaseTexture = __webpack_require__(54);
 	
 	var _BaseTexture2 = _interopRequireDefault(_BaseTexture);
 	
-	var _TextureGarbageCollector = __webpack_require__(90);
+	var _TextureGarbageCollector = __webpack_require__(96);
 	
 	var _TextureGarbageCollector2 = _interopRequireDefault(_TextureGarbageCollector);
 	
-	var _WebGLState = __webpack_require__(91);
+	var _WebGLState = __webpack_require__(97);
 	
 	var _WebGLState2 = _interopRequireDefault(_WebGLState);
 	
-	var _mapWebGLDrawModesToPixi = __webpack_require__(93);
+	var _mapWebGLDrawModesToPixi = __webpack_require__(99);
 	
 	var _mapWebGLDrawModesToPixi2 = _interopRequireDefault(_mapWebGLDrawModesToPixi);
 	
-	var _validateContext = __webpack_require__(94);
+	var _validateContext = __webpack_require__(100);
 	
 	var _validateContext2 = _interopRequireDefault(_validateContext);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
 	var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -16371,16 +16606,6 @@
 	         */
 	        _this.boundTextures = null;
 	
-	        _this._initContext();
-	        /**
-	         * Manages the filters.
-	         *
-	         * @member {PIXI.FilterManager}
-	         */
-	        _this.filterManager = new _FilterManager2.default(_this);
-	        // map some webGL blend and drawmodes..
-	        _this.drawModes = (0, _mapWebGLDrawModesToPixi2.default)(_this.gl);
-	
 	        /**
 	         * Holds the current shader
 	         *
@@ -16396,6 +16621,17 @@
 	         * @member {PIXI.RenderTarget}
 	         */
 	        _this._activeRenderTarget = null;
+	
+	        _this._initContext();
+	
+	        /**
+	         * Manages the filters.
+	         *
+	         * @member {PIXI.FilterManager}
+	         */
+	        _this.filterManager = new _FilterManager2.default(_this);
+	        // map some webGL blend and drawmodes..
+	        _this.drawModes = (0, _mapWebGLDrawModesToPixi2.default)(_this.gl);
 	
 	        _this._nextTextureLocation = 0;
 	
@@ -16892,18 +17128,18 @@
 	//# sourceMappingURL=WebGLRenderer.js.map
 
 /***/ },
-/* 76 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _WebGLManager2 = __webpack_require__(74);
+	var _WebGLManager2 = __webpack_require__(80);
 	
 	var _WebGLManager3 = _interopRequireDefault(_WebGLManager2);
 	
-	var _SpriteMaskFilter = __webpack_require__(77);
+	var _SpriteMaskFilter = __webpack_require__(83);
 	
 	var _SpriteMaskFilter2 = _interopRequireDefault(_SpriteMaskFilter);
 	
@@ -16952,9 +17188,13 @@
 	
 	
 	    MaskManager.prototype.pushMask = function pushMask(target, maskData) {
+	        // TODO the root check means scissor rect will not
+	        // be used on render textures more info here:
+	        // https://github.com/pixijs/pixi.js/pull/3545
+	
 	        if (maskData.texture) {
 	            this.pushSpriteMask(target, maskData);
-	        } else if (this.enableScissor && !this.scissor && !this.renderer.stencilManager.stencilMaskStack.length && maskData.isFastRect()) {
+	        } else if (this.enableScissor && !this.scissor && this.renderer._activeRenderTarget.root && !this.renderer.stencilManager.stencilMaskStack.length && maskData.isFastRect()) {
 	            var matrix = maskData.worldTransform;
 	
 	            var rot = Math.atan2(matrix.b, matrix.a);
@@ -17102,20 +17342,20 @@
 	//# sourceMappingURL=MaskManager.js.map
 
 /***/ },
-/* 77 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Filter2 = __webpack_require__(78);
+	var _Filter2 = __webpack_require__(84);
 	
 	var _Filter3 = _interopRequireDefault(_Filter2);
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _path = __webpack_require__(80);
+	var _path = __webpack_require__(86);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -17178,7 +17418,7 @@
 	//# sourceMappingURL=SpriteMaskFilter.js.map
 
 /***/ },
-/* 78 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17187,13 +17427,13 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _extractUniformsFromSrc = __webpack_require__(79);
+	var _extractUniformsFromSrc = __webpack_require__(85);
 	
 	var _extractUniformsFromSrc2 = _interopRequireDefault(_extractUniformsFromSrc);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -17344,7 +17584,7 @@
 	//# sourceMappingURL=Filter.js.map
 
 /***/ },
-/* 79 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -17352,7 +17592,7 @@
 	exports.__esModule = true;
 	exports.default = extractUniformsFromSrc;
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
 	var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
 	
@@ -17410,7 +17650,7 @@
 	//# sourceMappingURL=extractUniformsFromSrc.js.map
 
 /***/ },
-/* 80 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -17638,10 +17878,10 @@
 	    }
 	;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(81)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(87)))
 
 /***/ },
-/* 81 */
+/* 87 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -17827,14 +18067,14 @@
 
 
 /***/ },
-/* 82 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _WebGLManager2 = __webpack_require__(74);
+	var _WebGLManager2 = __webpack_require__(80);
 	
 	var _WebGLManager3 = _interopRequireDefault(_WebGLManager2);
 	
@@ -17965,36 +18205,36 @@
 	//# sourceMappingURL=StencilManager.js.map
 
 /***/ },
-/* 83 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _WebGLManager2 = __webpack_require__(74);
+	var _WebGLManager2 = __webpack_require__(80);
 	
 	var _WebGLManager3 = _interopRequireDefault(_WebGLManager2);
 	
-	var _RenderTarget = __webpack_require__(84);
+	var _RenderTarget = __webpack_require__(90);
 	
 	var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
 	
-	var _Quad = __webpack_require__(85);
+	var _Quad = __webpack_require__(91);
 	
 	var _Quad2 = _interopRequireDefault(_Quad);
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _Shader = __webpack_require__(87);
+	var _Shader = __webpack_require__(93);
 	
 	var _Shader2 = _interopRequireDefault(_Shader);
 	
-	var _filterTransforms = __webpack_require__(88);
+	var _filterTransforms = __webpack_require__(94);
 	
 	var filterTransforms = _interopRequireWildcard(_filterTransforms);
 	
-	var _bitTwiddle = __webpack_require__(57);
+	var _bitTwiddle = __webpack_require__(63);
 	
 	var _bitTwiddle2 = _interopRequireDefault(_bitTwiddle);
 	
@@ -18133,11 +18373,10 @@
 	        // bind the render target to draw the shape in the top corner..
 	
 	        renderTarget.setFrame(destinationFrame, sourceFrame);
+	
 	        // bind the render target
 	        renderer.bindRenderTarget(renderTarget);
-	
-	        // clear the renderTarget
-	        renderer.clear(); // [0.5,0.5,0.5, 1.0]);
+	        renderTarget.clear();
 	    };
 	
 	    /**
@@ -18165,6 +18404,9 @@
 	
 	            flop.setFrame(currentState.destinationFrame, currentState.sourceFrame);
 	
+	            // finally lets clear the render target before drawing to it..
+	            flop.clear();
+	
 	            var i = 0;
 	
 	            for (i = 0; i < filters.length - 1; ++i) {
@@ -18176,7 +18418,7 @@
 	                flop = t;
 	            }
 	
-	            filters[i].apply(this, flip, lastState.renderTarget, false);
+	            filters[i].apply(this, flip, lastState.renderTarget, true);
 	
 	            this.freePotRenderTarget(flip);
 	            this.freePotRenderTarget(flop);
@@ -18317,7 +18559,9 @@
 	                    // rather than a renderTarget
 	                    var gl = this.renderer.gl;
 	
+	                    this.renderer.boundTextures[textureCount] = this.renderer.emptyTextures[textureCount];
 	                    gl.activeTexture(gl.TEXTURE0 + textureCount);
+	
 	                    uniforms[i].texture.bind();
 	                }
 	
@@ -18529,22 +18773,22 @@
 	//# sourceMappingURL=FilterManager.js.map
 
 /***/ },
-/* 84 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -18860,18 +19104,18 @@
 	//# sourceMappingURL=RenderTarget.js.map
 
 /***/ },
-/* 85 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
 	var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
 	
-	var _createIndicesForQuads = __webpack_require__(86);
+	var _createIndicesForQuads = __webpack_require__(92);
 	
 	var _createIndicesForQuads2 = _interopRequireDefault(_createIndicesForQuads);
 	
@@ -19037,7 +19281,7 @@
 	//# sourceMappingURL=Quad.js.map
 
 /***/ },
-/* 86 */
+/* 92 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -19075,16 +19319,16 @@
 	//# sourceMappingURL=createIndicesForQuads.js.map
 
 /***/ },
-/* 87 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
@@ -19146,7 +19390,7 @@
 	//# sourceMappingURL=Shader.js.map
 
 /***/ },
-/* 88 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19156,7 +19400,7 @@
 	exports.calculateNormalizedScreenSpaceMatrix = calculateNormalizedScreenSpaceMatrix;
 	exports.calculateSpriteMatrix = calculateSpriteMatrix;
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
 	/*
 	 * Calculates the mapped matrix
@@ -19232,22 +19476,22 @@
 	//# sourceMappingURL=filterTransforms.js.map
 
 /***/ },
-/* 89 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _RenderTarget = __webpack_require__(84);
+	var _RenderTarget = __webpack_require__(90);
 	
 	var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -19321,7 +19565,6 @@
 	    TextureManager.prototype.updateTexture = function updateTexture(texture, location) {
 	        // assume it good!
 	        // texture = texture.baseTexture || texture;
-	        location = location || 0;
 	
 	        var gl = this.gl;
 	
@@ -19330,6 +19573,26 @@
 	        if (!texture.hasLoaded) {
 	            return null;
 	        }
+	
+	        var boundTextures = this.renderer.boundTextures;
+	
+	        // if the location is undefined then this may have been called by n event.
+	        // this being the case the texture may already be bound to a slot. As a texture can only be bound once
+	        // we need to find its current location if it exists.
+	        if (location === undefined) {
+	            location = 0;
+	
+	            // TODO maybe we can use texture bound ids later on...
+	            // check if texture is already bound..
+	            for (var i = 0; i < boundTextures.length; ++i) {
+	                if (boundTextures[i] === texture) {
+	                    location = i;
+	                    break;
+	                }
+	            }
+	        }
+	
+	        boundTextures[location] = texture;
 	
 	        gl.activeTexture(gl.TEXTURE0 + location);
 	
@@ -19384,8 +19647,6 @@
 	            } else {
 	                glTexture.upload(texture.source);
 	            }
-	
-	        this.renderer.boundTextures[location] = texture;
 	
 	        return glTexture;
 	    };
@@ -19466,16 +19727,16 @@
 	//# sourceMappingURL=TextureManager.js.map
 
 /***/ },
-/* 90 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
@@ -19573,7 +19834,8 @@
 	    TextureGarbageCollector.prototype.unload = function unload(displayObject) {
 	        var tm = this.renderer.textureManager;
 	
-	        if (displayObject._texture) {
+	        // only destroy non generated textures
+	        if (displayObject._texture && displayObject._texture._glRenderTargets) {
 	            tm.destroyTexture(displayObject._texture, true);
 	        }
 	
@@ -19589,14 +19851,14 @@
 	//# sourceMappingURL=TextureGarbageCollector.js.map
 
 /***/ },
-/* 91 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _mapWebGLBlendModesToPixi = __webpack_require__(92);
+	var _mapWebGLBlendModesToPixi = __webpack_require__(98);
 	
 	var _mapWebGLBlendModesToPixi2 = _interopRequireDefault(_mapWebGLBlendModesToPixi);
 	
@@ -19865,7 +20127,7 @@
 	//# sourceMappingURL=WebGLState.js.map
 
 /***/ },
-/* 92 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19873,7 +20135,7 @@
 	exports.__esModule = true;
 	exports.default = mapWebGLBlendModesToPixi;
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	/**
 	 * Maps gl blend combinations to WebGL.
@@ -19913,7 +20175,7 @@
 	//# sourceMappingURL=mapWebGLBlendModesToPixi.js.map
 
 /***/ },
-/* 93 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19921,7 +20183,7 @@
 	exports.__esModule = true;
 	exports.default = mapWebGLDrawModesToPixi;
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	/**
 	 * Generic Mask Stack data structure.
@@ -19949,7 +20211,7 @@
 	//# sourceMappingURL=mapWebGLDrawModesToPixi.js.map
 
 /***/ },
-/* 94 */
+/* 100 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -19969,7 +20231,7 @@
 	//# sourceMappingURL=validateContext.js.map
 
 /***/ },
-/* 95 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -19977,18 +20239,18 @@
 	exports.__esModule = true;
 	exports.default = generateMultiTextureShader;
 	
-	var _Shader = __webpack_require__(87);
+	var _Shader = __webpack_require__(93);
 	
 	var _Shader2 = _interopRequireDefault(_Shader);
 	
-	var _path = __webpack_require__(80);
+	var _path = __webpack_require__(86);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var fragTemplate = ['varying vec2 vTextureCoord;', 'varying vec4 vColor;', 'varying float vTextureId;', 'uniform sampler2D uSamplers[%count%];', 'void main(void){', 'vec4 color;', 'float textureId = floor(vTextureId+0.5);', '%forloop%', 'gl_FragColor = color * vColor;', '}'].join('\n');
 	
 	function generateMultiTextureShader(gl, maxTextures) {
-	    var vertexSrc = 'attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\nattribute vec4 aColor;\nattribute float aTextureId;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\nvarying vec4 vColor;\nvarying float vTextureId;\n\nvoid main(void){\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n\n    vTextureCoord = aTextureCoord;\n    vTextureId = aTextureId;\n    vColor = vec4(aColor.rgb * aColor.a, aColor.a);\n}\n';
+	    var vertexSrc = 'precision highp float;\nattribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\nattribute vec4 aColor;\nattribute float aTextureId;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\nvarying vec4 vColor;\nvarying float vTextureId;\n\nvoid main(void){\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n\n    vTextureCoord = aTextureCoord;\n    vTextureId = aTextureId;\n    vColor = vec4(aColor.rgb * aColor.a, aColor.a);\n}\n';
 	    var fragmentSrc = fragTemplate;
 	
 	    fragmentSrc = fragmentSrc.replace(/%count%/gi, maxTextures);
@@ -20036,7 +20298,7 @@
 	//# sourceMappingURL=generateMultiTextureShader.js.map
 
 /***/ },
-/* 96 */
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20044,7 +20306,7 @@
 	exports.__esModule = true;
 	exports.default = checkMaxIfStatmentsInShader;
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
 	var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
 	
@@ -20115,7 +20377,7 @@
 	//# sourceMappingURL=checkMaxIfStatmentsInShader.js.map
 
 /***/ },
-/* 97 */
+/* 103 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -20126,6 +20388,7 @@
 	
 	/**
 	 * @class
+	 * @memberof PIXI
 	 */
 	var Buffer = function () {
 	  /**
@@ -20171,7 +20434,7 @@
 	//# sourceMappingURL=BatchBuffer.js.map
 
 /***/ },
-/* 98 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20180,25 +20443,25 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _Sprite2 = __webpack_require__(46);
+	var _Sprite2 = __webpack_require__(52);
 	
 	var _Sprite3 = _interopRequireDefault(_Sprite2);
 	
-	var _Texture = __webpack_require__(47);
+	var _Texture = __webpack_require__(53);
 	
 	var _Texture2 = _interopRequireDefault(_Texture);
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _settings = __webpack_require__(36);
+	var _settings = __webpack_require__(42);
 	
 	var _settings2 = _interopRequireDefault(_settings);
 	
-	var _TextStyle = __webpack_require__(99);
+	var _TextStyle = __webpack_require__(105);
 	
 	var _TextStyle2 = _interopRequireDefault(_TextStyle);
 	
@@ -20238,11 +20501,12 @@
 	    /**
 	     * @param {string} text - The string that you would like the text to display
 	     * @param {object|PIXI.TextStyle} [style] - The style parameters
+	     * @param {HTMLCanvasElement} [canvas] - The canvas element for drawing text
 	     */
-	    function Text(text, style) {
+	    function Text(text, style, canvas) {
 	        _classCallCheck(this, Text);
 	
-	        var canvas = document.createElement('canvas');
+	        canvas = canvas || document.createElement('canvas');
 	
 	        canvas.width = 3;
 	        canvas.height = 3;
@@ -20362,12 +20626,10 @@
 	            width += style.dropShadowDistance;
 	        }
 	
-	        width += style.padding * 2;
-	
-	        this.canvas.width = Math.ceil((width + this.context.lineWidth) * this.resolution);
+	        this.canvas.width = Math.ceil((width + style.padding * 2) * this.resolution);
 	
 	        // calculate text height
-	        var lineHeight = this.style.lineHeight || fontProperties.fontSize + style.strokeThickness;
+	        var lineHeight = style.lineHeight || fontProperties.fontSize + style.strokeThickness;
 	
 	        var height = Math.max(lineHeight, fontProperties.fontSize + style.strokeThickness) + (lines.length - 1) * lineHeight;
 	
@@ -20375,7 +20637,7 @@
 	            height += style.dropShadowDistance;
 	        }
 	
-	        this.canvas.height = Math.ceil((height + this._style.padding * 2) * this.resolution);
+	        this.canvas.height = Math.ceil((height + style.padding * 2) * this.resolution);
 	
 	        this.context.scale(this.resolution, this.resolution);
 	
@@ -20581,8 +20843,9 @@
 	        // Greedy wrapping algorithm that will wrap words as the line grows longer
 	        // than its horizontal bounds.
 	        var result = '';
+	        var style = this._style;
 	        var lines = text.split('\n');
-	        var wordWrapWidth = this._style.wordWrapWidth;
+	        var wordWrapWidth = style.wordWrapWidth;
 	
 	        for (var i = 0; i < lines.length; i++) {
 	            var spaceLeft = wordWrapWidth;
@@ -20591,7 +20854,7 @@
 	            for (var j = 0; j < words.length; j++) {
 	                var wordWidth = this.context.measureText(words[j]).width;
 	
-	                if (this._style.breakWords && wordWidth > wordWrapWidth) {
+	                if (style.breakWords && wordWidth > wordWrapWidth) {
 	                    // Word should be split in the middle
 	                    var characters = words[j].split('');
 	
@@ -20757,7 +21020,6 @@
 	     * The width of the Text, setting this will actually modify the scale to achieve the value set
 	     *
 	     * @member {number}
-	     * @memberof PIXI.Text#
 	     */
 	
 	
@@ -20779,7 +21041,26 @@
 	        // build canvas api font setting from individual components. Convert a numeric style.fontSize to px
 	        var fontSizeString = typeof style.fontSize === 'number' ? style.fontSize + 'px' : style.fontSize;
 	
-	        return style.fontStyle + ' ' + style.fontVariant + ' ' + style.fontWeight + ' ' + fontSizeString + ' "' + style.fontFamily + '"';
+	        // Clean-up fontFamily property by quoting each font name
+	        // this will support font names with spaces
+	        var fontFamilies = style.fontFamily;
+	
+	        if (!Array.isArray(style.fontFamily)) {
+	            fontFamilies = style.fontFamily.split(',');
+	        }
+	
+	        for (var i = fontFamilies.length - 1; i >= 0; i--) {
+	            // Trim any extra white-space
+	            var fontFamily = fontFamilies[i].trim();
+	
+	            // Check if font already contains strings
+	            if (!/([\"\'])[^\'\"]+\1/.test(fontFamily)) {
+	                fontFamily = '"' + fontFamily + '"';
+	            }
+	            fontFamilies[i] = fontFamily;
+	        }
+	
+	        return style.fontStyle + ' ' + style.fontVariant + ' ' + style.fontWeight + ' ' + fontSizeString + ' ' + fontFamilies.join(',');
 	    };
 	
 	    /**
@@ -20879,21 +21160,15 @@
 	        get: function get() {
 	            this.updateText(true);
 	
-	            return Math.abs(this.scale.x) * this.texture.orig.width;
-	        }
-	
-	        /**
-	         * Sets the width of the text.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	            return Math.abs(this.scale.x) * this._texture.orig.width;
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.updateText(true);
 	
 	            var s = (0, _utils.sign)(this.scale.x) || 1;
 	
-	            this.scale.x = s * value / this.texture.orig.width;
+	            this.scale.x = s * value / this._texture.orig.width;
 	            this._width = value;
 	        }
 	
@@ -20901,7 +21176,6 @@
 	         * The height of the Text, setting this will actually modify the scale to achieve the value set
 	         *
 	         * @member {number}
-	         * @memberof PIXI.Text#
 	         */
 	
 	    }, {
@@ -20910,20 +21184,14 @@
 	            this.updateText(true);
 	
 	            return Math.abs(this.scale.y) * this._texture.orig.height;
-	        }
-	
-	        /**
-	         * Sets the height of the text.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.updateText(true);
 	
 	            var s = (0, _utils.sign)(this.scale.y) || 1;
 	
-	            this.scale.y = s * value / this.texture.orig.height;
+	            this.scale.y = s * value / this._texture.orig.height;
 	            this._height = value;
 	        }
 	
@@ -20932,22 +21200,15 @@
 	         * object and mark the text as dirty.
 	         *
 	         * @member {object|PIXI.TextStyle}
-	         * @memberof PIXI.Text#
 	         */
 	
 	    }, {
 	        key: 'style',
 	        get: function get() {
 	            return this._style;
-	        }
-	
-	        /**
-	         * Sets the style of the text.
-	         *
-	         * @param {object} style - The value to set to.
-	         */
-	        ,
-	        set: function set(style) {
+	        },
+	        set: function set(style) // eslint-disable-line require-jsdoc
+	        {
 	            style = style || {};
 	
 	            if (style instanceof _TextStyle2.default) {
@@ -20964,24 +21225,16 @@
 	         * Set the copy for the text object. To split a line you can use '\n'.
 	         *
 	         * @member {string}
-	         * @memberof PIXI.Text#
 	         */
 	
 	    }, {
 	        key: 'text',
 	        get: function get() {
 	            return this._text;
-	        }
-	
-	        /**
-	         * Sets the text.
-	         *
-	         * @param {string} text - The value to set to.
-	         */
-	        ,
-	        set: function set(text) {
-	            text = text || ' ';
-	            text = text.toString();
+	        },
+	        set: function set(text) // eslint-disable-line require-jsdoc
+	        {
+	            text = String(text || ' ');
 	
 	            if (this._text === text) {
 	                return;
@@ -21003,7 +21256,7 @@
 	//# sourceMappingURL=Text.js.map
 
 /***/ },
-/* 99 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21013,9 +21266,9 @@
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // disabling eslint for now, going to rewrite this in v5
 	/* eslint-disable */
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -21072,7 +21325,7 @@
 	     * {@link https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillStyle|MDN}
 	     * @param {number} [style.fillGradientType=PIXI.TEXT_GRADIENT.LINEAR_VERTICAL] - If fills styles are
 	     *  supplied, this can change the type/direction of the gradient. See {@link PIXI.TEXT_GRADIENT} for possible values
-	     * @param {string} [style.fontFamily='Arial'] - The font family
+	     * @param {string|string[]} [style.fontFamily='Arial'] - The font family
 	     * @param {number|string} [style.fontSize=26] - The font size (as a number it converts to px, but as a string,
 	     *  equivalents are '26px','20pt','160%' or '1.6em')
 	     * @param {string} [style.fontStyle='normal'] - The font style ('normal', 'italic' or 'oblique')
@@ -21114,7 +21367,7 @@
 	    TextStyle.prototype.clone = function clone() {
 	        var clonedProperties = {};
 	
-	        for (var key in this._defaults) {
+	        for (var key in defaultStyle) {
 	            clonedProperties[key] = this[key];
 	        }
 	
@@ -21127,7 +21380,7 @@
 	
 	
 	    TextStyle.prototype.reset = function reset() {
-	        Object.assign(this, this._defaults);
+	        Object.assign(this, defaultStyle);
 	    };
 	
 	    _createClass(TextStyle, [{
@@ -21411,64 +21664,81 @@
 	
 	
 	exports.default = TextStyle;
-	function getColor(color) {
+	function getSingleColor(color) {
 	    if (typeof color === 'number') {
 	        return (0, _utils.hex2string)(color);
-	    } else if (Array.isArray(color)) {
-	        for (var i = 0; i < color.length; ++i) {
-	            if (typeof color[i] === 'number') {
-	                color[i] = (0, _utils.hex2string)(color[i]);
-	            }
+	    } else if (typeof color === 'string') {
+	        if (color.indexOf('0x') === 0) {
+	            color = color.replace('0x', '#');
 	        }
 	    }
 	
 	    return color;
 	}
+	
+	/**
+	 * Utility function to convert hexadecimal colors to strings, and simply return the color if it's a string.
+	 * This version can also convert array of colors
+	 *
+	 * @param {number|number[]} color
+	 * @return {string} The color as a string.
+	 */
+	function getColor(color) {
+	    if (!Array.isArray(color)) {
+	        return getSingleColor(color);
+	    } else {
+	        for (var i = 0; i < color.length; ++i) {
+	            color[i] = getSingleColor(color[i]);
+	        }
+	
+	        return color;
+	    }
+	}
 	//# sourceMappingURL=TextStyle.js.map
 
 /***/ },
-/* 100 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Container2 = __webpack_require__(43);
+	var _Container2 = __webpack_require__(49);
 	
 	var _Container3 = _interopRequireDefault(_Container2);
 	
-	var _RenderTexture = __webpack_require__(65);
+	var _RenderTexture = __webpack_require__(71);
 	
 	var _RenderTexture2 = _interopRequireDefault(_RenderTexture);
 	
-	var _Texture = __webpack_require__(47);
+	var _Texture = __webpack_require__(53);
 	
 	var _Texture2 = _interopRequireDefault(_Texture);
 	
-	var _GraphicsData = __webpack_require__(101);
+	var _GraphicsData = __webpack_require__(107);
 	
 	var _GraphicsData2 = _interopRequireDefault(_GraphicsData);
 	
-	var _Sprite = __webpack_require__(46);
+	var _Sprite = __webpack_require__(52);
 	
 	var _Sprite2 = _interopRequireDefault(_Sprite);
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _Bounds = __webpack_require__(33);
+	var _Bounds = __webpack_require__(39);
 	
 	var _Bounds2 = _interopRequireDefault(_Bounds);
 	
-	var _bezierCurveTo2 = __webpack_require__(102);
+	var _bezierCurveTo2 = __webpack_require__(108);
 	
 	var _bezierCurveTo3 = _interopRequireDefault(_bezierCurveTo2);
 	
-	var _CanvasRenderer = __webpack_require__(63);
+	var _CanvasRenderer = __webpack_require__(69);
 	
 	var _CanvasRenderer2 = _interopRequireDefault(_CanvasRenderer);
 	
@@ -21950,14 +22220,16 @@
 	        var startX = cx + Math.cos(startAngle) * radius;
 	        var startY = cy + Math.sin(startAngle) * radius;
 	
-	        var points = this.currentPath.shape.points;
+	        // If the currentPath exists, take its points. Otherwise call `moveTo` to start a path.
+	        var points = this.currentPath ? this.currentPath.shape.points : null;
 	
-	        if (this.currentPath) {
+	        if (points) {
 	            if (points[points.length - 2] !== startX || points[points.length - 1] !== startY) {
 	                points.push(startX, startY);
 	            }
 	        } else {
 	            this.moveTo(startX, startY);
+	            points = this.currentPath.shape.points;
 	        }
 	
 	        var theta = sweep / (segs * 2);
@@ -22147,10 +22419,14 @@
 	            this.lineWidth = 0;
 	            this.filling = false;
 	
+	            this.boundsDirty = -1;
 	            this.dirty++;
 	            this.clearDirty++;
 	            this.graphicsData.length = 0;
 	        }
+	
+	        this.currentPath = null;
+	        this._spriteRect = null;
 	
 	        return this;
 	    };
@@ -22278,7 +22554,6 @@
 	            this.boundsDirty = this.dirty;
 	            this.updateLocalBounds();
 	
-	            this.dirty++;
 	            this.cachedSpriteDirty = true;
 	        }
 	
@@ -22542,6 +22817,10 @@
 	     *  options have been set to that value
 	     * @param {boolean} [options.children=false] - if set to true, all the children will have
 	     *  their destroy method called as well. 'options' will be passed on to those calls.
+	     * @param {boolean} [options.texture=false] - Only used for child Sprites if options.children is set to true
+	     *  Should it destroy the texture of the child sprite
+	     * @param {boolean} [options.baseTexture=false] - Only used for child Sprites if options.children is set to true
+	     *  Should it destroy the base texture of the child sprite
 	     */
 	
 	
@@ -22581,7 +22860,7 @@
 	//# sourceMappingURL=Graphics.js.map
 
 /***/ },
-/* 101 */
+/* 107 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22702,7 +22981,7 @@
 	//# sourceMappingURL=GraphicsData.js.map
 
 /***/ },
-/* 102 */
+/* 108 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22756,46 +23035,46 @@
 	//# sourceMappingURL=bezierCurveTo.js.map
 
 /***/ },
-/* 103 */
+/* 109 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _ObjectRenderer2 = __webpack_require__(73);
+	var _ObjectRenderer2 = __webpack_require__(79);
 	
 	var _ObjectRenderer3 = _interopRequireDefault(_ObjectRenderer2);
 	
-	var _WebGLRenderer = __webpack_require__(75);
+	var _WebGLRenderer = __webpack_require__(81);
 	
 	var _WebGLRenderer2 = _interopRequireDefault(_WebGLRenderer);
 	
-	var _WebGLGraphicsData = __webpack_require__(104);
+	var _WebGLGraphicsData = __webpack_require__(110);
 	
 	var _WebGLGraphicsData2 = _interopRequireDefault(_WebGLGraphicsData);
 	
-	var _PrimitiveShader = __webpack_require__(105);
+	var _PrimitiveShader = __webpack_require__(111);
 	
 	var _PrimitiveShader2 = _interopRequireDefault(_PrimitiveShader);
 	
-	var _buildPoly = __webpack_require__(106);
+	var _buildPoly = __webpack_require__(112);
 	
 	var _buildPoly2 = _interopRequireDefault(_buildPoly);
 	
-	var _buildRectangle = __webpack_require__(109);
+	var _buildRectangle = __webpack_require__(115);
 	
 	var _buildRectangle2 = _interopRequireDefault(_buildRectangle);
 	
-	var _buildRoundedRectangle = __webpack_require__(110);
+	var _buildRoundedRectangle = __webpack_require__(116);
 	
 	var _buildRoundedRectangle2 = _interopRequireDefault(_buildRoundedRectangle);
 	
-	var _buildCircle = __webpack_require__(111);
+	var _buildCircle = __webpack_require__(117);
 	
 	var _buildCircle2 = _interopRequireDefault(_buildCircle);
 	
@@ -23013,14 +23292,14 @@
 	//# sourceMappingURL=GraphicsRenderer.js.map
 
 /***/ },
-/* 104 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
 	var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
 	
@@ -23154,14 +23433,14 @@
 	//# sourceMappingURL=WebGLGraphicsData.js.map
 
 /***/ },
-/* 105 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Shader2 = __webpack_require__(87);
+	var _Shader2 = __webpack_require__(93);
 	
 	var _Shader3 = _interopRequireDefault(_Shader2);
 	
@@ -23203,7 +23482,7 @@
 	//# sourceMappingURL=PrimitiveShader.js.map
 
 /***/ },
-/* 106 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23211,13 +23490,13 @@
 	exports.__esModule = true;
 	exports.default = buildPoly;
 	
-	var _buildLine = __webpack_require__(107);
+	var _buildLine = __webpack_require__(113);
 	
 	var _buildLine2 = _interopRequireDefault(_buildLine);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
-	var _earcut = __webpack_require__(108);
+	var _earcut = __webpack_require__(114);
 	
 	var _earcut2 = _interopRequireDefault(_earcut);
 	
@@ -23292,7 +23571,7 @@
 	//# sourceMappingURL=buildPoly.js.map
 
 /***/ },
-/* 107 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -23300,9 +23579,9 @@
 	exports.__esModule = true;
 	exports.default = buildLine;
 	
-	var _math = __webpack_require__(7);
+	var _math = __webpack_require__(12);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
 	/**
 	 * Builds a line to draw
@@ -23505,7 +23784,7 @@
 	//# sourceMappingURL=buildLine.js.map
 
 /***/ },
-/* 108 */
+/* 114 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -24155,7 +24434,7 @@
 
 
 /***/ },
-/* 109 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24163,11 +24442,11 @@
 	exports.__esModule = true;
 	exports.default = buildRectangle;
 	
-	var _buildLine = __webpack_require__(107);
+	var _buildLine = __webpack_require__(113);
 	
 	var _buildLine2 = _interopRequireDefault(_buildLine);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -24234,7 +24513,7 @@
 	//# sourceMappingURL=buildRectangle.js.map
 
 /***/ },
-/* 110 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24242,15 +24521,15 @@
 	exports.__esModule = true;
 	exports.default = buildRoundedRectangle;
 	
-	var _earcut = __webpack_require__(108);
+	var _earcut = __webpack_require__(114);
 	
 	var _earcut2 = _interopRequireDefault(_earcut);
 	
-	var _buildLine = __webpack_require__(107);
+	var _buildLine = __webpack_require__(113);
 	
 	var _buildLine2 = _interopRequireDefault(_buildLine);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -24380,7 +24659,7 @@
 	//# sourceMappingURL=buildRoundedRectangle.js.map
 
 /***/ },
-/* 111 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24388,13 +24667,13 @@
 	exports.__esModule = true;
 	exports.default = buildCircle;
 	
-	var _buildLine = __webpack_require__(107);
+	var _buildLine = __webpack_require__(113);
 	
 	var _buildLine2 = _interopRequireDefault(_buildLine);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _utils = __webpack_require__(44);
+	var _utils = __webpack_require__(50);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -24472,18 +24751,18 @@
 	//# sourceMappingURL=buildCircle.js.map
 
 /***/ },
-/* 112 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _CanvasRenderer = __webpack_require__(63);
+	var _CanvasRenderer = __webpack_require__(69);
 	
 	var _CanvasRenderer2 = _interopRequireDefault(_CanvasRenderer);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -24498,7 +24777,7 @@
 	 * now share 4 bytes on the vertex buffer
 	 *
 	 * Heavily inspired by LibGDX's CanvasGraphicsRenderer:
-	 * https://github.com/libgdx/libgdx/blob/master/gdx/src/com/badlogic/gdx/graphics/g2d/CanvasGraphicsRenderer.java
+	 * https://github.com/libgdx/libgdx/blob/1.0.0/gdx/src/com/badlogic/gdx/graphics/glutils/ShapeRenderer.java
 	 */
 	
 	/**
@@ -24745,14 +25024,217 @@
 	//# sourceMappingURL=CanvasGraphicsRenderer.js.map
 
 /***/ },
-/* 113 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Mesh = __webpack_require__(114);
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _autoDetectRenderer = __webpack_require__(120);
+	
+	var _Container = __webpack_require__(49);
+	
+	var _Container2 = _interopRequireDefault(_Container);
+	
+	var _Ticker = __webpack_require__(66);
+	
+	var _Ticker2 = _interopRequireDefault(_Ticker);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	/**
+	 * Convenience class to create a new PIXI application.
+	 * This class automatically creates the renderer, ticker
+	 * and root container.
+	 *
+	 * @example
+	 * // Create the application
+	 * const app = new PIXI.Application();
+	 *
+	 * // Add the view to the DOM
+	 * document.body.appendChild(app.view);
+	 *
+	 * // ex, add display objects
+	 * app.stage.addChild(PIXI.Sprite.fromImage('something.png'));
+	 *
+	 * @class
+	 * @memberof PIXI
+	 */
+	var Application = function () {
+	  /**
+	   * @param {number} [width=800] - the width of the renderers view
+	   * @param {number} [height=600] - the height of the renderers view
+	   * @param {object} [options] - The optional renderer parameters
+	   * @param {HTMLCanvasElement} [options.view] - the canvas to use as a view, optional
+	   * @param {boolean} [options.transparent=false] - If the render view is transparent, default false
+	   * @param {boolean} [options.antialias=false] - sets antialias (only applicable in chrome at the moment)
+	   * @param {boolean} [options.preserveDrawingBuffer=false] - enables drawing buffer preservation, enable this if you
+	   *      need to call toDataUrl on the webgl context
+	   * @param {number} [options.resolution=1] - The resolution / device pixel ratio of the renderer, retina would be 2
+	   * @param {boolean} [noWebGL=false] - prevents selection of WebGL renderer, even if such is present
+	   */
+	  function Application(width, height, options, noWebGL) {
+	    _classCallCheck(this, Application);
+	
+	    /**
+	     * WebGL renderer if available, otherwise CanvasRenderer
+	     * @member {PIXI.WebGLRenderer|PIXI.CanvasRenderer}
+	     */
+	    this.renderer = (0, _autoDetectRenderer.autoDetectRenderer)(width, height, options, noWebGL);
+	
+	    /**
+	     * The root display container that's renderered.
+	     * @member {PIXI.Container}
+	     */
+	    this.stage = new _Container2.default();
+	
+	    /**
+	     * Ticker for doing render updates.
+	     * @member {PIXI.ticker.Ticker}
+	     */
+	    this.ticker = new _Ticker2.default();
+	
+	    this.ticker.add(this.render, this);
+	
+	    // Start the rendering
+	    this.start();
+	  }
+	
+	  /**
+	   * Render the current stage.
+	   */
+	
+	
+	  Application.prototype.render = function render() {
+	    this.renderer.render(this.stage);
+	  };
+	
+	  /**
+	   * Convenience method for stopping the render.
+	   */
+	
+	
+	  Application.prototype.stop = function stop() {
+	    this.ticker.stop();
+	  };
+	
+	  /**
+	   * Convenience method for starting the render.
+	   */
+	
+	
+	  Application.prototype.start = function start() {
+	    this.ticker.start();
+	  };
+	
+	  /**
+	   * Reference to the renderer's canvas element.
+	   * @member {HTMLCanvasElement}
+	   * @readonly
+	   */
+	
+	
+	  /**
+	   * Destroy and don't use after this.
+	   * @param {Boolean} [removeView=false] Automatically remove canvas from DOM.
+	   */
+	  Application.prototype.destroy = function destroy(removeView) {
+	    this.stop();
+	    this.ticker.remove(this.render, this);
+	    this.ticker = null;
+	
+	    this.stage.destroy();
+	    this.stage = null;
+	
+	    this.renderer.destroy(removeView);
+	    this.renderer = null;
+	  };
+	
+	  _createClass(Application, [{
+	    key: 'view',
+	    get: function get() {
+	      return this.renderer.view;
+	    }
+	  }]);
+	
+	  return Application;
+	}();
+	
+	exports.default = Application;
+	//# sourceMappingURL=Application.js.map
+
+/***/ },
+/* 120 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports.autoDetectRenderer = autoDetectRenderer;
+	
+	var _utils = __webpack_require__(50);
+	
+	var utils = _interopRequireWildcard(_utils);
+	
+	var _CanvasRenderer = __webpack_require__(69);
+	
+	var _CanvasRenderer2 = _interopRequireDefault(_CanvasRenderer);
+	
+	var _WebGLRenderer = __webpack_require__(81);
+	
+	var _WebGLRenderer2 = _interopRequireDefault(_WebGLRenderer);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	/**
+	 * This helper function will automatically detect which renderer you should be using.
+	 * WebGL is the preferred renderer as it is a lot faster. If webGL is not supported by
+	 * the browser then this function will return a canvas renderer
+	 *
+	 * @memberof PIXI
+	 * @function autoDetectRenderer
+	 * @param {number} [width=800] - the width of the renderers view
+	 * @param {number} [height=600] - the height of the renderers view
+	 * @param {object} [options] - The optional renderer parameters
+	 * @param {HTMLCanvasElement} [options.view] - the canvas to use as a view, optional
+	 * @param {boolean} [options.transparent=false] - If the render view is transparent, default false
+	 * @param {boolean} [options.antialias=false] - sets antialias (only applicable in chrome at the moment)
+	 * @param {boolean} [options.preserveDrawingBuffer=false] - enables drawing buffer preservation, enable this if you
+	 *      need to call toDataUrl on the webgl context
+	 * @param {number} [options.resolution=1] - The resolution / device pixel ratio of the renderer, retina would be 2
+	 * @param {boolean} [noWebGL=false] - prevents selection of WebGL renderer, even if such is present
+	 * @return {PIXI.WebGLRenderer|PIXI.CanvasRenderer} Returns WebGL renderer if available, otherwise CanvasRenderer
+	 */
+	function autoDetectRenderer() {
+	    var width = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 800;
+	    var height = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 600;
+	    var options = arguments[2];
+	    var noWebGL = arguments[3];
+	
+	    if (!noWebGL && utils.isWebGLSupported()) {
+	        return new _WebGLRenderer2.default(width, height, options);
+	    }
+	
+	    return new _CanvasRenderer2.default(width, height, options);
+	}
+	//# sourceMappingURL=autoDetectRenderer.js.map
+
+/***/ },
+/* 121 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _Mesh = __webpack_require__(122);
 	
 	Object.defineProperty(exports, 'Mesh', {
 	  enumerable: true,
@@ -24761,7 +25243,7 @@
 	  }
 	});
 	
-	var _MeshRenderer = __webpack_require__(115);
+	var _MeshRenderer = __webpack_require__(123);
 	
 	Object.defineProperty(exports, 'MeshRenderer', {
 	  enumerable: true,
@@ -24770,7 +25252,7 @@
 	  }
 	});
 	
-	var _CanvasMeshRenderer = __webpack_require__(116);
+	var _CanvasMeshRenderer = __webpack_require__(124);
 	
 	Object.defineProperty(exports, 'CanvasMeshRenderer', {
 	  enumerable: true,
@@ -24779,7 +25261,7 @@
 	  }
 	});
 	
-	var _Plane = __webpack_require__(117);
+	var _Plane = __webpack_require__(125);
 	
 	Object.defineProperty(exports, 'Plane', {
 	  enumerable: true,
@@ -24788,7 +25270,7 @@
 	  }
 	});
 	
-	var _NineSlicePlane = __webpack_require__(118);
+	var _NineSlicePlane = __webpack_require__(126);
 	
 	Object.defineProperty(exports, 'NineSlicePlane', {
 	  enumerable: true,
@@ -24797,7 +25279,7 @@
 	  }
 	});
 	
-	var _Rope = __webpack_require__(119);
+	var _Rope = __webpack_require__(127);
 	
 	Object.defineProperty(exports, 'Rope', {
 	  enumerable: true,
@@ -24810,7 +25292,7 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 114 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -24819,7 +25301,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
@@ -24939,7 +25421,6 @@
 	     * tint effect.
 	     *
 	     * @member {number}
-	     * @memberof PIXI.mesh.Mesh#
 	     */
 	    _this.tintRgb = new Float32Array([1, 1, 1]);
 	
@@ -24950,6 +25431,15 @@
 	     * @member {object<number, object>}
 	     */
 	    _this._glDatas = {};
+	
+	    /**
+	     * Plugin that is responsible for rendering this element.
+	     * Allows to customize the rendering process without overriding '_renderWebGL' & '_renderCanvas' methods.
+	     *
+	     * @member {string}
+	     * @default 'mesh'
+	     */
+	    _this.pluginName = 'mesh';
 	    return _this;
 	  }
 	
@@ -24962,8 +25452,8 @@
 	
 	
 	  Mesh.prototype._renderWebGL = function _renderWebGL(renderer) {
-	    renderer.setObjectRenderer(renderer.plugins.mesh);
-	    renderer.plugins.mesh.render(this);
+	    renderer.setObjectRenderer(renderer.plugins[this.pluginName]);
+	    renderer.plugins[this.pluginName].render(this);
 	  };
 	
 	  /**
@@ -24975,7 +25465,7 @@
 	
 	
 	  Mesh.prototype._renderCanvas = function _renderCanvas(renderer) {
-	    renderer.plugins.mesh.render(this);
+	    renderer.plugins[this.pluginName].render(this);
 	  };
 	
 	  /**
@@ -25045,7 +25535,6 @@
 	   * The texture that the mesh uses.
 	   *
 	   * @member {PIXI.Texture}
-	   * @memberof PIXI.mesh.Mesh#
 	   */
 	
 	
@@ -25053,15 +25542,9 @@
 	    key: 'texture',
 	    get: function get() {
 	      return this._texture;
-	    }
-	
-	    /**
-	     * Sets the texture the mesh uses.
-	     *
-	     * @param {Texture} value - The value to set.
-	     */
-	    ,
-	    set: function set(value) {
+	    },
+	    set: function set(value) // eslint-disable-line require-jsdoc
+	    {
 	      if (this._texture === value) {
 	        return;
 	      }
@@ -25082,7 +25565,6 @@
 	     * The tint applied to the mesh. This is a hex value. A value of 0xFFFFFF will remove any tint effect.
 	     *
 	     * @member {number}
-	     * @memberof PIXI.mesh.Mesh#
 	     * @default 0xFFFFFF
 	     */
 	
@@ -25090,15 +25572,9 @@
 	    key: 'tint',
 	    get: function get() {
 	      return core.utils.rgb2hex(this.tintRgb);
-	    }
-	
-	    /**
-	     * Sets the tint the mesh uses.
-	     *
-	     * @param {number} value - The value to set.
-	     */
-	    ,
-	    set: function set(value) {
+	    },
+	    set: function set(value) // eslint-disable-line require-jsdoc
+	    {
 	      this.tintRgb = core.utils.hex2rgb(value, this.tintRgb);
 	    }
 	  }]);
@@ -25125,26 +25601,26 @@
 	//# sourceMappingURL=Mesh.js.map
 
 /***/ },
-/* 115 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
 	var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
 	
-	var _Mesh = __webpack_require__(114);
+	var _Mesh = __webpack_require__(122);
 	
 	var _Mesh2 = _interopRequireDefault(_Mesh);
 	
-	var _path = __webpack_require__(80);
+	var _path = __webpack_require__(86);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -25158,6 +25634,10 @@
 	
 	/**
 	 * WebGL renderer plugin for tiling sprites
+	 *
+	 * @class
+	 * @memberof PIXI
+	 * @extends PIXI.ObjectRenderer
 	 */
 	var MeshRenderer = function (_core$ObjectRenderer) {
 	    _inherits(MeshRenderer, _core$ObjectRenderer);
@@ -25227,6 +25707,8 @@
 	            mesh._glDatas[renderer.CONTEXT_UID] = glData;
 	        }
 	
+	        renderer.bindVao(glData.vao);
+	
 	        if (mesh.dirty !== glData.dirty) {
 	            glData.dirty = mesh.dirty;
 	            glData.uvBuffer.upload(mesh.uvs);
@@ -25251,7 +25733,6 @@
 	
 	        var drawMode = mesh.drawMode === _Mesh2.default.DRAW_MODES.TRIANGLE_MESH ? gl.TRIANGLE_STRIP : gl.TRIANGLES;
 	
-	        renderer.bindVao(glData.vao);
 	        glData.vao.draw(drawMode, mesh.indices.length, 0);
 	    };
 	
@@ -25265,18 +25746,18 @@
 	//# sourceMappingURL=MeshRenderer.js.map
 
 /***/ },
-/* 116 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _Mesh = __webpack_require__(114);
+	var _Mesh = __webpack_require__(122);
 	
 	var _Mesh2 = _interopRequireDefault(_Mesh);
 	
@@ -25533,14 +26014,14 @@
 	//# sourceMappingURL=CanvasMeshRenderer.js.map
 
 /***/ },
-/* 117 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Mesh2 = __webpack_require__(114);
+	var _Mesh2 = __webpack_require__(122);
 	
 	var _Mesh3 = _interopRequireDefault(_Mesh2);
 	
@@ -25680,7 +26161,7 @@
 	//# sourceMappingURL=Plane.js.map
 
 /***/ },
-/* 118 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25689,7 +26170,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _Plane2 = __webpack_require__(117);
+	var _Plane2 = __webpack_require__(125);
 	
 	var _Plane3 = _interopRequireDefault(_Plane2);
 	
@@ -25788,6 +26269,8 @@
 	         * The width of the left column (a)
 	         *
 	         * @member {number}
+	         * @memberof PIXI.NineSlicePlane#
+	         * @override
 	         */
 	        _this.leftWidth = typeof leftWidth !== 'undefined' ? leftWidth : DEFAULT_BORDER_SIZE;
 	
@@ -25795,6 +26278,8 @@
 	         * The width of the right column (b)
 	         *
 	         * @member {number}
+	         * @memberof PIXI.NineSlicePlane#
+	         * @override
 	         */
 	        _this.rightWidth = typeof rightWidth !== 'undefined' ? rightWidth : DEFAULT_BORDER_SIZE;
 	
@@ -25802,6 +26287,8 @@
 	         * The height of the top row (c)
 	         *
 	         * @member {number}
+	         * @memberof PIXI.NineSlicePlane#
+	         * @override
 	         */
 	        _this.topHeight = typeof topHeight !== 'undefined' ? topHeight : DEFAULT_BORDER_SIZE;
 	
@@ -25809,6 +26296,8 @@
 	         * The height of the bottom row (d)
 	         *
 	         * @member {number}
+	         * @memberof PIXI.NineSlicePlane#
+	         * @override
 	         */
 	        _this.bottomHeight = typeof bottomHeight !== 'undefined' ? bottomHeight : DEFAULT_BORDER_SIZE;
 	        return _this;
@@ -25933,7 +26422,6 @@
 	     * The width of the NineSlicePlane, setting this will actually modify the vertices and UV's of this plane
 	     *
 	     * @member {number}
-	     * @memberof PIXI.NineSlicePlane#
 	     */
 	
 	
@@ -25941,15 +26429,9 @@
 	        key: 'width',
 	        get: function get() {
 	            return this._width;
-	        }
-	
-	        /**
-	         * Sets the width.
-	         *
-	         * @param {number} value - the value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._width = value;
 	            this.updateVerticalVertices();
 	        }
@@ -25958,22 +26440,15 @@
 	         * The height of the NineSlicePlane, setting this will actually modify the vertices and UV's of this plane
 	         *
 	         * @member {number}
-	         * @memberof PIXI.NineSlicePlane#
 	         */
 	
 	    }, {
 	        key: 'height',
 	        get: function get() {
 	            return this._height;
-	        }
-	
-	        /**
-	         * Sets the height.
-	         *
-	         * @param {number} value - the value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._height = value;
 	            this.updateHorizontalVertices();
 	        }
@@ -25988,15 +26463,9 @@
 	        key: 'leftWidth',
 	        get: function get() {
 	            return this._leftWidth;
-	        }
-	
-	        /**
-	         * Sets the width of the left column.
-	         *
-	         * @param {number} value - the value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._leftWidth = value;
 	
 	            var uvs = this.uvs;
@@ -26018,15 +26487,9 @@
 	        key: 'rightWidth',
 	        get: function get() {
 	            return this._rightWidth;
-	        }
-	
-	        /**
-	         * Sets the width of the right column.
-	         *
-	         * @param {number} value - the value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._rightWidth = value;
 	
 	            var uvs = this.uvs;
@@ -26048,15 +26511,9 @@
 	        key: 'topHeight',
 	        get: function get() {
 	            return this._topHeight;
-	        }
-	
-	        /**
-	         * Sets the height of the top row.
-	         *
-	         * @param {number} value - the value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._topHeight = value;
 	
 	            var uvs = this.uvs;
@@ -26078,15 +26535,9 @@
 	        key: 'bottomHeight',
 	        get: function get() {
 	            return this._bottomHeight;
-	        }
-	
-	        /**
-	         * Sets the height of the bottom row.
-	         *
-	         * @param {number} value - the value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._bottomHeight = value;
 	
 	            var uvs = this.uvs;
@@ -26106,18 +26557,18 @@
 	//# sourceMappingURL=NineSlicePlane.js.map
 
 /***/ },
-/* 119 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Mesh2 = __webpack_require__(114);
+	var _Mesh2 = __webpack_require__(122);
 	
 	var _Mesh3 = _interopRequireDefault(_Mesh2);
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
@@ -26225,12 +26676,12 @@
 	
 	        var textureUvs = this._texture._uvs;
 	        var offset = new core.Point(textureUvs.x0, textureUvs.y0);
-	        var factor = new core.Point(textureUvs.x2 - textureUvs.x0, textureUvs.y2 - textureUvs.y0);
+	        var factor = new core.Point(textureUvs.x2 - textureUvs.x0, Number(textureUvs.y2 - textureUvs.y0));
 	
 	        uvs[0] = 0 + offset.x;
 	        uvs[1] = 0 + offset.y;
 	        uvs[2] = 0 + offset.x;
-	        uvs[3] = Number(factor.y) + offset.y;
+	        uvs[3] = factor.y + offset.y;
 	
 	        colors[0] = 1;
 	        colors[1] = 1;
@@ -26249,7 +26700,7 @@
 	            uvs[index + 1] = 0 + offset.y;
 	
 	            uvs[index + 2] = amount * factor.x + offset.x;
-	            uvs[index + 3] = Number(factor.y) + offset.y;
+	            uvs[index + 3] = factor.y + offset.y;
 	
 	            index = i * 2;
 	            colors[index] = 1;
@@ -26351,14 +26802,14 @@
 	//# sourceMappingURL=Rope.js.map
 
 /***/ },
-/* 120 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _ParticleContainer = __webpack_require__(121);
+	var _ParticleContainer = __webpack_require__(129);
 	
 	Object.defineProperty(exports, 'ParticleContainer', {
 	  enumerable: true,
@@ -26367,7 +26818,7 @@
 	  }
 	});
 	
-	var _ParticleRenderer = __webpack_require__(122);
+	var _ParticleRenderer = __webpack_require__(130);
 	
 	Object.defineProperty(exports, 'ParticleRenderer', {
 	  enumerable: true,
@@ -26380,14 +26831,14 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 121 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
@@ -26641,7 +27092,7 @@
 	                continue;
 	            }
 	
-	            var frame = child.texture.frame;
+	            var frame = child._texture.frame;
 	
 	            context.globalAlpha = this.worldAlpha * child.alpha;
 	
@@ -26680,9 +27131,9 @@
 	                finalHeight = frame.height;
 	            }
 	
-	            var resolution = child.texture.baseTexture.resolution;
+	            var resolution = child._texture.baseTexture.resolution;
 	
-	            context.drawImage(child.texture.baseTexture.source, frame.x * resolution, frame.y * resolution, frame.width * resolution, frame.height * resolution, positionX * resolution, positionY * resolution, finalWidth * resolution, finalHeight * resolution);
+	            context.drawImage(child._texture.baseTexture.source, frame.x * resolution, frame.y * resolution, frame.width * resolution, frame.height * resolution, positionX * resolution, positionY * resolution, finalWidth * resolution, finalHeight * resolution);
 	        }
 	    };
 	
@@ -26693,6 +27144,10 @@
 	     *  have been set to that value
 	     * @param {boolean} [options.children=false] - if set to true, all the children will have their
 	     *  destroy method called as well. 'options' will be passed on to those calls.
+	     * @param {boolean} [options.texture=false] - Only used for child Sprites if options.children is set to true
+	     *  Should it destroy the texture of the child sprite
+	     * @param {boolean} [options.baseTexture=false] - Only used for child Sprites if options.children is set to true
+	     *  Should it destroy the base texture of the child sprite
 	     */
 	
 	
@@ -26716,22 +27171,22 @@
 	//# sourceMappingURL=ParticleContainer.js.map
 
 /***/ },
-/* 122 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _ParticleShader = __webpack_require__(123);
+	var _ParticleShader = __webpack_require__(131);
 	
 	var _ParticleShader2 = _interopRequireDefault(_ParticleShader);
 	
-	var _ParticleBuffer = __webpack_require__(124);
+	var _ParticleBuffer = __webpack_require__(132);
 	
 	var _ParticleBuffer2 = _interopRequireDefault(_ParticleBuffer);
 	
@@ -27164,14 +27619,14 @@
 	//# sourceMappingURL=ParticleRenderer.js.map
 
 /***/ },
-/* 123 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _Shader2 = __webpack_require__(87);
+	var _Shader2 = __webpack_require__(93);
 	
 	var _Shader3 = _interopRequireDefault(_Shader2);
 	
@@ -27211,18 +27666,18 @@
 	//# sourceMappingURL=ParticleShader.js.map
 
 /***/ },
-/* 124 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _pixiGlCore = __webpack_require__(17);
+	var _pixiGlCore = __webpack_require__(22);
 	
 	var _pixiGlCore2 = _interopRequireDefault(_pixiGlCore);
 	
-	var _createIndicesForQuads = __webpack_require__(86);
+	var _createIndicesForQuads = __webpack_require__(92);
 	
 	var _createIndicesForQuads2 = _interopRequireDefault(_createIndicesForQuads);
 	
@@ -27455,7 +27910,7 @@
 	//# sourceMappingURL=ParticleBuffer.js.map
 
 /***/ },
-/* 125 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27463,7 +27918,7 @@
 	exports.__esModule = true;
 	exports.BitmapText = exports.TilingSpriteRenderer = exports.TilingSprite = exports.AnimatedSprite = exports.TextureTransform = undefined;
 	
-	var _TextureTransform = __webpack_require__(126);
+	var _TextureTransform = __webpack_require__(134);
 	
 	Object.defineProperty(exports, 'TextureTransform', {
 	  enumerable: true,
@@ -27472,7 +27927,7 @@
 	  }
 	});
 	
-	var _AnimatedSprite = __webpack_require__(127);
+	var _AnimatedSprite = __webpack_require__(135);
 	
 	Object.defineProperty(exports, 'AnimatedSprite', {
 	  enumerable: true,
@@ -27481,7 +27936,7 @@
 	  }
 	});
 	
-	var _TilingSprite = __webpack_require__(128);
+	var _TilingSprite = __webpack_require__(136);
 	
 	Object.defineProperty(exports, 'TilingSprite', {
 	  enumerable: true,
@@ -27490,7 +27945,7 @@
 	  }
 	});
 	
-	var _TilingSpriteRenderer = __webpack_require__(129);
+	var _TilingSpriteRenderer = __webpack_require__(137);
 	
 	Object.defineProperty(exports, 'TilingSpriteRenderer', {
 	  enumerable: true,
@@ -27499,7 +27954,7 @@
 	  }
 	});
 	
-	var _BitmapText = __webpack_require__(130);
+	var _BitmapText = __webpack_require__(138);
 	
 	Object.defineProperty(exports, 'BitmapText', {
 	  enumerable: true,
@@ -27508,11 +27963,11 @@
 	  }
 	});
 	
-	__webpack_require__(131);
+	__webpack_require__(139);
 	
-	__webpack_require__(132);
+	__webpack_require__(140);
 	
-	__webpack_require__(133);
+	__webpack_require__(141);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -27520,7 +27975,7 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 126 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27529,7 +27984,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _Matrix = __webpack_require__(10);
+	var _Matrix = __webpack_require__(15);
 	
 	var _Matrix2 = _interopRequireDefault(_Matrix);
 	
@@ -27541,6 +27996,9 @@
 	
 	/**
 	 * class controls uv transform and frame clamp for texture
+	 *
+	 * @class
+	 * @memberof PIXI.extras
 	 */
 	
 	var TextureTransform = function () {
@@ -27566,7 +28024,7 @@
 	        /**
 	         * Changes frame clamping
 	         * Works with TilingSprite and Mesh
-	         * Change to 1.5 if you tex ture has repeated right and bottom lines, that leads to smoother borders
+	         * Change to 1.5 if you texture has repeated right and bottom lines, that leads to smoother borders
 	         *
 	         * @default 0
 	         * @member {number}
@@ -27587,7 +28045,6 @@
 	    /**
 	     * texture property
 	     * @member {PIXI.Texture}
-	     * @memberof PIXI.TextureTransform
 	     */
 	
 	
@@ -27596,19 +28053,19 @@
 	     * @param {boolean} forceUpdate if true, matrices will be updated any case
 	     */
 	    TextureTransform.prototype.update = function update(forceUpdate) {
-	        var tex = this.texture;
+	        var tex = this._texture;
 	
 	        if (!tex || !tex.valid) {
 	            return;
 	        }
 	
-	        if (!forceUpdate && this._lastTextureID === this.texture._updateID) {
+	        if (!forceUpdate && this._lastTextureID === tex._updateID) {
 	            return;
 	        }
 	
-	        this._lastTextureID = this.texture._updateID;
+	        this._lastTextureID = tex._updateID;
 	
-	        var uvs = this.texture._uvs;
+	        var uvs = tex._uvs;
 	
 	        this.mapCoord.set(uvs.x1 - uvs.x0, uvs.y1 - uvs.y0, uvs.x3 - uvs.x0, uvs.y3 - uvs.y0, uvs.x0, uvs.y0);
 	
@@ -27637,14 +28094,9 @@
 	        key: 'texture',
 	        get: function get() {
 	            return this._texture;
-	        }
-	
-	        /**
-	         * sets texture value
-	         * @param {PIXI.Texture} value texture to be set
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._texture = value;
 	            this._lastTextureID = -1;
 	        }
@@ -27657,7 +28109,7 @@
 	//# sourceMappingURL=TextureTransform.js.map
 
 /***/ },
-/* 127 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27666,7 +28118,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
@@ -27711,8 +28163,9 @@
 	    /**
 	     * @param {PIXI.Texture[]|FrameObject[]} textures - an array of {@link PIXI.Texture} or frame
 	     *  objects that make up the animation
+	     * @param {boolean} [autoUpdate=true] - Whether use PIXI.ticker.shared to auto update animation time.
 	     */
-	    function AnimatedSprite(textures) {
+	    function AnimatedSprite(textures, autoUpdate) {
 	        _classCallCheck(this, AnimatedSprite);
 	
 	        /**
@@ -27728,6 +28181,14 @@
 	        _this._durations = null;
 	
 	        _this.textures = textures;
+	
+	        /**
+	         * `true` uses PIXI.ticker.shared to auto update animation time.
+	         * @type {boolean}
+	         * @default true
+	         * @private
+	         */
+	        _this._autoUpdate = autoUpdate !== false;
 	
 	        /**
 	         * The speed that the AnimatedSprite will play at. Higher is faster, lower is slower
@@ -27748,16 +28209,14 @@
 	        /**
 	         * Function to call when a AnimatedSprite finishes playing
 	         *
-	         * @method
-	         * @memberof PIXI.extras.AnimatedSprite#
+	         * @member {Function}
 	         */
 	        _this.onComplete = null;
 	
 	        /**
 	         * Function to call when a AnimatedSprite changes which texture is being rendered
 	         *
-	         * @method
-	         * @memberof PIXI.extras.AnimatedSprite#
+	         * @member {Function}
 	         */
 	        _this.onFrameChange = null;
 	
@@ -27791,7 +28250,9 @@
 	        }
 	
 	        this.playing = false;
-	        core.ticker.shared.remove(this.update, this);
+	        if (this._autoUpdate) {
+	            core.ticker.shared.remove(this.update, this);
+	        }
 	    };
 	
 	    /**
@@ -27806,7 +28267,9 @@
 	        }
 	
 	        this.playing = true;
-	        core.ticker.shared.add(this.update, this);
+	        if (this._autoUpdate) {
+	            core.ticker.shared.add(this.update, this);
+	        }
 	    };
 	
 	    /**
@@ -27971,7 +28434,6 @@
 	     *
 	     * @readonly
 	     * @member {number}
-	     * @memberof PIXI.extras.AnimatedSprite#
 	     * @default 0
 	     */
 	
@@ -27986,22 +28448,15 @@
 	         * The array of textures used for this AnimatedSprite
 	         *
 	         * @member {PIXI.Texture[]}
-	         * @memberof PIXI.extras.AnimatedSprite#
 	         */
 	
 	    }, {
 	        key: 'textures',
 	        get: function get() {
 	            return this._textures;
-	        }
-	
-	        /**
-	         * Sets the textures.
-	         *
-	         * @param {PIXI.Texture[]} value - The texture to set.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            if (value[0] instanceof core.Texture) {
 	                this._textures = value;
 	                this._durations = null;
@@ -28020,7 +28475,6 @@
 	        * The AnimatedSprites current frame index
 	        *
 	        * @member {number}
-	        * @memberof PIXI.extras.AnimatedSprite#
 	        * @readonly
 	        */
 	
@@ -28044,7 +28498,7 @@
 	//# sourceMappingURL=AnimatedSprite.js.map
 
 /***/ },
-/* 128 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28053,15 +28507,15 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _CanvasTinter = __webpack_require__(71);
+	var _CanvasTinter = __webpack_require__(77);
 	
 	var _CanvasTinter2 = _interopRequireDefault(_CanvasTinter);
 	
-	var _TextureTransform = __webpack_require__(126);
+	var _TextureTransform = __webpack_require__(134);
 	
 	var _TextureTransform2 = _interopRequireDefault(_TextureTransform);
 	
@@ -28140,6 +28594,23 @@
 	         * @member {PIXI.extras.TextureTransform}
 	         */
 	        _this.uvTransform = texture.transform || new _TextureTransform2.default(texture);
+	
+	        /**
+	         * Plugin that is responsible for rendering this element.
+	         * Allows to customize the rendering process without overriding '_renderWebGL' method.
+	         *
+	         * @member {string}
+	         * @default 'tilingSprite'
+	         */
+	        _this.pluginName = 'tilingSprite';
+	
+	        /**
+	         * Whether or not anchor affects uvs
+	         *
+	         * @member {boolean}
+	         * @default false
+	         */
+	        _this.uvRespectAnchor = false;
 	        return _this;
 	    }
 	    /**
@@ -28148,7 +28619,6 @@
 	     *
 	     * @default 0.5
 	     * @member {number}
-	     * @memberof PIXI.TilingSprite
 	     */
 	
 	
@@ -28180,8 +28650,8 @@
 	        this.tileTransform.updateLocalTransform();
 	        this.uvTransform.update();
 	
-	        renderer.setObjectRenderer(renderer.plugins.tilingSprite);
-	        renderer.plugins.tilingSprite.render(this);
+	        renderer.setObjectRenderer(renderer.plugins[this.pluginName]);
+	        renderer.plugins[this.pluginName].render(this);
 	    };
 	
 	    /**
@@ -28389,7 +28859,6 @@
 	     * The width of the sprite, setting this will actually modify the scale to achieve the value set
 	     *
 	     * @member {number}
-	     * @memberof PIXI.extras.TilingSprite#
 	     */
 	
 	
@@ -28397,15 +28866,9 @@
 	        key: 'clampMargin',
 	        get: function get() {
 	            return this.uvTransform.clampMargin;
-	        }
-	
-	        /**
-	         * setter for clampMargin
-	         *
-	         * @param {number} value assigned value
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.uvTransform.clampMargin = value;
 	            this.uvTransform.update(true);
 	        }
@@ -28414,22 +28877,15 @@
 	         * The scaling of the image that is being tiled
 	         *
 	         * @member {PIXI.ObservablePoint}
-	         * @memberof PIXI.DisplayObject#
 	         */
 	
 	    }, {
 	        key: 'tileScale',
 	        get: function get() {
 	            return this.tileTransform.scale;
-	        }
-	
-	        /**
-	         * Copies the point to the scale of the tiled image.
-	         *
-	         * @param {PIXI.Point|PIXI.ObservablePoint} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.tileTransform.scale.copy(value);
 	        }
 	
@@ -28437,37 +28893,24 @@
 	         * The offset of the image that is being tiled
 	         *
 	         * @member {PIXI.ObservablePoint}
-	         * @memberof PIXI.TilingSprite#
 	         */
 	
 	    }, {
 	        key: 'tilePosition',
 	        get: function get() {
 	            return this.tileTransform.position;
-	        }
-	
-	        /**
-	         * Copies the point to the position of the tiled image.
-	         *
-	         * @param {PIXI.Point|PIXI.ObservablePoint} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.tileTransform.position.copy(value);
 	        }
 	    }, {
 	        key: 'width',
 	        get: function get() {
 	            return this._width;
-	        }
-	
-	        /**
-	         * Sets the width.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._width = value;
 	        }
 	
@@ -28475,22 +28918,15 @@
 	         * The height of the TilingSprite, setting this will actually modify the scale to achieve the value set
 	         *
 	         * @member {number}
-	         * @memberof PIXI.extras.TilingSprite#
 	         */
 	
 	    }, {
 	        key: 'height',
 	        get: function get() {
 	            return this._height;
-	        }
-	
-	        /**
-	         * Sets the width.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._height = value;
 	        }
 	    }]);
@@ -28502,20 +28938,20 @@
 	//# sourceMappingURL=TilingSprite.js.map
 
 /***/ },
-/* 129 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _const = __webpack_require__(6);
+	var _const = __webpack_require__(11);
 	
-	var _path = __webpack_require__(80);
+	var _path = __webpack_require__(86);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -28530,6 +28966,10 @@
 	
 	/**
 	 * WebGL renderer plugin for tiling sprites
+	 *
+	 * @class
+	 * @memberof PIXI
+	 * @extends PIXI.ObjectRenderer
 	 */
 	
 	var TilingSpriteRenderer = function (_core$ObjectRenderer) {
@@ -28589,13 +29029,15 @@
 	        vertices[2] = vertices[4] = ts._width * (1.0 - ts.anchor.x);
 	        vertices[5] = vertices[7] = ts._height * (1.0 - ts.anchor.y);
 	
-	        vertices = quad.uvs;
+	        if (ts.uvRespectAnchor) {
+	            vertices = quad.uvs;
 	
-	        vertices[0] = vertices[6] = -ts.anchor.x;
-	        vertices[1] = vertices[3] = -ts.anchor.y;
+	            vertices[0] = vertices[6] = -ts.anchor.x;
+	            vertices[1] = vertices[3] = -ts.anchor.y;
 	
-	        vertices[2] = vertices[4] = 1.0 - ts.anchor.x;
-	        vertices[5] = vertices[7] = 1.0 - ts.anchor.y;
+	            vertices[2] = vertices[4] = 1.0 - ts.anchor.x;
+	            vertices[5] = vertices[7] = 1.0 - ts.anchor.y;
+	        }
 	
 	        quad.upload();
 	
@@ -28668,7 +29110,7 @@
 	//# sourceMappingURL=TilingSpriteRenderer.js.map
 
 /***/ },
-/* 130 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28677,11 +29119,11 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _ObservablePoint = __webpack_require__(9);
+	var _ObservablePoint = __webpack_require__(14);
 	
 	var _ObservablePoint2 = _interopRequireDefault(_ObservablePoint);
 	
@@ -28733,24 +29175,22 @@
 	        _classCallCheck(this, BitmapText);
 	
 	        /**
-	         * The width of the overall text, different from fontSize,
-	         * which is defined in the style object
+	         * Private tracker for the width of the overall text
 	         *
 	         * @member {number}
-	         * @readonly
+	         * @private
 	         */
 	        var _this = _possibleConstructorReturn(this, _core$Container.call(this));
 	
-	        _this.textWidth = 0;
+	        _this._textWidth = 0;
 	
 	        /**
-	         * The height of the overall text, different from fontSize,
-	         * which is defined in the style object
+	         * Private tracker for the height of the overall text
 	         *
 	         * @member {number}
-	         * @readonly
+	         * @private
 	         */
-	        _this.textHeight = 0;
+	        _this._textHeight = 0;
 	
 	        /**
 	         * Private tracker for the letter sprite pool.
@@ -28950,14 +29390,14 @@
 	            this.removeChild(this._glyphs[_i3]);
 	        }
 	
-	        this.textWidth = maxLineWidth * scale;
-	        this.textHeight = (pos.y + data.lineHeight) * scale;
+	        this._textWidth = maxLineWidth * scale;
+	        this._textHeight = (pos.y + data.lineHeight) * scale;
 	
 	        // apply anchor
 	        if (this.anchor.x !== 0 || this.anchor.y !== 0) {
 	            for (var _i4 = 0; _i4 < lenChars; _i4++) {
-	                this._glyphs[_i4].x -= this.textWidth * this.anchor.x;
-	                this._glyphs[_i4].y -= this.textHeight * this.anchor.y;
+	                this._glyphs[_i4].x -= this._textWidth * this.anchor.x;
+	                this._glyphs[_i4].y -= this._textHeight * this.anchor.y;
 	            }
 	        }
 	        this.maxLineHeight = maxLineHeight * scale;
@@ -29006,7 +29446,6 @@
 	     * The tint of the BitmapText object
 	     *
 	     * @member {number}
-	     * @memberof PIXI.extras.BitmapText#
 	     */
 	
 	
@@ -29014,15 +29453,9 @@
 	        key: 'tint',
 	        get: function get() {
 	            return this._font.tint;
-	        }
-	
-	        /**
-	         * Sets the tint.
-	         *
-	         * @param {number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._font.tint = typeof value === 'number' && value >= 0 ? value : 0xFFFFFF;
 	
 	            this.dirty = true;
@@ -29033,22 +29466,15 @@
 	         *
 	         * @member {string}
 	         * @default 'left'
-	         * @memberof PIXI.extras.BitmapText#
 	         */
 	
 	    }, {
 	        key: 'align',
 	        get: function get() {
 	            return this._font.align;
-	        }
-	
-	        /**
-	         * Sets the alignment
-	         *
-	         * @param {string} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._font.align = value || 'left';
 	
 	            this.dirty = true;
@@ -29061,22 +29487,15 @@
 	         * Setting the anchor to 1,1 would mean the text's origin point will be the bottom right corner
 	         *
 	         * @member {PIXI.Point | number}
-	         * @memberof PIXI.extras.BitmapText#
 	         */
 	
 	    }, {
 	        key: 'anchor',
 	        get: function get() {
 	            return this._anchor;
-	        }
-	
-	        /**
-	         * Sets the anchor.
-	         *
-	         * @param {PIXI.Point|number} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            if (typeof value === 'number') {
 	                this._anchor.set(value);
 	            } else {
@@ -29088,22 +29507,15 @@
 	         * The font descriptor of the BitmapText object
 	         *
 	         * @member {string|object}
-	         * @memberof PIXI.extras.BitmapText#
 	         */
 	
 	    }, {
 	        key: 'font',
 	        get: function get() {
 	            return this._font;
-	        }
-	
-	        /**
-	         * Sets the font.
-	         *
-	         * @param {string|object} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            if (!value) {
 	                return;
 	            }
@@ -29125,28 +29537,53 @@
 	         * The text of the BitmapText object
 	         *
 	         * @member {string}
-	         * @memberof PIXI.extras.BitmapText#
 	         */
 	
 	    }, {
 	        key: 'text',
 	        get: function get() {
 	            return this._text;
-	        }
-	
-	        /**
-	         * Sets the text.
-	         *
-	         * @param {string} value - The value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            value = value.toString() || ' ';
 	            if (this._text === value) {
 	                return;
 	            }
 	            this._text = value;
 	            this.dirty = true;
+	        }
+	
+	        /**
+	         * The width of the overall text, different from fontSize,
+	         * which is defined in the style object
+	         *
+	         * @member {number}
+	         * @readonly
+	         */
+	
+	    }, {
+	        key: 'textWidth',
+	        get: function get() {
+	            this.validate();
+	
+	            return this._textWidth;
+	        }
+	
+	        /**
+	         * The height of the overall text, different from fontSize,
+	         * which is defined in the style object
+	         *
+	         * @member {number}
+	         * @readonly
+	         */
+	
+	    }, {
+	        key: 'textHeight',
+	        get: function get() {
+	            this.validate();
+	
+	            return this._textHeight;
 	        }
 	    }]);
 	
@@ -29160,12 +29597,12 @@
 	//# sourceMappingURL=BitmapText.js.map
 
 /***/ },
-/* 131 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
@@ -29436,7 +29873,7 @@
 	    // need to set //
 	    var m = _tempMatrix;
 	
-	    this.transform.worldTransform.copy(m);
+	    this.transform.localTransform.copy(m);
 	    m.invert();
 	
 	    m.tx -= bounds.x;
@@ -29516,12 +29953,12 @@
 	//# sourceMappingURL=cacheAsBitmap.js.map
 
 /***/ },
-/* 132 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
@@ -29554,12 +29991,12 @@
 	//# sourceMappingURL=getChildByName.js.map
 
 /***/ },
-/* 133 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
@@ -29591,14 +30028,14 @@
 	//# sourceMappingURL=getGlobalPosition.js.map
 
 /***/ },
-/* 134 */
+/* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _FXAAFilter = __webpack_require__(135);
+	var _FXAAFilter = __webpack_require__(143);
 	
 	Object.defineProperty(exports, 'FXAAFilter', {
 	  enumerable: true,
@@ -29607,7 +30044,7 @@
 	  }
 	});
 	
-	var _NoiseFilter = __webpack_require__(136);
+	var _NoiseFilter = __webpack_require__(144);
 	
 	Object.defineProperty(exports, 'NoiseFilter', {
 	  enumerable: true,
@@ -29616,7 +30053,7 @@
 	  }
 	});
 	
-	var _DisplacementFilter = __webpack_require__(137);
+	var _DisplacementFilter = __webpack_require__(145);
 	
 	Object.defineProperty(exports, 'DisplacementFilter', {
 	  enumerable: true,
@@ -29625,7 +30062,7 @@
 	  }
 	});
 	
-	var _BlurFilter = __webpack_require__(138);
+	var _BlurFilter = __webpack_require__(146);
 	
 	Object.defineProperty(exports, 'BlurFilter', {
 	  enumerable: true,
@@ -29634,7 +30071,7 @@
 	  }
 	});
 	
-	var _BlurXFilter = __webpack_require__(139);
+	var _BlurXFilter = __webpack_require__(147);
 	
 	Object.defineProperty(exports, 'BlurXFilter', {
 	  enumerable: true,
@@ -29643,7 +30080,7 @@
 	  }
 	});
 	
-	var _BlurYFilter = __webpack_require__(143);
+	var _BlurYFilter = __webpack_require__(151);
 	
 	Object.defineProperty(exports, 'BlurYFilter', {
 	  enumerable: true,
@@ -29652,7 +30089,7 @@
 	  }
 	});
 	
-	var _ColorMatrixFilter = __webpack_require__(144);
+	var _ColorMatrixFilter = __webpack_require__(152);
 	
 	Object.defineProperty(exports, 'ColorMatrixFilter', {
 	  enumerable: true,
@@ -29661,7 +30098,7 @@
 	  }
 	});
 	
-	var _VoidFilter = __webpack_require__(145);
+	var _VoidFilter = __webpack_require__(153);
 	
 	Object.defineProperty(exports, 'VoidFilter', {
 	  enumerable: true,
@@ -29674,18 +30111,18 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 135 */
+/* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _path = __webpack_require__(80);
+	var _path = __webpack_require__(86);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -29732,7 +30169,7 @@
 	//# sourceMappingURL=FXAAFilter.js.map
 
 /***/ },
-/* 136 */
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29741,11 +30178,11 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _path = __webpack_require__(80);
+	var _path = __webpack_require__(86);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -29768,58 +30205,51 @@
 	 * @memberof PIXI.filters
 	 */
 	var NoiseFilter = function (_core$Filter) {
-	  _inherits(NoiseFilter, _core$Filter);
+	    _inherits(NoiseFilter, _core$Filter);
 	
-	  /**
-	   *
-	   */
-	  function NoiseFilter() {
-	    _classCallCheck(this, NoiseFilter);
+	    /**
+	     *
+	     */
+	    function NoiseFilter() {
+	        _classCallCheck(this, NoiseFilter);
 	
-	    var _this = _possibleConstructorReturn(this, _core$Filter.call(this,
-	    // vertex shader
-	    'attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}',
-	    // fragment shader
-	    'precision highp float;\n\nvarying vec2 vTextureCoord;\nvarying vec4 vColor;\n\nuniform float noise;\nuniform sampler2D uSampler;\n\nfloat rand(vec2 co)\n{\n    return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);\n}\n\nvoid main()\n{\n    vec4 color = texture2D(uSampler, vTextureCoord);\n\n    float diff = (rand(gl_FragCoord.xy) - 0.5) * noise;\n\n    color.r += diff;\n    color.g += diff;\n    color.b += diff;\n\n    gl_FragColor = color;\n}\n'));
+	        var _this = _possibleConstructorReturn(this, _core$Filter.call(this,
+	        // vertex shader
+	        'attribute vec2 aVertexPosition;\nattribute vec2 aTextureCoord;\n\nuniform mat3 projectionMatrix;\n\nvarying vec2 vTextureCoord;\n\nvoid main(void)\n{\n    gl_Position = vec4((projectionMatrix * vec3(aVertexPosition, 1.0)).xy, 0.0, 1.0);\n    vTextureCoord = aTextureCoord;\n}',
+	        // fragment shader
+	        'precision highp float;\n\nvarying vec2 vTextureCoord;\nvarying vec4 vColor;\n\nuniform float noise;\nuniform sampler2D uSampler;\n\nfloat rand(vec2 co)\n{\n    return fract(sin(dot(co.xy, vec2(12.9898, 78.233))) * 43758.5453);\n}\n\nvoid main()\n{\n    vec4 color = texture2D(uSampler, vTextureCoord);\n\n    float diff = (rand(gl_FragCoord.xy) - 0.5) * noise;\n\n    color.r += diff;\n    color.g += diff;\n    color.b += diff;\n\n    gl_FragColor = color;\n}\n'));
 	
-	    _this.noise = 0.5;
-	    return _this;
-	  }
-	
-	  /**
-	   * The amount of noise to apply.
-	   *
-	   * @member {number}
-	   * @memberof PIXI.filters.NoiseFilter#
-	   * @default 0.5
-	   */
-	
-	
-	  _createClass(NoiseFilter, [{
-	    key: 'noise',
-	    get: function get() {
-	      return this.uniforms.noise;
+	        _this.noise = 0.5;
+	        return _this;
 	    }
 	
 	    /**
-	     * Sets the amount of noise to apply.
+	     * The amount of noise to apply.
 	     *
-	     * @param {number} value - The value to set to.
+	     * @member {number}
+	     * @default 0.5
 	     */
-	    ,
-	    set: function set(value) {
-	      this.uniforms.noise = value;
-	    }
-	  }]);
 	
-	  return NoiseFilter;
+	
+	    _createClass(NoiseFilter, [{
+	        key: 'noise',
+	        get: function get() {
+	            return this.uniforms.noise;
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
+	            this.uniforms.noise = value;
+	        }
+	    }]);
+	
+	    return NoiseFilter;
 	}(core.Filter);
 	
 	exports.default = NoiseFilter;
 	//# sourceMappingURL=NoiseFilter.js.map
 
 /***/ },
-/* 137 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29828,11 +30258,11 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _path = __webpack_require__(80);
+	var _path = __webpack_require__(86);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -29912,7 +30342,6 @@
 	     * The texture used for the displacement map. Must be power of 2 sized texture.
 	     *
 	     * @member {PIXI.Texture}
-	     * @memberof PIXI.filters.DisplacementFilter#
 	     */
 	
 	
@@ -29920,15 +30349,9 @@
 	        key: 'map',
 	        get: function get() {
 	            return this.uniforms.mapSampler;
-	        }
-	
-	        /**
-	         * Sets the texture to use for the displacement.
-	         *
-	         * @param {PIXI.Texture} value - The texture to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.uniforms.mapSampler = value;
 	        }
 	    }]);
@@ -29940,7 +30363,7 @@
 	//# sourceMappingURL=DisplacementFilter.js.map
 
 /***/ },
-/* 138 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29949,15 +30372,15 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _BlurXFilter = __webpack_require__(139);
+	var _BlurXFilter = __webpack_require__(147);
 	
 	var _BlurXFilter2 = _interopRequireDefault(_BlurXFilter);
 	
-	var _BlurYFilter = __webpack_require__(143);
+	var _BlurYFilter = __webpack_require__(151);
 	
 	var _BlurYFilter2 = _interopRequireDefault(_BlurYFilter);
 	
@@ -29980,156 +30403,129 @@
 	 * @memberof PIXI.filters
 	 */
 	var BlurFilter = function (_core$Filter) {
-	  _inherits(BlurFilter, _core$Filter);
-	
-	  /**
-	   * @param {number} strength - The strength of the blur filter.
-	   * @param {number} quality - The quality of the blur filter.
-	   * @param {number} resolution - The reoslution of the blur filter.
-	   */
-	  function BlurFilter(strength, quality, resolution) {
-	    _classCallCheck(this, BlurFilter);
-	
-	    var _this = _possibleConstructorReturn(this, _core$Filter.call(this));
-	
-	    _this.blurXFilter = new _BlurXFilter2.default();
-	    _this.blurYFilter = new _BlurYFilter2.default();
-	    _this.resolution = 1;
-	
-	    _this.padding = 0;
-	    _this.resolution = resolution || 1;
-	    _this.quality = quality || 4;
-	    _this.blur = strength || 8;
-	    return _this;
-	  }
-	
-	  /**
-	   * Applies the filter.
-	   *
-	   * @param {PIXI.FilterManager} filterManager - The manager.
-	   * @param {PIXI.RenderTarget} input - The input target.
-	   * @param {PIXI.RenderTarget} output - The output target.
-	   */
-	
-	
-	  BlurFilter.prototype.apply = function apply(filterManager, input, output) {
-	    var renderTarget = filterManager.getRenderTarget(true);
-	
-	    this.blurXFilter.apply(filterManager, input, renderTarget, true);
-	    this.blurYFilter.apply(filterManager, renderTarget, output, false);
-	
-	    filterManager.returnRenderTarget(renderTarget);
-	  };
-	
-	  /**
-	   * Sets the strength of both the blurX and blurY properties simultaneously
-	   *
-	   * @member {number}
-	   * @memberOf PIXI.filters.BlurFilter#
-	   * @default 2
-	   */
-	
-	
-	  _createClass(BlurFilter, [{
-	    key: 'blur',
-	    get: function get() {
-	      return this.blurXFilter.blur;
-	    }
+	    _inherits(BlurFilter, _core$Filter);
 	
 	    /**
-	     * Sets the strength of the blur.
-	     *
-	     * @param {number} value - The value to set.
+	     * @param {number} strength - The strength of the blur filter.
+	     * @param {number} quality - The quality of the blur filter.
+	     * @param {number} resolution - The resolution of the blur filter.
+	     * @param {number} [kernelSize=5] - The kernelSize of the blur filter.Options: 5, 7, 9, 11, 13, 15.
 	     */
-	    ,
-	    set: function set(value) {
-	      this.blurXFilter.blur = this.blurYFilter.blur = value;
-	      this.padding = Math.max(Math.abs(this.blurXFilter.strength), Math.abs(this.blurYFilter.strength)) * 2;
+	    function BlurFilter(strength, quality, resolution, kernelSize) {
+	        _classCallCheck(this, BlurFilter);
+	
+	        var _this = _possibleConstructorReturn(this, _core$Filter.call(this));
+	
+	        _this.blurXFilter = new _BlurXFilter2.default(strength, quality, resolution, kernelSize);
+	        _this.blurYFilter = new _BlurYFilter2.default(strength, quality, resolution, kernelSize);
+	        _this.resolution = 1;
+	
+	        _this.padding = 0;
+	        _this.resolution = resolution || 1;
+	        _this.quality = quality || 4;
+	        _this.blur = strength || 8;
+	        return _this;
 	    }
 	
 	    /**
-	     * Sets the number of passes for blur. More passes means higher quaility bluring.
+	     * Applies the filter.
+	     *
+	     * @param {PIXI.FilterManager} filterManager - The manager.
+	     * @param {PIXI.RenderTarget} input - The input target.
+	     * @param {PIXI.RenderTarget} output - The output target.
+	     */
+	
+	
+	    BlurFilter.prototype.apply = function apply(filterManager, input, output) {
+	        var renderTarget = filterManager.getRenderTarget(true);
+	
+	        this.blurXFilter.apply(filterManager, input, renderTarget, true);
+	        this.blurYFilter.apply(filterManager, renderTarget, output, false);
+	
+	        filterManager.returnRenderTarget(renderTarget);
+	    };
+	
+	    /**
+	     * Sets the strength of both the blurX and blurY properties simultaneously
 	     *
 	     * @member {number}
-	     * @memberof PIXI.filters.BlurYFilter#
-	     * @default 1
-	     */
-	
-	  }, {
-	    key: 'quality',
-	    get: function get() {
-	      return this.blurXFilter.quality;
-	    }
-	
-	    /**
-	     * Sets the quality of the blur.
-	     *
-	     * @param {number} value - The value to set.
-	     */
-	    ,
-	    set: function set(value) {
-	      this.blurXFilter.quality = this.blurYFilter.quality = value;
-	    }
-	
-	    /**
-	     * Sets the strength of the blurX property
-	     *
-	     * @member {number}
-	     * @memberOf PIXI.filters.BlurFilter#
 	     * @default 2
 	     */
 	
-	  }, {
-	    key: 'blurX',
-	    get: function get() {
-	      return this.blurXFilter.blur;
-	    }
 	
-	    /**
-	     * Sets the strength of the blurX.
-	     *
-	     * @param {number} value - The value to set.
-	     */
-	    ,
-	    set: function set(value) {
-	      this.blurXFilter.blur = value;
-	      this.padding = Math.max(Math.abs(this.blurXFilter.strength), Math.abs(this.blurYFilter.strength)) * 2;
-	    }
+	    _createClass(BlurFilter, [{
+	        key: 'blur',
+	        get: function get() {
+	            return this.blurXFilter.blur;
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
+	            this.blurXFilter.blur = this.blurYFilter.blur = value;
+	            this.padding = Math.max(Math.abs(this.blurXFilter.strength), Math.abs(this.blurYFilter.strength)) * 2;
+	        }
 	
-	    /**
-	     * Sets the strength of the blurY property
-	     *
-	     * @member {number}
-	     * @memberOf PIXI.filters.BlurFilter#
-	     * @default 2
-	     */
+	        /**
+	         * Sets the number of passes for blur. More passes means higher quaility bluring.
+	         *
+	         * @member {number}
+	         * @default 1
+	         */
 	
-	  }, {
-	    key: 'blurY',
-	    get: function get() {
-	      return this.blurYFilter.blur;
-	    }
+	    }, {
+	        key: 'quality',
+	        get: function get() {
+	            return this.blurXFilter.quality;
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
+	            this.blurXFilter.quality = this.blurYFilter.quality = value;
+	        }
 	
-	    /**
-	     * Sets the strength of the blurY.
-	     *
-	     * @param {number} value - The value to set.
-	     */
-	    ,
-	    set: function set(value) {
-	      this.blurYFilter.blur = value;
-	      this.padding = Math.max(Math.abs(this.blurXFilter.strength), Math.abs(this.blurYFilter.strength)) * 2;
-	    }
-	  }]);
+	        /**
+	         * Sets the strength of the blurX property
+	         *
+	         * @member {number}
+	         * @default 2
+	         */
 	
-	  return BlurFilter;
+	    }, {
+	        key: 'blurX',
+	        get: function get() {
+	            return this.blurXFilter.blur;
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
+	            this.blurXFilter.blur = value;
+	            this.padding = Math.max(Math.abs(this.blurXFilter.strength), Math.abs(this.blurYFilter.strength)) * 2;
+	        }
+	
+	        /**
+	         * Sets the strength of the blurY property
+	         *
+	         * @member {number}
+	         * @default 2
+	         */
+	
+	    }, {
+	        key: 'blurY',
+	        get: function get() {
+	            return this.blurYFilter.blur;
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
+	            this.blurYFilter.blur = value;
+	            this.padding = Math.max(Math.abs(this.blurXFilter.strength), Math.abs(this.blurYFilter.strength)) * 2;
+	        }
+	    }]);
+	
+	    return BlurFilter;
 	}(core.Filter);
 	
 	exports.default = BlurFilter;
 	//# sourceMappingURL=BlurFilter.js.map
 
 /***/ },
-/* 139 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30138,19 +30534,19 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _generateBlurVertSource = __webpack_require__(140);
+	var _generateBlurVertSource = __webpack_require__(148);
 	
 	var _generateBlurVertSource2 = _interopRequireDefault(_generateBlurVertSource);
 	
-	var _generateBlurFragSource = __webpack_require__(141);
+	var _generateBlurFragSource = __webpack_require__(149);
 	
 	var _generateBlurFragSource2 = _interopRequireDefault(_generateBlurFragSource);
 	
-	var _getMaxBlurKernelSize = __webpack_require__(142);
+	var _getMaxBlurKernelSize = __webpack_require__(150);
 	
 	var _getMaxBlurKernelSize2 = _interopRequireDefault(_getMaxBlurKernelSize);
 	
@@ -30177,13 +30573,15 @@
 	    /**
 	     * @param {number} strength - The strength of the blur filter.
 	     * @param {number} quality - The quality of the blur filter.
-	     * @param {number} resolution - The reoslution of the blur filter.
+	     * @param {number} resolution - The resolution of the blur filter.
+	     * @param {number} [kernelSize=5] - The kernelSize of the blur filter.Options: 5, 7, 9, 11, 13, 15.
 	     */
-	    function BlurXFilter(strength, quality, resolution) {
+	    function BlurXFilter(strength, quality, resolution, kernelSize) {
 	        _classCallCheck(this, BlurXFilter);
 	
-	        var vertSrc = (0, _generateBlurVertSource2.default)(5, true);
-	        var fragSrc = (0, _generateBlurFragSource2.default)(5);
+	        kernelSize = kernelSize || 5;
+	        var vertSrc = (0, _generateBlurVertSource2.default)(kernelSize, true);
+	        var fragSrc = (0, _generateBlurFragSource2.default)(kernelSize);
 	
 	        var _this = _possibleConstructorReturn(this, _core$Filter.call(this,
 	        // vertex shader
@@ -30255,7 +30653,6 @@
 	     * Sets the strength of both the blur.
 	     *
 	     * @member {number}
-	     * @memberof PIXI.filters.BlurXFilter#
 	     * @default 16
 	     */
 	
@@ -30264,15 +30661,9 @@
 	        key: 'blur',
 	        get: function get() {
 	            return this.strength;
-	        }
-	
-	        /**
-	         * Sets the strength of the blur.
-	         *
-	         * @param {number} value - The value to set.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.padding = Math.abs(value) * 2;
 	            this.strength = value;
 	        }
@@ -30282,7 +30673,6 @@
 	        * quaility bluring but the lower the performance.
 	        *
 	        * @member {number}
-	        * @memberof PIXI.filters.BlurXFilter#
 	        * @default 4
 	        */
 	
@@ -30290,15 +30680,9 @@
 	        key: 'quality',
 	        get: function get() {
 	            return this._quality;
-	        }
-	
-	        /**
-	         * Sets the quality of the blur.
-	         *
-	         * @param {number} value - The value to set.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._quality = value;
 	            this.passes = value;
 	        }
@@ -30311,7 +30695,7 @@
 	//# sourceMappingURL=BlurXFilter.js.map
 
 /***/ },
-/* 140 */
+/* 148 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30359,7 +30743,7 @@
 	//# sourceMappingURL=generateBlurVertSource.js.map
 
 /***/ },
-/* 141 */
+/* 149 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30410,7 +30794,7 @@
 	//# sourceMappingURL=generateBlurFragSource.js.map
 
 /***/ },
-/* 142 */
+/* 150 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -30430,7 +30814,7 @@
 	//# sourceMappingURL=getMaxBlurKernelSize.js.map
 
 /***/ },
-/* 143 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30439,19 +30823,19 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _generateBlurVertSource = __webpack_require__(140);
+	var _generateBlurVertSource = __webpack_require__(148);
 	
 	var _generateBlurVertSource2 = _interopRequireDefault(_generateBlurVertSource);
 	
-	var _generateBlurFragSource = __webpack_require__(141);
+	var _generateBlurFragSource = __webpack_require__(149);
 	
 	var _generateBlurFragSource2 = _interopRequireDefault(_generateBlurFragSource);
 	
-	var _getMaxBlurKernelSize = __webpack_require__(142);
+	var _getMaxBlurKernelSize = __webpack_require__(150);
 	
 	var _getMaxBlurKernelSize2 = _interopRequireDefault(_getMaxBlurKernelSize);
 	
@@ -30478,13 +30862,15 @@
 	    /**
 	     * @param {number} strength - The strength of the blur filter.
 	     * @param {number} quality - The quality of the blur filter.
-	     * @param {number} resolution - The reoslution of the blur filter.
+	     * @param {number} resolution - The resolution of the blur filter.
+	     * @param {number} [kernelSize=5] - The kernelSize of the blur filter.Options: 5, 7, 9, 11, 13, 15.
 	     */
-	    function BlurYFilter(strength, quality, resolution) {
+	    function BlurYFilter(strength, quality, resolution, kernelSize) {
 	        _classCallCheck(this, BlurYFilter);
 	
-	        var vertSrc = (0, _generateBlurVertSource2.default)(5, false);
-	        var fragSrc = (0, _generateBlurFragSource2.default)(5);
+	        kernelSize = kernelSize || 5;
+	        var vertSrc = (0, _generateBlurVertSource2.default)(kernelSize, false);
+	        var fragSrc = (0, _generateBlurFragSource2.default)(kernelSize);
 	
 	        var _this = _possibleConstructorReturn(this, _core$Filter.call(this,
 	        // vertex shader
@@ -30555,7 +30941,6 @@
 	     * Sets the strength of both the blur.
 	     *
 	     * @member {number}
-	     * @memberof PIXI.filters.BlurYFilter#
 	     * @default 2
 	     */
 	
@@ -30564,15 +30949,9 @@
 	        key: 'blur',
 	        get: function get() {
 	            return this.strength;
-	        }
-	
-	        /**
-	         * Sets the strength of the blur.
-	         *
-	         * @param {number} value - The value to set.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.padding = Math.abs(value) * 2;
 	            this.strength = value;
 	        }
@@ -30582,7 +30961,6 @@
 	         * quaility bluring but the lower the performance.
 	         *
 	         * @member {number}
-	         * @memberof PIXI.filters.BlurXFilter#
 	         * @default 4
 	         */
 	
@@ -30590,15 +30968,9 @@
 	        key: 'quality',
 	        get: function get() {
 	            return this._quality;
-	        }
-	
-	        /**
-	         * Sets the quality of the blur.
-	         *
-	         * @param {number} value - The value to set.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this._quality = value;
 	            this.passes = value;
 	        }
@@ -30611,7 +30983,7 @@
 	//# sourceMappingURL=BlurYFilter.js.map
 
 /***/ },
-/* 144 */
+/* 152 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30620,11 +30992,11 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _path = __webpack_require__(80);
+	var _path = __webpack_require__(86);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -31117,7 +31489,6 @@
 	     * The matrix of the color matrix filter
 	     *
 	     * @member {number[]}
-	     * @memberof PIXI.filters.ColorMatrixFilter#
 	     * @default [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0]
 	     */
 	
@@ -31126,15 +31497,9 @@
 	        key: 'matrix',
 	        get: function get() {
 	            return this.uniforms.m;
-	        }
-	
-	        /**
-	         * Sets the matrix directly.
-	         *
-	         * @param {number[]} value - the value to set to.
-	         */
-	        ,
-	        set: function set(value) {
+	        },
+	        set: function set(value) // eslint-disable-line require-jsdoc
+	        {
 	            this.uniforms.m = value;
 	        }
 	    }]);
@@ -31150,18 +31515,18 @@
 	//# sourceMappingURL=ColorMatrixFilter.js.map
 
 /***/ },
-/* 145 */
+/* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _path = __webpack_require__(80);
+	var _path = __webpack_require__(86);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -31204,14 +31569,14 @@
 	//# sourceMappingURL=VoidFilter.js.map
 
 /***/ },
-/* 146 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _WebGLPrepare = __webpack_require__(147);
+	var _WebGLPrepare = __webpack_require__(155);
 	
 	Object.defineProperty(exports, 'webgl', {
 	  enumerable: true,
@@ -31220,7 +31585,7 @@
 	  }
 	});
 	
-	var _CanvasPrepare = __webpack_require__(150);
+	var _CanvasPrepare = __webpack_require__(158);
 	
 	Object.defineProperty(exports, 'canvas', {
 	  enumerable: true,
@@ -31229,7 +31594,7 @@
 	  }
 	});
 	
-	var _BasePrepare = __webpack_require__(148);
+	var _BasePrepare = __webpack_require__(156);
 	
 	Object.defineProperty(exports, 'BasePrepare', {
 	  enumerable: true,
@@ -31238,7 +31603,7 @@
 	  }
 	});
 	
-	var _CountLimiter = __webpack_require__(149);
+	var _CountLimiter = __webpack_require__(157);
 	
 	Object.defineProperty(exports, 'CountLimiter', {
 	  enumerable: true,
@@ -31247,7 +31612,7 @@
 	  }
 	});
 	
-	var _TimeLimiter = __webpack_require__(151);
+	var _TimeLimiter = __webpack_require__(159);
 	
 	Object.defineProperty(exports, 'TimeLimiter', {
 	  enumerable: true,
@@ -31260,18 +31625,18 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 147 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _BasePrepare2 = __webpack_require__(148);
+	var _BasePrepare2 = __webpack_require__(156);
 	
 	var _BasePrepare3 = _interopRequireDefault(_BasePrepare2);
 	
@@ -31287,6 +31652,8 @@
 	
 	/**
 	 * The prepare manager provides functionality to upload content to the GPU.
+	 *
+	 * An instance of this class is automatically created by default, and can be found at renderer.plugins.prepare
 	 *
 	 * @class
 	 * @memberof PIXI
@@ -31411,18 +31778,18 @@
 	//# sourceMappingURL=WebGLPrepare.js.map
 
 /***/ },
-/* 148 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _CountLimiter = __webpack_require__(149);
+	var _CountLimiter = __webpack_require__(157);
 	
 	var _CountLimiter2 = _interopRequireDefault(_CountLimiter);
 	
@@ -31800,7 +32167,7 @@
 	//# sourceMappingURL=BasePrepare.js.map
 
 /***/ },
-/* 149 */
+/* 157 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -31862,18 +32229,18 @@
 	//# sourceMappingURL=CountLimiter.js.map
 
 /***/ },
-/* 150 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _BasePrepare2 = __webpack_require__(148);
+	var _BasePrepare2 = __webpack_require__(156);
 	
 	var _BasePrepare3 = _interopRequireDefault(_BasePrepare2);
 	
@@ -31894,6 +32261,8 @@
 	 * This cannot be done directly for Canvas like in WebGL, but the effect can be achieved by drawing
 	 * textures to an offline canvas.
 	 * This draw call will force the texture to be moved onto the GPU.
+	 *
+	 * An instance of this class is automatically created by default, and can be found at renderer.plugins.prepare
 	 *
 	 * @class
 	 * @memberof PIXI
@@ -32012,7 +32381,7 @@
 	//# sourceMappingURL=CanvasPrepare.js.map
 
 /***/ },
-/* 151 */
+/* 159 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32074,255 +32443,2901 @@
 	//# sourceMappingURL=TimeLimiter.js.map
 
 /***/ },
-/* 152 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	__webpack_require__(153);
-	
-	__webpack_require__(155);
-	
-	__webpack_require__(156);
-	
-	if (!window.ArrayBuffer) {
-	    window.ArrayBuffer = Array;
-	}
-	
-	if (!window.Float32Array) {
-	    window.Float32Array = Array;
-	}
-	
-	if (!window.Uint32Array) {
-	    window.Uint32Array = Array;
-	}
-	
-	if (!window.Uint16Array) {
-	    window.Uint16Array = Array;
-	}
-	//# sourceMappingURL=index.js.map
-
-/***/ },
-/* 153 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _objectAssign = __webpack_require__(154);
-	
-	var _objectAssign2 = _interopRequireDefault(_objectAssign);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	if (!Object.assign) {
-	    Object.assign = _objectAssign2.default;
-	} // References:
-	// https://github.com/sindresorhus/object-assign
-	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
-	//# sourceMappingURL=Object.assign.js.map
-
-/***/ },
-/* 154 */
-/***/ function(module, exports) {
-
-	'use strict';
-	/* eslint-disable no-unused-vars */
-	var hasOwnProperty = Object.prototype.hasOwnProperty;
-	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
-	
-	function toObject(val) {
-		if (val === null || val === undefined) {
-			throw new TypeError('Object.assign cannot be called with null or undefined');
-		}
-	
-		return Object(val);
-	}
-	
-	function shouldUseNative() {
-		try {
-			if (!Object.assign) {
-				return false;
-			}
-	
-			// Detect buggy property enumeration order in older V8 versions.
-	
-			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-			var test1 = new String('abc');  // eslint-disable-line
-			test1[5] = 'de';
-			if (Object.getOwnPropertyNames(test1)[0] === '5') {
-				return false;
-			}
-	
-			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-			var test2 = {};
-			for (var i = 0; i < 10; i++) {
-				test2['_' + String.fromCharCode(i)] = i;
-			}
-			var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-				return test2[n];
-			});
-			if (order2.join('') !== '0123456789') {
-				return false;
-			}
-	
-			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-			var test3 = {};
-			'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-				test3[letter] = letter;
-			});
-			if (Object.keys(Object.assign({}, test3)).join('') !==
-					'abcdefghijklmnopqrst') {
-				return false;
-			}
-	
-			return true;
-		} catch (e) {
-			// We don't expect any of the above to throw, but better to be safe.
-			return false;
-		}
-	}
-	
-	module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-		var from;
-		var to = toObject(target);
-		var symbols;
-	
-		for (var s = 1; s < arguments.length; s++) {
-			from = Object(arguments[s]);
-	
-			for (var key in from) {
-				if (hasOwnProperty.call(from, key)) {
-					to[key] = from[key];
-				}
-			}
-	
-			if (Object.getOwnPropertySymbols) {
-				symbols = Object.getOwnPropertySymbols(from);
-				for (var i = 0; i < symbols.length; i++) {
-					if (propIsEnumerable.call(from, symbols[i])) {
-						to[symbols[i]] = from[symbols[i]];
-					}
-				}
-			}
-		}
-	
-		return to;
-	};
-
-
-/***/ },
-/* 155 */
-/***/ function(module, exports) {
-
-	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
-	
-	// References:
-	// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-	// https://gist.github.com/1579671
-	// http://updates.html5rocks.com/2012/05/requestAnimationFrame-API-now-with-sub-millisecond-precision
-	// https://gist.github.com/timhall/4078614
-	// https://github.com/Financial-Times/polyfill-service/tree/master/polyfills/requestAnimationFrame
-	
-	// Expected to be used with Browserfiy
-	// Browserify automatically detects the use of `global` and passes the
-	// correct reference of `global`, `self`, and finally `window`
-	
-	var ONE_FRAME_TIME = 16;
-	
-	// Date.now
-	if (!(Date.now && Date.prototype.getTime)) {
-	    Date.now = function now() {
-	        return new Date().getTime();
-	    };
-	}
-	
-	// performance.now
-	if (!(global.performance && global.performance.now)) {
-	    (function () {
-	        var startTime = Date.now();
-	
-	        if (!global.performance) {
-	            global.performance = {};
-	        }
-	
-	        global.performance.now = function () {
-	            return Date.now() - startTime;
-	        };
-	    })();
-	}
-	
-	// requestAnimationFrame
-	var lastTime = Date.now();
-	var vendors = ['ms', 'moz', 'webkit', 'o'];
-	
-	for (var x = 0; x < vendors.length && !global.requestAnimationFrame; ++x) {
-	    var p = vendors[x];
-	
-	    global.requestAnimationFrame = global[p + 'RequestAnimationFrame'];
-	    global.cancelAnimationFrame = global[p + 'CancelAnimationFrame'] || global[p + 'CancelRequestAnimationFrame'];
-	}
-	
-	if (!global.requestAnimationFrame) {
-	    global.requestAnimationFrame = function (callback) {
-	        if (typeof callback !== 'function') {
-	            throw new TypeError(callback + 'is not a function');
-	        }
-	
-	        var currentTime = Date.now();
-	        var delay = ONE_FRAME_TIME + lastTime - currentTime;
-	
-	        if (delay < 0) {
-	            delay = 0;
-	        }
-	
-	        lastTime = currentTime;
-	
-	        return setTimeout(function () {
-	            lastTime = Date.now();
-	            callback(performance.now());
-	        }, delay);
-	    };
-	}
-	
-	if (!global.cancelAnimationFrame) {
-	    global.cancelAnimationFrame = function (id) {
-	        return clearTimeout(id);
-	    };
-	}
-	//# sourceMappingURL=requestAnimationFrame.js.map
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
-/* 156 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	// References:
-	// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/sign
-	
-	if (!Math.sign) {
-	    Math.sign = function mathSign(x) {
-	        x = Number(x);
-	
-	        if (x === 0 || isNaN(x)) {
-	            return x;
-	        }
-	
-	        return x > 0 ? 1 : -1;
-	    };
-	}
-	//# sourceMappingURL=Math.sign.js.map
-
-/***/ },
-/* 157 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _accessibleTarget = __webpack_require__(158);
+	var _loader = __webpack_require__(161);
+	
+	Object.defineProperty(exports, 'Loader', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_loader).default;
+	  }
+	});
+	
+	var _bitmapFontParser = __webpack_require__(172);
+	
+	Object.defineProperty(exports, 'bitmapFontParser', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_bitmapFontParser).default;
+	  }
+	});
+	Object.defineProperty(exports, 'parseBitmapFontData', {
+	  enumerable: true,
+	  get: function get() {
+	    return _bitmapFontParser.parse;
+	  }
+	});
+	
+	var _spritesheetParser = __webpack_require__(171);
+	
+	Object.defineProperty(exports, 'spritesheetParser', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_spritesheetParser).default;
+	  }
+	});
+	
+	var _textureParser = __webpack_require__(170);
+	
+	Object.defineProperty(exports, 'textureParser', {
+	  enumerable: true,
+	  get: function get() {
+	    return _interopRequireDefault(_textureParser).default;
+	  }
+	});
+	
+	var _resourceLoader = __webpack_require__(162);
+	
+	Object.defineProperty(exports, 'Resource', {
+	  enumerable: true,
+	  get: function get() {
+	    return _resourceLoader.Resource;
+	  }
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	//# sourceMappingURL=index.js.map
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _resourceLoader = __webpack_require__(162);
+	
+	var _resourceLoader2 = _interopRequireDefault(_resourceLoader);
+	
+	var _blob = __webpack_require__(169);
+	
+	var _eventemitter = __webpack_require__(41);
+	
+	var _eventemitter2 = _interopRequireDefault(_eventemitter);
+	
+	var _textureParser = __webpack_require__(170);
+	
+	var _textureParser2 = _interopRequireDefault(_textureParser);
+	
+	var _spritesheetParser = __webpack_require__(171);
+	
+	var _spritesheetParser2 = _interopRequireDefault(_spritesheetParser);
+	
+	var _bitmapFontParser = __webpack_require__(172);
+	
+	var _bitmapFontParser2 = _interopRequireDefault(_bitmapFontParser);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	/**
+	 *
+	 * The new loader, extends Resource Loader by Chad Engler : https://github.com/englercj/resource-loader
+	 *
+	 * ```js
+	 * let loader = PIXI.loader; // pixi exposes a premade instance for you to use.
+	 * //or
+	 * let loader = new PIXI.loaders.Loader(); // you can also create your own if you want
+	 *
+	 * loader.add('bunny', 'data/bunny.png');
+	 * loader.add('spaceship', 'assets/spritesheet.json');
+	 * loader.add('scoreFont', 'assets/score.fnt');
+	 *
+	 * loader.once('complete',onAssetsLoaded);
+	 *
+	 * loader.load();
+	 * ```
+	 *
+	 * @see https://github.com/englercj/resource-loader
+	 *
+	 * @class
+	 * @extends module:resource-loader.ResourceLoader
+	 * @memberof PIXI.loaders
+	 */
+	var Loader = function (_ResourceLoader) {
+	    _inherits(Loader, _ResourceLoader);
+	
+	    /**
+	     * @param {string} [baseUrl=''] - The base url for all resources loaded by this loader.
+	     * @param {number} [concurrency=10] - The number of resources to load concurrently.
+	     */
+	    function Loader(baseUrl, concurrency) {
+	        _classCallCheck(this, Loader);
+	
+	        var _this = _possibleConstructorReturn(this, _ResourceLoader.call(this, baseUrl, concurrency));
+	
+	        _eventemitter2.default.call(_this);
+	
+	        for (var i = 0; i < Loader._pixiMiddleware.length; ++i) {
+	            _this.use(Loader._pixiMiddleware[i]());
+	        }
+	
+	        // Compat layer, translate the new v2 signals into old v1 events.
+	        _this.onStart.add(function (l) {
+	            return _this.emit('start', l);
+	        });
+	        _this.onProgress.add(function (l, r) {
+	            return _this.emit('progress', l, r);
+	        });
+	        _this.onError.add(function (e, l, r) {
+	            return _this.emit('error', e, l, r);
+	        });
+	        _this.onLoad.add(function (l, r) {
+	            return _this.emit('load', l, r);
+	        });
+	        _this.onComplete.add(function (l, r) {
+	            return _this.emit('complete', l, r);
+	        });
+	        return _this;
+	    }
+	
+	    /**
+	     * Adds a default middleware to the pixi loader.
+	     *
+	     * @static
+	     * @param {Function} fn - The middleware to add.
+	     */
+	
+	
+	    Loader.addPixiMiddleware = function addPixiMiddleware(fn) {
+	        Loader._pixiMiddleware.push(fn);
+	    };
+	
+	    return Loader;
+	}(_resourceLoader2.default);
+	
+	// Copy EE3 prototype (mixin)
+	
+	
+	exports.default = Loader;
+	for (var k in _eventemitter2.default.prototype) {
+	    Loader.prototype[k] = _eventemitter2.default.prototype[k];
+	}
+	
+	Loader._pixiMiddleware = [
+	// parse any blob into more usable objects (e.g. Image)
+	_blob.blobMiddlewareFactory,
+	// parse any Image objects into textures
+	_textureParser2.default,
+	// parse any spritesheet data into multiple textures
+	_spritesheetParser2.default,
+	// parse bitmap font data into multiple textures
+	_bitmapFontParser2.default];
+	
+	// Add custom extentions
+	var Resource = _resourceLoader2.default.Resource;
+	
+	Resource.setExtensionXhrType('fnt', Resource.XHR_RESPONSE_TYPE.DOCUMENT);
+	//# sourceMappingURL=loader.js.map
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _Loader = __webpack_require__(163);
+	
+	var _Loader2 = _interopRequireDefault(_Loader);
+	
+	var _Resource = __webpack_require__(167);
+	
+	var _Resource2 = _interopRequireDefault(_Resource);
+	
+	var _async = __webpack_require__(166);
+	
+	var async = _interopRequireWildcard(_async);
+	
+	var _b = __webpack_require__(168);
+	
+	var b64 = _interopRequireWildcard(_b);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	_Loader2.default.Resource = _Resource2.default;
+	_Loader2.default.async = async;
+	_Loader2.default.base64 = b64;
+	
+	// export manually, and also as default
+	module.exports = _Loader2.default; // eslint-disable-line no-undef
+	exports.default = _Loader2.default;
+	//# sourceMappingURL=index.js.map
+
+/***/ },
+/* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
+	var _miniSignals = __webpack_require__(164);
+	
+	var _miniSignals2 = _interopRequireDefault(_miniSignals);
+	
+	var _parseUri = __webpack_require__(165);
+	
+	var _parseUri2 = _interopRequireDefault(_parseUri);
+	
+	var _async = __webpack_require__(166);
+	
+	var async = _interopRequireWildcard(_async);
+	
+	var _Resource = __webpack_require__(167);
+	
+	var _Resource2 = _interopRequireDefault(_Resource);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	// some constants
+	var MAX_PROGRESS = 100;
+	var rgxExtractUrlHash = /(#[\w-]+)?$/;
+	
+	/**
+	 * Manages the state and loading of multiple resources to load.
+	 *
+	 * @class
+	 */
+	
+	var Loader = function () {
+	    /**
+	     * @param {string} [baseUrl=''] - The base url for all resources loaded by this loader.
+	     * @param {number} [concurrency=10] - The number of resources to load concurrently.
+	     */
+	    function Loader() {
+	        var _this = this;
+	
+	        var baseUrl = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	        var concurrency = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
+	
+	        _classCallCheck(this, Loader);
+	
+	        /**
+	         * The base url for all resources loaded by this loader.
+	         *
+	         * @member {string}
+	         */
+	        this.baseUrl = baseUrl;
+	
+	        /**
+	         * The progress percent of the loader going through the queue.
+	         *
+	         * @member {number}
+	         */
+	        this.progress = 0;
+	
+	        /**
+	         * Loading state of the loader, true if it is currently loading resources.
+	         *
+	         * @member {boolean}
+	         */
+	        this.loading = false;
+	
+	        /**
+	         * A querystring to append to every URL added to the loader.
+	         *
+	         * This should be a valid query string *without* the question-mark (`?`). The loader will
+	         * also *not* escape values for you. Make sure to escape your parameters with
+	         * [`encodeURIComponent`](https://mdn.io/encodeURIComponent) before assigning this property.
+	         *
+	         * @example
+	         *
+	         * ```js
+	         * const loader = new Loader();
+	         *
+	         * loader.defaultQueryString = 'user=me&password=secret';
+	         *
+	         * // This will request 'image.png?user=me&password=secret'
+	         * loader.add('image.png').load();
+	         *
+	         * loader.reset();
+	         *
+	         * // This will request 'image.png?v=1&user=me&password=secret'
+	         * loader.add('iamge.png?v=1').load();
+	         * ```
+	         */
+	        this.defaultQueryString = '';
+	
+	        /**
+	         * The middleware to run before loading each resource.
+	         *
+	         * @member {function[]}
+	         */
+	        this._beforeMiddleware = [];
+	
+	        /**
+	         * The middleware to run after loading each resource.
+	         *
+	         * @member {function[]}
+	         */
+	        this._afterMiddleware = [];
+	
+	        /**
+	         * The tracks the resources we are currently completing parsing for.
+	         *
+	         * @member {Resource[]}
+	         */
+	        this._resourcesParsing = [];
+	
+	        /**
+	         * The `_loadResource` function bound with this object context.
+	         *
+	         * @private
+	         * @member {function}
+	         * @param {Resource} r - The resource to load
+	         * @param {Function} d - The dequeue function
+	         * @return {undefined}
+	         */
+	        this._boundLoadResource = function (r, d) {
+	            return _this._loadResource(r, d);
+	        };
+	
+	        /**
+	         * The resources waiting to be loaded.
+	         *
+	         * @private
+	         * @member {Resource[]}
+	         */
+	        this._queue = async.queue(this._boundLoadResource, concurrency);
+	
+	        this._queue.pause();
+	
+	        /**
+	         * All the resources for this loader keyed by name.
+	         *
+	         * @member {object<string, Resource>}
+	         */
+	        this.resources = {};
+	
+	        /**
+	         * Dispatched once per loaded or errored resource.
+	         *
+	         * The callback looks like {@link Loader.OnProgressSignal}.
+	         *
+	         * @member {Signal}
+	         */
+	        this.onProgress = new _miniSignals2.default();
+	
+	        /**
+	         * Dispatched once per errored resource.
+	         *
+	         * The callback looks like {@link Loader.OnErrorSignal}.
+	         *
+	         * @member {Signal}
+	         */
+	        this.onError = new _miniSignals2.default();
+	
+	        /**
+	         * Dispatched once per loaded resource.
+	         *
+	         * The callback looks like {@link Loader.OnLoadSignal}.
+	         *
+	         * @member {Signal}
+	         */
+	        this.onLoad = new _miniSignals2.default();
+	
+	        /**
+	         * Dispatched when the loader begins to process the queue.
+	         *
+	         * The callback looks like {@link Loader.OnStartSignal}.
+	         *
+	         * @member {Signal}
+	         */
+	        this.onStart = new _miniSignals2.default();
+	
+	        /**
+	         * Dispatched when the queued resources all load.
+	         *
+	         * The callback looks like {@link Loader.OnCompleteSignal}.
+	         *
+	         * @member {Signal}
+	         */
+	        this.onComplete = new _miniSignals2.default();
+	
+	        /**
+	         * When the progress changes the loader and resource are disaptched.
+	         *
+	         * @memberof Loader
+	         * @callback OnProgressSignal
+	         * @param {Loader} loader - The loader the progress is advancing on.
+	         * @param {Resource} resource - The resource that has completed or failed to cause the progress to advance.
+	         */
+	
+	        /**
+	         * When an error occurrs the loader and resource are disaptched.
+	         *
+	         * @memberof Loader
+	         * @callback OnErrorSignal
+	         * @param {Loader} loader - The loader the error happened in.
+	         * @param {Resource} resource - The resource that caused the error.
+	         */
+	
+	        /**
+	         * When a load completes the loader and resource are disaptched.
+	         *
+	         * @memberof Loader
+	         * @callback OnLoadSignal
+	         * @param {Loader} loader - The loader that laoded the resource.
+	         * @param {Resource} resource - The resource that has completed loading.
+	         */
+	
+	        /**
+	         * When the loader starts loading resources it dispatches this callback.
+	         *
+	         * @memberof Loader
+	         * @callback OnStartSignal
+	         * @param {Loader} loader - The loader that has started loading resources.
+	         */
+	
+	        /**
+	         * When the loader completes loading resources it dispatches this callback.
+	         *
+	         * @memberof Loader
+	         * @callback OnCompleteSignal
+	         * @param {Loader} loader - The loader that has finished loading resources.
+	         */
+	    }
+	
+	    /**
+	     * Adds a resource (or multiple resources) to the loader queue.
+	     *
+	     * This function can take a wide variety of different parameters. The only thing that is always
+	     * required the url to load. All the following will work:
+	     *
+	     * ```js
+	     * loader
+	     *     // normal param syntax
+	     *     .add('key', 'http://...', function () {})
+	     *     .add('http://...', function () {})
+	     *     .add('http://...')
+	     *
+	     *     // object syntax
+	     *     .add({
+	     *         name: 'key2',
+	     *         url: 'http://...'
+	     *     }, function () {})
+	     *     .add({
+	     *         url: 'http://...'
+	     *     }, function () {})
+	     *     .add({
+	     *         name: 'key3',
+	     *         url: 'http://...'
+	     *         onComplete: function () {}
+	     *     })
+	     *     .add({
+	     *         url: 'https://...',
+	     *         onComplete: function () {},
+	     *         crossOrigin: true
+	     *     })
+	     *
+	     *     // you can also pass an array of objects or urls or both
+	     *     .add([
+	     *         { name: 'key4', url: 'http://...', onComplete: function () {} },
+	     *         { url: 'http://...', onComplete: function () {} },
+	     *         'http://...'
+	     *     ])
+	     *
+	     *     // and you can use both params and options
+	     *     .add('key', 'http://...', { crossOrigin: true }, function () {})
+	     *     .add('http://...', { crossOrigin: true }, function () {});
+	     * ```
+	     *
+	     * @param {string} [name] - The name of the resource to load, if not passed the url is used.
+	     * @param {string} [url] - The url for this resource, relative to the baseUrl of this loader.
+	     * @param {object} [options] - The options for the load.
+	     * @param {boolean} [options.crossOrigin] - Is this request cross-origin? Default is to determine automatically.
+	     * @param {Resource.LOAD_TYPE} [options.loadType=Resource.LOAD_TYPE.XHR] - How should this resource be loaded?
+	     * @param {Resource.XHR_RESPONSE_TYPE} [options.xhrType=Resource.XHR_RESPONSE_TYPE.DEFAULT] - How should
+	     *      the data being loaded be interpreted when using XHR?
+	     * @param {object} [options.metadata] - Extra configuration for middleware and the Resource object.
+	     * @param {HTMLImageElement|HTMLAudioElement|HTMLVideoElement} [options.metadata.loadElement=null] - The
+	     *      element to use for loading, instead of creating one.
+	     * @param {boolean} [options.metadata.skipSource=false] - Skips adding source(s) to the load element. This
+	     *      is useful if you want to pass in a `loadElement` that you already added load sources to.
+	     * @param {function} [cb] - Function to call when this specific resource completes loading.
+	     * @return {Loader} Returns itself.
+	     */
+	
+	
+	    Loader.prototype.add = function add(name, url, options, cb) {
+	        // special case of an array of objects or urls
+	        if (Array.isArray(name)) {
+	            for (var i = 0; i < name.length; ++i) {
+	                this.add(name[i]);
+	            }
+	
+	            return this;
+	        }
+	
+	        // if an object is passed instead of params
+	        if ((typeof name === 'undefined' ? 'undefined' : _typeof(name)) === 'object') {
+	            cb = url || name.callback || name.onComplete;
+	            options = name;
+	            url = name.url;
+	            name = name.name || name.key || name.url;
+	        }
+	
+	        // case where no name is passed shift all args over by one.
+	        if (typeof url !== 'string') {
+	            cb = options;
+	            options = url;
+	            url = name;
+	        }
+	
+	        // now that we shifted make sure we have a proper url.
+	        if (typeof url !== 'string') {
+	            throw new Error('No url passed to add resource to loader.');
+	        }
+	
+	        // options are optional so people might pass a function and no options
+	        if (typeof options === 'function') {
+	            cb = options;
+	            options = null;
+	        }
+	
+	        // if loading already you can only add resources that have a parent.
+	        if (this.loading && (!options || !options.parentResource)) {
+	            throw new Error('Cannot add resources while the loader is running.');
+	        }
+	
+	        // check if resource already exists.
+	        if (this.resources[name]) {
+	            throw new Error('Resource named "' + name + '" already exists.');
+	        }
+	
+	        // add base url if this isn't an absolute url
+	        url = this._prepareUrl(url);
+	
+	        // create the store the resource
+	        this.resources[name] = new _Resource2.default(name, url, options);
+	
+	        if (typeof cb === 'function') {
+	            this.resources[name].onAfterMiddleware.once(cb);
+	        }
+	
+	        // if actively loading, make sure to adjust progress chunks for that parent and its children
+	        if (this.loading) {
+	            var parent = options.parentResource;
+	            var incompleteChildren = [];
+	
+	            for (var _i = 0; _i < parent.children.length; ++_i) {
+	                if (!parent.children[_i].isComplete) {
+	                    incompleteChildren.push(parent.children[_i]);
+	                }
+	            }
+	
+	            var fullChunk = parent.progressChunk * (incompleteChildren.length + 1); // +1 for parent
+	            var eachChunk = fullChunk / (incompleteChildren.length + 2); // +2 for parent & new child
+	
+	            parent.children.push(this.resources[name]);
+	            parent.progressChunk = eachChunk;
+	
+	            for (var _i2 = 0; _i2 < incompleteChildren.length; ++_i2) {
+	                incompleteChildren[_i2].progressChunk = eachChunk;
+	            }
+	
+	            this.resources[name].progressChunk = eachChunk;
+	        }
+	
+	        // add the resource to the queue
+	        this._queue.push(this.resources[name]);
+	
+	        return this;
+	    };
+	
+	    /**
+	     * Sets up a middleware function that will run *before* the
+	     * resource is loaded.
+	     *
+	     * @method before
+	     * @param {function} fn - The middleware function to register.
+	     * @return {Loader} Returns itself.
+	     */
+	
+	
+	    Loader.prototype.pre = function pre(fn) {
+	        this._beforeMiddleware.push(fn);
+	
+	        return this;
+	    };
+	
+	    /**
+	     * Sets up a middleware function that will run *after* the
+	     * resource is loaded.
+	     *
+	     * @alias use
+	     * @method after
+	     * @param {function} fn - The middleware function to register.
+	     * @return {Loader} Returns itself.
+	     */
+	
+	
+	    Loader.prototype.use = function use(fn) {
+	        this._afterMiddleware.push(fn);
+	
+	        return this;
+	    };
+	
+	    /**
+	     * Resets the queue of the loader to prepare for a new load.
+	     *
+	     * @return {Loader} Returns itself.
+	     */
+	
+	
+	    Loader.prototype.reset = function reset() {
+	        this.progress = 0;
+	        this.loading = false;
+	
+	        this._queue.kill();
+	        this._queue.pause();
+	
+	        // abort all resource loads
+	        for (var k in this.resources) {
+	            var res = this.resources[k];
+	
+	            if (res._onLoadBinding) {
+	                res._onLoadBinding.detach();
+	            }
+	
+	            if (res.isLoading) {
+	                res.abort();
+	            }
+	        }
+	
+	        this.resources = {};
+	
+	        return this;
+	    };
+	
+	    /**
+	     * Starts loading the queued resources.
+	     *
+	     * @param {function} [cb] - Optional callback that will be bound to the `complete` event.
+	     * @return {Loader} Returns itself.
+	     */
+	
+	
+	    Loader.prototype.load = function load(cb) {
+	        // register complete callback if they pass one
+	        if (typeof cb === 'function') {
+	            this.onComplete.once(cb);
+	        }
+	
+	        // if the queue has already started we are done here
+	        if (this.loading) {
+	            return this;
+	        }
+	
+	        // distribute progress chunks
+	        var chunk = 100 / this._queue._tasks.length;
+	
+	        for (var i = 0; i < this._queue._tasks.length; ++i) {
+	            this._queue._tasks[i].data.progressChunk = chunk;
+	        }
+	
+	        // update loading state
+	        this.loading = true;
+	
+	        // notify of start
+	        this.onStart.dispatch(this);
+	
+	        // start loading
+	        this._queue.resume();
+	
+	        return this;
+	    };
+	
+	    /**
+	     * Prepares a url for usage based on the configuration of this object
+	     *
+	     * @private
+	     * @param {string} url - The url to prepare.
+	     * @return {string} The prepared url.
+	     */
+	
+	
+	    Loader.prototype._prepareUrl = function _prepareUrl(url) {
+	        var parsedUrl = (0, _parseUri2.default)(url, { strictMode: true });
+	        var result = void 0;
+	
+	        // absolute url, just use it as is.
+	        if (parsedUrl.protocol || !parsedUrl.path || url.indexOf('//') === 0) {
+	            result = url;
+	        }
+	        // if baseUrl doesn't end in slash and url doesn't start with slash, then add a slash inbetween
+	        else if (this.baseUrl.length && this.baseUrl.lastIndexOf('/') !== this.baseUrl.length - 1 && url.charAt(0) !== '/') {
+	                result = this.baseUrl + '/' + url;
+	            } else {
+	                result = this.baseUrl + url;
+	            }
+	
+	        // if we need to add a default querystring, there is a bit more work
+	        if (this.defaultQueryString) {
+	            var hash = rgxExtractUrlHash.exec(result)[0];
+	
+	            result = result.substr(0, result.length - hash.length);
+	
+	            if (result.indexOf('?') !== -1) {
+	                result += '&' + this.defaultQueryString;
+	            } else {
+	                result += '?' + this.defaultQueryString;
+	            }
+	
+	            result += hash;
+	        }
+	
+	        return result;
+	    };
+	
+	    /**
+	     * Loads a single resource.
+	     *
+	     * @private
+	     * @param {Resource} resource - The resource to load.
+	     * @param {function} dequeue - The function to call when we need to dequeue this item.
+	     */
+	
+	
+	    Loader.prototype._loadResource = function _loadResource(resource, dequeue) {
+	        var _this2 = this;
+	
+	        resource._dequeue = dequeue;
+	
+	        // run before middleware
+	        async.eachSeries(this._beforeMiddleware, function (fn, next) {
+	            fn.call(_this2, resource, function () {
+	                // if the before middleware marks the resource as complete,
+	                // break and don't process any more before middleware
+	                next(resource.isComplete ? {} : null);
+	            });
+	        }, function () {
+	            if (resource.isComplete) {
+	                _this2._onLoad(resource);
+	            } else {
+	                resource._onLoadBinding = resource.onComplete.once(_this2._onLoad, _this2);
+	                resource.load();
+	            }
+	        });
+	    };
+	
+	    /**
+	     * Called once each resource has loaded.
+	     *
+	     * @private
+	     */
+	
+	
+	    Loader.prototype._onComplete = function _onComplete() {
+	        this.loading = false;
+	
+	        this.onComplete.dispatch(this, this.resources);
+	    };
+	
+	    /**
+	     * Called each time a resources is loaded.
+	     *
+	     * @private
+	     * @param {Resource} resource - The resource that was loaded
+	     */
+	
+	
+	    Loader.prototype._onLoad = function _onLoad(resource) {
+	        var _this3 = this;
+	
+	        resource._onLoadBinding = null;
+	
+	        // remove this resource from the async queue, and add it to our list of resources that are being parsed
+	        resource._dequeue();
+	        this._resourcesParsing.push(resource);
+	
+	        // run middleware, this *must* happen before dequeue so sub-assets get added properly
+	        async.eachSeries(this._afterMiddleware, function (fn, next) {
+	            fn.call(_this3, resource, next);
+	        }, function () {
+	            resource.onAfterMiddleware.dispatch(resource);
+	
+	            _this3.progress += resource.progressChunk;
+	            _this3.onProgress.dispatch(_this3, resource);
+	
+	            if (resource.error) {
+	                _this3.onError.dispatch(resource.error, _this3, resource);
+	            } else {
+	                _this3.onLoad.dispatch(_this3, resource);
+	            }
+	
+	            _this3._resourcesParsing.splice(_this3._resourcesParsing.indexOf(resource), 1);
+	
+	            // do completion check
+	            if (_this3._queue.idle() && _this3._resourcesParsing.length === 0) {
+	                _this3.progress = MAX_PROGRESS;
+	                _this3._onComplete();
+	            }
+	        });
+	    };
+	
+	    return Loader;
+	}();
+	
+	exports.default = Loader;
+	//# sourceMappingURL=Loader.js.map
+
+/***/ },
+/* 164 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, '__esModule', {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+	
+	var MiniSignalBinding = (function () {
+	  function MiniSignalBinding(fn, once, thisArg) {
+	    if (once === undefined) once = false;
+	
+	    _classCallCheck(this, MiniSignalBinding);
+	
+	    this._fn = fn;
+	    this._once = once;
+	    this._thisArg = thisArg;
+	    this._next = this._prev = this._owner = null;
+	  }
+	
+	  _createClass(MiniSignalBinding, [{
+	    key: 'detach',
+	    value: function detach() {
+	      if (this._owner === null) return false;
+	      this._owner.detach(this);
+	      return true;
+	    }
+	  }]);
+	
+	  return MiniSignalBinding;
+	})();
+	
+	function _addMiniSignalBinding(self, node) {
+	  if (!self._head) {
+	    self._head = node;
+	    self._tail = node;
+	  } else {
+	    self._tail._next = node;
+	    node._prev = self._tail;
+	    self._tail = node;
+	  }
+	
+	  node._owner = self;
+	
+	  return node;
+	}
+	
+	var MiniSignal = (function () {
+	  function MiniSignal() {
+	    _classCallCheck(this, MiniSignal);
+	
+	    this._head = this._tail = undefined;
+	  }
+	
+	  _createClass(MiniSignal, [{
+	    key: 'handlers',
+	    value: function handlers() {
+	      var exists = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+	
+	      var node = this._head;
+	
+	      if (exists) return !!node;
+	
+	      var ee = [];
+	
+	      while (node) {
+	        ee.push(node);
+	        node = node._next;
+	      }
+	
+	      return ee;
+	    }
+	  }, {
+	    key: 'has',
+	    value: function has(node) {
+	      if (!(node instanceof MiniSignalBinding)) {
+	        throw new Error('MiniSignal#has(): First arg must be a MiniSignalBinding object.');
+	      }
+	
+	      return node._owner === this;
+	    }
+	  }, {
+	    key: 'dispatch',
+	    value: function dispatch() {
+	      var node = this._head;
+	
+	      if (!node) return false;
+	
+	      while (node) {
+	        if (node._once) this.detach(node);
+	        node._fn.apply(node._thisArg, arguments);
+	        node = node._next;
+	      }
+	
+	      return true;
+	    }
+	  }, {
+	    key: 'add',
+	    value: function add(fn) {
+	      var thisArg = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+	
+	      if (typeof fn !== 'function') {
+	        throw new Error('MiniSignal#add(): First arg must be a Function.');
+	      }
+	      return _addMiniSignalBinding(this, new MiniSignalBinding(fn, false, thisArg));
+	    }
+	  }, {
+	    key: 'once',
+	    value: function once(fn) {
+	      var thisArg = arguments.length <= 1 || arguments[1] === undefined ? null : arguments[1];
+	
+	      if (typeof fn !== 'function') {
+	        throw new Error('MiniSignal#once(): First arg must be a Function.');
+	      }
+	      return _addMiniSignalBinding(this, new MiniSignalBinding(fn, true, thisArg));
+	    }
+	  }, {
+	    key: 'detach',
+	    value: function detach(node) {
+	      if (!(node instanceof MiniSignalBinding)) {
+	        throw new Error('MiniSignal#detach(): First arg must be a MiniSignalBinding object.');
+	      }
+	      if (node._owner !== this) return this;
+	
+	      if (node._prev) node._prev._next = node._next;
+	      if (node._next) node._next._prev = node._prev;
+	
+	      if (node === this._head) {
+	        this._head = node._next;
+	        if (node._next === null) {
+	          this._tail = null;
+	        }
+	      } else if (node === this._tail) {
+	        this._tail = node._prev;
+	        this._tail._next = null;
+	      }
+	
+	      node._owner = null;
+	      return this;
+	    }
+	  }, {
+	    key: 'detachAll',
+	    value: function detachAll() {
+	      var node = this._head;
+	      if (!node) return this;
+	
+	      this._head = this._tail = null;
+	
+	      while (node) {
+	        node._owner = null;
+	        node = node._next;
+	      }
+	      return this;
+	    }
+	  }]);
+	
+	  return MiniSignal;
+	})();
+	
+	MiniSignal.MiniSignalBinding = MiniSignalBinding;
+	
+	exports['default'] = MiniSignal;
+	module.exports = exports['default'];
+
+
+/***/ },
+/* 165 */
+/***/ function(module, exports) {
+
+	'use strict'
+	
+	module.exports = function parseURI (str, opts) {
+	  opts = opts || {}
+	
+	  var o = {
+	    key: ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'],
+	    q: {
+	      name: 'queryKey',
+	      parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+	    },
+	    parser: {
+	      strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+	      loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+	    }
+	  }
+	
+	  var m = o.parser[opts.strictMode ? 'strict' : 'loose'].exec(str)
+	  var uri = {}
+	  var i = 14
+	
+	  while (i--) uri[o.key[i]] = m[i] || ''
+	
+	  uri[o.q.name] = {}
+	  uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+	    if ($1) uri[o.q.name][$1] = $2
+	  })
+	
+	  return uri
+	}
+
+
+/***/ },
+/* 166 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports.eachSeries = eachSeries;
+	exports.queue = queue;
+	/**
+	 * Smaller version of the async library constructs.
+	 *
+	 */
+	function _noop() {} /* empty */
+	
+	/**
+	 * Iterates an array in series.
+	 *
+	 * @param {*[]} array - Array to iterate.
+	 * @param {function} iterator - Function to call for each element.
+	 * @param {function} callback - Function to call when done, or on error.
+	 */
+	function eachSeries(array, iterator, callback) {
+	    var i = 0;
+	    var len = array.length;
+	
+	    (function next(err) {
+	        if (err || i === len) {
+	            if (callback) {
+	                callback(err);
+	            }
+	
+	            return;
+	        }
+	
+	        iterator(array[i++], next);
+	    })();
+	}
+	
+	/**
+	 * Ensures a function is only called once.
+	 *
+	 * @param {function} fn - The function to wrap.
+	 * @return {function} The wrapping function.
+	 */
+	function onlyOnce(fn) {
+	    return function onceWrapper() {
+	        if (fn === null) {
+	            throw new Error('Callback was already called.');
+	        }
+	
+	        var callFn = fn;
+	
+	        fn = null;
+	        callFn.apply(this, arguments);
+	    };
+	}
+	
+	/**
+	 * Async queue implementation,
+	 *
+	 * @param {function} worker - The worker function to call for each task.
+	 * @param {number} concurrency - How many workers to run in parrallel.
+	 * @return {*} The async queue object.
+	 */
+	function queue(worker, concurrency) {
+	    if (concurrency == null) {
+	        // eslint-disable-line no-eq-null,eqeqeq
+	        concurrency = 1;
+	    } else if (concurrency === 0) {
+	        throw new Error('Concurrency must not be zero');
+	    }
+	
+	    var workers = 0;
+	    var q = {
+	        _tasks: [],
+	        concurrency: concurrency,
+	        saturated: _noop,
+	        unsaturated: _noop,
+	        buffer: concurrency / 4,
+	        empty: _noop,
+	        drain: _noop,
+	        error: _noop,
+	        started: false,
+	        paused: false,
+	        push: function push(data, callback) {
+	            _insert(data, false, callback);
+	        },
+	        kill: function kill() {
+	            workers = 0;
+	            q.drain = _noop;
+	            q.started = false;
+	            q._tasks = [];
+	        },
+	        unshift: function unshift(data, callback) {
+	            _insert(data, true, callback);
+	        },
+	        process: function process() {
+	            while (!q.paused && workers < q.concurrency && q._tasks.length) {
+	                var task = q._tasks.shift();
+	
+	                if (q._tasks.length === 0) {
+	                    q.empty();
+	                }
+	
+	                workers += 1;
+	
+	                if (workers === q.concurrency) {
+	                    q.saturated();
+	                }
+	
+	                worker(task.data, onlyOnce(_next(task)));
+	            }
+	        },
+	        length: function length() {
+	            return q._tasks.length;
+	        },
+	        running: function running() {
+	            return workers;
+	        },
+	        idle: function idle() {
+	            return q._tasks.length + workers === 0;
+	        },
+	        pause: function pause() {
+	            if (q.paused === true) {
+	                return;
+	            }
+	
+	            q.paused = true;
+	        },
+	        resume: function resume() {
+	            if (q.paused === false) {
+	                return;
+	            }
+	
+	            q.paused = false;
+	
+	            // Need to call q.process once per concurrent
+	            // worker to preserve full concurrency after pause
+	            for (var w = 1; w <= q.concurrency; w++) {
+	                q.process();
+	            }
+	        }
+	    };
+	
+	    function _insert(data, insertAtFront, callback) {
+	        if (callback != null && typeof callback !== 'function') {
+	            // eslint-disable-line no-eq-null,eqeqeq
+	            throw new Error('task callback must be a function');
+	        }
+	
+	        q.started = true;
+	
+	        if (data == null && q.idle()) {
+	            // eslint-disable-line no-eq-null,eqeqeq
+	            // call drain immediately if there are no tasks
+	            setTimeout(function () {
+	                return q.drain();
+	            }, 1);
+	
+	            return;
+	        }
+	
+	        var item = {
+	            data: data,
+	            callback: typeof callback === 'function' ? callback : _noop
+	        };
+	
+	        if (insertAtFront) {
+	            q._tasks.unshift(item);
+	        } else {
+	            q._tasks.push(item);
+	        }
+	
+	        setTimeout(function () {
+	            return q.process();
+	        }, 1);
+	    }
+	
+	    function _next(task) {
+	        return function next() {
+	            workers -= 1;
+	
+	            task.callback.apply(task, arguments);
+	
+	            if (arguments[0] != null) {
+	                // eslint-disable-line no-eq-null,eqeqeq
+	                q.error(arguments[0], task.data);
+	            }
+	
+	            if (workers <= q.concurrency - q.buffer) {
+	                q.unsaturated();
+	            }
+	
+	            if (q.idle()) {
+	                q.drain();
+	            }
+	
+	            q.process();
+	        };
+	    }
+	
+	    return q;
+	}
+	//# sourceMappingURL=async.js.map
+
+/***/ },
+/* 167 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _parseUri = __webpack_require__(165);
+	
+	var _parseUri2 = _interopRequireDefault(_parseUri);
+	
+	var _miniSignals = __webpack_require__(164);
+	
+	var _miniSignals2 = _interopRequireDefault(_miniSignals);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	// tests is CORS is supported in XHR, if not we need to use XDR
+	var useXdr = !!(window.XDomainRequest && !('withCredentials' in new XMLHttpRequest()));
+	var tempAnchor = null;
+	
+	// some status constants
+	var STATUS_NONE = 0;
+	var STATUS_OK = 200;
+	var STATUS_EMPTY = 204;
+	
+	// noop
+	function _noop() {} /* empty */
+	
+	/**
+	 * Manages the state and loading of a resource and all child resources.
+	 *
+	 * @class
+	 */
+	
+	var Resource = function () {
+	    /**
+	     * Sets the load type to be used for a specific extension.
+	     *
+	     * @static
+	     * @param {string} extname - The extension to set the type for, e.g. "png" or "fnt"
+	     * @param {Resource.LOAD_TYPE} loadType - The load type to set it to.
+	     */
+	    Resource.setExtensionLoadType = function setExtensionLoadType(extname, loadType) {
+	        setExtMap(Resource._loadTypeMap, extname, loadType);
+	    };
+	
+	    /**
+	     * Sets the load type to be used for a specific extension.
+	     *
+	     * @static
+	     * @param {string} extname - The extension to set the type for, e.g. "png" or "fnt"
+	     * @param {Resource.XHR_RESPONSE_TYPE} xhrType - The xhr type to set it to.
+	     */
+	
+	
+	    Resource.setExtensionXhrType = function setExtensionXhrType(extname, xhrType) {
+	        setExtMap(Resource._xhrTypeMap, extname, xhrType);
+	    };
+	
+	    /**
+	     * @param {string} name - The name of the resource to load.
+	     * @param {string|string[]} url - The url for this resource, for audio/video loads you can pass
+	     *      an array of sources.
+	     * @param {object} [options] - The options for the load.
+	     * @param {string|boolean} [options.crossOrigin] - Is this request cross-origin? Default is to
+	     *      determine automatically.
+	     * @param {Resource.LOAD_TYPE} [options.loadType=Resource.LOAD_TYPE.XHR] - How should this resource
+	     *      be loaded?
+	     * @param {Resource.XHR_RESPONSE_TYPE} [options.xhrType=Resource.XHR_RESPONSE_TYPE.DEFAULT] - How
+	     *      should the data being loaded be interpreted when using XHR?
+	     * @param {object} [options.metadata] - Extra configuration for middleware and the Resource object.
+	     * @param {HTMLImageElement|HTMLAudioElement|HTMLVideoElement} [options.metadata.loadElement=null] - The
+	     *      element to use for loading, instead of creating one.
+	     * @param {boolean} [options.metadata.skipSource=false] - Skips adding source(s) to the load element. This
+	     *      is useful if you want to pass in a `loadElement` that you already added load sources to.
+	     */
+	
+	
+	    function Resource(name, url, options) {
+	        _classCallCheck(this, Resource);
+	
+	        if (typeof name !== 'string' || typeof url !== 'string') {
+	            throw new Error('Both name and url are required for constructing a resource.');
+	        }
+	
+	        options = options || {};
+	
+	        /**
+	         * The state flags of this resource.
+	         *
+	         * @member {number}
+	         */
+	        this._flags = 0;
+	
+	        // set data url flag, needs to be set early for some _determineX checks to work.
+	        this._setFlag(Resource.STATUS_FLAGS.DATA_URL, url.indexOf('data:') === 0);
+	
+	        /**
+	         * The name of this resource.
+	         *
+	         * @member {string}
+	         * @readonly
+	         */
+	        this.name = name;
+	
+	        /**
+	         * The url used to load this resource.
+	         *
+	         * @member {string}
+	         * @readonly
+	         */
+	        this.url = url;
+	
+	        /**
+	         * The extension used to load this resource.
+	         *
+	         * @member {string}
+	         * @readonly
+	         */
+	        this.extension = this._getExtension();
+	
+	        /**
+	         * The data that was loaded by the resource.
+	         *
+	         * @member {any}
+	         */
+	        this.data = null;
+	
+	        /**
+	         * Is this request cross-origin? If unset, determined automatically.
+	         *
+	         * @member {string}
+	         */
+	        this.crossOrigin = options.crossOrigin === true ? 'anonymous' : options.crossOrigin;
+	
+	        /**
+	         * The method of loading to use for this resource.
+	         *
+	         * @member {Resource.LOAD_TYPE}
+	         */
+	        this.loadType = options.loadType || this._determineLoadType();
+	
+	        /**
+	         * The type used to load the resource via XHR. If unset, determined automatically.
+	         *
+	         * @member {string}
+	         */
+	        this.xhrType = options.xhrType;
+	
+	        /**
+	         * Extra info for middleware, and controlling specifics about how the resource loads.
+	         *
+	         * Note that if you pass in a `loadElement`, the Resource class takes ownership of it.
+	         * Meaning it will modify it as it sees fit.
+	         *
+	         * @member {object}
+	         * @property {HTMLImageElement|HTMLAudioElement|HTMLVideoElement} [loadElement=null] - The
+	         *  element to use for loading, instead of creating one.
+	         * @property {boolean} [skipSource=false] - Skips adding source(s) to the load element. This
+	         *  is useful if you want to pass in a `loadElement` that you already added load sources
+	         *  to.
+	         */
+	        this.metadata = options.metadata || {};
+	
+	        /**
+	         * The error that occurred while loading (if any).
+	         *
+	         * @member {Error}
+	         * @readonly
+	         */
+	        this.error = null;
+	
+	        /**
+	         * The XHR object that was used to load this resource. This is only set
+	         * when `loadType` is `Resource.LOAD_TYPE.XHR`.
+	         *
+	         * @member {XMLHttpRequest}
+	         * @readonly
+	         */
+	        this.xhr = null;
+	
+	        /**
+	         * The child resources this resource owns.
+	         *
+	         * @member {Resource[]}
+	         * @readonly
+	         */
+	        this.children = [];
+	
+	        /**
+	         * The resource type.
+	         *
+	         * @member {Resource.TYPE}
+	         * @readonly
+	         */
+	        this.type = Resource.TYPE.UNKNOWN;
+	
+	        /**
+	         * The progress chunk owned by this resource.
+	         *
+	         * @member {number}
+	         * @readonly
+	         */
+	        this.progressChunk = 0;
+	
+	        /**
+	         * The `dequeue` method that will be used a storage place for the async queue dequeue method
+	         * used privately by the loader.
+	         *
+	         * @private
+	         * @member {function}
+	         */
+	        this._dequeue = _noop;
+	
+	        /**
+	         * Used a storage place for the on load binding used privately by the loader.
+	         *
+	         * @private
+	         * @member {function}
+	         */
+	        this._onLoadBinding = null;
+	
+	        /**
+	         * The `complete` function bound to this resource's context.
+	         *
+	         * @private
+	         * @member {function}
+	         */
+	        this._boundComplete = this.complete.bind(this);
+	
+	        /**
+	         * The `_onError` function bound to this resource's context.
+	         *
+	         * @private
+	         * @member {function}
+	         */
+	        this._boundOnError = this._onError.bind(this);
+	
+	        /**
+	         * The `_onProgress` function bound to this resource's context.
+	         *
+	         * @private
+	         * @member {function}
+	         */
+	        this._boundOnProgress = this._onProgress.bind(this);
+	
+	        // xhr callbacks
+	        this._boundXhrOnError = this._xhrOnError.bind(this);
+	        this._boundXhrOnAbort = this._xhrOnAbort.bind(this);
+	        this._boundXhrOnLoad = this._xhrOnLoad.bind(this);
+	        this._boundXdrOnTimeout = this._xdrOnTimeout.bind(this);
+	
+	        /**
+	         * Dispatched when the resource beings to load.
+	         *
+	         * The callback looks like {@link Resource.OnStartSignal}.
+	         *
+	         * @member {Signal}
+	         */
+	        this.onStart = new _miniSignals2.default();
+	
+	        /**
+	         * Dispatched each time progress of this resource load updates.
+	         * Not all resources types and loader systems can support this event
+	         * so sometimes it may not be available. If the resource
+	         * is being loaded on a modern browser, using XHR, and the remote server
+	         * properly sets Content-Length headers, then this will be available.
+	         *
+	         * The callback looks like {@link Resource.OnProgressSignal}.
+	         *
+	         * @member {Signal}
+	         */
+	        this.onProgress = new _miniSignals2.default();
+	
+	        /**
+	         * Dispatched once this resource has loaded, if there was an error it will
+	         * be in the `error` property.
+	         *
+	         * The callback looks like {@link Resource.OnCompleteSignal}.
+	         *
+	         * @member {Signal}
+	         */
+	        this.onComplete = new _miniSignals2.default();
+	
+	        /**
+	         * Dispatched after this resource has had all the *after* middleware run on it.
+	         *
+	         * The callback looks like {@link Resource.OnCompleteSignal}.
+	         *
+	         * @member {Signal}
+	         */
+	        this.onAfterMiddleware = new _miniSignals2.default();
+	
+	        /**
+	         * When the resource starts to load.
+	         *
+	         * @memberof Resource
+	         * @callback OnStartSignal
+	         * @param {Resource} resource - The resource that the event happened on.
+	         */
+	
+	        /**
+	         * When the resource reports loading progress.
+	         *
+	         * @memberof Resource
+	         * @callback OnProgressSignal
+	         * @param {Resource} resource - The resource that the event happened on.
+	         * @param {number} percentage - The progress of the load in the range [0, 1].
+	         */
+	
+	        /**
+	         * When the resource finishes loading.
+	         *
+	         * @memberof Resource
+	         * @callback OnCompleteSignal
+	         * @param {Resource} resource - The resource that the event happened on.
+	         */
+	    }
+	
+	    /**
+	     * Stores whether or not this url is a data url.
+	     *
+	     * @member {boolean}
+	     * @readonly
+	     */
+	
+	
+	    /**
+	     * Marks the resource as complete.
+	     *
+	     */
+	    Resource.prototype.complete = function complete() {
+	        // TODO: Clean this up in a wrapper or something...gross....
+	        if (this.data && this.data.removeEventListener) {
+	            this.data.removeEventListener('error', this._boundOnError, false);
+	            this.data.removeEventListener('load', this._boundComplete, false);
+	            this.data.removeEventListener('progress', this._boundOnProgress, false);
+	            this.data.removeEventListener('canplaythrough', this._boundComplete, false);
+	        }
+	
+	        if (this.xhr) {
+	            if (this.xhr.removeEventListener) {
+	                this.xhr.removeEventListener('error', this._boundXhrOnError, false);
+	                this.xhr.removeEventListener('abort', this._boundXhrOnAbort, false);
+	                this.xhr.removeEventListener('progress', this._boundOnProgress, false);
+	                this.xhr.removeEventListener('load', this._boundXhrOnLoad, false);
+	            } else {
+	                this.xhr.onerror = null;
+	                this.xhr.ontimeout = null;
+	                this.xhr.onprogress = null;
+	                this.xhr.onload = null;
+	            }
+	        }
+	
+	        if (this.isComplete) {
+	            throw new Error('Complete called again for an already completed resource.');
+	        }
+	
+	        this._setFlag(Resource.STATUS_FLAGS.COMPLETE, true);
+	        this._setFlag(Resource.STATUS_FLAGS.LOADING, false);
+	
+	        this.onComplete.dispatch(this);
+	    };
+	
+	    /**
+	     * Aborts the loading of this resource, with an optional message.
+	     *
+	     * @param {string} message - The message to use for the error
+	     */
+	
+	
+	    Resource.prototype.abort = function abort(message) {
+	        // abort can be called multiple times, ignore subsequent calls.
+	        if (this.error) {
+	            return;
+	        }
+	
+	        // store error
+	        this.error = new Error(message);
+	
+	        // abort the actual loading
+	        if (this.xhr) {
+	            this.xhr.abort();
+	        } else if (this.xdr) {
+	            this.xdr.abort();
+	        } else if (this.data) {
+	            // single source
+	            if (this.data.src) {
+	                this.data.src = Resource.EMPTY_GIF;
+	            }
+	            // multi-source
+	            else {
+	                    while (this.data.firstChild) {
+	                        this.data.removeChild(this.data.firstChild);
+	                    }
+	                }
+	        }
+	
+	        // done now.
+	        this.complete();
+	    };
+	
+	    /**
+	     * Kicks off loading of this resource. This method is asynchronous.
+	     *
+	     * @param {function} [cb] - Optional callback to call once the resource is loaded.
+	     */
+	
+	
+	    Resource.prototype.load = function load(cb) {
+	        var _this = this;
+	
+	        if (this.isLoading) {
+	            return;
+	        }
+	
+	        if (this.isComplete) {
+	            if (cb) {
+	                setTimeout(function () {
+	                    return cb(_this);
+	                }, 1);
+	            }
+	
+	            return;
+	        } else if (cb) {
+	            this.onComplete.once(cb);
+	        }
+	
+	        this._setFlag(Resource.STATUS_FLAGS.LOADING, true);
+	
+	        this.onStart.dispatch(this);
+	
+	        // if unset, determine the value
+	        if (this.crossOrigin === false || typeof this.crossOrigin !== 'string') {
+	            this.crossOrigin = this._determineCrossOrigin(this.url);
+	        }
+	
+	        switch (this.loadType) {
+	            case Resource.LOAD_TYPE.IMAGE:
+	                this.type = Resource.TYPE.IMAGE;
+	                this._loadElement('image');
+	                break;
+	
+	            case Resource.LOAD_TYPE.AUDIO:
+	                this.type = Resource.TYPE.AUDIO;
+	                this._loadSourceElement('audio');
+	                break;
+	
+	            case Resource.LOAD_TYPE.VIDEO:
+	                this.type = Resource.TYPE.VIDEO;
+	                this._loadSourceElement('video');
+	                break;
+	
+	            case Resource.LOAD_TYPE.XHR:
+	            /* falls through */
+	            default:
+	                if (useXdr && this.crossOrigin) {
+	                    this._loadXdr();
+	                } else {
+	                    this._loadXhr();
+	                }
+	                break;
+	        }
+	    };
+	
+	    /**
+	     * Checks if the flag is set.
+	     *
+	     * @private
+	     * @param {number} flag - The flag to check.
+	     * @return {boolean} True if the flag is set.
+	     */
+	
+	
+	    Resource.prototype._hasFlag = function _hasFlag(flag) {
+	        return !!(this._flags & flag);
+	    };
+	
+	    /**
+	     * (Un)Sets the flag.
+	     *
+	     * @private
+	     * @param {number} flag - The flag to (un)set.
+	     * @param {boolean} value - Whether to set or (un)set the flag.
+	     */
+	
+	
+	    Resource.prototype._setFlag = function _setFlag(flag, value) {
+	        this._flags = value ? this._flags | flag : this._flags & ~flag;
+	    };
+	
+	    /**
+	     * Loads this resources using an element that has a single source,
+	     * like an HTMLImageElement.
+	     *
+	     * @private
+	     * @param {string} type - The type of element to use.
+	     */
+	
+	
+	    Resource.prototype._loadElement = function _loadElement(type) {
+	        if (this.metadata.loadElement) {
+	            this.data = this.metadata.loadElement;
+	        } else if (type === 'image' && typeof window.Image !== 'undefined') {
+	            this.data = new Image();
+	        } else {
+	            this.data = document.createElement(type);
+	        }
+	
+	        if (this.crossOrigin) {
+	            this.data.crossOrigin = this.crossOrigin;
+	        }
+	
+	        if (!this.metadata.skipSource) {
+	            this.data.src = this.url;
+	        }
+	
+	        this.data.addEventListener('error', this._boundOnError, false);
+	        this.data.addEventListener('load', this._boundComplete, false);
+	        this.data.addEventListener('progress', this._boundOnProgress, false);
+	    };
+	
+	    /**
+	     * Loads this resources using an element that has multiple sources,
+	     * like an HTMLAudioElement or HTMLVideoElement.
+	     *
+	     * @private
+	     * @param {string} type - The type of element to use.
+	     */
+	
+	
+	    Resource.prototype._loadSourceElement = function _loadSourceElement(type) {
+	        if (this.metadata.loadElement) {
+	            this.data = this.metadata.loadElement;
+	        } else if (type === 'audio' && typeof window.Audio !== 'undefined') {
+	            this.data = new Audio();
+	        } else {
+	            this.data = document.createElement(type);
+	        }
+	
+	        if (this.data === null) {
+	            this.abort('Unsupported element: ' + type);
+	
+	            return;
+	        }
+	
+	        if (!this.metadata.skipSource) {
+	            // support for CocoonJS Canvas+ runtime, lacks document.createElement('source')
+	            if (navigator.isCocoonJS) {
+	                this.data.src = Array.isArray(this.url) ? this.url[0] : this.url;
+	            } else if (Array.isArray(this.url)) {
+	                for (var i = 0; i < this.url.length; ++i) {
+	                    this.data.appendChild(this._createSource(type, this.url[i]));
+	                }
+	            } else {
+	                this.data.appendChild(this._createSource(type, this.url));
+	            }
+	        }
+	
+	        this.data.addEventListener('error', this._boundOnError, false);
+	        this.data.addEventListener('load', this._boundComplete, false);
+	        this.data.addEventListener('progress', this._boundOnProgress, false);
+	        this.data.addEventListener('canplaythrough', this._boundComplete, false);
+	
+	        this.data.load();
+	    };
+	
+	    /**
+	     * Loads this resources using an XMLHttpRequest.
+	     *
+	     * @private
+	     */
+	
+	
+	    Resource.prototype._loadXhr = function _loadXhr() {
+	        // if unset, determine the value
+	        if (typeof this.xhrType !== 'string') {
+	            this.xhrType = this._determineXhrType();
+	        }
+	
+	        var xhr = this.xhr = new XMLHttpRequest();
+	
+	        // set the request type and url
+	        xhr.open('GET', this.url, true);
+	
+	        // load json as text and parse it ourselves. We do this because some browsers
+	        // *cough* safari *cough* can't deal with it.
+	        if (this.xhrType === Resource.XHR_RESPONSE_TYPE.JSON || this.xhrType === Resource.XHR_RESPONSE_TYPE.DOCUMENT) {
+	            xhr.responseType = Resource.XHR_RESPONSE_TYPE.TEXT;
+	        } else {
+	            xhr.responseType = this.xhrType;
+	        }
+	
+	        xhr.addEventListener('error', this._boundXhrOnError, false);
+	        xhr.addEventListener('abort', this._boundXhrOnAbort, false);
+	        xhr.addEventListener('progress', this._boundOnProgress, false);
+	        xhr.addEventListener('load', this._boundXhrOnLoad, false);
+	
+	        xhr.send();
+	    };
+	
+	    /**
+	     * Loads this resources using an XDomainRequest. This is here because we need to support IE9 (gross).
+	     *
+	     * @private
+	     */
+	
+	
+	    Resource.prototype._loadXdr = function _loadXdr() {
+	        // if unset, determine the value
+	        if (typeof this.xhrType !== 'string') {
+	            this.xhrType = this._determineXhrType();
+	        }
+	
+	        var xdr = this.xhr = new XDomainRequest();
+	
+	        // XDomainRequest has a few quirks. Occasionally it will abort requests
+	        // A way to avoid this is to make sure ALL callbacks are set even if not used
+	        // More info here: http://stackoverflow.com/questions/15786966/xdomainrequest-aborts-post-on-ie-9
+	        xdr.timeout = 5000;
+	
+	        xdr.onerror = this._boundXhrOnError;
+	        xdr.ontimeout = this._boundXdrOnTimeout;
+	        xdr.onprogress = this._boundOnProgress;
+	        xdr.onload = this._boundXhrOnLoad;
+	
+	        xdr.open('GET', this.url, true);
+	
+	        // Note: The xdr.send() call is wrapped in a timeout to prevent an
+	        // issue with the interface where some requests are lost if multiple
+	        // XDomainRequests are being sent at the same time.
+	        // Some info here: https://github.com/photonstorm/phaser/issues/1248
+	        setTimeout(function () {
+	            return xdr.send();
+	        }, 1);
+	    };
+	
+	    /**
+	     * Creates a source used in loading via an element.
+	     *
+	     * @private
+	     * @param {string} type - The element type (video or audio).
+	     * @param {string} url - The source URL to load from.
+	     * @param {string} [mime] - The mime type of the video
+	     * @return {HTMLSourceElement} The source element.
+	     */
+	
+	
+	    Resource.prototype._createSource = function _createSource(type, url, mime) {
+	        if (!mime) {
+	            mime = type + '/' + url.substr(url.lastIndexOf('.') + 1);
+	        }
+	
+	        var source = document.createElement('source');
+	
+	        source.src = url;
+	        source.type = mime;
+	
+	        return source;
+	    };
+	
+	    /**
+	     * Called if a load errors out.
+	     *
+	     * @param {Event} event - The error event from the element that emits it.
+	     * @private
+	     */
+	
+	
+	    Resource.prototype._onError = function _onError(event) {
+	        this.abort('Failed to load element using: ' + event.target.nodeName);
+	    };
+	
+	    /**
+	     * Called if a load progress event fires for xhr/xdr.
+	     *
+	     * @private
+	     * @param {XMLHttpRequestProgressEvent|Event} event - Progress event.
+	     */
+	
+	
+	    Resource.prototype._onProgress = function _onProgress(event) {
+	        if (event && event.lengthComputable) {
+	            this.onProgress.dispatch(this, event.loaded / event.total);
+	        }
+	    };
+	
+	    /**
+	     * Called if an error event fires for xhr/xdr.
+	     *
+	     * @private
+	     * @param {XMLHttpRequestErrorEvent|Event} event - Error event.
+	     */
+	
+	
+	    Resource.prototype._xhrOnError = function _xhrOnError() {
+	        var xhr = this.xhr;
+	
+	        this.abort(reqType(xhr) + ' Request failed. Status: ' + xhr.status + ', text: "' + xhr.statusText + '"');
+	    };
+	
+	    /**
+	     * Called if an abort event fires for xhr.
+	     *
+	     * @private
+	     * @param {XMLHttpRequestAbortEvent} event - Abort Event
+	     */
+	
+	
+	    Resource.prototype._xhrOnAbort = function _xhrOnAbort() {
+	        this.abort(reqType(this.xhr) + ' Request was aborted by the user.');
+	    };
+	
+	    /**
+	     * Called if a timeout event fires for xdr.
+	     *
+	     * @private
+	     * @param {Event} event - Timeout event.
+	     */
+	
+	
+	    Resource.prototype._xdrOnTimeout = function _xdrOnTimeout() {
+	        this.abort(reqType(this.xhr) + ' Request timed out.');
+	    };
+	
+	    /**
+	     * Called when data successfully loads from an xhr/xdr request.
+	     *
+	     * @private
+	     * @param {XMLHttpRequestLoadEvent|Event} event - Load event
+	     */
+	
+	
+	    Resource.prototype._xhrOnLoad = function _xhrOnLoad() {
+	        var xhr = this.xhr;
+	        var status = typeof xhr.status === 'undefined' ? xhr.status : STATUS_OK; // XDR has no `.status`, assume 200.
+	
+	        // status can be 0 when using the `file://` protocol so we also check if a response is set
+	        if (status === STATUS_OK || status === STATUS_EMPTY || status === STATUS_NONE && xhr.responseText.length > 0) {
+	            // if text, just return it
+	            if (this.xhrType === Resource.XHR_RESPONSE_TYPE.TEXT) {
+	                this.data = xhr.responseText;
+	                this.type = Resource.TYPE.TEXT;
+	            }
+	            // if json, parse into json object
+	            else if (this.xhrType === Resource.XHR_RESPONSE_TYPE.JSON) {
+	                    try {
+	                        this.data = JSON.parse(xhr.responseText);
+	                        this.type = Resource.TYPE.JSON;
+	                    } catch (e) {
+	                        this.abort('Error trying to parse loaded json: ' + e);
+	
+	                        return;
+	                    }
+	                }
+	                // if xml, parse into an xml document or div element
+	                else if (this.xhrType === Resource.XHR_RESPONSE_TYPE.DOCUMENT) {
+	                        try {
+	                            if (window.DOMParser) {
+	                                var domparser = new DOMParser();
+	
+	                                this.data = domparser.parseFromString(xhr.responseText, 'text/xml');
+	                            } else {
+	                                var div = document.createElement('div');
+	
+	                                div.innerHTML = xhr.responseText;
+	
+	                                this.data = div;
+	                            }
+	
+	                            this.type = Resource.TYPE.XML;
+	                        } catch (e) {
+	                            this.abort('Error trying to parse loaded xml: ' + e);
+	
+	                            return;
+	                        }
+	                    }
+	                    // other types just return the response
+	                    else {
+	                            this.data = xhr.response || xhr.responseText;
+	                        }
+	        } else {
+	            this.abort('[' + xhr.status + '] ' + xhr.statusText + ': ' + xhr.responseURL);
+	
+	            return;
+	        }
+	
+	        this.complete();
+	    };
+	
+	    /**
+	     * Sets the `crossOrigin` property for this resource based on if the url
+	     * for this resource is cross-origin. If crossOrigin was manually set, this
+	     * function does nothing.
+	     *
+	     * @private
+	     * @param {string} url - The url to test.
+	     * @param {object} [loc=window.location] - The location object to test against.
+	     * @return {string} The crossOrigin value to use (or empty string for none).
+	     */
+	
+	
+	    Resource.prototype._determineCrossOrigin = function _determineCrossOrigin(url, loc) {
+	        // data: and javascript: urls are considered same-origin
+	        if (url.indexOf('data:') === 0) {
+	            return '';
+	        }
+	
+	        // default is window.location
+	        loc = loc || window.location;
+	
+	        if (!tempAnchor) {
+	            tempAnchor = document.createElement('a');
+	        }
+	
+	        // let the browser determine the full href for the url of this resource and then
+	        // parse with the node url lib, we can't use the properties of the anchor element
+	        // because they don't work in IE9 :(
+	        tempAnchor.href = url;
+	        url = (0, _parseUri2.default)(tempAnchor.href, { strictMode: true });
+	
+	        var samePort = !url.port && loc.port === '' || url.port === loc.port;
+	        var protocol = url.protocol ? url.protocol + ':' : '';
+	
+	        // if cross origin
+	        if (url.host !== loc.hostname || !samePort || protocol !== loc.protocol) {
+	            return 'anonymous';
+	        }
+	
+	        return '';
+	    };
+	
+	    /**
+	     * Determines the responseType of an XHR request based on the extension of the
+	     * resource being loaded.
+	     *
+	     * @private
+	     * @return {Resource.XHR_RESPONSE_TYPE} The responseType to use.
+	     */
+	
+	
+	    Resource.prototype._determineXhrType = function _determineXhrType() {
+	        return Resource._xhrTypeMap[this.extension] || Resource.XHR_RESPONSE_TYPE.TEXT;
+	    };
+	
+	    /**
+	     * Determines the loadType of a resource based on the extension of the
+	     * resource being loaded.
+	     *
+	     * @private
+	     * @return {Resource.LOAD_TYPE} The loadType to use.
+	     */
+	
+	
+	    Resource.prototype._determineLoadType = function _determineLoadType() {
+	        return Resource._loadTypeMap[this.extension] || Resource.LOAD_TYPE.XHR;
+	    };
+	
+	    /**
+	     * Extracts the extension (sans '.') of the file being loaded by the resource.
+	     *
+	     * @private
+	     * @return {string} The extension.
+	     */
+	
+	
+	    Resource.prototype._getExtension = function _getExtension() {
+	        var url = this.url;
+	        var ext = '';
+	
+	        if (this.isDataUrl) {
+	            var slashIndex = url.indexOf('/');
+	
+	            ext = url.substring(slashIndex + 1, url.indexOf(';', slashIndex));
+	        } else {
+	            var queryStart = url.indexOf('?');
+	
+	            if (queryStart !== -1) {
+	                url = url.substring(0, queryStart);
+	            }
+	
+	            ext = url.substring(url.lastIndexOf('.') + 1);
+	        }
+	
+	        return ext.toLowerCase();
+	    };
+	
+	    /**
+	     * Determines the mime type of an XHR request based on the responseType of
+	     * resource being loaded.
+	     *
+	     * @private
+	     * @param {Resource.XHR_RESPONSE_TYPE} type - The type to get a mime type for.
+	     * @return {string} The mime type to use.
+	     */
+	
+	
+	    Resource.prototype._getMimeFromXhrType = function _getMimeFromXhrType(type) {
+	        switch (type) {
+	            case Resource.XHR_RESPONSE_TYPE.BUFFER:
+	                return 'application/octet-binary';
+	
+	            case Resource.XHR_RESPONSE_TYPE.BLOB:
+	                return 'application/blob';
+	
+	            case Resource.XHR_RESPONSE_TYPE.DOCUMENT:
+	                return 'application/xml';
+	
+	            case Resource.XHR_RESPONSE_TYPE.JSON:
+	                return 'application/json';
+	
+	            case Resource.XHR_RESPONSE_TYPE.DEFAULT:
+	            case Resource.XHR_RESPONSE_TYPE.TEXT:
+	            /* falls through */
+	            default:
+	                return 'text/plain';
+	
+	        }
+	    };
+	
+	    _createClass(Resource, [{
+	        key: 'isDataUrl',
+	        get: function get() {
+	            return this._hasFlag(Resource.STATUS_FLAGS.DATA_URL);
+	        }
+	
+	        /**
+	         * Describes if this resource has finished loading. Is true when the resource has completely
+	         * loaded.
+	         *
+	         * @member {boolean}
+	         * @readonly
+	         */
+	
+	    }, {
+	        key: 'isComplete',
+	        get: function get() {
+	            return this._hasFlag(Resource.STATUS_FLAGS.COMPLETE);
+	        }
+	
+	        /**
+	         * Describes if this resource is currently loading. Is true when the resource starts loading,
+	         * and is false again when complete.
+	         *
+	         * @member {boolean}
+	         * @readonly
+	         */
+	
+	    }, {
+	        key: 'isLoading',
+	        get: function get() {
+	            return this._hasFlag(Resource.STATUS_FLAGS.LOADING);
+	        }
+	    }]);
+	
+	    return Resource;
+	}();
+	
+	/**
+	 * The types of resources a resource could represent.
+	 *
+	 * @static
+	 * @readonly
+	 * @enum {number}
+	 */
+	
+	
+	exports.default = Resource;
+	Resource.STATUS_FLAGS = {
+	    NONE: 0,
+	    DATA_URL: 1 << 0,
+	    COMPLETE: 1 << 1,
+	    LOADING: 1 << 2
+	};
+	
+	/**
+	 * The types of resources a resource could represent.
+	 *
+	 * @static
+	 * @readonly
+	 * @enum {number}
+	 */
+	Resource.TYPE = {
+	    UNKNOWN: 0,
+	    JSON: 1,
+	    XML: 2,
+	    IMAGE: 3,
+	    AUDIO: 4,
+	    VIDEO: 5,
+	    TEXT: 6
+	};
+	
+	/**
+	 * The types of loading a resource can use.
+	 *
+	 * @static
+	 * @readonly
+	 * @enum {number}
+	 */
+	Resource.LOAD_TYPE = {
+	    /** Uses XMLHttpRequest to load the resource. */
+	    XHR: 1,
+	    /** Uses an `Image` object to load the resource. */
+	    IMAGE: 2,
+	    /** Uses an `Audio` object to load the resource. */
+	    AUDIO: 3,
+	    /** Uses a `Video` object to load the resource. */
+	    VIDEO: 4
+	};
+	
+	/**
+	 * The XHR ready states, used internally.
+	 *
+	 * @static
+	 * @readonly
+	 * @enum {string}
+	 */
+	Resource.XHR_RESPONSE_TYPE = {
+	    /** string */
+	    DEFAULT: 'text',
+	    /** ArrayBuffer */
+	    BUFFER: 'arraybuffer',
+	    /** Blob */
+	    BLOB: 'blob',
+	    /** Document */
+	    DOCUMENT: 'document',
+	    /** Object */
+	    JSON: 'json',
+	    /** String */
+	    TEXT: 'text'
+	};
+	
+	Resource._loadTypeMap = {
+	    // images
+	    gif: Resource.LOAD_TYPE.IMAGE,
+	    png: Resource.LOAD_TYPE.IMAGE,
+	    bmp: Resource.LOAD_TYPE.IMAGE,
+	    jpg: Resource.LOAD_TYPE.IMAGE,
+	    jpeg: Resource.LOAD_TYPE.IMAGE,
+	    tif: Resource.LOAD_TYPE.IMAGE,
+	    tiff: Resource.LOAD_TYPE.IMAGE,
+	    webp: Resource.LOAD_TYPE.IMAGE,
+	    tga: Resource.LOAD_TYPE.IMAGE,
+	    svg: Resource.LOAD_TYPE.IMAGE,
+	    'svg+xml': Resource.LOAD_TYPE.IMAGE, // for SVG data urls
+	
+	    // audio
+	    mp3: Resource.LOAD_TYPE.AUDIO,
+	    ogg: Resource.LOAD_TYPE.AUDIO,
+	    wav: Resource.LOAD_TYPE.AUDIO,
+	
+	    // videos
+	    mp4: Resource.LOAD_TYPE.VIDEO,
+	    webm: Resource.LOAD_TYPE.VIDEO
+	};
+	
+	Resource._xhrTypeMap = {
+	    // xml
+	    xhtml: Resource.XHR_RESPONSE_TYPE.DOCUMENT,
+	    html: Resource.XHR_RESPONSE_TYPE.DOCUMENT,
+	    htm: Resource.XHR_RESPONSE_TYPE.DOCUMENT,
+	    xml: Resource.XHR_RESPONSE_TYPE.DOCUMENT,
+	    tmx: Resource.XHR_RESPONSE_TYPE.DOCUMENT,
+	    svg: Resource.XHR_RESPONSE_TYPE.DOCUMENT,
+	
+	    // This was added to handle Tiled Tileset XML, but .tsx is also a TypeScript React Component.
+	    // Since it is way less likely for people to be loading TypeScript files instead of Tiled files,
+	    // this should probably be fine.
+	    tsx: Resource.XHR_RESPONSE_TYPE.DOCUMENT,
+	
+	    // images
+	    gif: Resource.XHR_RESPONSE_TYPE.BLOB,
+	    png: Resource.XHR_RESPONSE_TYPE.BLOB,
+	    bmp: Resource.XHR_RESPONSE_TYPE.BLOB,
+	    jpg: Resource.XHR_RESPONSE_TYPE.BLOB,
+	    jpeg: Resource.XHR_RESPONSE_TYPE.BLOB,
+	    tif: Resource.XHR_RESPONSE_TYPE.BLOB,
+	    tiff: Resource.XHR_RESPONSE_TYPE.BLOB,
+	    webp: Resource.XHR_RESPONSE_TYPE.BLOB,
+	    tga: Resource.XHR_RESPONSE_TYPE.BLOB,
+	
+	    // json
+	    json: Resource.XHR_RESPONSE_TYPE.JSON,
+	
+	    // text
+	    text: Resource.XHR_RESPONSE_TYPE.TEXT,
+	    txt: Resource.XHR_RESPONSE_TYPE.TEXT,
+	
+	    // fonts
+	    ttf: Resource.XHR_RESPONSE_TYPE.BUFFER,
+	    otf: Resource.XHR_RESPONSE_TYPE.BUFFER
+	};
+	
+	// We can't set the `src` attribute to empty string, so on abort we set it to this 1px transparent gif
+	Resource.EMPTY_GIF = 'data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==';
+	
+	/**
+	 * Quick helper to set a value on one of the extension maps. Ensures there is no
+	 * dot at the start of the extension.
+	 *
+	 * @ignore
+	 * @param {object} map - The map to set on.
+	 * @param {string} extname - The extension (or key) to set.
+	 * @param {number} val - The value to set.
+	 */
+	function setExtMap(map, extname, val) {
+	    if (extname && extname.indexOf('.') === 0) {
+	        extname = extname.substring(1);
+	    }
+	
+	    if (!extname) {
+	        return;
+	    }
+	
+	    map[extname] = val;
+	}
+	
+	/**
+	 * Quick helper to get string xhr type.
+	 *
+	 * @ignore
+	 * @param {XMLHttpRequest|XDomainRequest} xhr - The request to check.
+	 * @return {string} The type.
+	 */
+	function reqType(xhr) {
+	    return xhr.toString().replace('object ', '');
+	}
+	//# sourceMappingURL=Resource.js.map
+
+/***/ },
+/* 168 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports.encodeBinary = encodeBinary;
+	var _keyStr = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+	
+	function encodeBinary(input) {
+	    var output = '';
+	    var inx = 0;
+	
+	    while (inx < input.length) {
+	        // Fill byte buffer array
+	        var bytebuffer = [0, 0, 0];
+	        var encodedCharIndexes = [0, 0, 0, 0];
+	
+	        for (var jnx = 0; jnx < bytebuffer.length; ++jnx) {
+	            if (inx < input.length) {
+	                // throw away high-order byte, as documented at:
+	                // https://developer.mozilla.org/En/Using_XMLHttpRequest#Handling_binary_data
+	                bytebuffer[jnx] = input.charCodeAt(inx++) & 0xff;
+	            } else {
+	                bytebuffer[jnx] = 0;
+	            }
+	        }
+	
+	        // Get each encoded character, 6 bits at a time
+	        // index 1: first 6 bits
+	        encodedCharIndexes[0] = bytebuffer[0] >> 2;
+	
+	        // index 2: second 6 bits (2 least significant bits from input byte 1 + 4 most significant bits from byte 2)
+	        encodedCharIndexes[1] = (bytebuffer[0] & 0x3) << 4 | bytebuffer[1] >> 4;
+	
+	        // index 3: third 6 bits (4 least significant bits from input byte 2 + 2 most significant bits from byte 3)
+	        encodedCharIndexes[2] = (bytebuffer[1] & 0x0f) << 2 | bytebuffer[2] >> 6;
+	
+	        // index 3: forth 6 bits (6 least significant bits from input byte 3)
+	        encodedCharIndexes[3] = bytebuffer[2] & 0x3f;
+	
+	        // Determine whether padding happened, and adjust accordingly
+	        var paddingBytes = inx - (input.length - 1);
+	
+	        switch (paddingBytes) {
+	            case 2:
+	                // Set last 2 characters to padding char
+	                encodedCharIndexes[3] = 64;
+	                encodedCharIndexes[2] = 64;
+	                break;
+	
+	            case 1:
+	                // Set last character to padding char
+	                encodedCharIndexes[3] = 64;
+	                break;
+	
+	            default:
+	                break; // No padding - proceed
+	        }
+	
+	        // Now we will grab each appropriate character out of our keystring
+	        // based on our index array and append it to the output string
+	        for (var _jnx = 0; _jnx < encodedCharIndexes.length; ++_jnx) {
+	            output += _keyStr.charAt(encodedCharIndexes[_jnx]);
+	        }
+	    }
+	
+	    return output;
+	}
+	//# sourceMappingURL=b64.js.map
+
+/***/ },
+/* 169 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+	
+	exports.blobMiddlewareFactory = blobMiddlewareFactory;
+	
+	var _Resource = __webpack_require__(167);
+	
+	var _Resource2 = _interopRequireDefault(_Resource);
+	
+	var _b = __webpack_require__(168);
+	
+	var _b2 = _interopRequireDefault(_b);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Url = window.URL || window.webkitURL;
+	
+	// a middleware for transforming XHR loaded Blobs into more useful objects
+	function blobMiddlewareFactory() {
+	    return function blobMiddleware(resource, next) {
+	        if (!resource.data) {
+	            next();
+	
+	            return;
+	        }
+	
+	        // if this was an XHR load of a blob
+	        if (resource.xhr && resource.xhrType === _Resource2.default.XHR_RESPONSE_TYPE.BLOB) {
+	            // if there is no blob support we probably got a binary string back
+	            if (!window.Blob || typeof resource.data === 'string') {
+	                var type = resource.xhr.getResponseHeader('content-type');
+	
+	                // this is an image, convert the binary string into a data url
+	                if (type && type.indexOf('image') === 0) {
+	                    resource.data = new Image();
+	                    resource.data.src = 'data:' + type + ';base64,' + _b2.default.encodeBinary(resource.xhr.responseText);
+	
+	                    resource.type = _Resource2.default.TYPE.IMAGE;
+	
+	                    // wait until the image loads and then callback
+	                    resource.data.onload = function () {
+	                        resource.data.onload = null;
+	
+	                        next();
+	                    };
+	
+	                    // next will be called on load
+	                    return;
+	                }
+	            }
+	            // if content type says this is an image, then we should transform the blob into an Image object
+	            else if (resource.data.type.indexOf('image') === 0) {
+	                    var _ret = function () {
+	                        var src = Url.createObjectURL(resource.data);
+	
+	                        resource.blob = resource.data;
+	                        resource.data = new Image();
+	                        resource.data.src = src;
+	
+	                        resource.type = _Resource2.default.TYPE.IMAGE;
+	
+	                        // cleanup the no longer used blob after the image loads
+	                        // TODO: Is this correct? Will the image be invalid after revoking?
+	                        resource.data.onload = function () {
+	                            Url.revokeObjectURL(src);
+	                            resource.data.onload = null;
+	
+	                            next();
+	                        };
+	
+	                        // next will be called on load.
+	                        return {
+	                            v: void 0
+	                        };
+	                    }();
+	
+	                    if ((typeof _ret === 'undefined' ? 'undefined' : _typeof(_ret)) === "object") return _ret.v;
+	                }
+	        }
+	
+	        next();
+	    };
+	}
+	//# sourceMappingURL=blob.js.map
+
+/***/ },
+/* 170 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	exports.default = function () {
+	    return function textureParser(resource, next) {
+	        // create a new texture if the data is an Image object
+	        if (resource.data && resource.type === _resourceLoader.Resource.TYPE.IMAGE) {
+	            var baseTexture = new core.BaseTexture(resource.data, null, core.utils.getResolutionOfUrl(resource.url));
+	
+	            baseTexture.imageUrl = resource.url;
+	            resource.texture = new core.Texture(baseTexture);
+	
+	            // lets also add the frame to pixi's global cache for fromFrame and fromImage fucntions
+	            core.utils.BaseTextureCache[resource.name] = baseTexture;
+	            core.utils.TextureCache[resource.name] = resource.texture;
+	
+	            // also add references by url if they are different.
+	            if (resource.name !== resource.url) {
+	                core.utils.BaseTextureCache[resource.url] = baseTexture;
+	                core.utils.TextureCache[resource.url] = resource.texture;
+	            }
+	        }
+	
+	        next();
+	    };
+	};
+	
+	var _core = __webpack_require__(10);
+	
+	var core = _interopRequireWildcard(_core);
+	
+	var _resourceLoader = __webpack_require__(162);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	//# sourceMappingURL=textureParser.js.map
+
+/***/ },
+/* 171 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	exports.default = function () {
+	    return function spritesheetParser(resource, next) {
+	        var resourcePath = void 0;
+	        var imageResourceName = resource.name + '_image';
+	
+	        // skip if no data, its not json, it isn't spritesheet data, or the image resource already exists
+	        if (!resource.data || resource.type !== _resourceLoader.Resource.TYPE.JSON || !resource.data.frames || this.resources[imageResourceName]) {
+	            next();
+	
+	            return;
+	        }
+	
+	        var loadOptions = {
+	            crossOrigin: resource.crossOrigin,
+	            loadType: _resourceLoader.Resource.LOAD_TYPE.IMAGE,
+	            metadata: resource.metadata.imageMetadata,
+	            parentResource: resource
+	        };
+	
+	        // Prepend url path unless the resource image is a data url
+	        if (resource.isDataUrl) {
+	            resourcePath = resource.data.meta.image;
+	        } else {
+	            resourcePath = _path2.default.dirname(resource.url.replace(this.baseUrl, '')) + '/' + resource.data.meta.image;
+	        }
+	
+	        // load the image for this sheet
+	        this.add(imageResourceName, resourcePath, loadOptions, function onImageLoad(res) {
+	            resource.textures = {};
+	
+	            var frames = resource.data.frames;
+	            var frameKeys = Object.keys(frames);
+	            var baseTexture = res.texture.baseTexture;
+	            var scale = resource.data.meta.scale;
+	
+	            // Use a defaultValue of `null` to check if a url-based resolution is set
+	            var resolution = core.utils.getResolutionOfUrl(resource.url, null);
+	
+	            // No resolution found via URL
+	            if (resolution === null) {
+	                // Use the scale value or default to 1
+	                resolution = scale !== undefined ? scale : 1;
+	            }
+	
+	            // For non-1 resolutions, update baseTexture
+	            if (resolution !== 1) {
+	                baseTexture.resolution = resolution;
+	                baseTexture.update();
+	            }
+	
+	            var batchIndex = 0;
+	
+	            function processFrames(initialFrameIndex, maxFrames) {
+	                var frameIndex = initialFrameIndex;
+	
+	                while (frameIndex - initialFrameIndex < maxFrames && frameIndex < frameKeys.length) {
+	                    var i = frameKeys[frameIndex];
+	                    var rect = frames[i].frame;
+	
+	                    if (rect) {
+	                        var frame = null;
+	                        var trim = null;
+	                        var orig = new core.Rectangle(0, 0, frames[i].sourceSize.w / resolution, frames[i].sourceSize.h / resolution);
+	
+	                        if (frames[i].rotated) {
+	                            frame = new core.Rectangle(rect.x / resolution, rect.y / resolution, rect.h / resolution, rect.w / resolution);
+	                        } else {
+	                            frame = new core.Rectangle(rect.x / resolution, rect.y / resolution, rect.w / resolution, rect.h / resolution);
+	                        }
+	
+	                        //  Check to see if the sprite is trimmed
+	                        if (frames[i].trimmed) {
+	                            trim = new core.Rectangle(frames[i].spriteSourceSize.x / resolution, frames[i].spriteSourceSize.y / resolution, rect.w / resolution, rect.h / resolution);
+	                        }
+	
+	                        resource.textures[i] = new core.Texture(baseTexture, frame, orig, trim, frames[i].rotated ? 2 : 0);
+	
+	                        // lets also add the frame to pixi's global cache for fromFrame and fromImage functions
+	                        core.utils.TextureCache[i] = resource.textures[i];
+	                    }
+	
+	                    frameIndex++;
+	                }
+	            }
+	
+	            function shouldProcessNextBatch() {
+	                return batchIndex * BATCH_SIZE < frameKeys.length;
+	            }
+	
+	            function processNextBatch(done) {
+	                processFrames(batchIndex * BATCH_SIZE, BATCH_SIZE);
+	                batchIndex++;
+	                setTimeout(done, 0);
+	            }
+	
+	            function iteration() {
+	                processNextBatch(function () {
+	                    if (shouldProcessNextBatch()) {
+	                        iteration();
+	                    } else {
+	                        next();
+	                    }
+	                });
+	            }
+	
+	            if (frameKeys.length <= BATCH_SIZE) {
+	                processFrames(0, BATCH_SIZE);
+	                next();
+	            } else {
+	                iteration();
+	            }
+	        });
+	    };
+	};
+	
+	var _resourceLoader = __webpack_require__(162);
+	
+	var _path = __webpack_require__(86);
+	
+	var _path2 = _interopRequireDefault(_path);
+	
+	var _core = __webpack_require__(10);
+	
+	var core = _interopRequireWildcard(_core);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var BATCH_SIZE = 1000;
+	//# sourceMappingURL=spritesheetParser.js.map
+
+/***/ },
+/* 172 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	exports.parse = parse;
+	
+	exports.default = function () {
+	    return function bitmapFontParser(resource, next) {
+	        // skip if no data or not xml data
+	        if (!resource.data || resource.type !== _resourceLoader.Resource.TYPE.XML) {
+	            next();
+	
+	            return;
+	        }
+	
+	        // skip if not bitmap font data, using some silly duck-typing
+	        if (resource.data.getElementsByTagName('page').length === 0 || resource.data.getElementsByTagName('info').length === 0 || resource.data.getElementsByTagName('info')[0].getAttribute('face') === null) {
+	            next();
+	
+	            return;
+	        }
+	
+	        var xmlUrl = !resource.isDataUrl ? path.dirname(resource.url) : '';
+	
+	        if (resource.isDataUrl) {
+	            if (xmlUrl === '.') {
+	                xmlUrl = '';
+	            }
+	
+	            if (this.baseUrl && xmlUrl) {
+	                // if baseurl has a trailing slash then add one to xmlUrl so the replace works below
+	                if (this.baseUrl.charAt(this.baseUrl.length - 1) === '/') {
+	                    xmlUrl += '/';
+	                }
+	
+	                // remove baseUrl from xmlUrl
+	                xmlUrl = xmlUrl.replace(this.baseUrl, '');
+	            }
+	        }
+	
+	        // if there is an xmlUrl now, it needs a trailing slash. Ensure that it does if the string isn't empty.
+	        if (xmlUrl && xmlUrl.charAt(xmlUrl.length - 1) !== '/') {
+	            xmlUrl += '/';
+	        }
+	
+	        var textureUrl = xmlUrl + resource.data.getElementsByTagName('page')[0].getAttribute('file');
+	
+	        if (_core.utils.TextureCache[textureUrl]) {
+	            // reuse existing texture
+	            parse(resource, _core.utils.TextureCache[textureUrl]);
+	            next();
+	        } else {
+	            var loadOptions = {
+	                crossOrigin: resource.crossOrigin,
+	                loadType: _resourceLoader.Resource.LOAD_TYPE.IMAGE,
+	                metadata: resource.metadata.imageMetadata,
+	                parentResource: resource
+	            };
+	
+	            // load the texture for the font
+	            this.add(resource.name + '_image', textureUrl, loadOptions, function (res) {
+	                parse(resource, res.texture);
+	                next();
+	            });
+	        }
+	    };
+	};
+	
+	var _path = __webpack_require__(86);
+	
+	var path = _interopRequireWildcard(_path);
+	
+	var _core = __webpack_require__(10);
+	
+	var _resourceLoader = __webpack_require__(162);
+	
+	var _extras = __webpack_require__(133);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function parse(resource, texture) {
+	    var data = {};
+	    var info = resource.data.getElementsByTagName('info')[0];
+	    var common = resource.data.getElementsByTagName('common')[0];
+	
+	    data.font = info.getAttribute('face');
+	    data.size = parseInt(info.getAttribute('size'), 10);
+	    data.lineHeight = parseInt(common.getAttribute('lineHeight'), 10);
+	    data.chars = {};
+	
+	    // parse letters
+	    var letters = resource.data.getElementsByTagName('char');
+	
+	    for (var i = 0; i < letters.length; i++) {
+	        var charCode = parseInt(letters[i].getAttribute('id'), 10);
+	
+	        var textureRect = new _core.Rectangle(parseInt(letters[i].getAttribute('x'), 10) + texture.frame.x, parseInt(letters[i].getAttribute('y'), 10) + texture.frame.y, parseInt(letters[i].getAttribute('width'), 10), parseInt(letters[i].getAttribute('height'), 10));
+	
+	        data.chars[charCode] = {
+	            xOffset: parseInt(letters[i].getAttribute('xoffset'), 10),
+	            yOffset: parseInt(letters[i].getAttribute('yoffset'), 10),
+	            xAdvance: parseInt(letters[i].getAttribute('xadvance'), 10),
+	            kerning: {},
+	            texture: new _core.Texture(texture.baseTexture, textureRect)
+	
+	        };
+	    }
+	
+	    // parse kernings
+	    var kernings = resource.data.getElementsByTagName('kerning');
+	
+	    for (var _i = 0; _i < kernings.length; _i++) {
+	        var first = parseInt(kernings[_i].getAttribute('first'), 10);
+	        var second = parseInt(kernings[_i].getAttribute('second'), 10);
+	        var amount = parseInt(kernings[_i].getAttribute('amount'), 10);
+	
+	        if (data.chars[second]) {
+	            data.chars[second].kerning[first] = amount;
+	        }
+	    }
+	
+	    resource.bitmapFont = data;
+	
+	    // I'm leaving this as a temporary fix so we can test the bitmap fonts in v3
+	    // but it's very likely to change
+	    _extras.BitmapText.fonts[data.font] = data;
+	}
+	//# sourceMappingURL=bitmapFontParser.js.map
+
+/***/ },
+/* 173 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	exports.__esModule = true;
+	
+	var _accessibleTarget = __webpack_require__(174);
 	
 	Object.defineProperty(exports, 'accessibleTarget', {
 	  enumerable: true,
@@ -32331,7 +35346,7 @@
 	  }
 	});
 	
-	var _AccessibilityManager = __webpack_require__(159);
+	var _AccessibilityManager = __webpack_require__(175);
 	
 	Object.defineProperty(exports, 'AccessibilityManager', {
 	  enumerable: true,
@@ -32344,7 +35359,7 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 158 */
+/* 174 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -32354,9 +35369,8 @@
 	 * Default property values of accessible objects
 	 * used by {@link PIXI.accessibility.AccessibilityManager}.
 	 *
-	 * @mixin
-	 * @name accessibleTarget
-	 * @memberof PIXI
+	 * @function accessibleTarget
+	 * @memberof PIXI.accessibility
 	 * @example
 	 *      function MyObject() {}
 	 *
@@ -32407,22 +35421,22 @@
 	//# sourceMappingURL=accessibleTarget.js.map
 
 /***/ },
-/* 159 */
+/* 175 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _ismobilejs = __webpack_require__(38);
+	var _ismobilejs = __webpack_require__(44);
 	
 	var _ismobilejs2 = _interopRequireDefault(_ismobilejs);
 	
-	var _accessibleTarget = __webpack_require__(158);
+	var _accessibleTarget = __webpack_require__(174);
 	
 	var _accessibleTarget2 = _interopRequireDefault(_accessibleTarget);
 	
@@ -32455,8 +35469,10 @@
 	 * Much like interaction any DisplayObject can be made accessible. This manager will map the
 	 * events as if the mouse was being used, minimizing the efferot required to implement.
 	 *
+	 * An instance of this class is automatically created by default, and can be found at renderer.plugins.accessibility
+	 *
 	 * @class
-	 * @memberof PIXI
+	 * @memberof PIXI.accessibility
 	 */
 	
 	var AccessibilityManager = function () {
@@ -32903,14 +35919,14 @@
 	//# sourceMappingURL=AccessibilityManager.js.map
 
 /***/ },
-/* 160 */
+/* 176 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _WebGLExtract = __webpack_require__(161);
+	var _WebGLExtract = __webpack_require__(177);
 	
 	Object.defineProperty(exports, 'webgl', {
 	  enumerable: true,
@@ -32919,7 +35935,7 @@
 	  }
 	});
 	
-	var _CanvasExtract = __webpack_require__(162);
+	var _CanvasExtract = __webpack_require__(178);
 	
 	Object.defineProperty(exports, 'canvas', {
 	  enumerable: true,
@@ -32932,14 +35948,14 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 161 */
+/* 177 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
@@ -32952,6 +35968,8 @@
 	
 	/**
 	 * The extract manager provides functionality to export content from the renderers.
+	 *
+	 * An instance of this class is automatically created by default, and can be found at renderer.plugins.extract
 	 *
 	 * @class
 	 * @memberof PIXI
@@ -33157,14 +36175,14 @@
 	//# sourceMappingURL=WebGLExtract.js.map
 
 /***/ },
-/* 162 */
+/* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
@@ -33176,6 +36194,8 @@
 	
 	/**
 	 * The extract manager provides functionality to export content from the renderers.
+	 *
+	 * An instance of this class is automatically created by default, and can be found at renderer.plugins.extract
 	 *
 	 * @class
 	 * @memberof PIXI
@@ -33339,14 +36359,14 @@
 	//# sourceMappingURL=CanvasExtract.js.map
 
 /***/ },
-/* 163 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _InteractionData = __webpack_require__(164);
+	var _InteractionData = __webpack_require__(180);
 	
 	Object.defineProperty(exports, 'InteractionData', {
 	  enumerable: true,
@@ -33355,7 +36375,7 @@
 	  }
 	});
 	
-	var _InteractionManager = __webpack_require__(165);
+	var _InteractionManager = __webpack_require__(181);
 	
 	Object.defineProperty(exports, 'InteractionManager', {
 	  enumerable: true,
@@ -33364,7 +36384,7 @@
 	  }
 	});
 	
-	var _interactiveTarget = __webpack_require__(167);
+	var _interactiveTarget = __webpack_require__(183);
 	
 	Object.defineProperty(exports, 'interactiveTarget', {
 	  enumerable: true,
@@ -33377,14 +36397,14 @@
 	//# sourceMappingURL=index.js.map
 
 /***/ },
-/* 164 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
@@ -33452,34 +36472,34 @@
 	//# sourceMappingURL=InteractionData.js.map
 
 /***/ },
-/* 165 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	exports.__esModule = true;
 	
-	var _core = __webpack_require__(5);
+	var _core = __webpack_require__(10);
 	
 	var core = _interopRequireWildcard(_core);
 	
-	var _InteractionData = __webpack_require__(164);
+	var _InteractionData = __webpack_require__(180);
 	
 	var _InteractionData2 = _interopRequireDefault(_InteractionData);
 	
-	var _InteractionEvent = __webpack_require__(166);
+	var _InteractionEvent = __webpack_require__(182);
 	
 	var _InteractionEvent2 = _interopRequireDefault(_InteractionEvent);
 	
-	var _eventemitter = __webpack_require__(35);
+	var _eventemitter = __webpack_require__(41);
 	
 	var _eventemitter2 = _interopRequireDefault(_eventemitter);
 	
-	var _interactiveTarget = __webpack_require__(167);
+	var _interactiveTarget = __webpack_require__(183);
 	
 	var _interactiveTarget2 = _interopRequireDefault(_interactiveTarget);
 	
-	var _ismobilejs = __webpack_require__(38);
+	var _ismobilejs = __webpack_require__(44);
 	
 	var _ismobilejs2 = _interopRequireDefault(_ismobilejs);
 	
@@ -33500,6 +36520,8 @@
 	 * The interaction manager deals with mouse and touch events. Any DisplayObject can be interactive
 	 * if its interactive parameter is set to true
 	 * This manager also supports multitouch.
+	 *
+	 * An instance of this class is automatically created by default, and can be found at renderer.plugins.interaction
 	 *
 	 * @class
 	 * @extends EventEmitter
@@ -33541,7 +36563,7 @@
 	        _this.autoPreventDefault = options.autoPreventDefault !== undefined ? options.autoPreventDefault : true;
 	
 	        /**
-	         * As this frequency increases the interaction events will be checked more often.
+	         * Frequency in milliseconds that the mousemove, moveover & mouseout interaction events will be checked.
 	         *
 	         * @member {number}
 	         * @default 10
@@ -33593,15 +36615,15 @@
 	        _this.interactionDOMElement = null;
 	
 	        /**
-	         * This property determins if mousemove and touchmove events are fired only when the cursror
+	         * This property determines if mousemove and touchmove events are fired only when the cursor
 	         * is over the object.
 	         * Setting to true will make things work more in line with how the DOM verison works.
 	         * Setting to false can make things easier for things like dragging
 	         * It is currently set to false as this is how pixi used to work. This will be set to true in
 	         * future versions of pixi.
 	         *
-	         * @private
 	         * @member {boolean}
+	         * @default false
 	         */
 	        _this.moveWhenInside = false;
 	
@@ -34203,8 +37225,10 @@
 	            rect = this.interactionDOMElement.getBoundingClientRect();
 	        }
 	
-	        point.x = (x - rect.left) * (this.interactionDOMElement.width / rect.width) / this.resolution;
-	        point.y = (y - rect.top) * (this.interactionDOMElement.height / rect.height) / this.resolution;
+	        var resolutionMultiplier = navigator.isCocoonJS ? this.resolution : 1.0 / this.resolution;
+	
+	        point.x = (x - rect.left) * (this.interactionDOMElement.width / rect.width) * resolutionMultiplier;
+	        point.y = (y - rect.top) * (this.interactionDOMElement.height / rect.height) * resolutionMultiplier;
 	    };
 	
 	    /**
@@ -35048,7 +38072,7 @@
 	//# sourceMappingURL=InteractionManager.js.map
 
 /***/ },
-/* 166 */
+/* 182 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -35071,14 +38095,15 @@
 	    _classCallCheck(this, InteractionEvent);
 	
 	    /**
-	     * Which this event will continue propagating in the tree
+	     * Whether this event will continue propagating in the tree
 	     *
 	     * @member {boolean}
 	     */
 	    this.stopped = false;
 	
 	    /**
-	     * The object to which event is dispatched.
+	     * The object which caused this event to be dispatched.
+	     * For listener callback see {@link PIXI.interaction.InteractionEvent.currentTarget}.
 	     *
 	     * @member {PIXI.DisplayObject}
 	     */
@@ -35136,7 +38161,7 @@
 	//# sourceMappingURL=InteractionEvent.js.map
 
 /***/ },
-/* 167 */
+/* 183 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -35250,2330 +38275,7 @@
 	//# sourceMappingURL=interactiveTarget.js.map
 
 /***/ },
-/* 168 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	var _loader = __webpack_require__(169);
-	
-	Object.defineProperty(exports, 'Loader', {
-	  enumerable: true,
-	  get: function get() {
-	    return _interopRequireDefault(_loader).default;
-	  }
-	});
-	
-	var _bitmapFontParser = __webpack_require__(180);
-	
-	Object.defineProperty(exports, 'bitmapFontParser', {
-	  enumerable: true,
-	  get: function get() {
-	    return _interopRequireDefault(_bitmapFontParser).default;
-	  }
-	});
-	Object.defineProperty(exports, 'parseBitmapFontData', {
-	  enumerable: true,
-	  get: function get() {
-	    return _bitmapFontParser.parse;
-	  }
-	});
-	
-	var _spritesheetParser = __webpack_require__(179);
-	
-	Object.defineProperty(exports, 'spritesheetParser', {
-	  enumerable: true,
-	  get: function get() {
-	    return _interopRequireDefault(_spritesheetParser).default;
-	  }
-	});
-	
-	var _textureParser = __webpack_require__(178);
-	
-	Object.defineProperty(exports, 'textureParser', {
-	  enumerable: true,
-	  get: function get() {
-	    return _interopRequireDefault(_textureParser).default;
-	  }
-	});
-	
-	var _resourceLoader = __webpack_require__(170);
-	
-	Object.defineProperty(exports, 'Resource', {
-	  enumerable: true,
-	  get: function get() {
-	    return _resourceLoader.Resource;
-	  }
-	});
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	//# sourceMappingURL=index.js.map
-
-/***/ },
-/* 169 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	var _resourceLoader = __webpack_require__(170);
-	
-	var _resourceLoader2 = _interopRequireDefault(_resourceLoader);
-	
-	var _textureParser = __webpack_require__(178);
-	
-	var _textureParser2 = _interopRequireDefault(_textureParser);
-	
-	var _spritesheetParser = __webpack_require__(179);
-	
-	var _spritesheetParser2 = _interopRequireDefault(_spritesheetParser);
-	
-	var _bitmapFontParser = __webpack_require__(180);
-	
-	var _bitmapFontParser2 = _interopRequireDefault(_bitmapFontParser);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	/**
-	 *
-	 * The new loader, extends Resource Loader by Chad Engler : https://github.com/englercj/resource-loader
-	 *
-	 * ```js
-	 * let loader = PIXI.loader; // pixi exposes a premade instance for you to use.
-	 * //or
-	 * let loader = new PIXI.loaders.Loader(); // you can also create your own if you want
-	 *
-	 * loader.add('bunny',"data/bunny.png");
-	 *
-	 * loader.once('complete',onAssetsLoaded);
-	 *
-	 * loader.load();
-	 * ```
-	 *
-	 * @see https://github.com/englercj/resource-loader
-	 *
-	 * @class
-	 * @extends module:resource-loader.ResourceLoader
-	 * @memberof PIXI.loaders
-	 */
-	var Loader = function (_ResourceLoader) {
-	    _inherits(Loader, _ResourceLoader);
-	
-	    /**
-	     * @param {string} [baseUrl=''] - The base url for all resources loaded by this loader.
-	     * @param {number} [concurrency=10] - The number of resources to load concurrently.
-	     */
-	    function Loader(baseUrl, concurrency) {
-	        _classCallCheck(this, Loader);
-	
-	        var _this = _possibleConstructorReturn(this, _ResourceLoader.call(this, baseUrl, concurrency));
-	
-	        for (var i = 0; i < Loader._pixiMiddleware.length; ++i) {
-	            _this.use(Loader._pixiMiddleware[i]());
-	        }
-	        return _this;
-	    }
-	
-	    /**
-	     * Adds a default middleware to the pixi loader.
-	     *
-	     * @static
-	     * @param {Function} fn - The middleware to add.
-	     */
-	
-	
-	    Loader.addPixiMiddleware = function addPixiMiddleware(fn) {
-	        Loader._pixiMiddleware.push(fn);
-	    };
-	
-	    return Loader;
-	}(_resourceLoader2.default);
-	
-	exports.default = Loader;
-	
-	
-	Loader._pixiMiddleware = [
-	// parse any blob into more usable objects (e.g. Image)
-	_resourceLoader2.default.middleware.parsing.blob,
-	// parse any Image objects into textures
-	_textureParser2.default,
-	// parse any spritesheet data into multiple textures
-	_spritesheetParser2.default,
-	// parse bitmap font data into multiple textures
-	_bitmapFontParser2.default];
-	
-	// Add custom extentions
-	var Resource = _resourceLoader2.default.Resource;
-	
-	Resource.setExtensionXhrType('fnt', Resource.XHR_RESPONSE_TYPE.DOCUMENT);
-	//# sourceMappingURL=loader.js.map
-
-/***/ },
-/* 170 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* eslint global-require: 0 */
-	'use strict';
-	
-	module.exports = __webpack_require__(171);
-	module.exports.Resource = __webpack_require__(174);
-	module.exports.middleware = {
-	    caching: {
-	        memory: __webpack_require__(175)
-	    },
-	    parsing: {
-	        blob: __webpack_require__(176)
-	    }
-	};
-	
-	module.exports.async = __webpack_require__(173);
-
-
-/***/ },
-/* 171 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var parseUri        = __webpack_require__(172);
-	var async           = __webpack_require__(173);
-	var Resource        = __webpack_require__(174);
-	var EventEmitter    = __webpack_require__(35);
-	
-	// some constants
-	var DEFAULT_CONCURRENCY = 10;
-	var MAX_PROGRESS = 100;
-	
-	/**
-	 * Manages the state and loading of multiple resources to load.
-	 *
-	 * @class
-	 * @param {string} [baseUrl=''] - The base url for all resources loaded by this loader.
-	 * @param {number} [concurrency=10] - The number of resources to load concurrently.
-	 */
-	function Loader(baseUrl, concurrency) {
-	    EventEmitter.call(this);
-	
-	    concurrency = concurrency || DEFAULT_CONCURRENCY;
-	
-	    /**
-	     * The base url for all resources loaded by this loader.
-	     *
-	     * @member {string}
-	     */
-	    this.baseUrl = baseUrl || '';
-	
-	    /**
-	     * The progress percent of the loader going through the queue.
-	     *
-	     * @member {number}
-	     */
-	    this.progress = 0;
-	
-	    /**
-	     * Loading state of the loader, true if it is currently loading resources.
-	     *
-	     * @member {boolean}
-	     */
-	    this.loading = false;
-	
-	    /**
-	     * The percentage of total progress that a single resource represents.
-	     *
-	     * @member {number}
-	     */
-	    this._progressChunk = 0;
-	
-	    /**
-	     * The middleware to run before loading each resource.
-	     *
-	     * @member {function[]}
-	     */
-	    this._beforeMiddleware = [];
-	
-	    /**
-	     * The middleware to run after loading each resource.
-	     *
-	     * @member {function[]}
-	     */
-	    this._afterMiddleware = [];
-	
-	    /**
-	     * The `_loadResource` function bound with this object context.
-	     *
-	     * @private
-	     * @member {function}
-	     */
-	    this._boundLoadResource = this._loadResource.bind(this);
-	
-	    /**
-	     * The resource buffer that fills until `load` is called to start loading resources.
-	     *
-	     * @private
-	     * @member {Resource[]}
-	     */
-	    this._buffer = [];
-	
-	    /**
-	     * Used to track load completion.
-	     *
-	     * @private
-	     * @member {number}
-	     */
-	    this._numToLoad = 0;
-	
-	    /**
-	     * The resources waiting to be loaded.
-	     *
-	     * @private
-	     * @member {Resource[]}
-	     */
-	    this._queue = async.queue(this._boundLoadResource, concurrency);
-	
-	    /**
-	     * All the resources for this loader keyed by name.
-	     *
-	     * @member {object<string, Resource>}
-	     */
-	    this.resources = {};
-	
-	    /**
-	     * Emitted once per loaded or errored resource.
-	     *
-	     * @event progress
-	     * @memberof Loader#
-	     */
-	
-	    /**
-	     * Emitted once per errored resource.
-	     *
-	     * @event error
-	     * @memberof Loader#
-	     */
-	
-	    /**
-	     * Emitted once per loaded resource.
-	     *
-	     * @event load
-	     * @memberof Loader#
-	     */
-	
-	    /**
-	     * Emitted when the loader begins to process the queue.
-	     *
-	     * @event start
-	     * @memberof Loader#
-	     */
-	
-	    /**
-	     * Emitted when the queued resources all load.
-	     *
-	     * @event complete
-	     * @memberof Loader#
-	     */
-	}
-	
-	Loader.prototype = Object.create(EventEmitter.prototype);
-	Loader.prototype.constructor = Loader;
-	module.exports = Loader;
-	
-	/**
-	 * Adds a resource (or multiple resources) to the loader queue.
-	 *
-	 * This function can take a wide variety of different parameters. The only thing that is always
-	 * required the url to load. All the following will work:
-	 *
-	 * ```js
-	 * loader
-	 *     // normal param syntax
-	 *     .add('key', 'http://...', function () {})
-	 *     .add('http://...', function () {})
-	 *     .add('http://...')
-	 *
-	 *     // object syntax
-	 *     .add({
-	 *         name: 'key2',
-	 *         url: 'http://...'
-	 *     }, function () {})
-	 *     .add({
-	 *         url: 'http://...'
-	 *     }, function () {})
-	 *     .add({
-	 *         name: 'key3',
-	 *         url: 'http://...'
-	 *         onComplete: function () {}
-	 *     })
-	 *     .add({
-	 *         url: 'https://...',
-	 *         onComplete: function () {},
-	 *         crossOrigin: true
-	 *     })
-	 *
-	 *     // you can also pass an array of objects or urls or both
-	 *     .add([
-	 *         { name: 'key4', url: 'http://...', onComplete: function () {} },
-	 *         { url: 'http://...', onComplete: function () {} },
-	 *         'http://...'
-	 *     ])
-	 *
-	 *     // and you can use both params and options
-	 *     .add('key', 'http://...', { crossOrigin: true }, function () {})
-	 *     .add('http://...', { crossOrigin: true }, function () {});
-	 * ```
-	 *
-	 * @alias enqueue
-	 * @param {string} [name] - The name of the resource to load, if not passed the url is used.
-	 * @param {string} [url] - The url for this resource, relative to the baseUrl of this loader.
-	 * @param {object} [options] - The options for the load.
-	 * @param {boolean} [options.crossOrigin] - Is this request cross-origin? Default is to determine automatically.
-	 * @param {Resource.XHR_LOAD_TYPE} [options.loadType=Resource.LOAD_TYPE.XHR] - How should this resource be loaded?
-	 * @param {Resource.XHR_RESPONSE_TYPE} [options.xhrType=Resource.XHR_RESPONSE_TYPE.DEFAULT] - How should the data being
-	 *      loaded be interpreted when using XHR?
-	 * @param {function} [cb] - Function to call when this specific resource completes loading.
-	 * @return {Loader} Returns itself.
-	 */
-	Loader.prototype.add = Loader.prototype.enqueue = function (name, url, options, cb) {
-	    // special case of an array of objects or urls
-	    if (Array.isArray(name)) {
-	        for (var i = 0; i < name.length; ++i) {
-	            this.add(name[i]);
-	        }
-	
-	        return this;
-	    }
-	
-	    // if an object is passed instead of params
-	    if (typeof name === 'object') {
-	        cb = url || name.callback || name.onComplete;
-	        options = name;
-	        url = name.url;
-	        name = name.name || name.key || name.url;
-	    }
-	
-	    // case where no name is passed shift all args over by one.
-	    if (typeof url !== 'string') {
-	        cb = options;
-	        options = url;
-	        url = name;
-	    }
-	
-	    // now that we shifted make sure we have a proper url.
-	    if (typeof url !== 'string') {
-	        throw new Error('No url passed to add resource to loader.');
-	    }
-	
-	    // options are optional so people might pass a function and no options
-	    if (typeof options === 'function') {
-	        cb = options;
-	        options = null;
-	    }
-	
-	    // check if resource already exists.
-	    if (this.resources[name]) {
-	        throw new Error('Resource with name "' + name + '" already exists.');
-	    }
-	
-	    // add base url if this isn't an absolute url
-	    url = this._prepareUrl(url);
-	
-	    // create the store the resource
-	    this.resources[name] = new Resource(name, url, options);
-	
-	    if (typeof cb === 'function') {
-	        this.resources[name].once('afterMiddleware', cb);
-	    }
-	
-	    this._numToLoad++;
-	
-	    // if already loading add it to the worker queue
-	    if (this._queue.started) {
-	        this._queue.push(this.resources[name]);
-	        this._progressChunk = (MAX_PROGRESS - this.progress) / (this._queue.length() + this._queue.running());
-	    }
-	    // otherwise buffer it to be added to the queue later
-	    else {
-	        this._buffer.push(this.resources[name]);
-	        this._progressChunk = MAX_PROGRESS / this._buffer.length;
-	    }
-	
-	    return this;
-	};
-	
-	/**
-	 * Sets up a middleware function that will run *before* the
-	 * resource is loaded.
-	 *
-	 * @alias pre
-	 * @method before
-	 * @param {function} fn - The middleware function to register.
-	 * @return {Loader} Returns itself.
-	 */
-	Loader.prototype.before = Loader.prototype.pre = function (fn) {
-	    this._beforeMiddleware.push(fn);
-	
-	    return this;
-	};
-	
-	/**
-	 * Sets up a middleware function that will run *after* the
-	 * resource is loaded.
-	 *
-	 * @alias use
-	 * @method after
-	 * @param {function} fn - The middleware function to register.
-	 * @return {Loader} Returns itself.
-	 */
-	Loader.prototype.after = Loader.prototype.use = function (fn) {
-	    this._afterMiddleware.push(fn);
-	
-	    return this;
-	};
-	
-	/**
-	 * Resets the queue of the loader to prepare for a new load.
-	 *
-	 * @return {Loader} Returns itself.
-	 */
-	Loader.prototype.reset = function () {
-	    // this.baseUrl = baseUrl || '';
-	
-	    this.progress = 0;
-	
-	    this.loading = false;
-	
-	    this._progressChunk = 0;
-	
-	    // this._beforeMiddleware.length = 0;
-	    // this._afterMiddleware.length = 0;
-	
-	    this._buffer.length = 0;
-	
-	    this._numToLoad = 0;
-	
-	    this._queue.kill();
-	    this._queue.started = false;
-	
-	    // abort all resource loads
-	    for (var k in this.resources) {
-	        var res = this.resources[k];
-	
-	        res.off('complete', this._onLoad, this);
-	
-	        if (res.isLoading) {
-	            res.abort();
-	        }
-	    }
-	
-	    this.resources = {};
-	
-	    return this;
-	};
-	
-	/**
-	 * Starts loading the queued resources.
-	 *
-	 * @fires start
-	 * @param {function} [cb] - Optional callback that will be bound to the `complete` event.
-	 * @return {Loader} Returns itself.
-	 */
-	Loader.prototype.load = function (cb) {
-	    // register complete callback if they pass one
-	    if (typeof cb === 'function') {
-	        this.once('complete', cb);
-	    }
-	
-	    // if the queue has already started we are done here
-	    if (this._queue.started) {
-	        return this;
-	    }
-	
-	    // notify of start
-	    this.emit('start', this);
-	
-	    // update loading state
-	    this.loading = true;
-	
-	    // start the internal queue
-	    for (var i = 0; i < this._buffer.length; ++i) {
-	        this._queue.push(this._buffer[i]);
-	    }
-	
-	    // empty the buffer
-	    this._buffer.length = 0;
-	
-	    return this;
-	};
-	
-	/**
-	 * Prepares a url for usage based on the configuration of this object
-	 *
-	 * @private
-	 * @param {string} url - The url to prepare.
-	 * @return {string} The prepared url.
-	 */
-	Loader.prototype._prepareUrl = function (url) {
-	    var parsedUrl = parseUri(url, { strictMode: true });
-	
-	    // absolute url, just use it as is.
-	    if (parsedUrl.protocol || !parsedUrl.path || parsedUrl.path.indexOf('//') === 0) {
-	        return url;
-	    }
-	
-	    // if baseUrl doesn't end in slash and url doesn't start with slash, then add a slash inbetween
-	    if (this.baseUrl.length
-	        && this.baseUrl.lastIndexOf('/') !== this.baseUrl.length - 1
-	        && url.charAt(0) !== '/'
-	    ) {
-	        return this.baseUrl + '/' + url;
-	    }
-	
-	    return this.baseUrl + url;
-	};
-	
-	/**
-	 * Loads a single resource.
-	 *
-	 * @private
-	 * @param {Resource} resource - The resource to load.
-	 * @param {function} dequeue - The function to call when we need to dequeue this item.
-	 */
-	Loader.prototype._loadResource = function (resource, dequeue) {
-	    var self = this;
-	
-	    resource._dequeue = dequeue;
-	
-	    // run before middleware
-	    async.eachSeries(
-	        this._beforeMiddleware,
-	        function (fn, next) {
-	            fn.call(self, resource, function () {
-	                // if the before middleware marks the resource as complete,
-	                // break and don't process any more before middleware
-	                next(resource.isComplete ? {} : null);
-	            });
-	        },
-	        function () {
-	            // resource.on('progress', self.emit.bind(self, 'progress'));
-	
-	            if (resource.isComplete) {
-	                self._onLoad(resource);
-	            }
-	            else {
-	                resource.once('complete', self._onLoad, self);
-	                resource.load();
-	            }
-	        }
-	    );
-	};
-	
-	/**
-	 * Called once each resource has loaded.
-	 *
-	 * @fires complete
-	 * @private
-	 */
-	Loader.prototype._onComplete = function () {
-	    this.loading = false;
-	
-	    this.emit('complete', this, this.resources);
-	};
-	
-	/**
-	 * Called each time a resources is loaded.
-	 *
-	 * @fires progress
-	 * @fires error
-	 * @fires load
-	 * @private
-	 * @param {Resource} resource - The resource that was loaded
-	 */
-	Loader.prototype._onLoad = function (resource) {
-	    var self = this;
-	
-	    // run middleware, this *must* happen before dequeue so sub-assets get added properly
-	    async.eachSeries(
-	        this._afterMiddleware,
-	        function (fn, next) {
-	            fn.call(self, resource, next);
-	        },
-	        function () {
-	            resource.emit('afterMiddleware', resource);
-	
-	            self._numToLoad--;
-	
-	            self.progress += self._progressChunk;
-	            self.emit('progress', self, resource);
-	
-	            if (resource.error) {
-	                self.emit('error', resource.error, self, resource);
-	            }
-	            else {
-	                self.emit('load', self, resource);
-	            }
-	
-	            // do completion check
-	            if (self._numToLoad === 0) {
-	                self.progress = 100;
-	                self._onComplete();
-	            }
-	        }
-	    );
-	
-	    // remove this resource from the async queue
-	    resource._dequeue();
-	};
-	
-	Loader.LOAD_TYPE = Resource.LOAD_TYPE;
-	Loader.XHR_RESPONSE_TYPE = Resource.XHR_RESPONSE_TYPE;
-
-
-/***/ },
-/* 172 */
-/***/ function(module, exports) {
-
-	'use strict'
-	
-	module.exports = function parseURI (str, opts) {
-	  opts = opts || {}
-	
-	  var o = {
-	    key: ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'anchor'],
-	    q: {
-	      name: 'queryKey',
-	      parser: /(?:^|&)([^&=]*)=?([^&]*)/g
-	    },
-	    parser: {
-	      strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
-	      loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*)(?::([^:@]*))?)?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
-	    }
-	  }
-	
-	  var m = o.parser[opts.strictMode ? 'strict' : 'loose'].exec(str)
-	  var uri = {}
-	  var i = 14
-	
-	  while (i--) uri[o.key[i]] = m[i] || ''
-	
-	  uri[o.q.name] = {}
-	  uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
-	    if ($1) uri[o.q.name][$1] = $2
-	  })
-	
-	  return uri
-	}
-
-
-/***/ },
-/* 173 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	/**
-	 * Smaller version of the async library constructs.
-	 *
-	 */
-	
-	module.exports = {
-	    eachSeries: asyncEachSeries,
-	    queue: asyncQueue
-	};
-	
-	function _noop() { /* empty */ }
-	
-	/**
-	 * Iterates an array in series.
-	 *
-	 * @param {*[]} array - Array to iterate.
-	 * @param {function} iterator - Function to call for each element.
-	 * @param {function} callback - Function to call when done, or on error.
-	 */
-	function asyncEachSeries(array, iterator, callback) {
-	    var i = 0;
-	    var len = array.length;
-	
-	    (function next(err) {
-	        if (err || i === len) {
-	            if (callback) {
-	                callback(err);
-	            }
-	
-	            return;
-	        }
-	
-	        iterator(array[i++], next);
-	    })();
-	}
-	
-	/**
-	 * Ensures a function is only called once.
-	 *
-	 * @param {function} fn - The function to wrap.
-	 * @return {function} The wrapping function.
-	 */
-	function onlyOnce(fn) {
-	    return function onceWrapper() {
-	        if (fn === null) {
-	            throw new Error('Callback was already called.');
-	        }
-	
-	        var callFn = fn;
-	
-	        fn = null;
-	        callFn.apply(this, arguments);
-	    };
-	}
-	
-	/**
-	 * Async queue implementation,
-	 *
-	 * @param {function} worker - The worker function to call for each task.
-	 * @param {number} concurrency - How many workers to run in parrallel.
-	 * @return {*} The async queue object.
-	 */
-	function asyncQueue(worker, concurrency) {
-	    if (concurrency == null) { // eslint-disable-line no-eq-null,eqeqeq
-	        concurrency = 1;
-	    }
-	    else if (concurrency === 0) {
-	        throw new Error('Concurrency must not be zero');
-	    }
-	
-	    var workers = 0;
-	    var q = {
-	        _tasks: [],
-	        concurrency: concurrency,
-	        saturated: _noop,
-	        unsaturated: _noop,
-	        buffer: concurrency / 4,
-	        empty: _noop,
-	        drain: _noop,
-	        error: _noop,
-	        started: false,
-	        paused: false,
-	        push: function (data, callback) {
-	            _insert(data, false, callback);
-	        },
-	        kill: function () {
-	            q.drain = _noop;
-	            q._tasks = [];
-	        },
-	        unshift: function (data, callback) {
-	            _insert(data, true, callback);
-	        },
-	        process: function () {
-	            while (!q.paused && workers < q.concurrency && q._tasks.length) {
-	                var task = q._tasks.shift();
-	
-	                if (q._tasks.length === 0) {
-	                    q.empty();
-	                }
-	
-	                workers += 1;
-	
-	                if (workers === q.concurrency) {
-	                    q.saturated();
-	                }
-	
-	                worker(task.data, onlyOnce(_next(task)));
-	            }
-	        },
-	        length: function () {
-	            return q._tasks.length;
-	        },
-	        running: function () {
-	            return workers;
-	        },
-	        idle: function () {
-	            return q._tasks.length + workers === 0;
-	        },
-	        pause: function () {
-	            if (q.paused === true) {
-	                return;
-	            }
-	
-	            q.paused = true;
-	        },
-	        resume: function () {
-	            if (q.paused === false) {
-	                return;
-	            }
-	
-	            q.paused = false;
-	
-	            // Need to call q.process once per concurrent
-	            // worker to preserve full concurrency after pause
-	            for (var w = 1; w <= q.concurrency; w++) {
-	                q.process();
-	            }
-	        }
-	    };
-	
-	    function _insert(data, insertAtFront, callback) {
-	        if (callback != null && typeof callback !== 'function') { // eslint-disable-line no-eq-null,eqeqeq
-	            throw new Error('task callback must be a function');
-	        }
-	
-	        q.started = true;
-	
-	        if (data == null && q.idle()) { // eslint-disable-line no-eq-null,eqeqeq
-	            // call drain immediately if there are no tasks
-	            setTimeout(function () {
-	                q.drain();
-	            }, 1);
-	
-	            return;
-	        }
-	
-	        var item = {
-	            data: data,
-	            callback: typeof callback === 'function' ? callback : _noop
-	        };
-	
-	        if (insertAtFront) {
-	            q._tasks.unshift(item);
-	        }
-	        else {
-	            q._tasks.push(item);
-	        }
-	
-	        setTimeout(function () {
-	            q.process();
-	        }, 1);
-	    }
-	
-	    function _next(task) {
-	        return function () {
-	            workers -= 1;
-	
-	            task.callback.apply(task, arguments);
-	
-	            if (arguments[0] != null) { // eslint-disable-line no-eq-null,eqeqeq
-	                q.error(arguments[0], task.data);
-	            }
-	
-	            if (workers <= (q.concurrency - q.buffer)) {
-	                q.unsaturated();
-	            }
-	
-	            if (q.idle()) {
-	                q.drain();
-	            }
-	
-	            q.process();
-	        };
-	    }
-	
-	    return q;
-	}
-
-
-/***/ },
-/* 174 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var EventEmitter    = __webpack_require__(35);
-	var parseUri        = __webpack_require__(172);
-	
-	// tests is CORS is supported in XHR, if not we need to use XDR
-	var useXdr = !!(window.XDomainRequest && !('withCredentials' in (new XMLHttpRequest())));
-	var tempAnchor = null;
-	
-	// some status constants
-	var STATUS_NONE = 0;
-	var STATUS_OK = 200;
-	var STATUS_EMPTY = 204;
-	
-	/**
-	 * Manages the state and loading of a single resource represented by
-	 * a single URL.
-	 *
-	 * @class
-	 * @param {string} name - The name of the resource to load.
-	 * @param {string|string[]} url - The url for this resource, for audio/video loads you can pass an array of sources.
-	 * @param {object} [options] - The options for the load.
-	 * @param {string|boolean} [options.crossOrigin] - Is this request cross-origin? Default is to determine automatically.
-	 * @param {Resource.LOAD_TYPE} [options.loadType=Resource.LOAD_TYPE.XHR] - How should this resource be loaded?
-	 * @param {Resource.XHR_RESPONSE_TYPE} [options.xhrType=Resource.XHR_RESPONSE_TYPE.DEFAULT] - How should the data being
-	 *      loaded be interpreted when using XHR?
-	 * @param {object} [options.metadata] - Extra info for middleware.
-	 */
-	function Resource(name, url, options) {
-	    EventEmitter.call(this);
-	
-	    options = options || {};
-	
-	    if (typeof name !== 'string' || typeof url !== 'string') {
-	        throw new Error('Both name and url are required for constructing a resource.');
-	    }
-	
-	    /**
-	     * The name of this resource.
-	     *
-	     * @member {string}
-	     * @readonly
-	     */
-	    this.name = name;
-	
-	    /**
-	     * The url used to load this resource.
-	     *
-	     * @member {string}
-	     * @readonly
-	     */
-	    this.url = url;
-	
-	    /**
-	     * Stores whether or not this url is a data url.
-	     *
-	     * @member {boolean}
-	     * @readonly
-	     */
-	    this.isDataUrl = this.url.indexOf('data:') === 0;
-	
-	    /**
-	     * The data that was loaded by the resource.
-	     *
-	     * @member {any}
-	     */
-	    this.data = null;
-	
-	    /**
-	     * Is this request cross-origin? If unset, determined automatically.
-	     *
-	     * @member {string}
-	     */
-	    this.crossOrigin = options.crossOrigin === true ? 'anonymous' : options.crossOrigin;
-	
-	    /**
-	     * The method of loading to use for this resource.
-	     *
-	     * @member {Resource.LOAD_TYPE}
-	     */
-	    this.loadType = options.loadType || this._determineLoadType();
-	
-	    /**
-	     * The type used to load the resource via XHR. If unset, determined automatically.
-	     *
-	     * @member {string}
-	     */
-	    this.xhrType = options.xhrType;
-	
-	    /**
-	     * Extra info for middleware, and controlling specifics about how the resource loads.
-	     *
-	     * Note that if you pass in a `loadElement`, the Resource class takes ownership of it.
-	     * Meaning it will modify it as it sees fit.
-	     *
-	     * @member {object}
-	     * @property {HTMLImageElement|HTMLAudioElement|HTMLVideoElement} [loadElement=null] - The
-	     *  element to use for loading, instead of creating one.
-	     * @property {boolean} [skipSource=false] - Skips adding source(s) to the load element. This
-	     *  is useful if you want to pass in a `loadElement` that you already added load sources
-	     *  to.
-	     */
-	    this.metadata = options.metadata || {};
-	
-	    /**
-	     * The error that occurred while loading (if any).
-	     *
-	     * @member {Error}
-	     * @readonly
-	     */
-	    this.error = null;
-	
-	    /**
-	     * The XHR object that was used to load this resource. This is only set
-	     * when `loadType` is `Resource.LOAD_TYPE.XHR`.
-	     *
-	     * @member {XMLHttpRequest}
-	     */
-	    this.xhr = null;
-	
-	    /**
-	     * Describes if this resource was loaded as json. Only valid after the resource
-	     * has completely loaded.
-	     *
-	     * @member {boolean}
-	     */
-	    this.isJson = false;
-	
-	    /**
-	     * Describes if this resource was loaded as xml. Only valid after the resource
-	     * has completely loaded.
-	     *
-	     * @member {boolean}
-	     */
-	    this.isXml = false;
-	
-	    /**
-	     * Describes if this resource was loaded as an image tag. Only valid after the resource
-	     * has completely loaded.
-	     *
-	     * @member {boolean}
-	     */
-	    this.isImage = false;
-	
-	    /**
-	     * Describes if this resource was loaded as an audio tag. Only valid after the resource
-	     * has completely loaded.
-	     *
-	     * @member {boolean}
-	     */
-	    this.isAudio = false;
-	
-	    /**
-	     * Describes if this resource was loaded as a video tag. Only valid after the resource
-	     * has completely loaded.
-	     *
-	     * @member {boolean}
-	     */
-	    this.isVideo = false;
-	
-	    /**
-	     * Describes if this resource has finished loading. Is true when the resource has completely
-	     * loaded.
-	     *
-	     * @member {boolean}
-	     */
-	    this.isComplete = false;
-	
-	    /**
-	     * Describes if this resource is currently loading. Is true when the resource starts loading,
-	     * and is false again when complete.
-	     *
-	     * @member {boolean}
-	     */
-	    this.isLoading = false;
-	
-	    /**
-	     * The `dequeue` method that will be used a storage place for the async queue dequeue method
-	     * used privately by the loader.
-	     *
-	     * @private
-	     * @member {function}
-	     */
-	    this._dequeue = null;
-	
-	    /**
-	     * The `complete` function bound to this resource's context.
-	     *
-	     * @private
-	     * @member {function}
-	     */
-	    this._boundComplete = this.complete.bind(this);
-	
-	    /**
-	     * The `_onError` function bound to this resource's context.
-	     *
-	     * @private
-	     * @member {function}
-	     */
-	    this._boundOnError = this._onError.bind(this);
-	
-	    /**
-	     * The `_onProgress` function bound to this resource's context.
-	     *
-	     * @private
-	     * @member {function}
-	     */
-	    this._boundOnProgress = this._onProgress.bind(this);
-	
-	    // xhr callbacks
-	    this._boundXhrOnError = this._xhrOnError.bind(this);
-	    this._boundXhrOnAbort = this._xhrOnAbort.bind(this);
-	    this._boundXhrOnLoad = this._xhrOnLoad.bind(this);
-	    this._boundXdrOnTimeout = this._xdrOnTimeout.bind(this);
-	
-	    /**
-	     * Emitted when the resource beings to load.
-	     *
-	     * @event start
-	     * @memberof Resource#
-	     */
-	
-	    /**
-	     * Emitted each time progress of this resource load updates.
-	     * Not all resources types and loader systems can support this event
-	     * so sometimes it may not be available. If the resource
-	     * is being loaded on a modern browser, using XHR, and the remote server
-	     * properly sets Content-Length headers, then this will be available.
-	     *
-	     * @event progress
-	     * @memberof Resource#
-	     */
-	
-	    /**
-	     * Emitted once this resource has loaded, if there was an error it will
-	     * be in the `error` property.
-	     *
-	     * @event complete
-	     * @memberof Resource#
-	     */
-	}
-	
-	Resource.prototype = Object.create(EventEmitter.prototype);
-	Resource.prototype.constructor = Resource;
-	module.exports = Resource;
-	
-	/**
-	 * Marks the resource as complete.
-	 *
-	 * @fires complete
-	 */
-	Resource.prototype.complete = function () {
-	    // TODO: Clean this up in a wrapper or something...gross....
-	    if (this.data && this.data.removeEventListener) {
-	        this.data.removeEventListener('error', this._boundOnError, false);
-	        this.data.removeEventListener('load', this._boundComplete, false);
-	        this.data.removeEventListener('progress', this._boundOnProgress, false);
-	        this.data.removeEventListener('canplaythrough', this._boundComplete, false);
-	    }
-	
-	    if (this.xhr) {
-	        if (this.xhr.removeEventListener) {
-	            this.xhr.removeEventListener('error', this._boundXhrOnError, false);
-	            this.xhr.removeEventListener('abort', this._boundXhrOnAbort, false);
-	            this.xhr.removeEventListener('progress', this._boundOnProgress, false);
-	            this.xhr.removeEventListener('load', this._boundXhrOnLoad, false);
-	        }
-	        else {
-	            this.xhr.onerror = null;
-	            this.xhr.ontimeout = null;
-	            this.xhr.onprogress = null;
-	            this.xhr.onload = null;
-	        }
-	    }
-	
-	    if (this.isComplete) {
-	        throw new Error('Complete called again for an already completed resource.');
-	    }
-	
-	    this.isComplete = true;
-	    this.isLoading = false;
-	
-	    this.emit('complete', this);
-	};
-	
-	/**
-	 * Aborts the loading of this resource, with an optional message.
-	 *
-	 * @param {string} message - The message to use for the error
-	 */
-	Resource.prototype.abort = function (message) {
-	    // abort can be called multiple times, ignore subsequent calls.
-	    if (this.error) {
-	        return;
-	    }
-	
-	    // store error
-	    this.error = new Error(message);
-	
-	    // abort the actual loading
-	    if (this.xhr) {
-	        this.xhr.abort();
-	    }
-	    else if (this.xdr) {
-	        this.xdr.abort();
-	    }
-	    else if (this.data) {
-	        // single source
-	        if (typeof this.data.src !== 'undefined') {
-	            this.data.src = '';
-	        }
-	        // multi-source
-	        else {
-	            while (this.data.firstChild) {
-	                this.data.removeChild(this.data.firstChild);
-	            }
-	        }
-	    }
-	
-	    // done now.
-	    this.complete();
-	};
-	
-	/**
-	 * Kicks off loading of this resource. This method is asynchronous.
-	 *
-	 * @fires start
-	 * @param {function} [cb] - Optional callback to call once the resource is loaded.
-	 */
-	Resource.prototype.load = function (cb) {
-	    if (this.isLoading) {
-	        return;
-	    }
-	
-	    if (this.isComplete) {
-	        if (cb) {
-	            var self = this;
-	
-	            setTimeout(function () {
-	                cb(self);
-	            }, 1);
-	        }
-	
-	        return;
-	    }
-	    else if (cb) {
-	        this.once('complete', cb);
-	    }
-	
-	    this.isLoading = true;
-	
-	    this.emit('start', this);
-	
-	    // if unset, determine the value
-	    if (this.crossOrigin === false || typeof this.crossOrigin !== 'string') {
-	        this.crossOrigin = this._determineCrossOrigin(this.url);
-	    }
-	
-	    switch (this.loadType) {
-	        case Resource.LOAD_TYPE.IMAGE:
-	            this._loadElement('image');
-	            break;
-	
-	        case Resource.LOAD_TYPE.AUDIO:
-	            this._loadSourceElement('audio');
-	            break;
-	
-	        case Resource.LOAD_TYPE.VIDEO:
-	            this._loadSourceElement('video');
-	            break;
-	
-	        case Resource.LOAD_TYPE.XHR:
-	            /* falls through */
-	        default:
-	            if (useXdr && this.crossOrigin) {
-	                this._loadXdr();
-	            }
-	            else {
-	                this._loadXhr();
-	            }
-	            break;
-	    }
-	};
-	
-	/**
-	 * Loads this resources using an element that has a single source,
-	 * like an HTMLImageElement.
-	 *
-	 * @private
-	 * @param {string} type - The type of element to use.
-	 */
-	Resource.prototype._loadElement = function (type) {
-	    if (this.metadata.loadElement) {
-	        this.data = this.metadata.loadElement;
-	    }
-	    else if (type === 'image' && typeof window.Image !== 'undefined') {
-	        this.data = new Image();
-	    }
-	    else {
-	        this.data = document.createElement(type);
-	    }
-	
-	    if (this.crossOrigin) {
-	        this.data.crossOrigin = this.crossOrigin;
-	    }
-	
-	    if (!this.metadata.skipSource) {
-	        this.data.src = this.url;
-	    }
-	
-	    var typeName = 'is' + type[0].toUpperCase() + type.substring(1);
-	
-	    if (this[typeName] === false) {
-	        this[typeName] = true;
-	    }
-	
-	    this.data.addEventListener('error', this._boundOnError, false);
-	    this.data.addEventListener('load', this._boundComplete, false);
-	    this.data.addEventListener('progress', this._boundOnProgress, false);
-	};
-	
-	/**
-	 * Loads this resources using an element that has multiple sources,
-	 * like an HTMLAudioElement or HTMLVideoElement.
-	 *
-	 * @private
-	 * @param {string} type - The type of element to use.
-	 */
-	Resource.prototype._loadSourceElement = function (type) {
-	    if (this.metadata.loadElement) {
-	        this.data = this.metadata.loadElement;
-	    }
-	    else if (type === 'audio' && typeof window.Audio !== 'undefined') {
-	        this.data = new Audio();
-	    }
-	    else {
-	        this.data = document.createElement(type);
-	    }
-	
-	    if (this.data === null) {
-	        this.abort('Unsupported element ' + type);
-	
-	        return;
-	    }
-	
-	    if (!this.metadata.skipSource) {
-	        // support for CocoonJS Canvas+ runtime, lacks document.createElement('source')
-	        if (navigator.isCocoonJS) {
-	            this.data.src = Array.isArray(this.url) ? this.url[0] : this.url;
-	        }
-	        else if (Array.isArray(this.url)) {
-	            for (var i = 0; i < this.url.length; ++i) {
-	                this.data.appendChild(this._createSource(type, this.url[i]));
-	            }
-	        }
-	        else {
-	            this.data.appendChild(this._createSource(type, this.url));
-	        }
-	    }
-	
-	    this['is' + type[0].toUpperCase() + type.substring(1)] = true;
-	
-	    this.data.addEventListener('error', this._boundOnError, false);
-	    this.data.addEventListener('load', this._boundComplete, false);
-	    this.data.addEventListener('progress', this._boundOnProgress, false);
-	    this.data.addEventListener('canplaythrough', this._boundComplete, false);
-	
-	    this.data.load();
-	};
-	
-	/**
-	 * Loads this resources using an XMLHttpRequest.
-	 *
-	 * @private
-	 */
-	Resource.prototype._loadXhr = function () {
-	    // if unset, determine the value
-	    if (typeof this.xhrType !== 'string') {
-	        this.xhrType = this._determineXhrType();
-	    }
-	
-	    var xhr = this.xhr = new XMLHttpRequest();
-	
-	    // set the request type and url
-	    xhr.open('GET', this.url, true);
-	
-	    // load json as text and parse it ourselves. We do this because some browsers
-	    // *cough* safari *cough* can't deal with it.
-	    if (this.xhrType === Resource.XHR_RESPONSE_TYPE.JSON || this.xhrType === Resource.XHR_RESPONSE_TYPE.DOCUMENT) {
-	        xhr.responseType = Resource.XHR_RESPONSE_TYPE.TEXT;
-	    }
-	    else {
-	        xhr.responseType = this.xhrType;
-	    }
-	
-	    xhr.addEventListener('error', this._boundXhrOnError, false);
-	    xhr.addEventListener('abort', this._boundXhrOnAbort, false);
-	    xhr.addEventListener('progress', this._boundOnProgress, false);
-	    xhr.addEventListener('load', this._boundXhrOnLoad, false);
-	
-	    xhr.send();
-	};
-	
-	/**
-	 * Loads this resources using an XDomainRequest. This is here because we need to support IE9 (gross).
-	 *
-	 * @private
-	 */
-	Resource.prototype._loadXdr = function () {
-	    // if unset, determine the value
-	    if (typeof this.xhrType !== 'string') {
-	        this.xhrType = this._determineXhrType();
-	    }
-	
-	    var xdr = this.xhr = new XDomainRequest();
-	
-	    // XDomainRequest has a few quirks. Occasionally it will abort requests
-	    // A way to avoid this is to make sure ALL callbacks are set even if not used
-	    // More info here: http://stackoverflow.com/questions/15786966/xdomainrequest-aborts-post-on-ie-9
-	    xdr.timeout = 5000;
-	
-	    xdr.onerror = this._boundXhrOnError;
-	    xdr.ontimeout = this._boundXdrOnTimeout;
-	    xdr.onprogress = this._boundOnProgress;
-	    xdr.onload = this._boundXhrOnLoad;
-	
-	    xdr.open('GET', this.url, true);
-	
-	    // Note: The xdr.send() call is wrapped in a timeout to prevent an
-	    // issue with the interface where some requests are lost if multiple
-	    // XDomainRequests are being sent at the same time.
-	    // Some info here: https://github.com/photonstorm/phaser/issues/1248
-	    setTimeout(function () {
-	        xdr.send();
-	    }, 0);
-	};
-	
-	/**
-	 * Creates a source used in loading via an element.
-	 *
-	 * @private
-	 * @param {string} type - The element type (video or audio).
-	 * @param {string} url - The source URL to load from.
-	 * @param {string} [mime] - The mime type of the video
-	 * @return {HTMLSourceElement} The source element.
-	 */
-	Resource.prototype._createSource = function (type, url, mime) {
-	    if (!mime) {
-	        mime = type + '/' + url.substr(url.lastIndexOf('.') + 1);
-	    }
-	
-	    var source = document.createElement('source');
-	
-	    source.src = url;
-	    source.type = mime;
-	
-	    return source;
-	};
-	
-	/**
-	 * Called if a load errors out.
-	 *
-	 * @param {Event} event - The error event from the element that emits it.
-	 * @private
-	 */
-	Resource.prototype._onError = function (event) {
-	    this.abort('Failed to load element using ' + event.target.nodeName);
-	};
-	
-	/**
-	 * Called if a load progress event fires for xhr/xdr.
-	 *
-	 * @fires progress
-	 * @private
-	 * @param {XMLHttpRequestProgressEvent|Event} event - Progress event.
-	 */
-	Resource.prototype._onProgress = function (event) {
-	    if (event && event.lengthComputable) {
-	        this.emit('progress', this, event.loaded / event.total);
-	    }
-	};
-	
-	/**
-	 * Called if an error event fires for xhr/xdr.
-	 *
-	 * @private
-	 * @param {XMLHttpRequestErrorEvent|Event} event - Error event.
-	 */
-	Resource.prototype._xhrOnError = function () {
-	    var xhr = this.xhr;
-	
-	    this.abort(reqType(xhr) + ' Request failed. Status: ' + xhr.status + ', text: "' + xhr.statusText + '"');
-	};
-	
-	/**
-	 * Called if an abort event fires for xhr.
-	 *
-	 * @private
-	 * @param {XMLHttpRequestAbortEvent} event - Abort Event
-	 */
-	Resource.prototype._xhrOnAbort = function () {
-	    this.abort(reqType(this.xhr) + ' Request was aborted by the user.');
-	};
-	
-	/**
-	 * Called if a timeout event fires for xdr.
-	 *
-	 * @private
-	 * @param {Event} event - Timeout event.
-	 */
-	Resource.prototype._xdrOnTimeout = function () {
-	    this.abort(reqType(this.xhr) + ' Request timed out.');
-	};
-	
-	/**
-	 * Called when data successfully loads from an xhr/xdr request.
-	 *
-	 * @private
-	 * @param {XMLHttpRequestLoadEvent|Event} event - Load event
-	 */
-	Resource.prototype._xhrOnLoad = function () {
-	    var xhr = this.xhr;
-	    var status = typeof xhr.status === 'undefined' ? xhr.status : STATUS_OK; // XDR has no `.status`, assume 200.
-	
-	    // status can be 0 when using the file:// protocol, also check if a response was found
-	    if (status === STATUS_OK || status === STATUS_EMPTY || (status === STATUS_NONE && xhr.responseText.length > 0)) {
-	        // if text, just return it
-	        if (this.xhrType === Resource.XHR_RESPONSE_TYPE.TEXT) {
-	            this.data = xhr.responseText;
-	        }
-	        // if json, parse into json object
-	        else if (this.xhrType === Resource.XHR_RESPONSE_TYPE.JSON) {
-	            try {
-	                this.data = JSON.parse(xhr.responseText);
-	                this.isJson = true;
-	            }
-	            catch (e) {
-	                this.abort('Error trying to parse loaded json:', e);
-	
-	                return;
-	            }
-	        }
-	        // if xml, parse into an xml document or div element
-	        else if (this.xhrType === Resource.XHR_RESPONSE_TYPE.DOCUMENT) {
-	            try {
-	                if (window.DOMParser) {
-	                    var domparser = new DOMParser();
-	
-	                    this.data = domparser.parseFromString(xhr.responseText, 'text/xml');
-	                }
-	                else {
-	                    var div = document.createElement('div');
-	
-	                    div.innerHTML = xhr.responseText;
-	                    this.data = div;
-	                }
-	                this.isXml = true;
-	            }
-	            catch (e) {
-	                this.abort('Error trying to parse loaded xml:', e);
-	
-	                return;
-	            }
-	        }
-	        // other types just return the response
-	        else {
-	            this.data = xhr.response || xhr.responseText;
-	        }
-	    }
-	    else {
-	        this.abort('[' + xhr.status + ']' + xhr.statusText + ':' + xhr.responseURL);
-	
-	        return;
-	    }
-	
-	    this.complete();
-	};
-	
-	/**
-	 * Sets the `crossOrigin` property for this resource based on if the url
-	 * for this resource is cross-origin. If crossOrigin was manually set, this
-	 * function does nothing.
-	 *
-	 * @private
-	 * @param {string} url - The url to test.
-	 * @param {object} [loc=window.location] - The location object to test against.
-	 * @return {string} The crossOrigin value to use (or empty string for none).
-	 */
-	Resource.prototype._determineCrossOrigin = function (url, loc) {
-	    // data: and javascript: urls are considered same-origin
-	    if (url.indexOf('data:') === 0) {
-	        return '';
-	    }
-	
-	    // default is window.location
-	    loc = loc || window.location;
-	
-	    if (!tempAnchor) {
-	        tempAnchor = document.createElement('a');
-	    }
-	
-	    // let the browser determine the full href for the url of this resource and then
-	    // parse with the node url lib, we can't use the properties of the anchor element
-	    // because they don't work in IE9 :(
-	    tempAnchor.href = url;
-	    url = parseUri(tempAnchor.href, { strictMode: true });
-	
-	    var samePort = (!url.port && loc.port === '') || (url.port === loc.port);
-	    var protocol = url.protocol ? url.protocol + ':' : '';
-	
-	    // if cross origin
-	    if (url.host !== loc.hostname || !samePort || protocol !== loc.protocol) {
-	        return 'anonymous';
-	    }
-	
-	    return '';
-	};
-	
-	/**
-	 * Determines the responseType of an XHR request based on the extension of the
-	 * resource being loaded.
-	 *
-	 * @private
-	 * @return {Resource.XHR_RESPONSE_TYPE} The responseType to use.
-	 */
-	Resource.prototype._determineXhrType = function () {
-	    return Resource._xhrTypeMap[this._getExtension()] || Resource.XHR_RESPONSE_TYPE.TEXT;
-	};
-	
-	Resource.prototype._determineLoadType = function () {
-	    return Resource._loadTypeMap[this._getExtension()] || Resource.LOAD_TYPE.XHR;
-	};
-	
-	Resource.prototype._getExtension = function () {
-	    var url = this.url;
-	    var ext = '';
-	
-	    if (this.isDataUrl) {
-	        var slashIndex = url.indexOf('/');
-	
-	        ext = url.substring(slashIndex + 1, url.indexOf(';', slashIndex));
-	    }
-	    else {
-	        var queryStart = url.indexOf('?');
-	
-	        if (queryStart !== -1) {
-	            url = url.substring(0, queryStart);
-	        }
-	
-	        ext = url.substring(url.lastIndexOf('.') + 1);
-	    }
-	
-	    return ext.toLowerCase();
-	};
-	
-	/**
-	 * Determines the mime type of an XHR request based on the responseType of
-	 * resource being loaded.
-	 *
-	 * @private
-	 * @param {Resource.XHR_RESPONSE_TYPE} type - The type to get a mime type for.
-	 * @return {string} The mime type to use.
-	 */
-	Resource.prototype._getMimeFromXhrType = function (type) {
-	    switch (type) {
-	        case Resource.XHR_RESPONSE_TYPE.BUFFER:
-	            return 'application/octet-binary';
-	
-	        case Resource.XHR_RESPONSE_TYPE.BLOB:
-	            return 'application/blob';
-	
-	        case Resource.XHR_RESPONSE_TYPE.DOCUMENT:
-	            return 'application/xml';
-	
-	        case Resource.XHR_RESPONSE_TYPE.JSON:
-	            return 'application/json';
-	
-	        case Resource.XHR_RESPONSE_TYPE.DEFAULT:
-	        case Resource.XHR_RESPONSE_TYPE.TEXT:
-	            /* falls through */
-	        default:
-	            return 'text/plain';
-	
-	    }
-	};
-	
-	/**
-	 * Quick helper to get string xhr type.
-	 *
-	 * @ignore
-	 * @param {XMLHttpRequest|XDomainRequest} xhr - The request to check.
-	 * @return {string} The type.
-	 */
-	function reqType(xhr) {
-	    return xhr.toString().replace('object ', '');
-	}
-	
-	/**
-	 * The types of loading a resource can use.
-	 *
-	 * @static
-	 * @readonly
-	 * @enum {number}
-	 */
-	Resource.LOAD_TYPE = {
-	    /** Uses XMLHttpRequest to load the resource. */
-	    XHR:    1,
-	    /** Uses an `Image` object to load the resource. */
-	    IMAGE:  2,
-	    /** Uses an `Audio` object to load the resource. */
-	    AUDIO:  3,
-	    /** Uses a `Video` object to load the resource. */
-	    VIDEO:  4
-	};
-	
-	/**
-	 * The XHR ready states, used internally.
-	 *
-	 * @static
-	 * @readonly
-	 * @enum {string}
-	 */
-	Resource.XHR_RESPONSE_TYPE = {
-	    /** defaults to text */
-	    DEFAULT:    'text',
-	    /** ArrayBuffer */
-	    BUFFER:     'arraybuffer',
-	    /** Blob */
-	    BLOB:       'blob',
-	    /** Document */
-	    DOCUMENT:   'document',
-	    /** Object */
-	    JSON:       'json',
-	    /** String */
-	    TEXT:       'text'
-	};
-	
-	Resource._loadTypeMap = {
-	    gif:      Resource.LOAD_TYPE.IMAGE,
-	    png:      Resource.LOAD_TYPE.IMAGE,
-	    bmp:      Resource.LOAD_TYPE.IMAGE,
-	    jpg:      Resource.LOAD_TYPE.IMAGE,
-	    jpeg:     Resource.LOAD_TYPE.IMAGE,
-	    tif:      Resource.LOAD_TYPE.IMAGE,
-	    tiff:     Resource.LOAD_TYPE.IMAGE,
-	    webp:     Resource.LOAD_TYPE.IMAGE,
-	    tga:      Resource.LOAD_TYPE.IMAGE,
-	    'svg+xml':  Resource.LOAD_TYPE.IMAGE
-	};
-	
-	Resource._xhrTypeMap = {
-	    // xml
-	    xhtml:    Resource.XHR_RESPONSE_TYPE.DOCUMENT,
-	    html:     Resource.XHR_RESPONSE_TYPE.DOCUMENT,
-	    htm:      Resource.XHR_RESPONSE_TYPE.DOCUMENT,
-	    xml:      Resource.XHR_RESPONSE_TYPE.DOCUMENT,
-	    tmx:      Resource.XHR_RESPONSE_TYPE.DOCUMENT,
-	    tsx:      Resource.XHR_RESPONSE_TYPE.DOCUMENT,
-	    svg:      Resource.XHR_RESPONSE_TYPE.DOCUMENT,
-	
-	    // images
-	    gif:      Resource.XHR_RESPONSE_TYPE.BLOB,
-	    png:      Resource.XHR_RESPONSE_TYPE.BLOB,
-	    bmp:      Resource.XHR_RESPONSE_TYPE.BLOB,
-	    jpg:      Resource.XHR_RESPONSE_TYPE.BLOB,
-	    jpeg:     Resource.XHR_RESPONSE_TYPE.BLOB,
-	    tif:      Resource.XHR_RESPONSE_TYPE.BLOB,
-	    tiff:     Resource.XHR_RESPONSE_TYPE.BLOB,
-	    webp:     Resource.XHR_RESPONSE_TYPE.BLOB,
-	    tga:      Resource.XHR_RESPONSE_TYPE.BLOB,
-	
-	    // json
-	    json:     Resource.XHR_RESPONSE_TYPE.JSON,
-	
-	    // text
-	    text:     Resource.XHR_RESPONSE_TYPE.TEXT,
-	    txt:      Resource.XHR_RESPONSE_TYPE.TEXT
-	};
-	
-	/**
-	 * Sets the load type to be used for a specific extension.
-	 *
-	 * @static
-	 * @param {string} extname - The extension to set the type for, e.g. "png" or "fnt"
-	 * @param {Resource.LOAD_TYPE} loadType - The load type to set it to.
-	 */
-	Resource.setExtensionLoadType = function (extname, loadType) {
-	    setExtMap(Resource._loadTypeMap, extname, loadType);
-	};
-	
-	/**
-	 * Sets the load type to be used for a specific extension.
-	 *
-	 * @static
-	 * @param {string} extname - The extension to set the type for, e.g. "png" or "fnt"
-	 * @param {Resource.XHR_RESPONSE_TYPE} xhrType - The xhr type to set it to.
-	 */
-	Resource.setExtensionXhrType = function (extname, xhrType) {
-	    setExtMap(Resource._xhrTypeMap, extname, xhrType);
-	};
-	
-	function setExtMap(map, extname, val) {
-	    if (extname && extname.indexOf('.') === 0) {
-	        extname = extname.substring(1);
-	    }
-	
-	    if (!extname) {
-	        return;
-	    }
-	
-	    map[extname] = val;
-	}
-
-
-/***/ },
-/* 175 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	// a simple in-memory cache for resources
-	var cache = {};
-	
-	module.exports = function () {
-	    return function (resource, next) {
-	        // if cached, then set data and complete the resource
-	        if (cache[resource.url]) {
-	            resource.data = cache[resource.url];
-	            resource.complete(); // marks resource load complete and stops processing before middlewares
-	        }
-	        // if not cached, wait for complete and store it in the cache.
-	        else {
-	            resource.once('complete', function () {
-	                cache[this.url] = this.data;
-	            });
-	        }
-	
-	        next();
-	    };
-	};
-
-
-/***/ },
-/* 176 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var Resource = __webpack_require__(174);
-	var b64 = __webpack_require__(177);
-	
-	var Url = window.URL || window.webkitURL;
-	
-	// a middleware for transforming XHR loaded Blobs into more useful objects
-	
-	module.exports = function () {
-	    return function (resource, next) {
-	        if (!resource.data) {
-	            next();
-	
-	            return;
-	        }
-	
-	        // if this was an XHR load of a blob
-	        if (resource.xhr && resource.xhrType === Resource.XHR_RESPONSE_TYPE.BLOB) {
-	            // if there is no blob support we probably got a binary string back
-	            if (!window.Blob || typeof resource.data === 'string') {
-	                var type = resource.xhr.getResponseHeader('content-type');
-	
-	                // this is an image, convert the binary string into a data url
-	                if (type && type.indexOf('image') === 0) {
-	                    resource.data = new Image();
-	                    resource.data.src = 'data:' + type + ';base64,' + b64.encodeBinary(resource.xhr.responseText);
-	
-	                    resource.isImage = true;
-	
-	                    // wait until the image loads and then callback
-	                    resource.data.onload = function () {
-	                        resource.data.onload = null;
-	
-	                        next();
-	                    };
-	
-	                    // next will be called on load
-	                    return;
-	                }
-	            }
-	            // if content type says this is an image, then we should transform the blob into an Image object
-	            else if (resource.data.type.indexOf('image') === 0) {
-	                var src = Url.createObjectURL(resource.data);
-	
-	                resource.blob = resource.data;
-	                resource.data = new Image();
-	                resource.data.src = src;
-	
-	                resource.isImage = true;
-	
-	                // cleanup the no longer used blob after the image loads
-	                resource.data.onload = function () {
-	                    Url.revokeObjectURL(src);
-	                    resource.data.onload = null;
-	
-	                    next();
-	                };
-	
-	                // next will be called on load.
-	                return;
-	            }
-	        }
-	
-	        next();
-	    };
-	};
-
-
-/***/ },
-/* 177 */
-/***/ function(module, exports) {
-
-	/* eslint no-magic-numbers: 0 */
-	'use strict';
-	
-	module.exports = {
-	    // private property
-	    _keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
-	
-	    encodeBinary: function (input) {
-	        var output = '';
-	        var bytebuffer;
-	        var encodedCharIndexes = new Array(4);
-	        var inx = 0;
-	        var jnx = 0;
-	        var paddingBytes = 0;
-	
-	        while (inx < input.length) {
-	            // Fill byte buffer array
-	            bytebuffer = new Array(3);
-	
-	            for (jnx = 0; jnx < bytebuffer.length; jnx++) {
-	                if (inx < input.length) {
-	                    // throw away high-order byte, as documented at:
-	                    // https://developer.mozilla.org/En/Using_XMLHttpRequest#Handling_binary_data
-	                    bytebuffer[jnx] = input.charCodeAt(inx++) & 0xff;
-	                }
-	                else {
-	                    bytebuffer[jnx] = 0;
-	                }
-	            }
-	
-	            // Get each encoded character, 6 bits at a time
-	            // index 1: first 6 bits
-	            encodedCharIndexes[0] = bytebuffer[0] >> 2;
-	            // index 2: second 6 bits (2 least significant bits from input byte 1 + 4 most significant bits from byte 2)
-	            encodedCharIndexes[1] = ((bytebuffer[0] & 0x3) << 4) | (bytebuffer[1] >> 4);
-	            // index 3: third 6 bits (4 least significant bits from input byte 2 + 2 most significant bits from byte 3)
-	            encodedCharIndexes[2] = ((bytebuffer[1] & 0x0f) << 2) | (bytebuffer[2] >> 6);
-	            // index 3: forth 6 bits (6 least significant bits from input byte 3)
-	            encodedCharIndexes[3] = bytebuffer[2] & 0x3f;
-	
-	            // Determine whether padding happened, and adjust accordingly
-	            paddingBytes = inx - (input.length - 1);
-	            switch (paddingBytes) {
-	                case 2:
-	                    // Set last 2 characters to padding char
-	                    encodedCharIndexes[3] = 64;
-	                    encodedCharIndexes[2] = 64;
-	                    break;
-	
-	                case 1:
-	                    // Set last character to padding char
-	                    encodedCharIndexes[3] = 64;
-	                    break;
-	
-	                default:
-	                    break; // No padding - proceed
-	            }
-	
-	            // Now we will grab each appropriate character out of our keystring
-	            // based on our index array and append it to the output string
-	            for (jnx = 0; jnx < encodedCharIndexes.length; jnx++) {
-	                output += this._keyStr.charAt(encodedCharIndexes[jnx]);
-	            }
-	        }
-	
-	        return output;
-	    }
-	};
-
-
-/***/ },
-/* 178 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	exports.default = function () {
-	    return function textureParser(resource, next) {
-	        // create a new texture if the data is an Image object
-	        if (resource.data && resource.isImage) {
-	            var baseTexture = new core.BaseTexture(resource.data, null, core.utils.getResolutionOfUrl(resource.url));
-	
-	            baseTexture.imageUrl = resource.url;
-	            resource.texture = new core.Texture(baseTexture);
-	
-	            // lets also add the frame to pixi's global cache for fromFrame and fromImage fucntions
-	            core.utils.BaseTextureCache[resource.name] = baseTexture;
-	            core.utils.TextureCache[resource.name] = resource.texture;
-	
-	            // also add references by url if they are different.
-	            if (resource.name !== resource.url) {
-	                core.utils.BaseTextureCache[resource.url] = baseTexture;
-	                core.utils.TextureCache[resource.url] = resource.texture;
-	            }
-	        }
-	
-	        next();
-	    };
-	};
-	
-	var _core = __webpack_require__(5);
-	
-	var core = _interopRequireWildcard(_core);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	//# sourceMappingURL=textureParser.js.map
-
-/***/ },
-/* 179 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	
-	exports.default = function () {
-	    return function spritesheetParser(resource, next) {
-	        var resourcePath = void 0;
-	        var imageResourceName = resource.name + '_image';
-	
-	        // skip if no data, its not json, it isn't spritesheet data, or the image resource already exists
-	        if (!resource.data || !resource.isJson || !resource.data.frames || this.resources[imageResourceName]) {
-	            next();
-	
-	            return;
-	        }
-	
-	        var loadOptions = {
-	            crossOrigin: resource.crossOrigin,
-	            loadType: _resourceLoader.Resource.LOAD_TYPE.IMAGE,
-	            metadata: resource.metadata.imageMetadata
-	        };
-	
-	        // Prepend url path unless the resource image is a data url
-	        if (resource.isDataUrl) {
-	            resourcePath = resource.data.meta.image;
-	        } else {
-	            resourcePath = _path2.default.dirname(resource.url.replace(this.baseUrl, '')) + '/' + resource.data.meta.image;
-	        }
-	
-	        // load the image for this sheet
-	        this.add(imageResourceName, resourcePath, loadOptions, function onImageLoad(res) {
-	            resource.textures = {};
-	
-	            var frames = resource.data.frames;
-	            var frameKeys = Object.keys(frames);
-	            var baseTexture = res.texture.baseTexture;
-	            var resolution = core.utils.getResolutionOfUrl(resource.url);
-	            var scale = resource.data.meta.scale;
-	
-	            // for now (to keep things compatible) resolution overrides scale
-	            // Support scale field on spritesheet
-	            if (resolution === 1 && scale !== undefined && scale !== 1) {
-	                baseTexture.resolution = resolution = scale;
-	                baseTexture.update();
-	            }
-	
-	            var batchIndex = 0;
-	
-	            function processFrames(initialFrameIndex, maxFrames) {
-	                var frameIndex = initialFrameIndex;
-	
-	                while (frameIndex - initialFrameIndex < maxFrames && frameIndex < frameKeys.length) {
-	                    var i = frameKeys[frameIndex];
-	                    var rect = frames[i].frame;
-	
-	                    if (rect) {
-	                        var frame = null;
-	                        var trim = null;
-	                        var orig = new core.Rectangle(0, 0, frames[i].sourceSize.w / resolution, frames[i].sourceSize.h / resolution);
-	
-	                        if (frames[i].rotated) {
-	                            frame = new core.Rectangle(rect.x / resolution, rect.y / resolution, rect.h / resolution, rect.w / resolution);
-	                        } else {
-	                            frame = new core.Rectangle(rect.x / resolution, rect.y / resolution, rect.w / resolution, rect.h / resolution);
-	                        }
-	
-	                        //  Check to see if the sprite is trimmed
-	                        if (frames[i].trimmed) {
-	                            trim = new core.Rectangle(frames[i].spriteSourceSize.x / resolution, frames[i].spriteSourceSize.y / resolution, rect.w / resolution, rect.h / resolution);
-	                        }
-	
-	                        resource.textures[i] = new core.Texture(baseTexture, frame, orig, trim, frames[i].rotated ? 2 : 0);
-	
-	                        // lets also add the frame to pixi's global cache for fromFrame and fromImage functions
-	                        core.utils.TextureCache[i] = resource.textures[i];
-	                    }
-	
-	                    frameIndex++;
-	                }
-	            }
-	
-	            function shouldProcessNextBatch() {
-	                return batchIndex * BATCH_SIZE < frameKeys.length;
-	            }
-	
-	            function processNextBatch(done) {
-	                processFrames(batchIndex * BATCH_SIZE, BATCH_SIZE);
-	                batchIndex++;
-	                setTimeout(done, 0);
-	            }
-	
-	            function iteration() {
-	                processNextBatch(function () {
-	                    if (shouldProcessNextBatch()) {
-	                        iteration();
-	                    } else {
-	                        next();
-	                    }
-	                });
-	            }
-	
-	            if (frameKeys.length <= BATCH_SIZE) {
-	                processFrames(0, BATCH_SIZE);
-	                next();
-	            } else {
-	                iteration();
-	            }
-	        });
-	    };
-	};
-	
-	var _resourceLoader = __webpack_require__(170);
-	
-	var _path = __webpack_require__(80);
-	
-	var _path2 = _interopRequireDefault(_path);
-	
-	var _core = __webpack_require__(5);
-	
-	var core = _interopRequireWildcard(_core);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var BATCH_SIZE = 1000;
-	//# sourceMappingURL=spritesheetParser.js.map
-
-/***/ },
-/* 180 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	exports.__esModule = true;
-	exports.parse = parse;
-	
-	exports.default = function () {
-	    return function bitmapFontParser(resource, next) {
-	        // skip if no data or not xml data
-	        if (!resource.data || !resource.isXml) {
-	            next();
-	
-	            return;
-	        }
-	
-	        // skip if not bitmap font data, using some silly duck-typing
-	        if (resource.data.getElementsByTagName('page').length === 0 || resource.data.getElementsByTagName('info').length === 0 || resource.data.getElementsByTagName('info')[0].getAttribute('face') === null) {
-	            next();
-	
-	            return;
-	        }
-	
-	        var xmlUrl = !resource.isDataUrl ? path.dirname(resource.url) : '';
-	
-	        if (resource.isDataUrl) {
-	            if (xmlUrl === '.') {
-	                xmlUrl = '';
-	            }
-	
-	            if (this.baseUrl && xmlUrl) {
-	                // if baseurl has a trailing slash then add one to xmlUrl so the replace works below
-	                if (this.baseUrl.charAt(this.baseUrl.length - 1) === '/') {
-	                    xmlUrl += '/';
-	                }
-	
-	                // remove baseUrl from xmlUrl
-	                xmlUrl = xmlUrl.replace(this.baseUrl, '');
-	            }
-	        }
-	
-	        // if there is an xmlUrl now, it needs a trailing slash. Ensure that it does if the string isn't empty.
-	        if (xmlUrl && xmlUrl.charAt(xmlUrl.length - 1) !== '/') {
-	            xmlUrl += '/';
-	        }
-	
-	        var textureUrl = xmlUrl + resource.data.getElementsByTagName('page')[0].getAttribute('file');
-	
-	        if (_core.utils.TextureCache[textureUrl]) {
-	            // reuse existing texture
-	            parse(resource, _core.utils.TextureCache[textureUrl]);
-	            next();
-	        } else {
-	            var loadOptions = {
-	                crossOrigin: resource.crossOrigin,
-	                loadType: _resourceLoader.Resource.LOAD_TYPE.IMAGE,
-	                metadata: resource.metadata.imageMetadata
-	            };
-	
-	            // load the texture for the font
-	            this.add(resource.name + '_image', textureUrl, loadOptions, function (res) {
-	                parse(resource, res.texture);
-	                next();
-	            });
-	        }
-	    };
-	};
-	
-	var _path = __webpack_require__(80);
-	
-	var path = _interopRequireWildcard(_path);
-	
-	var _core = __webpack_require__(5);
-	
-	var _resourceLoader = __webpack_require__(170);
-	
-	var _extras = __webpack_require__(125);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function parse(resource, texture) {
-	    var data = {};
-	    var info = resource.data.getElementsByTagName('info')[0];
-	    var common = resource.data.getElementsByTagName('common')[0];
-	
-	    data.font = info.getAttribute('face');
-	    data.size = parseInt(info.getAttribute('size'), 10);
-	    data.lineHeight = parseInt(common.getAttribute('lineHeight'), 10);
-	    data.chars = {};
-	
-	    // parse letters
-	    var letters = resource.data.getElementsByTagName('char');
-	
-	    for (var i = 0; i < letters.length; i++) {
-	        var charCode = parseInt(letters[i].getAttribute('id'), 10);
-	
-	        var textureRect = new _core.Rectangle(parseInt(letters[i].getAttribute('x'), 10) + texture.frame.x, parseInt(letters[i].getAttribute('y'), 10) + texture.frame.y, parseInt(letters[i].getAttribute('width'), 10), parseInt(letters[i].getAttribute('height'), 10));
-	
-	        data.chars[charCode] = {
-	            xOffset: parseInt(letters[i].getAttribute('xoffset'), 10),
-	            yOffset: parseInt(letters[i].getAttribute('yoffset'), 10),
-	            xAdvance: parseInt(letters[i].getAttribute('xadvance'), 10),
-	            kerning: {},
-	            texture: new _core.Texture(texture.baseTexture, textureRect)
-	
-	        };
-	    }
-	
-	    // parse kernings
-	    var kernings = resource.data.getElementsByTagName('kerning');
-	
-	    for (var _i = 0; _i < kernings.length; _i++) {
-	        var first = parseInt(kernings[_i].getAttribute('first'), 10);
-	        var second = parseInt(kernings[_i].getAttribute('second'), 10);
-	        var amount = parseInt(kernings[_i].getAttribute('amount'), 10);
-	
-	        if (data.chars[second]) {
-	            data.chars[second].kerning[first] = amount;
-	        }
-	    }
-	
-	    resource.bitmapFont = data;
-	
-	    // I'm leaving this as a temporary fix so we can test the bitmap fonts in v3
-	    // but it's very likely to change
-	    _extras.BitmapText.fonts[data.font] = data;
-	}
-	//# sourceMappingURL=bitmapFontParser.js.map
-
-/***/ },
-/* 181 */
+/* 184 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -37593,7 +38295,7 @@
 	};
 
 /***/ },
-/* 182 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var require;var require;/**
@@ -47571,7 +48273,7 @@
 	});
 
 /***/ },
-/* 183 */
+/* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47605,7 +48307,7 @@
 	var GobUtils = exports.GobUtils = {};
 
 /***/ },
-/* 184 */
+/* 187 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -47723,7 +48425,7 @@
 	};
 
 /***/ },
-/* 185 */
+/* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -47742,15 +48444,15 @@
 	
 	var _gob2 = _interopRequireDefault(_gob);
 	
-	var _matterJs = __webpack_require__(182);
+	var _matterJs = __webpack_require__(185);
 	
 	var _matterJs2 = _interopRequireDefault(_matterJs);
 	
-	var _private = __webpack_require__(181);
+	var _private = __webpack_require__(184);
 	
-	var _util = __webpack_require__(183);
+	var _util = __webpack_require__(186);
 	
-	var _loader2 = __webpack_require__(186);
+	var _loader2 = __webpack_require__(189);
 	
 	var _loader3 = _interopRequireDefault(_loader2);
 	
@@ -47959,7 +48661,7 @@
 	exports.default = Pool;
 
 /***/ },
-/* 186 */
+/* 189 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48019,7 +48721,7 @@
 	exports.default = Loader;
 
 /***/ },
-/* 187 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48028,7 +48730,7 @@
 	  value: true
 	});
 	
-	var _box = __webpack_require__(188);
+	var _box = __webpack_require__(191);
 	
 	var _box2 = _interopRequireDefault(_box);
 	
@@ -48039,7 +48741,7 @@
 	};
 
 /***/ },
-/* 188 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48048,7 +48750,7 @@
 	  value: true
 	});
 	
-	var _matterJs = __webpack_require__(182);
+	var _matterJs = __webpack_require__(185);
 	
 	var _matterJs2 = _interopRequireDefault(_matterJs);
 	
@@ -48083,6 +48785,57 @@
 	};
 	
 	exports.default = BoxCollider;
+
+/***/ },
+/* 192 */
+/***/ function(module, exports, __webpack_require__) {
+
+	(function() {
+	  var MatterCollisionEvents = {
+	    name: 'matter-collision-events',
+	    version: '0.0.0',
+	    for: 'matter-js@^0.12.0',
+	    install: function(matter) {
+	      matter.after('Engine.create', function() {
+	        matter.Events.on(this, 'collisionStart', function(event) {
+	          event.pairs.map(function(pair) {
+	            matter.Events.trigger(pair.bodyA, 'onCollide', { pair : pair });
+	            matter.Events.trigger(pair.bodyB, 'onCollide', { pair : pair });
+	            pair.bodyA.onCollide && pair.bodyA.onCollide(pair)
+	            pair.bodyB.onCollide && pair.bodyB.onCollide(pair)
+	          });
+	        });
+	
+	        matter.Events.on(this, 'collisionActive', function(event) {
+	          event.pairs.map(function(pair) {
+	            matter.Events.trigger(pair.bodyA, 'onCollideActive', { pair : pair });
+	            matter.Events.trigger(pair.bodyB, 'onCollideActive', { pair : pair });
+	            pair.bodyA.onCollideActive && pair.bodyA.onCollideActive(pair)
+	            pair.bodyB.onCollideActive && pair.bodyB.onCollideActive(pair)
+	          });
+	        });
+	
+	        matter.Events.on(this, 'collisionEnd', function(event) {
+	          event.pairs.map(function(pair) {
+	            matter.Events.trigger(pair.bodyA, 'onCollideEnd', { pair : pair });
+	            matter.Events.trigger(pair.bodyB, 'onCollideEnd', { pair : pair });
+	            pair.bodyA.onCollideEnd && pair.bodyA.onCollideEnd(pair)
+	            pair.bodyB.onCollideEnd && pair.bodyB.onCollideEnd(pair)
+	          });
+	        });
+	      });
+	    },
+	  };
+	  if (true) {
+	    if (typeof module !== 'undefined' && module.exports) {
+	      exports = module.exports = MatterCollisionEvents;
+	    }
+	    exports.MatterCollisionEvents = MatterCollisionEvents;
+	  } else {
+	    this.MatterCollisionEvents = MatterCollisionEvents;
+	  }
+	})()
+
 
 /***/ }
 /******/ ]);
