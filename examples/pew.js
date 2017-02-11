@@ -219,8 +219,8 @@
 	          this.collider.body.frictionAir = this.rigidbody.frictionAir;
 	          this.collider.body.frictionStatic = this.rigidbody.frictionStatic;
 	          this.collider.body.restitution = this.rigidbody.restitution;
-	          _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x, this.rigidbody.velocity.y));
-	          _matterJs2.default.Body.setAngularVelocity(this.collider.body, this.rigidbody.angularVelocity);
+	          _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x * _private.Time.dts, this.rigidbody.velocity.y * _private.Time.dts));
+	          _matterJs2.default.Body.setAngularVelocity(this.collider.body, this.rigidbody.angularVelocity * _private.Time.dts * Math.PI / 180);
 	        }
 	        this.collider.body.onCollide(this.onCollide.bind(this));
 	        this.collider.body.onCollideEnd(this.onCollideEnd.bind(this));
@@ -242,7 +242,7 @@
 	      this.sprite.width = this.sprite.width || this.sprite.pixi.width;
 	      this.sprite.height = this.sprite.height || this.sprite.pixi.height;
 	      this.sprite.anchor = this.sprite.anchor || new _vector2.default(0.5, 0.5);
-	      this.sprite.scale = new _vector2.default(1, 1);
+	      this.sprite.scale = this.sprite.scale || new _vector2.default(1, 1);
 	
 	      if (opts.sprite != null) {
 	        this.sprite.width = opts.sprite.width || this.sprite.width;
@@ -268,12 +268,20 @@
 	    value: function _setupDebug(game) {
 	      this._debugData = {};
 	      this._debugData.colliderOutline = new PIXI.Graphics();
+	      // debug should always appear on top
+	      this._debugData.colliderOutline.zDepth = Infinity;
 	      this._debugData.spriteOutline = new PIXI.Graphics();
+	      this._debugData.spriteOutline.zDepth = Infinity;
+	      this.game.stage.addChild(this._debugData.colliderOutline);
+	      this.game.stage.addChild(this._debugData.spriteOutline);
 	      // Note: the outline will be added to the stage by the game object!
 	    }
 	  }, {
 	    key: '__update',
-	    value: function __update() {}
+	    value: function __update() {
+	      // update zDepth
+	      this.sprite.pixi.zDepth = typeof this.depth === "function" ? this.depth() : this.sprite.pixi.zDepth = this.depth;
+	    }
 	
 	    // this is the update that is publicly called and should be overridden
 	
@@ -288,11 +296,17 @@
 	    value: function prePhysicsUpdate() {}
 	  }, {
 	    key: '__prePhysicsUpdate',
-	    value: function __prePhysicsUpdate() {
-	      // adjust the collider body velocities to be time per step to fit matter.js
-	      // instead of time per step
-	      _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x * _private.Time.dts, this.rigidbody.velocity.y * _private.Time.dts));
-	    }
+	    value: function __prePhysicsUpdate() {}
+	    // adjust the collider body velocities to be time per step to fit matter.js
+	    // instead of time per step
+	    // Matter.Body.setVelocity(
+	    //   this.collider.body,
+	    //   Matter.Vector.create(
+	    //     this.rigidbody.velocity.x * Time.dts,
+	    //     this.rigidbody.velocity.y * Time.dts,
+	    //   ),
+	    // );
+	
 	
 	    // public version
 	
@@ -321,7 +335,7 @@
 	      // Multiply by Time.dts to convert from matter to pew coords
 	      this.transform.position.x = this.collider.body.position.x;
 	      this.transform.position.y = this.collider.body.position.y;
-	      this.transform.angle = this.collider.body.angle;
+	      this.transform.angle = this.collider.body.angle * 180 / Math.PI;
 	    }
 	
 	    // updates the sprite's position. Should be called after committing position
@@ -333,23 +347,26 @@
 	      this.sprite.pixi.anchor.set(this.sprite.anchor.x, this.sprite.anchor.y);
 	      this.sprite.pixi.width = this.sprite.width;
 	      this.sprite.pixi.height = this.sprite.height;
-	      this.sprite.pixi.rotation = this.transform.angle * (Math.PI / 180);
-	      this.sprite.pixi.scale.set(this.sprite.width / this.sprite.pixi.width * this.sprite.scale.x, this.sprite.height / this.sprite.pixi.height * this.sprite.scale.x);
+	      this.sprite.pixi.rotation = this.transform.angle * Math.PI / 180;
 	    }
 	  }, {
 	    key: '_debug',
 	    value: function _debug() {
 	      // update the spriteOutline
 	      this._debugData.spriteOutline.clear();
-	      this._debugData.spriteOutline.lineStyle(1, 0x000000, 1);
-	      this._debugData.spriteOutline.drawRect(this.transform.position.x - this.sprite.width / 2, this.transform.position.y - this.sprite.height / 2, this.sprite.width, this.sprite.height);
+	      this._debugData.spriteOutline.lineStyle(2, 0x428ff4, 1);
+	      this._debugData.spriteOutline.drawRect(0, 0, this.sprite.width, this.sprite.height);
+	
+	      this._debugData.spriteOutline.setTransform(this.transform.position.x, this.transform.position.y);
+	      this._debugData.spriteOutline.rotation = this.transform.angle * Math.PI / 180;
+	
+	      this._debugData.spriteOutline.pivot.x = this.sprite.width / 2;
+	      this._debugData.spriteOutline.pivot.y = this.sprite.width / 2;
 	
 	      // update the colliderOutline
 	      if (this.collider) {
 	        this._debugData.colliderOutline.clear();
-	        this._debugData.colliderOutline.position.x = this.transform.position.x;
-	        this._debugData.colliderOutline.position.y = this.transform.position.y;
-	        this._debugData.colliderOutline.lineStyle(1, 0x000000, 1);
+	        this._debugData.colliderOutline.lineStyle(2, 0xf44265, 1);
 	
 	        var _path = this.collider.body.vertices.reduce(function (memo, vertex, index, arr) {
 	          memo.push(vertex.x);
@@ -48621,10 +48638,9 @@
 	        }
 	      }
 	
-	      // TODO: can optimize here.
-	      // for each gob, calculate their new depth.
 	      this.gobs.map(function (gob) {
-	        gob.sprite.pixi.zDepth = typeof gob.depth === "function" ? gob.depth() : gob.sprite.pixi.zDepth = gob.depth;
+	        gob.__update();
+	        gob.update();
 	      });
 	
 	      // sort by the new z depth

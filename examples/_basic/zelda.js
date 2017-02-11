@@ -30,15 +30,6 @@ class Zelda extends Pew.Gob {
 
   }
   update() {
-    // if position is outside bounds, negate
-    if (this.position.x - this.width / 2 < 0 ||
-        this.position.x + this.width / 2 > this.game.getWidth()) {
-        this.velocity.x = -this.velocity.x
-    }
-    if (this.position.y - this.height / 2 < 0 ||
-        this.position.y + this.height / 2 > this.game.getHeight()) {
-        this.velocity.y = -this.velocity.y
-    }
   }
 }
 

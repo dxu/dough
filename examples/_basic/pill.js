@@ -3,8 +3,8 @@ class Pill extends Pew.Gob {
   constructor() {
     super();
     this.sprite = {
-      width: 20,
-      height: 20,
+      width: 100,
+      height: 100,
     }
     this.collider = new Pew.Colliders.Box(this, 20, 20)
 
@@ -12,7 +12,7 @@ class Pill extends Pew.Gob {
       mass: 1,
       friction: 0,
       velocity: new Pew.V2(30, 0),
-      angularVelocity: 10,
+      angularVelocity: 180,
     }
 
     this.depth = () => {
@@ -32,15 +32,6 @@ class Pill extends Pew.Gob {
 
   }
   update() {
-    // if position is outside bounds, negate
-    if (this.position.x - this.width / 2 < 0 ||
-        this.position.x + this.width / 2 > this.game.getWidth()) {
-        this.velocity.x = -this.velocity.x
-    }
-    if (this.position.y - this.height / 2 < 0 ||
-        this.position.y + this.height / 2 > this.game.getHeight()) {
-        this.velocity.y = -this.velocity.y
-    }
   }
 }
 
