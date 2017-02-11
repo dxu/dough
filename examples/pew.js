@@ -222,9 +222,9 @@
 	          _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x, this.rigidbody.velocity.y));
 	          _matterJs2.default.Body.setAngularVelocity(this.collider.body, this.rigidbody.angularVelocity);
 	        }
-	        this.collider.body.onCollide = this.onCollide;
-	        this.collider.body.onCollideEnd = this.onCollideEnd;
-	        this.collider.body.onCollideActive = this.onCollideActive;
+	        this.collider.body.onCollide(this.onCollide.bind(this));
+	        this.collider.body.onCollideEnd(this.onCollideEnd.bind(this));
+	        this.collider.body.onCollideActive(this.onCollideActive.bind(this));
 	      }
 	    }
 	
@@ -2294,7 +2294,7 @@
 	 * @name VERSION
 	 * @type {string}
 	 */
-	var VERSION = exports.VERSION = '4.3.4';
+	var VERSION = exports.VERSION = '4.3.5';
 	
 	/**
 	 * Two Pi.
@@ -18484,20 +18484,22 @@
 	
 	        renderer.bindShader(shader);
 	
+	        // free unit 0 for us, doesn't matter what was there
+	        // don't try to restore it, because syncUniforms can upload it to another slot
+	        // and it'll be a problem
+	        var tex = this.renderer.emptyTextures[0];
+	
+	        this.renderer.boundTextures[0] = tex;
 	        // this syncs the pixi filters  uniforms with glsl uniforms
 	        this.syncUniforms(shader, filter);
 	
 	        renderer.state.setBlendMode(filter.blendMode);
-	
-	        // temporary bypass cache..
-	        var tex = this.renderer.boundTextures[0];
 	
 	        gl.activeTexture(gl.TEXTURE0);
 	        gl.bindTexture(gl.TEXTURE_2D, input.texture.texture);
 	
 	        this.quad.vao.draw(this.renderer.gl.TRIANGLES, 6, 0);
 	
-	        // restore cache.
 	        gl.bindTexture(gl.TEXTURE_2D, tex._glTextures[this.renderer.CONTEXT_UID].texture);
 	    };
 	
@@ -48796,22 +48798,44 @@
 	    version: '0.0.0',
 	    for: 'matter-js@^0.12.0',
 	    install: function(matter) {
+	      // add the onCollide, onCollideEnd, and onCollideActive callback handlers
+	      // to the native Matter.Body created
+	      var create = matter.Body.create;
+	      matter.Body.create = function() {
+	        var body = create.apply(null, arguments);
+	        body.onCollide = function(cb) { body._mceOC = cb; }
+	        body.onCollideEnd = function(cb) { body._mceOCE = cb; }
+	        body.onCollideActive = function(cb) { body._mceOCA = cb; }
+	        return body;
+	      }
 	      matter.after('Engine.create', function() {
 	        matter.Events.on(this, 'collisionStart', function(event) {
 	          event.pairs.map(function(pair) {
 	            matter.Events.trigger(pair.bodyA, 'onCollide', { pair : pair });
 	            matter.Events.trigger(pair.bodyB, 'onCollide', { pair : pair });
-	            pair.bodyA.onCollide && pair.bodyA.onCollide(pair)
-	            pair.bodyB.onCollide && pair.bodyB.onCollide(pair)
+	            pair.bodyA._mceOC &&
+	              pair.bodyA._mceOC(pair)
+	            pair.bodyB._mceOC &&
+	              pair.bodyB._mceOC(pair)
 	          });
 	        });
 	
 	        matter.Events.on(this, 'collisionActive', function(event) {
 	          event.pairs.map(function(pair) {
-	            matter.Events.trigger(pair.bodyA, 'onCollideActive', { pair : pair });
-	            matter.Events.trigger(pair.bodyB, 'onCollideActive', { pair : pair });
-	            pair.bodyA.onCollideActive && pair.bodyA.onCollideActive(pair)
-	            pair.bodyB.onCollideActive && pair.bodyB.onCollideActive(pair)
+	            matter.Events.trigger(
+	              pair.bodyA,
+	              'onCollideActive',
+	              { pair: pair }
+	            );
+	            matter.Events.trigger(
+	              pair.bodyB,
+	              'onCollideActive',
+	              { pair: pair }
+	            );
+	            pair.bodyA._mceOCA &&
+	              pair.bodyA._mceOCA(pair)
+	            pair.bodyB._mceOCA &&
+	              pair.bodyB._mceOCA(pair)
 	          });
 	        });
 	
@@ -48819,13 +48843,16 @@
 	          event.pairs.map(function(pair) {
 	            matter.Events.trigger(pair.bodyA, 'onCollideEnd', { pair : pair });
 	            matter.Events.trigger(pair.bodyB, 'onCollideEnd', { pair : pair });
-	            pair.bodyA.onCollideEnd && pair.bodyA.onCollideEnd(pair)
-	            pair.bodyB.onCollideEnd && pair.bodyB.onCollideEnd(pair)
+	            pair.bodyA._mceOCE &&
+	              pair.bodyA._mceOCE(pair)
+	            pair.bodyB._mceOCE &&
+	              pair.bodyB._mceOCE(pair)
 	          });
 	        });
 	      });
 	    },
 	  };
+	
 	  if (true) {
 	    if (typeof module !== 'undefined' && module.exports) {
 	      exports = module.exports = MatterCollisionEvents;

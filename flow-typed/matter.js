@@ -163,9 +163,9 @@ declare module "matter-js" {
     static update(body: Body, deltaTime: number, timeScale: number, correction: number): void;
 
     /* start matter-collision-events */
-    onCollide: (pair: Pair) => void;
-    onCollideActive: (pair: Pair) => void;
-    onCollideEnd: (pair: Pair) => void;
+    onCollide: ((pair: Pair) => void) => void;
+    onCollideActive: ((pair: Pair) => void) => void;
+    onCollideEnd: ((pair: Pair) => void) => void;
     /* end matter-collision-events */
 
     // BodyOptionsType
