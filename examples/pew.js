@@ -354,7 +354,7 @@
 	    value: function _debug() {
 	      // update the spriteOutline
 	      this._debugData.spriteOutline.clear();
-	      this._debugData.spriteOutline.lineStyle(2, 0x428ff4, 1);
+	      this._debugData.spriteOutline.lineStyle(2, 0x428ff4, 0.9);
 	      this._debugData.spriteOutline.drawRect(0, 0, this.sprite.width, this.sprite.height);
 	
 	      this._debugData.spriteOutline.setTransform(this.transform.position.x, this.transform.position.y);
@@ -366,7 +366,7 @@
 	      // update the colliderOutline
 	      if (this.collider) {
 	        this._debugData.colliderOutline.clear();
-	        this._debugData.colliderOutline.lineStyle(2, 0xf44265, 1);
+	        this._debugData.colliderOutline.lineStyle(2, 0xf44265, 0.9);
 	
 	        var _path = this.collider.body.vertices.reduce(function (memo, vertex, index, arr) {
 	          memo.push(vertex.x);
@@ -48645,7 +48645,13 @@
 	
 	      // sort by the new z depth
 	      this.stage.children.sort(function (sprite1, sprite2) {
-	        return sprite1.zDepth > sprite2.zDepth;
+	        if (sprite1.zDepth < sprite2.zDepth) {
+	          return -1;
+	        } else if (sprite1.zDepth >= sprite2.zDepth) {
+	          return 1;
+	        }
+	        // null or undefined
+	        return 0;
 	      });
 	
 	      //

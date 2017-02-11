@@ -41,7 +41,7 @@ let game
     }, Zelda)
     game.createGob({
       transform: {
-        position: new Pew.V2(500, 400),
+        position: new Pew.V2(440, 420),
         angle: 20,
       },
       rigidbody: {
@@ -52,7 +52,18 @@ let game
     }, Pill)
     game.createGob({
       transform: {
-        position: new Pew.V2(440, 400),
+        position: new Pew.V2(700, 400),
+        angle: 20,
+      },
+      rigidbody: {
+        mass: 10,
+        velocity: new Pew.V2(0, 0),
+      },
+      debug: true,
+    }, Pill)
+    game.createGob({
+      transform: {
+        position: new Pew.V2(620, 400),
         angle: 20,
       },
       rigidbody: {
