@@ -2,12 +2,12 @@ var path = require('path'),
     fs   = require('fs')
 
 module.exports = {
-  devtool: "source-map",
+  devtool: 'source-map',
   context: path.join(__dirname),
-  entry: "./lib/entry.js",
+  entry: ['./lib/entry.js'],
   output: {
     path: path.join(__dirname, '/examples'),
-    filename: "pew.js"
+    filename: 'pew.js'
   },
   module: {
     loaders: [
@@ -21,7 +21,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: "style!css"
+        loader: 'style!css'
       }
     ],
     // For pixi.js:
