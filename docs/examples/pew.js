@@ -48511,6 +48511,9 @@
 	          resources = _ref2[0],
 	          audioResources = _ref2[1];
 	
+	      // TODO: report this bug
+	      // $FlowFixMe: not sure why it thinks that it's mixed
+	      _this.resources = resources;
 	      _this.gobs.map(function (gob) {
 	        gob.__onGameLoaded();
 	        // add the sprite to the stage
@@ -48696,16 +48699,11 @@
 	  }, {
 	    key: 'preload',
 	    value: function preload() {
-	      var _loader,
-	          _loader2,
-	          _this2 = this;
+	      var _loader, _loader2;
 	
 	      var spritePromise = (_loader = this.loader).loadSprites.apply(_loader, arguments);
 	      var audioPromise = (_loader2 = this.loader).loadAudio.apply(_loader2, arguments);
 	
-	      spritePromise.then(function (resources) {
-	        _this2.resources = resources;
-	      });
 	      Promise.all([spritePromise, audioPromise]).then(this.loaded).catch(function (err) {
 	        return console.log('Error loading audio sources: ', err);
 	      });
