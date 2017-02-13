@@ -6,7 +6,7 @@ module.exports = {
   context: path.join(__dirname),
   entry: ['./lib/entry.js'],
   output: {
-    path: path.join(__dirname, '/examples'),
+    path: path.join(__dirname, '/docs/examples'),
     filename: 'pew.js'
   },
   module: {

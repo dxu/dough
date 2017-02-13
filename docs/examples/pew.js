@@ -69,7 +69,7 @@
 	
 	var _vector2 = _interopRequireDefault(_vector);
 	
-	var _entry = __webpack_require__(191);
+	var _entry = __webpack_require__(192);
 	
 	var _entry2 = _interopRequireDefault(_entry);
 	
@@ -77,7 +77,7 @@
 	
 	var _matterJs2 = _interopRequireDefault(_matterJs);
 	
-	var _matterCollisionEvents = __webpack_require__(193);
+	var _matterCollisionEvents = __webpack_require__(194);
 	
 	var _matterCollisionEvents2 = _interopRequireDefault(_matterCollisionEvents);
 	
@@ -48737,7 +48737,7 @@
 	
 	var Pixi = _interopRequireWildcard(_pixi);
 	
-	var _clip = __webpack_require__(194);
+	var _clip = __webpack_require__(191);
 	
 	var _clip2 = _interopRequireDefault(_clip);
 	
@@ -48840,6 +48840,46 @@
 
 /***/ },
 /* 191 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Clip = function () {
+	  function Clip(context, buffer) {
+	    _classCallCheck(this, Clip);
+	
+	    this.buffer = buffer;
+	    this.context = context;
+	  }
+	
+	  // we need to create a new audio node each time
+	
+	
+	  _createClass(Clip, [{
+	    key: "play",
+	    value: function play() {
+	      var source = this.context.createBufferSource();
+	      source.buffer = this.buffer;
+	      source.connect(this.context.destination);
+	      source.start(0);
+	    }
+	  }]);
+	
+	  return Clip;
+	}();
+	
+	exports.default = Clip;
+
+/***/ },
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48848,7 +48888,7 @@
 	  value: true
 	});
 	
-	var _box = __webpack_require__(192);
+	var _box = __webpack_require__(193);
 	
 	var _box2 = _interopRequireDefault(_box);
 	
@@ -48859,7 +48899,7 @@
 	};
 
 /***/ },
-/* 192 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48905,7 +48945,7 @@
 	exports.default = BoxCollider;
 
 /***/ },
-/* 193 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	(function() {
@@ -48979,46 +49019,6 @@
 	  }
 	})()
 
-
-/***/ },
-/* 194 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Clip = function () {
-	  function Clip(context, buffer) {
-	    _classCallCheck(this, Clip);
-	
-	    this.buffer = buffer;
-	    this.context = context;
-	  }
-	
-	  // we need to create a new audio node each time
-	
-	
-	  _createClass(Clip, [{
-	    key: "play",
-	    value: function play() {
-	      var source = this.context.createBufferSource();
-	      source.buffer = this.buffer;
-	      source.connect(this.context.destination);
-	      source.start(0);
-	    }
-	  }]);
-	
-	  return Clip;
-	}();
-	
-	exports.default = Clip;
 
 /***/ }
 /******/ ]);
