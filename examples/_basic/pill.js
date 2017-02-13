@@ -21,18 +21,15 @@ class Pill extends Pew.Gob {
   }
   onCollide(gob) {
     console.log('hit a gob!')
-    // if (gob instanceof Pill) {
-    //   this.maxVelocity =
-    //     new Pew.Vector2(
-    //       (Math.round(Math.random()) * 2 - 1) * Math.random() * 3,
-    //       (Math.round(Math.random()) * 2 - 1) * Math.random() * 3
-    //     )
-    //   this.velocity = this.maxVelocity
-    // }
-
+    this.playAudio('test')
+    this.playAudio('test2')
   }
   update() {
   }
 }
 
 Pill.spritePath = './assets/img/heart.png';
+Pill.audioSources = {
+  test: './assets/audio/test.wav',
+  test2: './assets/audio/test2.wav',
+};
