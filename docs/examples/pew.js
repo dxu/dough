@@ -85,9 +85,8 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	_matterJs2.default.Plugin.register(_matterCollisionEvents2.default);
-	
 	_matterJs2.default.use('matter-collision-events');
+	
 	
 	window.Pew = {
 	  Colliders: _entry2.default,
@@ -48956,79 +48955,9 @@
 
 /***/ },
 /* 194 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	(function() {
-	  var MatterCollisionEvents = {
-	    name: 'matter-collision-events',
-	    version: '0.0.0',
-	    for: 'matter-js@^0.12.0',
-	    install: function(matter) {
-	      // add the onCollide, onCollideEnd, and onCollideActive callback handlers
-	      // to the native Matter.Body created
-	      var create = matter.Body.create;
-	      matter.Body.create = function() {
-	        var body = create.apply(null, arguments);
-	        body.onCollide = function(cb) { body._mceOC = cb; }
-	        body.onCollideEnd = function(cb) { body._mceOCE = cb; }
-	        body.onCollideActive = function(cb) { body._mceOCA = cb; }
-	        return body;
-	      }
-	      matter.after('Engine.create', function() {
-	        matter.Events.on(this, 'collisionStart', function(event) {
-	          event.pairs.map(function(pair) {
-	            matter.Events.trigger(pair.bodyA, 'onCollide', { pair : pair });
-	            matter.Events.trigger(pair.bodyB, 'onCollide', { pair : pair });
-	            pair.bodyA._mceOC &&
-	              pair.bodyA._mceOC(pair)
-	            pair.bodyB._mceOC &&
-	              pair.bodyB._mceOC(pair)
-	          });
-	        });
-	
-	        matter.Events.on(this, 'collisionActive', function(event) {
-	          event.pairs.map(function(pair) {
-	            matter.Events.trigger(
-	              pair.bodyA,
-	              'onCollideActive',
-	              { pair: pair }
-	            );
-	            matter.Events.trigger(
-	              pair.bodyB,
-	              'onCollideActive',
-	              { pair: pair }
-	            );
-	            pair.bodyA._mceOCA &&
-	              pair.bodyA._mceOCA(pair)
-	            pair.bodyB._mceOCA &&
-	              pair.bodyB._mceOCA(pair)
-	          });
-	        });
-	
-	        matter.Events.on(this, 'collisionEnd', function(event) {
-	          event.pairs.map(function(pair) {
-	            matter.Events.trigger(pair.bodyA, 'onCollideEnd', { pair : pair });
-	            matter.Events.trigger(pair.bodyB, 'onCollideEnd', { pair : pair });
-	            pair.bodyA._mceOCE &&
-	              pair.bodyA._mceOCE(pair)
-	            pair.bodyB._mceOCE &&
-	              pair.bodyB._mceOCE(pair)
-	          });
-	        });
-	      });
-	    },
-	  };
-	
-	  if (true) {
-	    if (typeof module !== 'undefined' && module.exports) {
-	      exports = module.exports = MatterCollisionEvents;
-	    }
-	    exports.MatterCollisionEvents = MatterCollisionEvents;
-	  } else {
-	    this.MatterCollisionEvents = MatterCollisionEvents;
-	  }
-	})()
-
+	!function(n){function e(t){if(o[t])return o[t].exports;var i=o[t]={i:t,l:!1,exports:{}};return n[t].call(i.exports,i,i.exports,e),i.l=!0,i.exports}var o={};return e.m=n,e.c=o,e.i=function(n){return n},e.d=function(n,o,t){e.o(n,o)||Object.defineProperty(n,o,{configurable:!1,enumerable:!0,get:t})},e.n=function(n){var o=n&&n.__esModule?function(){return n.default}:function(){return n};return e.d(o,"a",o),o},e.o=function(n,e){return Object.prototype.hasOwnProperty.call(n,e)},e.p="",e(e.s=1)}([function(n,e){n.exports=Matter},function(n,e,o){var t=o(0),i={name:"matter-collision-events",version:"0.0.0",for:"matter-js@^0.12.0",install:function(n){var e=n.Body.create;n.Body.create=function(){var n=e.apply(null,arguments);return n.onCollide=function(e){n._mceOC=e},n.onCollideEnd=function(e){n._mceOCE=e},n.onCollideActive=function(e){n._mceOCA=e},n},n.after("Engine.create",function(){n.Events.on(this,"collisionStart",function(e){e.pairs.map(function(e){n.Events.trigger(e.bodyA,"onCollide",{pair:e}),n.Events.trigger(e.bodyB,"onCollide",{pair:e}),e.bodyA._mceOC&&e.bodyA._mceOC(e),e.bodyB._mceOC&&e.bodyB._mceOC(e)})}),n.Events.on(this,"collisionActive",function(e){e.pairs.map(function(e){n.Events.trigger(e.bodyA,"onCollideActive",{pair:e}),n.Events.trigger(e.bodyB,"onCollideActive",{pair:e}),e.bodyA._mceOCA&&e.bodyA._mceOCA(e),e.bodyB._mceOCA&&e.bodyB._mceOCA(e)})}),n.Events.on(this,"collisionEnd",function(e){e.pairs.map(function(e){n.Events.trigger(e.bodyA,"onCollideEnd",{pair:e}),n.Events.trigger(e.bodyB,"onCollideEnd",{pair:e}),e.bodyA._mceOCE&&e.bodyA._mceOCE(e),e.bodyB._mceOCE&&e.bodyB._mceOCE(e)})})})}};t.Plugin.register(i),n.exports.MatterCollisionEvents=i}]);
 
 /***/ }
 /******/ ]);
