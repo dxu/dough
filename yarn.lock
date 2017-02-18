@@ -2051,9 +2051,9 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.1"
     yallist "^2.0.0"
 
-matter-collision-events@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/matter-collision-events/-/matter-collision-events-0.1.0.tgz#fda62baefda6129212ff514bbdb297e16e6375c2"
+matter-collision-events@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/matter-collision-events/-/matter-collision-events-0.1.2.tgz#f25787fdf554ed18f332477bb3e5e73124f0d731"
   dependencies:
     matter-js "0.12.0"
 
