@@ -21,8 +21,7 @@ class Pill extends Pew.Gob {
   }
   onCollide(gob) {
     console.log('hit a gob!')
-    this.playAudio('test')
-    this.playAudio('test2')
+    this.playAudio('test', 0.1)
   }
   update() {
   }

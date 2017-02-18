@@ -432,8 +432,8 @@
 	    }
 	  }, {
 	    key: 'playAudio',
-	    value: function playAudio(key) {
-	      this.constructor.__audio[key].play();
+	    value: function playAudio(key, volume) {
+	      this.constructor.__audio[key].play(volume);
 	    }
 	  }]);
 	
@@ -48863,10 +48863,22 @@
 	
 	  _createClass(Clip, [{
 	    key: "play",
-	    value: function play() {
+	    value: function play(volume) {
 	      var source = this.context.createBufferSource();
 	      source.buffer = this.buffer;
-	      source.connect(this.context.destination);
+	      if (volume != null) {
+	        if (!(volume >= 0 && volume <= 1)) {
+	          console.error("Invalid volume of " + volume + " specified.\n           Only values from 0 to 1 are allowed!");
+	          return;
+	        }
+	        var gainNode = this.context.createGain();
+	        console.log(volume);
+	        gainNode.gain.value = volume;
+	        source.connect(gainNode);
+	        gainNode.connect(this.context.destination);
+	      } else {
+	        source.connect(this.context.destination);
+	      }
 	      source.start(0);
 	    }
 	  }]);
