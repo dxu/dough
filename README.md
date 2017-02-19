@@ -8,4 +8,4 @@ Pew is under construction and constantly changing. As of now, it is built on top
 
 ## Examples
 
-You can find a few examples [here](https://github.com/dxu/pew-examples), though these are currently POC's.
+You can find a few examples under the `docs` folder, though these are currently POC's.
