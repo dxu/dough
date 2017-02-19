@@ -49,8 +49,9 @@
   "homepage": "https://github.com/apophanystudios/pew#readme",
   "dependencies": {
     "brfs": "*",
-    "matter-collision-events": "^0.1.2",
-    "matter-js": "^0.11.1",
+    "matter-attractors": "^0.1.5",
+    "matter-collision-events": "^0.1.5",
+    "matter-js": "^0.12.0",
     "pixi.js": "^4.2.3"
   }
 }

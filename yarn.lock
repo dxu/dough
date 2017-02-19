@@ -2051,19 +2051,19 @@ lru-cache@^4.0.1:
     pseudomap "^1.0.1"
     yallist "^2.0.0"
 
-matter-collision-events@^0.1.2:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/matter-collision-events/-/matter-collision-events-0.1.2.tgz#f25787fdf554ed18f332477bb3e5e73124f0d731"
+matter-attractors@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/matter-attractors/-/matter-attractors-0.1.5.tgz#32aef61a392e0e9ead6dd1ad4745dff87e51e264"
+
+matter-collision-events@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/matter-collision-events/-/matter-collision-events-0.1.5.tgz#39edbb3045b72cc5baa86e0b0bc5f1d4eba3b91d"
   dependencies:
     matter-js "0.12.0"
 
-matter-js@0.12.0:
+matter-js@0.12.0, matter-js@^0.12.0:
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/matter-js/-/matter-js-0.12.0.tgz#dcb02d04326c47746c63a3772d1475753d72fe1e"
-
-matter-js@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/matter-js/-/matter-js-0.11.1.tgz#ec0653f09f58d1eabfa4eed97a9baa18d8089036"
 
 memory-fs@^0.2.0:
   version "0.2.0"
