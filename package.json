@@ -52,6 +52,7 @@
     "matter-attractors": "^0.1.5",
     "matter-collision-events": "^0.1.5",
     "matter-js": "^0.12.0",
-    "pixi.js": "^4.2.3"
+    "pixi.js": "^4.2.3",
+    "stats.js": "^0.17.0"
   }
 }
