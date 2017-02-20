@@ -49132,6 +49132,20 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
+	/*
+	 * Scene lifecycle:
+	 *   Build-time Events:
+	 *     onSceneLoad
+	 *
+	 *   Run-time Events:
+	 *     __prePhysicsUpdate
+	 *     prePhysicsUpdate
+	 *     __postPhysicsUpdate
+	 *     postPhysicsUpdate
+	 *     __update
+	 *     update
+	 *     __preRenderUpdate
+	 */
 	var Scene = function () {
 	  function Scene(pool, debug) {
 	    var _this = this;
@@ -49160,7 +49174,6 @@
 	    this.loader = new _loader4.default(this.__preloaded, this.pool.audioContext);
 	    this.loaded = false;
 	    this.gobs = [];
-	    this._drawFPS();
 	    this.debug = false || debug;
 	    this._drawGrid(debug);
 	    this.init();
@@ -49172,22 +49185,7 @@
 	  }, {
 	    key: 'load',
 	    value: function load() {
-	      console.log('loading');
 	      this.__preload.apply(this, _toConsumableArray(this.constructor.preload));
-	    }
-	  }, {
-	    key: 'onSceneLoad',
-	    value: function onSceneLoad() {}
-	  }, {
-	    key: '__postSceneLoad',
-	    value: function __postSceneLoad() {
-	      var _this2 = this;
-	
-	      this.gobs.map(function (gob) {
-	        gob.__onSceneLoad();
-	        // add the sprite to the stage
-	        _this2.stage.addChild(gob.sprite.pixi);
-	      });
 	    }
 	  }, {
 	    key: '__preload',
@@ -49207,16 +49205,25 @@
 	      });
 	    }
 	  }, {
-	    key: 'prePhysicsUpdate',
-	    value: function prePhysicsUpdate() {}
+	    key: 'onSceneLoad',
+	    value: function onSceneLoad() {}
+	  }, {
+	    key: '__postSceneLoad',
+	    value: function __postSceneLoad() {
+	      var _this2 = this;
+	
+	      this.gobs.map(function (gob) {
+	        gob.__onSceneLoad();
+	        // add the sprite to the stage
+	        _this2.stage.addChild(gob.sprite.pixi);
+	      });
+	    }
+	
+	    /* Run time Lifecycle Events */
+	
 	  }, {
 	    key: '__prePhysicsUpdate',
 	    value: function __prePhysicsUpdate() {
-	      var currentTime = Date.now();
-	      this.fps = 1000 / (currentTime - this.lastTime);
-	      this.lastTime = currentTime;
-	      this.fpsText.text = Math.floor(this.fps);
-	
 	      for (var i = 0; i < this.gobs.length; i++) {
 	        if (this.gobs[i].collider) {
 	          this.gobs[i].prePhysicsUpdate();
@@ -49225,18 +49232,8 @@
 	      }
 	    }
 	  }, {
-	    key: 'postPhysicsUpdate',
-	    value: function postPhysicsUpdate() {}
-	  }, {
-	    key: '__postPhysicsUpdate',
-	    value: function __postPhysicsUpdate() {
-	      for (var i = 0; i < this.gobs.length; i++) {
-	        if (this.gobs[i].collider) {
-	          this.gobs[i].__postPhysicsUpdate();
-	          this.gobs[i].postPhysicsUpdate();
-	        }
-	      }
-	    }
+	    key: 'prePhysicsUpdate',
+	    value: function prePhysicsUpdate() {}
 	  }, {
 	    key: '__update',
 	    value: function __update() {
@@ -49248,6 +49245,19 @@
 	  }, {
 	    key: 'update',
 	    value: function update() {}
+	  }, {
+	    key: '__postPhysicsUpdate',
+	    value: function __postPhysicsUpdate() {
+	      for (var i = 0; i < this.gobs.length; i++) {
+	        if (this.gobs[i].collider) {
+	          this.gobs[i].__postPhysicsUpdate();
+	          this.gobs[i].postPhysicsUpdate();
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'postPhysicsUpdate',
+	    value: function postPhysicsUpdate() {}
 	
 	    // final update before rendering
 	
@@ -49264,15 +49274,6 @@
 	        // null or undefined
 	        return 0;
 	      });
-	    }
-	  }, {
-	    key: '_drawFPS',
-	    value: function _drawFPS() {
-	      this.fps = 0;
-	      // TODO: move off Pixi
-	      this.fpsText = new Pixi.Text(Math.floor(this.fps), { fontFamily: 'Arial', fontSize: 12, fill: 0xff1010, align: 'center' });
-	      this.fpsText.position.set(0, 0);
-	      this.stage.addChild(this.fpsText);
 	    }
 	  }, {
 	    key: '_drawGrid',
@@ -49381,6 +49382,20 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
+	/*
+	 * Scene lifecycle:
+	 *   Build-time Events:
+	 *     onSceneLoad
+	 *
+	 *   Run-time Events:
+	 *     __prePhysicsUpdate
+	 *     prePhysicsUpdate
+	 *     __postPhysicsUpdate
+	 *     postPhysicsUpdate
+	 *     __update
+	 *     update
+	 *     __preRenderUpdate
+	 */
 	var Scene = function () {
 	  function Scene(pool, debug) {
 	    var _this = this;
@@ -49409,7 +49424,6 @@
 	    this.loader = new _loader4.default(this.__preloaded, this.pool.audioContext);
 	    this.loaded = false;
 	    this.gobs = [];
-	    this._drawFPS();
 	    this.debug = false || debug;
 	    this._drawGrid(debug);
 	    this.init();
@@ -49421,22 +49435,7 @@
 	  }, {
 	    key: 'load',
 	    value: function load() {
-	      console.log('loading');
 	      this.__preload.apply(this, _toConsumableArray(this.constructor.preload));
-	    }
-	  }, {
-	    key: 'onSceneLoad',
-	    value: function onSceneLoad() {}
-	  }, {
-	    key: '__postSceneLoad',
-	    value: function __postSceneLoad() {
-	      var _this2 = this;
-	
-	      this.gobs.map(function (gob) {
-	        gob.__onSceneLoad();
-	        // add the sprite to the stage
-	        _this2.stage.addChild(gob.sprite.pixi);
-	      });
 	    }
 	  }, {
 	    key: '__preload',
@@ -49456,16 +49455,25 @@
 	      });
 	    }
 	  }, {
-	    key: 'prePhysicsUpdate',
-	    value: function prePhysicsUpdate() {}
+	    key: 'onSceneLoad',
+	    value: function onSceneLoad() {}
+	  }, {
+	    key: '__postSceneLoad',
+	    value: function __postSceneLoad() {
+	      var _this2 = this;
+	
+	      this.gobs.map(function (gob) {
+	        gob.__onSceneLoad();
+	        // add the sprite to the stage
+	        _this2.stage.addChild(gob.sprite.pixi);
+	      });
+	    }
+	
+	    /* Run time Lifecycle Events */
+	
 	  }, {
 	    key: '__prePhysicsUpdate',
 	    value: function __prePhysicsUpdate() {
-	      var currentTime = Date.now();
-	      this.fps = 1000 / (currentTime - this.lastTime);
-	      this.lastTime = currentTime;
-	      this.fpsText.text = Math.floor(this.fps);
-	
 	      for (var i = 0; i < this.gobs.length; i++) {
 	        if (this.gobs[i].collider) {
 	          this.gobs[i].prePhysicsUpdate();
@@ -49474,18 +49482,8 @@
 	      }
 	    }
 	  }, {
-	    key: 'postPhysicsUpdate',
-	    value: function postPhysicsUpdate() {}
-	  }, {
-	    key: '__postPhysicsUpdate',
-	    value: function __postPhysicsUpdate() {
-	      for (var i = 0; i < this.gobs.length; i++) {
-	        if (this.gobs[i].collider) {
-	          this.gobs[i].__postPhysicsUpdate();
-	          this.gobs[i].postPhysicsUpdate();
-	        }
-	      }
-	    }
+	    key: 'prePhysicsUpdate',
+	    value: function prePhysicsUpdate() {}
 	  }, {
 	    key: '__update',
 	    value: function __update() {
@@ -49497,6 +49495,19 @@
 	  }, {
 	    key: 'update',
 	    value: function update() {}
+	  }, {
+	    key: '__postPhysicsUpdate',
+	    value: function __postPhysicsUpdate() {
+	      for (var i = 0; i < this.gobs.length; i++) {
+	        if (this.gobs[i].collider) {
+	          this.gobs[i].__postPhysicsUpdate();
+	          this.gobs[i].postPhysicsUpdate();
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'postPhysicsUpdate',
+	    value: function postPhysicsUpdate() {}
 	
 	    // final update before rendering
 	
@@ -49513,15 +49524,6 @@
 	        // null or undefined
 	        return 0;
 	      });
-	    }
-	  }, {
-	    key: '_drawFPS',
-	    value: function _drawFPS() {
-	      this.fps = 0;
-	      // TODO: move off Pixi
-	      this.fpsText = new Pixi.Text(Math.floor(this.fps), { fontFamily: 'Arial', fontSize: 12, fill: 0xff1010, align: 'center' });
-	      this.fpsText.position.set(0, 0);
-	      this.stage.addChild(this.fpsText);
 	    }
 	  }, {
 	    key: '_drawGrid',

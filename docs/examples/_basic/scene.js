@@ -49,9 +49,6 @@ class DemoScene extends Pew.Scene {
       },
       debug: true,
     }, Pill)
-
-
-
   }
 }
 DemoScene.preload = [Pill, Zelda]
