@@ -48689,6 +48689,10 @@
 	
 	var _gob2 = _interopRequireDefault(_gob);
 	
+	var _camera = __webpack_require__(195);
+	
+	var _camera2 = _interopRequireDefault(_camera);
+	
 	var _matterJs = __webpack_require__(186);
 	
 	var _matterJs2 = _interopRequireDefault(_matterJs);
@@ -48738,6 +48742,8 @@
 	    this.gobs = [];
 	
 	    this.stage = new Pixi.Container();
+	    console.log('initial stage location', this.stage.position);
+	    this.camera = new _camera2.default(this.stage);
 	
 	    this.engine = _matterJs2.default.Engine.create();
 	    this.engine.world.gravity.x = 0;
@@ -49166,6 +49172,47 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	!function(e,t){ true?module.exports=t(__webpack_require__(186)):"function"==typeof define&&define.amd?define(["matter-js"],t):"object"==typeof exports?exports.MatterCollisionEvents=t(require("matter-js")):e.MatterCollisionEvents=t(e["matter-js"])}(this,function(e){return function(e){function t(o){if(n[o])return n[o].exports;var r=n[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,o){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:o})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=1)}([function(t,n){t.exports=e},function(e,t,n){var o=n(0),r={name:"matter-collision-events",version:"0.1.5",for:"matter-js@^0.12.0",install:function(e){var t=e.Body.create;e.Body.create=function(){var e=t.apply(null,arguments);return e.onCollide=function(t){e._mceOC=t},e.onCollideEnd=function(t){e._mceOCE=t},e.onCollideActive=function(t){e._mceOCA=t},e},e.after("Engine.create",function(){e.Events.on(this,"collisionStart",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollide",{pair:t}),e.Events.trigger(t.bodyB,"onCollide",{pair:t}),t.bodyA._mceOC&&t.bodyA._mceOC(t),t.bodyB._mceOC&&t.bodyB._mceOC(t)})}),e.Events.on(this,"collisionActive",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollideActive",{pair:t}),e.Events.trigger(t.bodyB,"onCollideActive",{pair:t}),t.bodyA._mceOCA&&t.bodyA._mceOCA(t),t.bodyB._mceOCA&&t.bodyB._mceOCA(t)})}),e.Events.on(this,"collisionEnd",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollideEnd",{pair:t}),e.Events.trigger(t.bodyB,"onCollideEnd",{pair:t}),t.bodyA._mceOCE&&t.bodyA._mceOCE(t),t.bodyB._mceOCE&&t.bodyB._mceOCE(t)})})})}};o.Plugin.register(r),e.exports.MatterCollisionEvents=r}])});
+
+/***/ },
+/* 195 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Camera = function () {
+	  function Camera(stage) {
+	    _classCallCheck(this, Camera);
+	
+	    this.stage = stage;
+	  }
+	
+	  _createClass(Camera, [{
+	    key: 'moveTo',
+	    value: function moveTo(x, y) {
+	      this.stage.setTransform(x, y);
+	    }
+	  }, {
+	    key: 'moveRelative',
+	    value: function moveRelative(x, y) {
+	      this.stage.setTransform(this.stage.position.x + x, this.stage.position.y + y);
+	    }
+	
+	    // can be overridden
+	
+	  }]);
+	
+	  return Camera;
+	}();
+	
+	exports.default = Camera;
 
 /***/ }
 /******/ ]);
