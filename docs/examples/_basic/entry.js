@@ -30,47 +30,47 @@ let game
       canvas: canvas,
     })
 
-    game.preload(Pill, Zelda)
+    game.loadScene(new DemoScene(game))
 
-    game.createGob({
-      transform: {
-        position: new Pew.V2(440, 399),
-        angle: 20,
-      },
-      debug: true,
-    }, Zelda)
-    game.createGob({
-      transform: {
-        position: new Pew.V2(440, 420),
-        angle: 20,
-      },
-      rigidbody: {
-        mass: 10,
-        velocity: new Pew.V2(0, 0),
-      },
-      debug: true,
-    }, Pill)
-    game.createGob({
-      transform: {
-        position: new Pew.V2(700, 400),
-        angle: 20,
-      },
-      rigidbody: {
-        mass: 10,
-        velocity: new Pew.V2(0, 0),
-      },
-      debug: true,
-    }, Pill)
-    game.createGob({
-      transform: {
-        position: new Pew.V2(620, 400),
-        angle: 20,
-      },
-      rigidbody: {
-        mass: 10,
-      },
-      debug: true,
-    }, Pill)
+    // game.createGob({
+    //   transform: {
+    //     position: new Pew.V2(440, 399),
+    //     angle: 20,
+    //   },
+    //   debug: true,
+    // }, Zelda)
+    // game.createGob({
+    //   transform: {
+    //     position: new Pew.V2(440, 420),
+    //     angle: 20,
+    //   },
+    //   rigidbody: {
+    //     mass: 10,
+    //     velocity: new Pew.V2(0, 0),
+    //   },
+    //   debug: true,
+    // }, Pill)
+    // game.createGob({
+    //   transform: {
+    //     position: new Pew.V2(700, 400),
+    //     angle: 20,
+    //   },
+    //   rigidbody: {
+    //     mass: 10,
+    //     velocity: new Pew.V2(0, 0),
+    //   },
+    //   debug: true,
+    // }, Pill)
+    // game.createGob({
+    //   transform: {
+    //     position: new Pew.V2(620, 400),
+    //     angle: 20,
+    //   },
+    //   rigidbody: {
+    //     mass: 10,
+    //   },
+    //   debug: true,
+    // }, Pill)
 
 
     animate();
