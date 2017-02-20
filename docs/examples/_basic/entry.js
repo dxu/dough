@@ -28,6 +28,7 @@ let game
       width: window.innerWidth,
       height: window.innerHeight,
       canvas: canvas,
+      debug: true,
     })
 
     game.loadScene(new DemoScene(game))
