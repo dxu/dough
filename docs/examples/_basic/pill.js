@@ -20,8 +20,9 @@ class Pill extends Pew.Gob {
     }
   }
   onCollide(gob) {
-    console.log('hit a gob!')
-    this.playAudio('test', 0.1)
+    console.log('hit a gob!');
+    this.playAudio('test', 0.1);
+    this.destroy();
   }
   update() {
   }

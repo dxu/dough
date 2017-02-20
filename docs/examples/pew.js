@@ -69,7 +69,7 @@
 	
 	var _vector2 = _interopRequireDefault(_vector);
 	
-	var _entry = __webpack_require__(192);
+	var _entry = __webpack_require__(195);
 	
 	var _entry2 = _interopRequireDefault(_entry);
 	
@@ -77,11 +77,11 @@
 	
 	var _matterJs2 = _interopRequireDefault(_matterJs);
 	
-	var _matterCollisionEvents = __webpack_require__(194);
+	var _matterCollisionEvents = __webpack_require__(197);
 	
 	var _matterCollisionEvents2 = _interopRequireDefault(_matterCollisionEvents);
 	
-	var _Scene = __webpack_require__(197);
+	var _Scene = __webpack_require__(198);
 	
 	var _Scene2 = _interopRequireDefault(_Scene);
 	
@@ -428,6 +428,8 @@
 	      if (this._destroyed) {
 	        return;
 	      }
+	
+	      this.scene.removeGob(this);
 	
 	      // TODO: for some reason this still gets called a bunch of times?
 	      // Problem: can't actually just let it run because if i call destroy() in
@@ -48697,11 +48699,11 @@
 	
 	var _gob2 = _interopRequireDefault(_gob);
 	
-	var _camera = __webpack_require__(195);
+	var _camera = __webpack_require__(190);
 	
 	var _camera2 = _interopRequireDefault(_camera);
 	
-	var _scene = __webpack_require__(196);
+	var _scene = __webpack_require__(191);
 	
 	var _scene2 = _interopRequireDefault(_scene);
 	
@@ -48713,11 +48715,11 @@
 	
 	var _util = __webpack_require__(187);
 	
-	var _loader = __webpack_require__(190);
+	var _loader = __webpack_require__(192);
 	
 	var _loader2 = _interopRequireDefault(_loader);
 	
-	var _stats = __webpack_require__(198);
+	var _stats = __webpack_require__(194);
 	
 	var _stats2 = _interopRequireDefault(_stats);
 	
@@ -48816,6 +48818,311 @@
 
 /***/ },
 /* 190 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Camera = function () {
+	  function Camera(stage) {
+	    _classCallCheck(this, Camera);
+	
+	    this.stage = stage;
+	  }
+	
+	  _createClass(Camera, [{
+	    key: 'moveTo',
+	    value: function moveTo(x, y) {
+	      this.stage.setTransform(x, y);
+	    }
+	  }, {
+	    key: 'moveRelative',
+	    value: function moveRelative(x, y) {
+	      this.stage.setTransform(this.stage.position.x + x, this.stage.position.y + y);
+	    }
+	
+	    // can be overridden
+	
+	  }]);
+	
+	  return Camera;
+	}();
+	
+	exports.default = Camera;
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _pixi = __webpack_require__(4);
+	
+	var Pixi = _interopRequireWildcard(_pixi);
+	
+	var _camera = __webpack_require__(190);
+	
+	var _camera2 = _interopRequireDefault(_camera);
+	
+	var _gob = __webpack_require__(2);
+	
+	var _gob2 = _interopRequireDefault(_gob);
+	
+	var _loader3 = __webpack_require__(192);
+	
+	var _loader4 = _interopRequireDefault(_loader3);
+	
+	var _matterJs = __webpack_require__(186);
+	
+	var _matterJs2 = _interopRequireDefault(_matterJs);
+	
+	var _pool = __webpack_require__(189);
+	
+	var _pool2 = _interopRequireDefault(_pool);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	/*
+	 * Scene lifecycle:
+	 *   Build-time Events:
+	 *     onSceneLoad
+	 *
+	 *   Run-time Events:
+	 *     __prePhysicsUpdate
+	 *     prePhysicsUpdate
+	 *     __postPhysicsUpdate
+	 *     postPhysicsUpdate
+	 *     __update
+	 *     update
+	 *     __preRenderUpdate
+	 */
+	var Scene = function () {
+	  function Scene(pool) {
+	    var _this = this;
+	
+	    _classCallCheck(this, Scene);
+	
+	    this.__preloaded = function (_ref) {
+	      var _ref2 = _slicedToArray(_ref, 2),
+	          resources = _ref2[0],
+	          audioResources = _ref2[1];
+	
+	      _this.loaded = true;
+	      console.log(resources);
+	      // $FlowFixMe: not sure why it thinks its mixed, TODO: report
+	      _this.resources = resources;
+	      _this.onSceneLoad();
+	      _this.__postSceneLoad();
+	    };
+	
+	    // the name of the scene is the name of the function or class you define
+	    this.name = this.constructor.name;
+	    this.stage = new Pixi.Container();
+	    if (pool == null) {
+	      throw new Error(this.constructor.name + ' needs to be passed a Game object on\n        construction.');
+	    }
+	    this.pool = pool;
+	    // create a new camera for this instance
+	    this.camera = new _camera2.default(this.stage);
+	    this.loader = new _loader4.default(this.__preloaded, this.pool.audioContext);
+	    this.loaded = false;
+	    this.gobs = [];
+	    this._drawGrid(this.pool.debug);
+	    this.init();
+	  }
+	
+	  _createClass(Scene, [{
+	    key: '__init',
+	    value: function __init() {}
+	  }, {
+	    key: 'init',
+	    value: function init() {}
+	  }, {
+	    key: 'load',
+	    value: function load() {
+	      this.__preload.apply(this, _toConsumableArray(this.constructor.preload));
+	    }
+	  }, {
+	    key: '__preload',
+	    value: function __preload() {
+	      var _loader, _loader2;
+	
+	      // if it's already loaded, just return a resolved promise with the resources
+	      if (this.loaded) {
+	        Promise.resolve([this.resources]);
+	        return;
+	      }
+	      var spritePromise = (_loader = this.loader).loadSprites.apply(_loader, arguments);
+	      var audioPromise = (_loader2 = this.loader).loadAudio.apply(_loader2, arguments);
+	
+	      Promise.all([spritePromise, audioPromise]).then(this.__preloaded).catch(function (err) {
+	        return console.log('Error loading resources: ', err);
+	      });
+	    }
+	  }, {
+	    key: 'onSceneLoad',
+	    value: function onSceneLoad() {}
+	  }, {
+	    key: '__postSceneLoad',
+	    value: function __postSceneLoad() {
+	      var _this2 = this;
+	
+	      this.gobs.map(function (gob) {
+	        gob.__onSceneLoad();
+	        // add the sprite to the stage
+	        _this2.stage.addChild(gob.sprite.pixi);
+	      });
+	    }
+	
+	    /* Run time Lifecycle Events */
+	
+	  }, {
+	    key: '__prePhysicsUpdate',
+	    value: function __prePhysicsUpdate() {
+	      for (var i = 0; i < this.gobs.length; i++) {
+	        if (this.gobs[i].collider) {
+	          this.gobs[i].prePhysicsUpdate();
+	          this.gobs[i].__prePhysicsUpdate();
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'prePhysicsUpdate',
+	    value: function prePhysicsUpdate() {}
+	  }, {
+	    key: '__update',
+	    value: function __update() {
+	      this.gobs.map(function (gob) {
+	        gob.__update();
+	        gob.update();
+	      });
+	    }
+	  }, {
+	    key: 'update',
+	    value: function update() {}
+	  }, {
+	    key: '__postPhysicsUpdate',
+	    value: function __postPhysicsUpdate() {
+	      for (var i = 0; i < this.gobs.length; i++) {
+	        if (this.gobs[i].collider) {
+	          this.gobs[i].__postPhysicsUpdate();
+	          this.gobs[i].postPhysicsUpdate();
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'postPhysicsUpdate',
+	    value: function postPhysicsUpdate() {}
+	
+	    // final update before rendering
+	
+	  }, {
+	    key: '__preRenderUpdate',
+	    value: function __preRenderUpdate() {
+	      // sort by the new z depth
+	      this.stage.children.sort(function (sprite1, sprite2) {
+	        if (sprite1.zDepth < sprite2.zDepth) {
+	          return -1;
+	        } else if (sprite1.zDepth >= sprite2.zDepth) {
+	          return 1;
+	        }
+	        // null or undefined
+	        return 0;
+	      });
+	    }
+	  }, {
+	    key: '_drawGrid',
+	    value: function _drawGrid(showGrid) {
+	      // draws a grid of given tilesize
+	      this.grid = new Pixi.Graphics();
+	      this.grid.moveTo(0, 0);
+	      this.grid.lineStyle(1, 0x336699, 0.3);
+	      for (var i = 0; i <= this.pool.renderer.view.width; i += this.pool.tileSize) {
+	        this.grid.moveTo(i, 0);
+	        this.grid.lineTo(i, this.pool.renderer.view.height);
+	      }
+	      for (var _i = 0; _i < this.pool.renderer.view.height; _i += this.pool.tileSize) {
+	        this.grid.moveTo(0, _i);
+	        this.grid.lineTo(this.pool.renderer.view.width, _i);
+	      }
+	      if (!showGrid) {
+	        this.grid.visible = false;
+	      }
+	      this.stage.addChild(this.grid);
+	    }
+	
+	    // TODO: test this method
+	    // creates a gob of type GobClass
+	    // TODO: in the future allow gob-specific events? might be interesting for
+	    //       clicks. maybe see what phaser offers
+	    // TODO: OPTIMIZATION: allow batch create with a custom position, etc.
+	    //       function!
+	
+	  }, {
+	    key: 'createGob',
+	    value: function createGob(opts) {
+	      var GobClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _gob2.default;
+	
+	      var gob = new GobClass();
+	      gob.__init(this, opts);
+	
+	      // if it contains a collider, we need to put it into the collision engine,
+	      // regardless whether or not it is a rigid body
+	      if (gob.collider != null) {
+	        _matterJs2.default.World.add(this.pool.engine.world, gob.collider.body);
+	      }
+	
+	      this.gobs.push(gob);
+	    }
+	
+	    // TODO: test this method
+	    // for destroy() and cleanup
+	
+	  }, {
+	    key: 'removeGob',
+	    value: function removeGob(gob) {
+	      if (gob.collider != null) {
+	        _matterJs2.default.World.remove(this.pool.engine.world, gob.collider.body);
+	      }
+	      this.gobs = this.gobs.filter(function (compare) {
+	        return compare._id !== gob._id;
+	      });
+	      this.stage.removeChild(gob.sprite.pixi);
+	      if (gob.debug) {
+	        this.stage.removeChild(gob._debugData.colliderOutline);
+	        this.stage.removeChild(gob._debugData.spriteOutline);
+	      }
+	    }
+	  }]);
+	
+	  return Scene;
+	}();
+	
+	exports.default = Scene;
+
+/***/ },
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48834,7 +49141,7 @@
 	
 	var Pixi = _interopRequireWildcard(_pixi);
 	
-	var _clip = __webpack_require__(191);
+	var _clip = __webpack_require__(193);
 	
 	var _clip2 = _interopRequireDefault(_clip);
 	
@@ -48936,7 +49243,7 @@
 	exports.default = Loader;
 
 /***/ },
-/* 191 */
+/* 193 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -48988,7 +49295,18 @@
 	exports.default = Clip;
 
 /***/ },
-/* 192 */
+/* 194 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// stats.js - http://github.com/mrdoob/stats.js
+	(function(f,e){ true?module.exports=e():"function"===typeof define&&define.amd?define(e):f.Stats=e()})(this,function(){var f=function(){function e(a){c.appendChild(a.dom);return a}function u(a){for(var d=0;d<c.children.length;d++)c.children[d].style.display=d===a?"block":"none";l=a}var l=0,c=document.createElement("div");c.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000";c.addEventListener("click",function(a){a.preventDefault();
+	u(++l%c.children.length)},!1);var k=(performance||Date).now(),g=k,a=0,r=e(new f.Panel("FPS","#0ff","#002")),h=e(new f.Panel("MS","#0f0","#020"));if(self.performance&&self.performance.memory)var t=e(new f.Panel("MB","#f08","#201"));u(0);return{REVISION:16,dom:c,addPanel:e,showPanel:u,begin:function(){k=(performance||Date).now()},end:function(){a++;var c=(performance||Date).now();h.update(c-k,200);if(c>g+1E3&&(r.update(1E3*a/(c-g),100),g=c,a=0,t)){var d=performance.memory;t.update(d.usedJSHeapSize/
+	1048576,d.jsHeapSizeLimit/1048576)}return c},update:function(){k=this.end()},domElement:c,setMode:u}};f.Panel=function(e,f,l){var c=Infinity,k=0,g=Math.round,a=g(window.devicePixelRatio||1),r=80*a,h=48*a,t=3*a,v=2*a,d=3*a,m=15*a,n=74*a,p=30*a,q=document.createElement("canvas");q.width=r;q.height=h;q.style.cssText="width:80px;height:48px";var b=q.getContext("2d");b.font="bold "+9*a+"px Helvetica,Arial,sans-serif";b.textBaseline="top";b.fillStyle=l;b.fillRect(0,0,r,h);b.fillStyle=f;b.fillText(e,t,v);
+	b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{dom:q,update:function(h,w){c=Math.min(c,h);k=Math.max(k,h);b.fillStyle=l;b.globalAlpha=1;b.fillRect(0,0,r,m);b.fillStyle=f;b.fillText(g(h)+" "+e+" ("+g(c)+"-"+g(k)+")",t,v);b.drawImage(q,d+a,m,n-a,p,d,m,n-a,p);b.fillRect(d+n-a,m,a,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d+n-a,m,a,g((1-h/w)*p))}}};return f});
+
+
+/***/ },
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48997,7 +49315,7 @@
 	  value: true
 	});
 	
-	var _box = __webpack_require__(193);
+	var _box = __webpack_require__(196);
 	
 	var _box2 = _interopRequireDefault(_box);
 	
@@ -49008,7 +49326,7 @@
 	};
 
 /***/ },
-/* 193 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49054,572 +49372,274 @@
 	exports.default = BoxCollider;
 
 /***/ },
-/* 194 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	!function(e,t){ true?module.exports=t(__webpack_require__(186)):"function"==typeof define&&define.amd?define(["matter-js"],t):"object"==typeof exports?exports.MatterCollisionEvents=t(require("matter-js")):e.MatterCollisionEvents=t(e["matter-js"])}(this,function(e){return function(e){function t(o){if(n[o])return n[o].exports;var r=n[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,o){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:o})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=1)}([function(t,n){t.exports=e},function(e,t,n){var o=n(0),r={name:"matter-collision-events",version:"0.1.5",for:"matter-js@^0.12.0",install:function(e){var t=e.Body.create;e.Body.create=function(){var e=t.apply(null,arguments);return e.onCollide=function(t){e._mceOC=t},e.onCollideEnd=function(t){e._mceOCE=t},e.onCollideActive=function(t){e._mceOCA=t},e},e.after("Engine.create",function(){e.Events.on(this,"collisionStart",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollide",{pair:t}),e.Events.trigger(t.bodyB,"onCollide",{pair:t}),t.bodyA._mceOC&&t.bodyA._mceOC(t),t.bodyB._mceOC&&t.bodyB._mceOC(t)})}),e.Events.on(this,"collisionActive",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollideActive",{pair:t}),e.Events.trigger(t.bodyB,"onCollideActive",{pair:t}),t.bodyA._mceOCA&&t.bodyA._mceOCA(t),t.bodyB._mceOCA&&t.bodyB._mceOCA(t)})}),e.Events.on(this,"collisionEnd",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollideEnd",{pair:t}),e.Events.trigger(t.bodyB,"onCollideEnd",{pair:t}),t.bodyA._mceOCE&&t.bodyA._mceOCE(t),t.bodyB._mceOCE&&t.bodyB._mceOCE(t)})})})}};o.Plugin.register(r),e.exports.MatterCollisionEvents=r}])});
 
 /***/ },
-/* 195 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Camera = function () {
-	  function Camera(stage) {
-	    _classCallCheck(this, Camera);
-	
-	    this.stage = stage;
-	  }
-	
-	  _createClass(Camera, [{
-	    key: 'moveTo',
-	    value: function moveTo(x, y) {
-	      this.stage.setTransform(x, y);
-	    }
-	  }, {
-	    key: 'moveRelative',
-	    value: function moveRelative(x, y) {
-	      this.stage.setTransform(this.stage.position.x + x, this.stage.position.y + y);
-	    }
-	
-	    // can be overridden
-	
-	  }]);
-	
-	  return Camera;
-	}();
-	
-	exports.default = Camera;
-
-/***/ },
-/* 196 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _pixi = __webpack_require__(4);
-	
-	var Pixi = _interopRequireWildcard(_pixi);
-	
-	var _camera = __webpack_require__(195);
-	
-	var _camera2 = _interopRequireDefault(_camera);
-	
-	var _gob = __webpack_require__(2);
-	
-	var _gob2 = _interopRequireDefault(_gob);
-	
-	var _loader3 = __webpack_require__(190);
-	
-	var _loader4 = _interopRequireDefault(_loader3);
-	
-	var _matterJs = __webpack_require__(186);
-	
-	var _matterJs2 = _interopRequireDefault(_matterJs);
-	
-	var _pool = __webpack_require__(189);
-	
-	var _pool2 = _interopRequireDefault(_pool);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	/*
-	 * Scene lifecycle:
-	 *   Build-time Events:
-	 *     onSceneLoad
-	 *
-	 *   Run-time Events:
-	 *     __prePhysicsUpdate
-	 *     prePhysicsUpdate
-	 *     __postPhysicsUpdate
-	 *     postPhysicsUpdate
-	 *     __update
-	 *     update
-	 *     __preRenderUpdate
-	 */
-	var Scene = function () {
-	  function Scene(pool) {
-	    var _this = this;
-	
-	    _classCallCheck(this, Scene);
-	
-	    this.__preloaded = function (_ref) {
-	      var _ref2 = _slicedToArray(_ref, 2),
-	          resources = _ref2[0],
-	          audioResources = _ref2[1];
-	
-	      _this.loaded = true;
-	      console.log(resources);
-	      // $FlowFixMe: not sure why it thinks its mixed, TODO: report
-	      _this.resources = resources;
-	      _this.onSceneLoad();
-	      _this.__postSceneLoad();
-	    };
-	
-	    // the name of the scene is the name of the function or class you define
-	    this.name = this.constructor.name;
-	    this.stage = new Pixi.Container();
-	    if (pool == null) {
-	      throw new Error(this.constructor.name + ' needs to be passed a Game object on\n        construction.');
-	    }
-	    this.pool = pool;
-	    // create a new camera for this instance
-	    this.camera = new _camera2.default(this.stage);
-	    this.loader = new _loader4.default(this.__preloaded, this.pool.audioContext);
-	    this.loaded = false;
-	    this.gobs = [];
-	    this._drawGrid(this.pool.debug);
-	    this.init();
-	  }
-	
-	  _createClass(Scene, [{
-	    key: '__init',
-	    value: function __init() {}
-	  }, {
-	    key: 'init',
-	    value: function init() {}
-	  }, {
-	    key: 'load',
-	    value: function load() {
-	      this.__preload.apply(this, _toConsumableArray(this.constructor.preload));
-	    }
-	  }, {
-	    key: '__preload',
-	    value: function __preload() {
-	      var _loader, _loader2;
-	
-	      // if it's already loaded, just return a resolved promise with the resources
-	      if (this.loaded) {
-	        Promise.resolve([this.resources]);
-	        return;
-	      }
-	      var spritePromise = (_loader = this.loader).loadSprites.apply(_loader, arguments);
-	      var audioPromise = (_loader2 = this.loader).loadAudio.apply(_loader2, arguments);
-	
-	      Promise.all([spritePromise, audioPromise]).then(this.__preloaded).catch(function (err) {
-	        return console.log('Error loading resources: ', err);
-	      });
-	    }
-	  }, {
-	    key: 'onSceneLoad',
-	    value: function onSceneLoad() {}
-	  }, {
-	    key: '__postSceneLoad',
-	    value: function __postSceneLoad() {
-	      var _this2 = this;
-	
-	      this.gobs.map(function (gob) {
-	        gob.__onSceneLoad();
-	        // add the sprite to the stage
-	        _this2.stage.addChild(gob.sprite.pixi);
-	      });
-	    }
-	
-	    /* Run time Lifecycle Events */
-	
-	  }, {
-	    key: '__prePhysicsUpdate',
-	    value: function __prePhysicsUpdate() {
-	      for (var i = 0; i < this.gobs.length; i++) {
-	        if (this.gobs[i].collider) {
-	          this.gobs[i].prePhysicsUpdate();
-	          this.gobs[i].__prePhysicsUpdate();
-	        }
-	      }
-	    }
-	  }, {
-	    key: 'prePhysicsUpdate',
-	    value: function prePhysicsUpdate() {}
-	  }, {
-	    key: '__update',
-	    value: function __update() {
-	      this.gobs.map(function (gob) {
-	        gob.__update();
-	        gob.update();
-	      });
-	    }
-	  }, {
-	    key: 'update',
-	    value: function update() {}
-	  }, {
-	    key: '__postPhysicsUpdate',
-	    value: function __postPhysicsUpdate() {
-	      for (var i = 0; i < this.gobs.length; i++) {
-	        if (this.gobs[i].collider) {
-	          this.gobs[i].__postPhysicsUpdate();
-	          this.gobs[i].postPhysicsUpdate();
-	        }
-	      }
-	    }
-	  }, {
-	    key: 'postPhysicsUpdate',
-	    value: function postPhysicsUpdate() {}
-	
-	    // final update before rendering
-	
-	  }, {
-	    key: '__preRenderUpdate',
-	    value: function __preRenderUpdate() {
-	      // sort by the new z depth
-	      this.stage.children.sort(function (sprite1, sprite2) {
-	        if (sprite1.zDepth < sprite2.zDepth) {
-	          return -1;
-	        } else if (sprite1.zDepth >= sprite2.zDepth) {
-	          return 1;
-	        }
-	        // null or undefined
-	        return 0;
-	      });
-	    }
-	  }, {
-	    key: '_drawGrid',
-	    value: function _drawGrid(showGrid) {
-	      // draws a grid of given tilesize
-	      this.grid = new Pixi.Graphics();
-	      this.grid.moveTo(0, 0);
-	      this.grid.lineStyle(1, 0x336699, 0.3);
-	      for (var i = 0; i <= this.pool.renderer.view.width; i += this.pool.tileSize) {
-	        this.grid.moveTo(i, 0);
-	        this.grid.lineTo(i, this.pool.renderer.view.height);
-	      }
-	      for (var _i = 0; _i < this.pool.renderer.view.height; _i += this.pool.tileSize) {
-	        this.grid.moveTo(0, _i);
-	        this.grid.lineTo(this.pool.renderer.view.width, _i);
-	      }
-	      if (!showGrid) {
-	        this.grid.visible = false;
-	      }
-	      this.stage.addChild(this.grid);
-	    }
-	
-	    // TODO: test this method
-	    // creates a gob of type GobClass
-	    // TODO: in the future allow gob-specific events? might be interesting for
-	    //       clicks. maybe see what phaser offers
-	    // TODO: OPTIMIZATION: allow batch create with a custom position, etc.
-	    //       function!
-	
-	  }, {
-	    key: 'createGob',
-	    value: function createGob(opts) {
-	      var GobClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _gob2.default;
-	
-	      var gob = new GobClass();
-	      gob.__init(this, opts);
-	
-	      // if it contains a collider, we need to put it into the collision engine,
-	      // regardless whether or not it is a rigid body
-	      if (gob.collider != null) {
-	        _matterJs2.default.World.add(this.pool.engine.world, gob.collider.body);
-	      }
-	
-	      this.gobs.push(gob);
-	    }
-	
-	    // TODO: test this method
-	    // for destroy() and cleanup
-	
-	  }, {
-	    key: 'removeGob',
-	    value: function removeGob(gob) {
-	      // TODO: remove keyboard even handlers
-	      // this._keyboard.removeGobEventHandlers(gob._id, gob.events);
-	    }
-	  }]);
-	
-	  return Scene;
-	}();
-	
-	exports.default = Scene;
-
-/***/ },
-/* 197 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _pixi = __webpack_require__(4);
-	
-	var Pixi = _interopRequireWildcard(_pixi);
-	
-	var _camera = __webpack_require__(195);
-	
-	var _camera2 = _interopRequireDefault(_camera);
-	
-	var _gob = __webpack_require__(2);
-	
-	var _gob2 = _interopRequireDefault(_gob);
-	
-	var _loader3 = __webpack_require__(190);
-	
-	var _loader4 = _interopRequireDefault(_loader3);
-	
-	var _matterJs = __webpack_require__(186);
-	
-	var _matterJs2 = _interopRequireDefault(_matterJs);
-	
-	var _pool = __webpack_require__(189);
-	
-	var _pool2 = _interopRequireDefault(_pool);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	/*
-	 * Scene lifecycle:
-	 *   Build-time Events:
-	 *     onSceneLoad
-	 *
-	 *   Run-time Events:
-	 *     __prePhysicsUpdate
-	 *     prePhysicsUpdate
-	 *     __postPhysicsUpdate
-	 *     postPhysicsUpdate
-	 *     __update
-	 *     update
-	 *     __preRenderUpdate
-	 */
-	var Scene = function () {
-	  function Scene(pool) {
-	    var _this = this;
-	
-	    _classCallCheck(this, Scene);
-	
-	    this.__preloaded = function (_ref) {
-	      var _ref2 = _slicedToArray(_ref, 2),
-	          resources = _ref2[0],
-	          audioResources = _ref2[1];
-	
-	      _this.loaded = true;
-	      console.log(resources);
-	      // $FlowFixMe: not sure why it thinks its mixed, TODO: report
-	      _this.resources = resources;
-	      _this.onSceneLoad();
-	      _this.__postSceneLoad();
-	    };
-	
-	    // the name of the scene is the name of the function or class you define
-	    this.name = this.constructor.name;
-	    this.stage = new Pixi.Container();
-	    if (pool == null) {
-	      throw new Error(this.constructor.name + ' needs to be passed a Game object on\n        construction.');
-	    }
-	    this.pool = pool;
-	    // create a new camera for this instance
-	    this.camera = new _camera2.default(this.stage);
-	    this.loader = new _loader4.default(this.__preloaded, this.pool.audioContext);
-	    this.loaded = false;
-	    this.gobs = [];
-	    this._drawGrid(this.pool.debug);
-	    this.init();
-	  }
-	
-	  _createClass(Scene, [{
-	    key: '__init',
-	    value: function __init() {}
-	  }, {
-	    key: 'init',
-	    value: function init() {}
-	  }, {
-	    key: 'load',
-	    value: function load() {
-	      this.__preload.apply(this, _toConsumableArray(this.constructor.preload));
-	    }
-	  }, {
-	    key: '__preload',
-	    value: function __preload() {
-	      var _loader, _loader2;
-	
-	      // if it's already loaded, just return a resolved promise with the resources
-	      if (this.loaded) {
-	        Promise.resolve([this.resources]);
-	        return;
-	      }
-	      var spritePromise = (_loader = this.loader).loadSprites.apply(_loader, arguments);
-	      var audioPromise = (_loader2 = this.loader).loadAudio.apply(_loader2, arguments);
-	
-	      Promise.all([spritePromise, audioPromise]).then(this.__preloaded).catch(function (err) {
-	        return console.log('Error loading resources: ', err);
-	      });
-	    }
-	  }, {
-	    key: 'onSceneLoad',
-	    value: function onSceneLoad() {}
-	  }, {
-	    key: '__postSceneLoad',
-	    value: function __postSceneLoad() {
-	      var _this2 = this;
-	
-	      this.gobs.map(function (gob) {
-	        gob.__onSceneLoad();
-	        // add the sprite to the stage
-	        _this2.stage.addChild(gob.sprite.pixi);
-	      });
-	    }
-	
-	    /* Run time Lifecycle Events */
-	
-	  }, {
-	    key: '__prePhysicsUpdate',
-	    value: function __prePhysicsUpdate() {
-	      for (var i = 0; i < this.gobs.length; i++) {
-	        if (this.gobs[i].collider) {
-	          this.gobs[i].prePhysicsUpdate();
-	          this.gobs[i].__prePhysicsUpdate();
-	        }
-	      }
-	    }
-	  }, {
-	    key: 'prePhysicsUpdate',
-	    value: function prePhysicsUpdate() {}
-	  }, {
-	    key: '__update',
-	    value: function __update() {
-	      this.gobs.map(function (gob) {
-	        gob.__update();
-	        gob.update();
-	      });
-	    }
-	  }, {
-	    key: 'update',
-	    value: function update() {}
-	  }, {
-	    key: '__postPhysicsUpdate',
-	    value: function __postPhysicsUpdate() {
-	      for (var i = 0; i < this.gobs.length; i++) {
-	        if (this.gobs[i].collider) {
-	          this.gobs[i].__postPhysicsUpdate();
-	          this.gobs[i].postPhysicsUpdate();
-	        }
-	      }
-	    }
-	  }, {
-	    key: 'postPhysicsUpdate',
-	    value: function postPhysicsUpdate() {}
-	
-	    // final update before rendering
-	
-	  }, {
-	    key: '__preRenderUpdate',
-	    value: function __preRenderUpdate() {
-	      // sort by the new z depth
-	      this.stage.children.sort(function (sprite1, sprite2) {
-	        if (sprite1.zDepth < sprite2.zDepth) {
-	          return -1;
-	        } else if (sprite1.zDepth >= sprite2.zDepth) {
-	          return 1;
-	        }
-	        // null or undefined
-	        return 0;
-	      });
-	    }
-	  }, {
-	    key: '_drawGrid',
-	    value: function _drawGrid(showGrid) {
-	      // draws a grid of given tilesize
-	      this.grid = new Pixi.Graphics();
-	      this.grid.moveTo(0, 0);
-	      this.grid.lineStyle(1, 0x336699, 0.3);
-	      for (var i = 0; i <= this.pool.renderer.view.width; i += this.pool.tileSize) {
-	        this.grid.moveTo(i, 0);
-	        this.grid.lineTo(i, this.pool.renderer.view.height);
-	      }
-	      for (var _i = 0; _i < this.pool.renderer.view.height; _i += this.pool.tileSize) {
-	        this.grid.moveTo(0, _i);
-	        this.grid.lineTo(this.pool.renderer.view.width, _i);
-	      }
-	      if (!showGrid) {
-	        this.grid.visible = false;
-	      }
-	      this.stage.addChild(this.grid);
-	    }
-	
-	    // TODO: test this method
-	    // creates a gob of type GobClass
-	    // TODO: in the future allow gob-specific events? might be interesting for
-	    //       clicks. maybe see what phaser offers
-	    // TODO: OPTIMIZATION: allow batch create with a custom position, etc.
-	    //       function!
-	
-	  }, {
-	    key: 'createGob',
-	    value: function createGob(opts) {
-	      var GobClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _gob2.default;
-	
-	      var gob = new GobClass();
-	      gob.__init(this, opts);
-	
-	      // if it contains a collider, we need to put it into the collision engine,
-	      // regardless whether or not it is a rigid body
-	      if (gob.collider != null) {
-	        _matterJs2.default.World.add(this.pool.engine.world, gob.collider.body);
-	      }
-	
-	      this.gobs.push(gob);
-	    }
-	
-	    // TODO: test this method
-	    // for destroy() and cleanup
-	
-	  }, {
-	    key: 'removeGob',
-	    value: function removeGob(gob) {
-	      // TODO: remove keyboard even handlers
-	      // this._keyboard.removeGobEventHandlers(gob._id, gob.events);
-	    }
-	  }]);
-	
-	  return Scene;
-	}();
-	
-	exports.default = Scene;
-
-/***/ },
 /* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// stats.js - http://github.com/mrdoob/stats.js
-	(function(f,e){ true?module.exports=e():"function"===typeof define&&define.amd?define(e):f.Stats=e()})(this,function(){var f=function(){function e(a){c.appendChild(a.dom);return a}function u(a){for(var d=0;d<c.children.length;d++)c.children[d].style.display=d===a?"block":"none";l=a}var l=0,c=document.createElement("div");c.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000";c.addEventListener("click",function(a){a.preventDefault();
-	u(++l%c.children.length)},!1);var k=(performance||Date).now(),g=k,a=0,r=e(new f.Panel("FPS","#0ff","#002")),h=e(new f.Panel("MS","#0f0","#020"));if(self.performance&&self.performance.memory)var t=e(new f.Panel("MB","#f08","#201"));u(0);return{REVISION:16,dom:c,addPanel:e,showPanel:u,begin:function(){k=(performance||Date).now()},end:function(){a++;var c=(performance||Date).now();h.update(c-k,200);if(c>g+1E3&&(r.update(1E3*a/(c-g),100),g=c,a=0,t)){var d=performance.memory;t.update(d.usedJSHeapSize/
-	1048576,d.jsHeapSizeLimit/1048576)}return c},update:function(){k=this.end()},domElement:c,setMode:u}};f.Panel=function(e,f,l){var c=Infinity,k=0,g=Math.round,a=g(window.devicePixelRatio||1),r=80*a,h=48*a,t=3*a,v=2*a,d=3*a,m=15*a,n=74*a,p=30*a,q=document.createElement("canvas");q.width=r;q.height=h;q.style.cssText="width:80px;height:48px";var b=q.getContext("2d");b.font="bold "+9*a+"px Helvetica,Arial,sans-serif";b.textBaseline="top";b.fillStyle=l;b.fillRect(0,0,r,h);b.fillStyle=f;b.fillText(e,t,v);
-	b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{dom:q,update:function(h,w){c=Math.min(c,h);k=Math.max(k,h);b.fillStyle=l;b.globalAlpha=1;b.fillRect(0,0,r,m);b.fillStyle=f;b.fillText(g(h)+" "+e+" ("+g(c)+"-"+g(k)+")",t,v);b.drawImage(q,d+a,m,n-a,p,d,m,n-a,p);b.fillRect(d+n-a,m,a,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d+n-a,m,a,g((1-h/w)*p))}}};return f});
-
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _pixi = __webpack_require__(4);
+	
+	var Pixi = _interopRequireWildcard(_pixi);
+	
+	var _camera = __webpack_require__(190);
+	
+	var _camera2 = _interopRequireDefault(_camera);
+	
+	var _gob = __webpack_require__(2);
+	
+	var _gob2 = _interopRequireDefault(_gob);
+	
+	var _loader3 = __webpack_require__(192);
+	
+	var _loader4 = _interopRequireDefault(_loader3);
+	
+	var _matterJs = __webpack_require__(186);
+	
+	var _matterJs2 = _interopRequireDefault(_matterJs);
+	
+	var _pool = __webpack_require__(189);
+	
+	var _pool2 = _interopRequireDefault(_pool);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	/*
+	 * Scene lifecycle:
+	 *   Build-time Events:
+	 *     onSceneLoad
+	 *
+	 *   Run-time Events:
+	 *     __prePhysicsUpdate
+	 *     prePhysicsUpdate
+	 *     __postPhysicsUpdate
+	 *     postPhysicsUpdate
+	 *     __update
+	 *     update
+	 *     __preRenderUpdate
+	 */
+	var Scene = function () {
+	  function Scene(pool) {
+	    var _this = this;
+	
+	    _classCallCheck(this, Scene);
+	
+	    this.__preloaded = function (_ref) {
+	      var _ref2 = _slicedToArray(_ref, 2),
+	          resources = _ref2[0],
+	          audioResources = _ref2[1];
+	
+	      _this.loaded = true;
+	      console.log(resources);
+	      // $FlowFixMe: not sure why it thinks its mixed, TODO: report
+	      _this.resources = resources;
+	      _this.onSceneLoad();
+	      _this.__postSceneLoad();
+	    };
+	
+	    // the name of the scene is the name of the function or class you define
+	    this.name = this.constructor.name;
+	    this.stage = new Pixi.Container();
+	    if (pool == null) {
+	      throw new Error(this.constructor.name + ' needs to be passed a Game object on\n        construction.');
+	    }
+	    this.pool = pool;
+	    // create a new camera for this instance
+	    this.camera = new _camera2.default(this.stage);
+	    this.loader = new _loader4.default(this.__preloaded, this.pool.audioContext);
+	    this.loaded = false;
+	    this.gobs = [];
+	    this._drawGrid(this.pool.debug);
+	    this.init();
+	  }
+	
+	  _createClass(Scene, [{
+	    key: '__init',
+	    value: function __init() {}
+	  }, {
+	    key: 'init',
+	    value: function init() {}
+	  }, {
+	    key: 'load',
+	    value: function load() {
+	      this.__preload.apply(this, _toConsumableArray(this.constructor.preload));
+	    }
+	  }, {
+	    key: '__preload',
+	    value: function __preload() {
+	      var _loader, _loader2;
+	
+	      // if it's already loaded, just return a resolved promise with the resources
+	      if (this.loaded) {
+	        Promise.resolve([this.resources]);
+	        return;
+	      }
+	      var spritePromise = (_loader = this.loader).loadSprites.apply(_loader, arguments);
+	      var audioPromise = (_loader2 = this.loader).loadAudio.apply(_loader2, arguments);
+	
+	      Promise.all([spritePromise, audioPromise]).then(this.__preloaded).catch(function (err) {
+	        return console.log('Error loading resources: ', err);
+	      });
+	    }
+	  }, {
+	    key: 'onSceneLoad',
+	    value: function onSceneLoad() {}
+	  }, {
+	    key: '__postSceneLoad',
+	    value: function __postSceneLoad() {
+	      var _this2 = this;
+	
+	      this.gobs.map(function (gob) {
+	        gob.__onSceneLoad();
+	        // add the sprite to the stage
+	        _this2.stage.addChild(gob.sprite.pixi);
+	      });
+	    }
+	
+	    /* Run time Lifecycle Events */
+	
+	  }, {
+	    key: '__prePhysicsUpdate',
+	    value: function __prePhysicsUpdate() {
+	      for (var i = 0; i < this.gobs.length; i++) {
+	        if (this.gobs[i].collider) {
+	          this.gobs[i].prePhysicsUpdate();
+	          this.gobs[i].__prePhysicsUpdate();
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'prePhysicsUpdate',
+	    value: function prePhysicsUpdate() {}
+	  }, {
+	    key: '__update',
+	    value: function __update() {
+	      this.gobs.map(function (gob) {
+	        gob.__update();
+	        gob.update();
+	      });
+	    }
+	  }, {
+	    key: 'update',
+	    value: function update() {}
+	  }, {
+	    key: '__postPhysicsUpdate',
+	    value: function __postPhysicsUpdate() {
+	      for (var i = 0; i < this.gobs.length; i++) {
+	        if (this.gobs[i].collider) {
+	          this.gobs[i].__postPhysicsUpdate();
+	          this.gobs[i].postPhysicsUpdate();
+	        }
+	      }
+	    }
+	  }, {
+	    key: 'postPhysicsUpdate',
+	    value: function postPhysicsUpdate() {}
+	
+	    // final update before rendering
+	
+	  }, {
+	    key: '__preRenderUpdate',
+	    value: function __preRenderUpdate() {
+	      // sort by the new z depth
+	      this.stage.children.sort(function (sprite1, sprite2) {
+	        if (sprite1.zDepth < sprite2.zDepth) {
+	          return -1;
+	        } else if (sprite1.zDepth >= sprite2.zDepth) {
+	          return 1;
+	        }
+	        // null or undefined
+	        return 0;
+	      });
+	    }
+	  }, {
+	    key: '_drawGrid',
+	    value: function _drawGrid(showGrid) {
+	      // draws a grid of given tilesize
+	      this.grid = new Pixi.Graphics();
+	      this.grid.moveTo(0, 0);
+	      this.grid.lineStyle(1, 0x336699, 0.3);
+	      for (var i = 0; i <= this.pool.renderer.view.width; i += this.pool.tileSize) {
+	        this.grid.moveTo(i, 0);
+	        this.grid.lineTo(i, this.pool.renderer.view.height);
+	      }
+	      for (var _i = 0; _i < this.pool.renderer.view.height; _i += this.pool.tileSize) {
+	        this.grid.moveTo(0, _i);
+	        this.grid.lineTo(this.pool.renderer.view.width, _i);
+	      }
+	      if (!showGrid) {
+	        this.grid.visible = false;
+	      }
+	      this.stage.addChild(this.grid);
+	    }
+	
+	    // TODO: test this method
+	    // creates a gob of type GobClass
+	    // TODO: in the future allow gob-specific events? might be interesting for
+	    //       clicks. maybe see what phaser offers
+	    // TODO: OPTIMIZATION: allow batch create with a custom position, etc.
+	    //       function!
+	
+	  }, {
+	    key: 'createGob',
+	    value: function createGob(opts) {
+	      var GobClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _gob2.default;
+	
+	      var gob = new GobClass();
+	      gob.__init(this, opts);
+	
+	      // if it contains a collider, we need to put it into the collision engine,
+	      // regardless whether or not it is a rigid body
+	      if (gob.collider != null) {
+	        _matterJs2.default.World.add(this.pool.engine.world, gob.collider.body);
+	      }
+	
+	      this.gobs.push(gob);
+	    }
+	
+	    // TODO: test this method
+	    // for destroy() and cleanup
+	
+	  }, {
+	    key: 'removeGob',
+	    value: function removeGob(gob) {
+	      if (gob.collider != null) {
+	        _matterJs2.default.World.remove(this.pool.engine.world, gob.collider.body);
+	      }
+	      this.gobs = this.gobs.filter(function (compare) {
+	        return compare._id !== gob._id;
+	      });
+	      this.stage.removeChild(gob.sprite.pixi);
+	      if (gob.debug) {
+	        this.stage.removeChild(gob._debugData.colliderOutline);
+	        this.stage.removeChild(gob._debugData.spriteOutline);
+	      }
+	    }
+	  }]);
+	
+	  return Scene;
+	}();
+	
+	exports.default = Scene;
 
 /***/ }
 /******/ ]);
