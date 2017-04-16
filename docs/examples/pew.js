@@ -81,9 +81,9 @@
 	
 	var _matterCollisionEvents2 = _interopRequireDefault(_matterCollisionEvents);
 	
-	var _Scene = __webpack_require__(198);
+	var _scene = __webpack_require__(191);
 	
-	var _Scene2 = _interopRequireDefault(_Scene);
+	var _scene2 = _interopRequireDefault(_scene);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -96,7 +96,7 @@
 	  Gob: _gob2.default,
 	  CONST: CONST,
 	  Pool: _pool2.default,
-	  Scene: _Scene2.default,
+	  Scene: _scene2.default,
 	  Vector2: _vector2.default,
 	  V2: _vector2.default
 	};
@@ -48703,6 +48703,10 @@
 	
 	var _camera2 = _interopRequireDefault(_camera);
 	
+	var _keyboard = __webpack_require__(198);
+	
+	var _keyboard2 = _interopRequireDefault(_keyboard);
+	
 	var _scene = __webpack_require__(191);
 	
 	var _scene2 = _interopRequireDefault(_scene);
@@ -48736,6 +48740,7 @@
 	    this._id = _util.Utils.uuid();
 	    this.renderer = new Pixi.WebGLRenderer(opts.width, opts.height, { view: opts.canvas });
 	    this.renderer.backgroundColor = 0xFFFFFF;
+	    this.keyboard = new _keyboard2.default();
 	    // TODO: tilesize hardcoded
 	    this.tileSize = 30;
 	
@@ -49387,259 +49392,217 @@
 	  value: true
 	});
 	
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _pixi = __webpack_require__(4);
+	var _public = __webpack_require__(188);
 	
-	var Pixi = _interopRequireWildcard(_pixi);
+	var _key = __webpack_require__(199);
 	
-	var _camera = __webpack_require__(190);
-	
-	var _camera2 = _interopRequireDefault(_camera);
-	
-	var _gob = __webpack_require__(2);
-	
-	var _gob2 = _interopRequireDefault(_gob);
-	
-	var _loader3 = __webpack_require__(192);
-	
-	var _loader4 = _interopRequireDefault(_loader3);
-	
-	var _matterJs = __webpack_require__(186);
-	
-	var _matterJs2 = _interopRequireDefault(_matterJs);
-	
-	var _pool = __webpack_require__(189);
-	
-	var _pool2 = _interopRequireDefault(_pool);
+	var _key2 = _interopRequireDefault(_key);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	/*
-	 * Scene lifecycle:
-	 *   Build-time Events:
-	 *     onSceneLoad
-	 *
-	 *   Run-time Events:
-	 *     __prePhysicsUpdate
-	 *     prePhysicsUpdate
-	 *     __postPhysicsUpdate
-	 *     postPhysicsUpdate
-	 *     __update
-	 *     update
-	 *     __preRenderUpdate
-	 */
-	var Scene = function () {
-	  function Scene(pool) {
-	    var _this = this;
+	// there should be one canvas per game, one keyboard per game,
+	//       hence one canvas per keyboard
+	// Note: Keyboard should never have a reference to gob
+	var Keyboard = function () {
+	  _createClass(Keyboard, null, [{
+	    key: 'init',
+	    value: function init(canvas) {
+	      var _this = this;
 	
-	    _classCallCheck(this, Scene);
+	      Keyboard.canvas = canvas;
 	
-	    this.__preloaded = function (_ref) {
-	      var _ref2 = _slicedToArray(_ref, 2),
-	          resources = _ref2[0],
-	          audioResources = _ref2[1];
+	      // set up the event handlers
+	      this.canvas.addEventListener('keydown', function (evt) {
+	        // only execute the hold handlers if it's already down
+	        if (_this.keys[evt.keyCode].pressed) {
+	          _this.keys[evt.keyCode].keyHold();
+	        } else {
+	          _this.keys[evt.keyCode].keyDown();
+	        }
+	      });
 	
-	      _this.loaded = true;
-	      console.log(resources);
-	      // $FlowFixMe: not sure why it thinks its mixed, TODO: report
-	      _this.resources = resources;
-	      _this.onSceneLoad();
-	      _this.__postSceneLoad();
+	      this.canvas.addEventListener('keyup', function (evt) {
+	        _this.keys[evt.keyCode].keyUp();
+	      });
+	    }
+	  }, {
+	    key: 'getKeyDown',
+	    value: function getKeyDown(keyCode) {}
+	  }, {
+	    key: 'getKeyHeld',
+	    value: function getKeyHeld(keyCode) {}
+	  }, {
+	    key: 'getKeyUp',
+	    value: function getKeyUp(keyCode) {}
+	  }]);
+	
+	  // takes in the canvas?
+	  function Keyboard(opts) {
+	    var _handlerSets;
+	
+	    _classCallCheck(this, Keyboard);
+	
+	    this.canvas = opts.canvas;
+	
+	    // holds the keys that have each of these handlers
+	    this.handlerSets = (_handlerSets = {}, _defineProperty(_handlerSets, _public.EVENTS.ONKEYDOWN, {
+	      // keyCode: 1
+	    }), _defineProperty(_handlerSets, _public.EVENTS.ONKEYUP, {}), _defineProperty(_handlerSets, _public.EVENTS.ONKEYHOLD, {}), _handlerSets);
+	
+	    this.keys = {
+	      // keyCode: new Key()
 	    };
 	
-	    // the name of the scene is the name of the function or class you define
-	    this.name = this.constructor.name;
-	    this.stage = new Pixi.Container();
-	    if (pool == null) {
-	      throw new Error(this.constructor.name + ' needs to be passed a Game object on\n        construction.');
+	    // initialize all of the Keys
+	    for (var k in _public.KEYS) {
+	      this.keys[_public.KEYS[k]] = new _key2.default(_public.KEYS[k]);
 	    }
-	    this.pool = pool;
-	    // create a new camera for this instance
-	    this.camera = new _camera2.default(this.stage);
-	    this.loader = new _loader4.default(this.__preloaded, this.pool.audioContext);
-	    this.loaded = false;
-	    this.gobs = [];
-	    this._drawGrid(this.pool.debug);
-	    this.init();
 	  }
 	
-	  _createClass(Scene, [{
-	    key: '__init',
-	    value: function __init() {}
-	  }, {
-	    key: 'init',
-	    value: function init() {}
-	  }, {
-	    key: 'load',
-	    value: function load() {
-	      this.__preload.apply(this, _toConsumableArray(this.constructor.preload));
-	    }
-	  }, {
-	    key: '__preload',
-	    value: function __preload() {
-	      var _loader, _loader2;
-	
-	      // if it's already loaded, just return a resolved promise with the resources
-	      if (this.loaded) {
-	        Promise.resolve([this.resources]);
-	        return;
-	      }
-	      var spritePromise = (_loader = this.loader).loadSprites.apply(_loader, arguments);
-	      var audioPromise = (_loader2 = this.loader).loadAudio.apply(_loader2, arguments);
-	
-	      Promise.all([spritePromise, audioPromise]).then(this.__preloaded).catch(function (err) {
-	        return console.log('Error loading resources: ', err);
-	      });
-	    }
-	  }, {
-	    key: 'onSceneLoad',
-	    value: function onSceneLoad() {}
-	  }, {
-	    key: '__postSceneLoad',
-	    value: function __postSceneLoad() {
-	      var _this2 = this;
-	
-	      this.gobs.map(function (gob) {
-	        gob.__onSceneLoad();
-	        // add the sprite to the stage
-	        _this2.stage.addChild(gob.sprite.pixi);
-	      });
+	  _createClass(Keyboard, [{
+	    key: 'isKeyPressed',
+	    value: function isKeyPressed(keyCode) {
+	      return this.keys[keyCode].pressed;
 	    }
 	
-	    /* Run time Lifecycle Events */
+	    // events comes in the form: {
+	    //  [eventType]: {
+	    //    [keyCode]: handlerFunc
+	    //  }
+	    // }
+	    // TODO: add events type
 	
 	  }, {
-	    key: '__prePhysicsUpdate',
-	    value: function __prePhysicsUpdate() {
-	      for (var i = 0; i < this.gobs.length; i++) {
-	        if (this.gobs[i].collider) {
-	          this.gobs[i].prePhysicsUpdate();
-	          this.gobs[i].__prePhysicsUpdate();
+	    key: 'addGobEventHandlers',
+	    value: function addGobEventHandlers(id, events) {
+	      for (var _eventType in events) {
+	        // $FlowFixMe: for in loops are broken: https://github.com/facebook/flow/issues/2970
+	        for (var _keyCodeId in events[_eventType]) {
+	          this.keys[_keyCodeId].processHandler(_eventType, id, events[_eventType][_keyCodeId]);
+	          // update the handlersets
+	          this.handlerSets[_eventType][_keyCodeId] = 1;
 	        }
 	      }
 	    }
+	
+	    // TODO: remove gob references, for on destroy
+	    // TODO: add events type
+	
 	  }, {
-	    key: 'prePhysicsUpdate',
-	    value: function prePhysicsUpdate() {}
-	  }, {
-	    key: '__update',
-	    value: function __update() {
-	      this.gobs.map(function (gob) {
-	        gob.__update();
-	        gob.update();
-	      });
-	    }
-	  }, {
-	    key: 'update',
-	    value: function update() {}
-	  }, {
-	    key: '__postPhysicsUpdate',
-	    value: function __postPhysicsUpdate() {
-	      for (var i = 0; i < this.gobs.length; i++) {
-	        if (this.gobs[i].collider) {
-	          this.gobs[i].__postPhysicsUpdate();
-	          this.gobs[i].postPhysicsUpdate();
+	    key: 'removeGobEventHandlers',
+	    value: function removeGobEventHandlers(id, events) {
+	      for (var _eventType2 in events) {
+	        // $FlowFixMe: for in loops are broken: https://github.com/facebook/flow/issues/2970
+	        for (var keyCode in events[_eventType2]) {
+	          this.keys[keyCode].removeHandler(id, _eventType2);
+	          if (this.keys[keyCode].count === 0) {
+	            delete this.handlerSets[_eventType2][keyCode];
+	          }
 	        }
-	      }
-	    }
-	  }, {
-	    key: 'postPhysicsUpdate',
-	    value: function postPhysicsUpdate() {}
-	
-	    // final update before rendering
-	
-	  }, {
-	    key: '__preRenderUpdate',
-	    value: function __preRenderUpdate() {
-	      // sort by the new z depth
-	      this.stage.children.sort(function (sprite1, sprite2) {
-	        if (sprite1.zDepth < sprite2.zDepth) {
-	          return -1;
-	        } else if (sprite1.zDepth >= sprite2.zDepth) {
-	          return 1;
-	        }
-	        // null or undefined
-	        return 0;
-	      });
-	    }
-	  }, {
-	    key: '_drawGrid',
-	    value: function _drawGrid(showGrid) {
-	      // draws a grid of given tilesize
-	      this.grid = new Pixi.Graphics();
-	      this.grid.moveTo(0, 0);
-	      this.grid.lineStyle(1, 0x336699, 0.3);
-	      for (var i = 0; i <= this.pool.renderer.view.width; i += this.pool.tileSize) {
-	        this.grid.moveTo(i, 0);
-	        this.grid.lineTo(i, this.pool.renderer.view.height);
-	      }
-	      for (var _i = 0; _i < this.pool.renderer.view.height; _i += this.pool.tileSize) {
-	        this.grid.moveTo(0, _i);
-	        this.grid.lineTo(this.pool.renderer.view.width, _i);
-	      }
-	      if (!showGrid) {
-	        this.grid.visible = false;
-	      }
-	      this.stage.addChild(this.grid);
-	    }
-	
-	    // TODO: test this method
-	    // creates a gob of type GobClass
-	    // TODO: in the future allow gob-specific events? might be interesting for
-	    //       clicks. maybe see what phaser offers
-	    // TODO: OPTIMIZATION: allow batch create with a custom position, etc.
-	    //       function!
-	
-	  }, {
-	    key: 'createGob',
-	    value: function createGob(opts) {
-	      var GobClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _gob2.default;
-	
-	      var gob = new GobClass();
-	      gob.__init(this, opts);
-	
-	      // if it contains a collider, we need to put it into the collision engine,
-	      // regardless whether or not it is a rigid body
-	      if (gob.collider != null) {
-	        _matterJs2.default.World.add(this.pool.engine.world, gob.collider.body);
-	      }
-	
-	      this.gobs.push(gob);
-	    }
-	
-	    // TODO: test this method
-	    // for destroy() and cleanup
-	
-	  }, {
-	    key: 'removeGob',
-	    value: function removeGob(gob) {
-	      if (gob.collider != null) {
-	        _matterJs2.default.World.remove(this.pool.engine.world, gob.collider.body);
-	      }
-	      this.gobs = this.gobs.filter(function (compare) {
-	        return compare._id !== gob._id;
-	      });
-	      this.stage.removeChild(gob.sprite.pixi);
-	      if (gob.debug) {
-	        this.stage.removeChild(gob._debugData.colliderOutline);
-	        this.stage.removeChild(gob._debugData.spriteOutline);
 	      }
 	    }
 	  }]);
 	
-	  return Scene;
+	  return Keyboard;
 	}();
 	
-	exports.default = Scene;
+	exports.default = Keyboard;
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _public = __webpack_require__(188);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Key = function () {
+	  //
+	  function Key(keyCode) {
+	    _classCallCheck(this, Key);
+	
+	    this.keyCode = keyCode;
+	    this.pressed = false;
+	
+	    // all subscribed handlers
+	    this.keyHandlers = {}
+	    // [EventType]: {
+	    //   id: handlerFunc
+	    //   ...
+	    // },
+	    // ...
+	
+	
+	    // the number of handlers
+	    ;this.count = 0;
+	  }
+	
+	  _createClass(Key, [{
+	    key: 'processHandler',
+	    value: function processHandler(eventType, id, handler) {
+	      this.keyHandlers[eventType] = this.keyHandlers[eventType] || {};
+	      this.keyHandlers[eventType][id] = handler;
+	      this.count++;
+	    }
+	  }, {
+	    key: 'removeHandler',
+	    value: function removeHandler(eventType, id) {
+	      delete this.keyHandlers[eventType][id];
+	      this.count--;
+	    }
+	
+	    // should only be fired the first time it gets pressed, until the next time it gets pressed (after keyup)
+	    // assumes that the context is valid!
+	
+	  }, {
+	    key: 'keyDown',
+	    value: function keyDown(evt, context) {
+	      this.pressed = true;
+	      // assumes it's bound properly
+	      for (var id in this.keyHandlers[_public.EVENTS.ONKEYDOWN]) {
+	        this.keyHandlers[_public.EVENTS.ONKEYDOWN][id](evt);
+	      }
+	    }
+	
+	    // should only be fired 2nd time and beyond
+	
+	  }, {
+	    key: 'keyHold',
+	    value: function keyHold(evt, context) {
+	      // assumes it's bound properly
+	      for (var id in this.keyHandlers[_public.EVENTS.ONKEYHOLD]) {
+	        this.keyHandlers[_public.EVENTS.ONKEYHOLD][id](evt);
+	      }
+	    }
+	  }, {
+	    key: 'keyUp',
+	    value: function keyUp(evt, context) {
+	      this.pressed = false;
+	      // assumes it's bound properly
+	      for (var id in this.keyHandlers[_public.EVENTS.ONKEYUP]) {
+	        this.keyHandlers[_public.EVENTS.ONKEYUP][id](evt);
+	      }
+	    }
+	  }]);
+	
+	  return Key;
+	}();
+	
+	exports.default = Key;
 
 /***/ }
 /******/ ]);
