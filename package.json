@@ -11,7 +11,8 @@
     "start": "npm run examples",
     "examples": "./node_modules/webpack/bin/webpack.js --progress --colors --watch --config webpack.examples.config.js",
     "update": "git submodule update --remote",
-    "flow": "flow; test $? -eq 0 -o $? -eq 2"
+    "flow": "flow; test $? -eq 0 -o $? -eq 2",
+    "precommit": "lint-staged"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
@@ -32,10 +33,18 @@
     "eslint-plugin-flowtype": "^2.29.1",
     "eslint-plugin-prefer-object-spread": "^1.1.0",
     "flow-bin": "^0.39.0",
+    "husky": "^0.13.4",
+    "lint-staged": "^3.5.1",
     "transform-loader": "^0.2.3",
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
+  },
+  "lint-staged": {
+    "*.js": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "repository": {
     "type": "git",
