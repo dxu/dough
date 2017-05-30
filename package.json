@@ -4,10 +4,10 @@
   "description": "pew",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.build.config.js",
+    "build": "./node_modules/webpack/bin/webpack.js --progress --colors --watch --config webpack.config.js",
+    "basic": "./node_modules/serve/bin/serve.js ./docs/examples/_basic/",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run examples",
-    "examples": "./node_modules/webpack/bin/webpack.js --progress --colors --watch --config webpack.examples.config.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "precommit": "lint-staged"
   },
@@ -29,9 +29,10 @@
     "eslint-plugin-babel": "^4.0.0",
     "eslint-plugin-flowtype": "^2.29.1",
     "eslint-plugin-prefer-object-spread": "^1.1.0",
-    "flow-bin": "^0.39.0",
+    "flow-bin": "^0.47.0",
     "husky": "^0.13.4",
     "lint-staged": "^3.5.1",
+    "serve": "^5.1.5",
     "transform-loader": "^0.2.3",
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.6.1",
@@ -39,7 +40,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "prettier --write",
+      "prettier --write --parser flow --single-quote --trailing-comma all --no-bracket-spacing",
       "git add"
     ]
   },
