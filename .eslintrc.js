@@ -31,7 +31,16 @@ module.exports = {
 
   rules: {
     // Possible Errors (http://eslint.org/docs/rules/#possible-errors)
-    'comma-dangle': [1, {arrays: 'always-multiline', objects: 'always-multiline', imports: 'always-multiline', exports: 'always-multiline', functions: 'always-multiline'}],
+    'comma-dangle': [
+      1,
+      {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'always-multiline',
+      },
+    ],
     'no-cond-assign': 1,
     'no-console': 1,
     'no-constant-condition': [1, {checkLoops: false}],
@@ -227,7 +236,7 @@ module.exports = {
     'operator-assignment': 1,
     'operator-linebreak': 0,
     'padded-blocks': [1, 'never'],
-    'quote-props': [1, 'consistent-as-needed', {"numbers": true}],
+    'quote-props': [1, 'consistent-as-needed', {numbers: true}],
     'quotes': [1, 'single', 'avoid-escape'],
     'require-jsdoc': 0,
     'semi-spacing': 1,
@@ -235,17 +244,24 @@ module.exports = {
     'sort-keys': 0,
     'sort-vars': 0,
     'space-before-blocks': 1,
-    'space-before-function-paren': [1, {anonymous: 'never', named: 'never', asyncArrow: 'always'}],
+    'space-before-function-paren': [
+      1,
+      {anonymous: 'never', named: 'never', asyncArrow: 'always'},
+    ],
     'space-in-parens': [1, 'never'],
     'space-infix-ops': 1,
     'space-unary-ops': 1,
-    'spaced-comment': [1, 'always', {line: {exceptions: ['-']}, block: {balanced: true}}],
+    'spaced-comment': [
+      1,
+      'always',
+      {line: {exceptions: ['-']}, block: {balanced: true}},
+    ],
     'unicode-bom': [1, 'never'],
     'wrap-regex': 0,
 
     // ECMAScript 6 (http://eslint.org/docs/rules/#ecmascript-6)
     'arrow-body-style': 0,
-    'arrow-parens': 0, // Enforced by babel/arrow-parens
+    'arrow-parens': [1, 'as-needed'],
     'arrow-spacing': 1,
     'constructor-super': 1,
     'generator-star-spacing': 1,
@@ -277,7 +293,6 @@ module.exports = {
 
     // Babel (https://github.com/babel/eslint-plugin-babel)
     'babel/array-bracket-spacing': 0,
-    'babel/arrow-parens': [1, 'as-needed'],
     'babel/func-params-comma-dangle': 0,
     'babel/generator-star-spacing': 0,
     'babel/new-cap': 0,
@@ -298,11 +313,14 @@ module.exports = {
     'flowtype/object-type-delimiter': 1,
     'flowtype/require-parameter-type': [2, 'always'],
     'flowtype/require-return-type': [
-      2, 'always', { annotateUndefined: 'always' }
+      2,
+      'always',
+      {annotateUndefined: 'always'},
     ],
     'flowtype/require-valid-file-annotation': 2,
     'flowtype/require-variable-type': [
-      2, { 'excludeVariableMatch': '[i|j|k]', }  // ignore for loop variables
+      2,
+      {excludeVariableMatch: '[i|j|k]'}, // ignore for loop variables
     ],
     'flowtype/semi': 1,
     'flowtype/sort-keys': 0,
@@ -318,9 +336,5 @@ module.exports = {
     'prefer-object-spread/prefer-object-spread': 1,
   },
 
-  plugins: [
-    'babel',
-    'flowtype',
-    'prefer-object-spread',
-  ],
+  plugins: ['babel', 'flowtype', 'prefer-object-spread'],
 };

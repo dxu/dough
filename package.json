@@ -32,6 +32,7 @@
     "flow-bin": "^0.47.0",
     "husky": "^0.13.4",
     "lint-staged": "^3.5.1",
+    "prettier-eslint-cli": "^3.6.1",
     "serve": "^5.1.5",
     "transform-loader": "^0.2.3",
     "webpack": "^1.13.0",
@@ -40,7 +41,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "prettier --write --parser flow --single-quote --trailing-comma all --no-bracket-spacing",
+      "prettier-eslint --write --parser flow --single-quote --trailing-comma all --no-bracket-spacing",
       "git add"
     ]
   },
