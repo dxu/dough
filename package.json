@@ -4,12 +4,12 @@
   "description": "pew",
   "main": "index.js",
   "scripts": {
-    "build": "./node_modules/webpack/bin/webpack.js --progress --colors --watch --config webpack.config.js",
     "basic": "./node_modules/serve/bin/serve.js ./docs/examples/_basic/",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run examples",
+    "build": "./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.config.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "./node_modules/webpack/bin/webpack.js --progress --colors --watch --config webpack.config.js"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
