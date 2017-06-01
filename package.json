@@ -35,12 +35,14 @@
     "prettier-eslint-cli": "^3.6.1",
     "serve": "^5.1.5",
     "transform-loader": "^0.2.3",
+    "uglify-es": "git://github.com/mishoo/UglifyJS2#harmony",
+    "uglifyjs-webpack-plugin": "^0.4.3",
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.10.0"
   },
   "lint-staged": {
-    "*.js": [
+    "lib/*.js": [
       "prettier-eslint --write --parser flow --single-quote --trailing-comma all --no-bracket-spacing",
       "git add"
     ]
