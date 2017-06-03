@@ -33,4 +33,6 @@ class Zelda extends Pew.Gob {
   }
 }
 
-Zelda.spritePath = './assets/img/zelda.gif';
+Zelda.spritePaths = {
+  zelda: './assets/img/zelda.gif',
+};

@@ -28,7 +28,10 @@ class Pill extends Pew.Gob {
   }
 }
 
-Pill.spritePath = './assets/img/heart.png';
+Pill.spritePaths = {
+  heart: './assets/img/heart.png'
+};
+
 Pill.audioSources = {
   test: './assets/audio/test.wav',
   test2: './assets/audio/test2.wav',

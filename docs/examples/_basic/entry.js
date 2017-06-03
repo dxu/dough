@@ -31,7 +31,7 @@ let game
       debug: true,
     })
 
-    game.loadScene(new DemoScene(game))
+    game.loadScene(new DemoScene())
 
     // game.createGob({
     //   transform: {
