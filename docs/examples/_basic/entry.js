@@ -23,7 +23,7 @@ let game
 //   .add('heart', './assets/img/heart.png')
 //   .load(function (loader, resources) {
 
-    game = new Pew.Pool({
+    game = new Pew.Game({
       showGrid: true,
       width: window.innerWidth,
       height: window.innerHeight,
