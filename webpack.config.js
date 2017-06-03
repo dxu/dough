@@ -1,6 +1,5 @@
 /* eslint-disable */
 const path = require('path');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 
 const examplesConfig = {
   devtool: 'source-map',
@@ -34,7 +33,6 @@ const examplesConfig = {
       },
     ],
   },
-  plugins: [new UglifyJSPlugin({sourceMap: true})],
 };
 
 module.exports = examplesConfig;
