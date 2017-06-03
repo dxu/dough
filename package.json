@@ -9,7 +9,8 @@
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "precommit": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "./node_modules/webpack/bin/webpack.js --progress --colors --watch --config webpack.config.js"
+    "watch": "./node_modules/webpack/bin/webpack.js --progress --colors --watch --config webpack.config.js",
+    "build": "./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.build.config.js"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
