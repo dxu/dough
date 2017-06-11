@@ -249,12 +249,24 @@
 	      }
 	    }
 	  }, {
-	    key: 'setSprite',
-	    value: function setSprite(sprite) {
+	    key: '_setSprite',
+	    value: function _setSprite(sprite) {
 	      this.currentSprite = sprite;
 	    }
 	
+	    // if there is no spriteKey passed, then that means they aren't using the
+	
+	  }, {
+	    key: 'setSprite',
+	    value: function setSprite(sheetKey, spriteKey) {
+	      invariant(this.sprites[sheetKey], '[Gob.js] No sprite or spritesheet found for ' + sheetKey);
+	      this.currentSprite = this.sprites[sheetKey][spriteKey] || this.sprites[sheetKey];
+	      invariant(this.sprites[sheetKey], '[Gob.js] No sprite or spritesheet found for ' + sheetKey + ', ' + spriteKey);
+	    }
+	
 	    // this will be called when resources have been loaded
+	    // this should create all the possible sprites that can be possible from your
+	    // specified options
 	
 	  }, {
 	    key: '__initSprite',
@@ -275,6 +287,7 @@
 	          console.log(_util.Utils.getPixiResourceKey(gobClass.name, spriteKey));
 	          _this.sprites[sheetKey][spriteKey] = new _sprite2.default({
 	            gob: _this,
+	            pixiKey: _util.Utils.getPixiResourceKey(gobClass.name, sheetKey),
 	            path: gobClass.spriteSheets[sheetKey].path,
 	            frameStart: sprites[spriteKey].frameStart,
 	            frameEnd: sprites[spriteKey].frameEnd,
@@ -282,8 +295,7 @@
 	            width: sprites[spriteKey].width,
 	            height: sprites[spriteKey].height,
 	            anchor: sprites[spriteKey].anchor,
-	            instance: opts.sprite,
-	            _pixi: new PIXI.Sprite(_this.scene.resources[_util.Utils.getPixiResourceKey(gobClass.name, sheetKey)].texture)
+	            instance: opts.sprite
 	          });
 	        });
 	      });
@@ -291,7 +303,7 @@
 	      console.log('wjj', this.sprites);
 	      var firstSpriteSheet = this.sprites[Object.keys(this.sprites)[0]];
 	      // default to the first sprite as the current sprite
-	      this.setSprite(firstSpriteSheet[Object.keys(firstSpriteSheet)[0]]);
+	      this._setSprite(firstSpriteSheet[Object.keys(firstSpriteSheet)[0]]);
 	      this.currentSprite.update();
 	    }
 	  }, {
@@ -48553,22 +48565,36 @@
 	
 	var _vector2 = _interopRequireDefault(_vector);
 	
+	var _util = __webpack_require__(188);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Sprite = function () {
+	  // the number of times we have displayed the current frame
+	  // (used for frameDurations)
 	  function Sprite(options) {
 	    _classCallCheck(this, Sprite);
 	
+	    this._currentFrameCount = 0;
+	    this.currentFrame = 0;
+	
 	    this.gob = options.gob;
-	    this._pixi = options._pixi;
+	    (0, _invariant2.default)(this.gob, '[Sprite.js] No gob was provided for this sprite ' + this.path);
+	    var gobClass = this.gob.constructor;
+	    // grab the textures
+	    var resource = this.gob.scene.resources[options.pixiKey];
+	    (0, _invariant2.default)(resource, '[Sprite.js] No resource found for ' + options.pixiKey);
+	    this.animated = resource.texture ? true : false;
+	    var texture = resource.texture || resource.textures[this.currentFrame];
+	    (0, _invariant2.default)(texture, '[Sprite.js] No texture found\n      for ' + options.pixiKey);
+	    this._pixi = PIXI.Sprite.from(texture);
 	    this.path = options.path;
 	    this.frameStart = options.frameStart;
 	    this.frameEnd = options.frameEnd;
 	    this.width = options.width;
 	    this.height = options.height;
-	    (0, _invariant2.default)(this.gob, '[Sprite.js] No gob was provided for this sprite ' + this.path);
 	    (0, _invariant2.default)(this._pixi, '[Sprite.js] Something went wrong! No Pixi Sprite was passed during\n      the instantiation of this Sprite for ' + this.gob.constructor.name);
 	    (0, _invariant2.default)(this.path != null, 'a resource path must be specified');
 	    (0, _invariant2.default)(this.frameStart != null, '[Sprite.js] No "frameStart" specified for ' + this.gob.constructor.name);
@@ -48590,11 +48616,17 @@
 	      }
 	    }
 	
+	    this._pixi.anchor.x = this.anchor.x;
+	    this._pixi.anchor.y = this.anchor.y;
+	
 	    // default it to have a single iteration per frame
 	    this.frameDurations = options.frameDurations || Array(options.frameEnd - options.frameStart + 1).fill(1);
 	  }
 	
 	  // updates the sprite's position. Should be called after committing position
+	  // on every frame update
+	
+	  // the current frame we are displaying
 	
 	
 	  _createClass(Sprite, [{
@@ -48605,6 +48637,10 @@
 	
 	      this._pixi.position.set(this.gob.transform.position.x, this.gob.transform.position.y);
 	      this._pixi.rotation = this.gob.transform.angle * Math.PI / 180;
+	      // if it's an animation we want to tick the frame forward
+	      if (this.animated) {
+	        var count = this.frameDurations[this.currentFrame];
+	      }
 	    }
 	  }]);
 	
