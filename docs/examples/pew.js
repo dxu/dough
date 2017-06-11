@@ -167,6 +167,7 @@
 	  function Gob() {
 	    _classCallCheck(this, Gob);
 	
+	    this.sprites = {};
 	    this.transform = {
 	      position: new _vector2.default(0, 0),
 	      scale: new _vector2.default(1, 1),
@@ -205,8 +206,7 @@
 	      if (this.rigidbody || opts.rigidbody) {
 	        // if a rigidbody is being added, we have to default it
 	        this.rigidbody = this.rigidbody || {};
-	        var optsRigidBody = opts.rigidbody.mass || {};
-	
+	        var optsRigidbody = opts.rigidbody || {};
 	        this.rigidbody.mass = optsRigidbody.mass || this.rigidbody.mass || 3;
 	        this.rigidbody.friction = optsRigidbody.friction || this.rigidbody.friction || 0;
 	        this.rigidbody.frictionAir = optsRigidbody.frictionAir || this.rigidbody.frictionAir || 0;
@@ -270,24 +270,28 @@
 	      sheets.map(function (sheetKey) {
 	        var sprites = gobClass.spriteSheets[sheetKey].sprites;
 	        _this.sprites[sheetKey] = {};
+	        console.log(_this.scene.resources);
 	        Object.keys(sprites).map(function (spriteKey) {
+	          console.log(_util.Utils.getPixiResourceKey(gobClass.name, spriteKey));
 	          _this.sprites[sheetKey][spriteKey] = new _sprite2.default({
 	            gob: _this,
+	            path: gobClass.spriteSheets[sheetKey].path,
 	            frameStart: sprites[spriteKey].frameStart,
 	            frameEnd: sprites[spriteKey].frameEnd,
 	            frameDurations: sprites[spriteKey].frameDurations,
-	            path: sprites[spriteKey].path,
 	            width: sprites[spriteKey].width,
 	            height: sprites[spriteKey].height,
 	            anchor: sprites[spriteKey].anchor,
 	            instance: opts.sprite,
-	            _pixi: new PIXI.Sprite(_this.scene.resources[_util.Utils.getPixiResourceKey(gobClass.name, spriteKey)].texture)
+	            _pixi: new PIXI.Sprite(_this.scene.resources[_util.Utils.getPixiResourceKey(gobClass.name, sheetKey)].texture)
 	          });
 	        });
 	      });
 	
+	      console.log('wjj', this.sprites);
+	      var firstSpriteSheet = this.sprites[Object.keys(this.sprites)[0]];
 	      // default to the first sprite as the current sprite
-	      this.setSprite(this.sprites[Object.keys(this.sprites)[0]]);
+	      this.setSprite(firstSpriteSheet[Object.keys(firstSpriteSheet)[0]]);
 	      this.currentSprite.update();
 	    }
 	  }, {
@@ -48545,6 +48549,10 @@
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
+	var _vector = __webpack_require__(3);
+	
+	var _vector2 = _interopRequireDefault(_vector);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -48561,24 +48569,24 @@
 	    this.width = options.width;
 	    this.height = options.height;
 	    (0, _invariant2.default)(this.gob, '[Sprite.js] No gob was provided for this sprite ' + this.path);
-	    (0, _invariant2.default)(this._pixi, '[Sprite.js] Something went wrong! No Pixi Sprite was passed during\n      the instantiation of this Sprite for ' + gob.constructor.name);
+	    (0, _invariant2.default)(this._pixi, '[Sprite.js] Something went wrong! No Pixi Sprite was passed during\n      the instantiation of this Sprite for ' + this.gob.constructor.name);
 	    (0, _invariant2.default)(this.path != null, 'a resource path must be specified');
-	    (0, _invariant2.default)(this.frameStart != null, '[Sprite.js] No "frameStart" specified for ' + gob.constructor.name);
-	    (0, _invariant2.default)(this.frameEnd != null, '[Sprite.js] No "frameEnd" specified for ' + gob.constructor.name + ' sprite');
-	    (0, _invariant2.default)(this.width != null, '[Sprite.js] No "width" provided for ' + gob.constructor.name + ' sprite');
+	    (0, _invariant2.default)(this.frameStart != null, '[Sprite.js] No "frameStart" specified for ' + this.gob.constructor.name);
+	    (0, _invariant2.default)(this.frameEnd != null, '[Sprite.js] No "frameEnd" specified for ' + this.gob.constructor.name + ' sprite');
+	    (0, _invariant2.default)(this.width != null, '[Sprite.js] No "width" provided for ' + this.gob.constructor.name + ' sprite');
 	
 	    var anchor = options.scale || { x: 0.5, y: 0.5 };
-	    this.anchor = new Vector2(anchor.x, anchor.y);
+	    this.anchor = new _vector2.default(anchor.x, anchor.y);
 	
 	    this._pixi.width = this.width;
 	    this._pixi.height = this.height;
 	
-	    if (instance != null) {
-	      if (instance.anchor) {
-	        (0, _invariant2.default)(instance.anchor.x != null, 'instance anchor options must contain x');
-	        (0, _invariant2.default)(instance.anchor.y != null, 'instance anchor options must contain y');
-	        this.anchor.x = instance.anchor.x;
-	        this.anchor.y = instance.anchor.y;
+	    if (options.instance != null) {
+	      if (options.instance.anchor) {
+	        (0, _invariant2.default)(options.instance.anchor.x != null, 'instance anchor options must contain x');
+	        (0, _invariant2.default)(options.instance.anchor.y != null, 'instance anchor options must contain y');
+	        this.anchor.x = options.instance.anchor.x;
+	        this.anchor.y = options.instance.anchor.y;
 	      }
 	    }
 	
