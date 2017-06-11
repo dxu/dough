@@ -5,12 +5,11 @@
   "main": "index.js",
   "scripts": {
     "basic": "./node_modules/serve/bin/serve.js ./docs/examples/_basic/",
-    "build": "./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.config.js",
+    "build": "./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.build.config.js",
     "flow": "flow; test $? -eq 0 -o $? -eq 2",
     "precommit": "lint-staged",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "./node_modules/webpack/bin/webpack.js --progress --colors --watch --config webpack.config.js",
-    "build": "./node_modules/webpack/bin/webpack.js --progress --colors --config webpack.build.config.js"
+    "watch": "./node_modules/webpack/bin/webpack.js --progress --colors --watch --config webpack.config.js"
   },
   "devDependencies": {
     "babel-core": "^6.8.0",
@@ -60,6 +59,7 @@
   "homepage": "https://github.com/apophanystudios/pew#readme",
   "dependencies": {
     "brfs": "*",
+    "invariant": "^2.2.2",
     "matter-attractors": "^0.1.5",
     "matter-collision-events": "^0.1.5",
     "matter-js": "^0.12.0",
