@@ -251,7 +251,15 @@
 	  }, {
 	    key: '_setSprite',
 	    value: function _setSprite(sprite) {
+	      // stop and replace the current sprite
+	      if (this.currentSprite) {
+	        this.currentSprite.stop();
+	        this.scene.stage.addChild(this.currentSprite._pixi);
+	      }
 	      this.currentSprite = sprite;
+	      this.currentSprite.play();
+	      // add the new sprite to the stage
+	      this.scene.stage.addChild(this.currentSprite._pixi);
 	    }
 	
 	    // if there is no spriteKey passed, then that means they aren't using the
@@ -259,9 +267,9 @@
 	  }, {
 	    key: 'setSprite',
 	    value: function setSprite(sheetKey, spriteKey) {
-	      invariant(this.sprites[sheetKey], '[Gob.js] No sprite or spritesheet found for ' + sheetKey);
-	      this.currentSprite = this.sprites[sheetKey][spriteKey] || this.sprites[sheetKey];
 	      invariant(this.sprites[sheetKey], '[Gob.js] No sprite or spritesheet found for ' + sheetKey + ', ' + spriteKey);
+	
+	      this._setSprite(this.sprites[sheetKey][spriteKey] || this.sprites[sheetKey]);
 	    }
 	
 	    // this will be called when resources have been loaded
@@ -291,7 +299,7 @@
 	            path: gobClass.spriteSheets[sheetKey].path,
 	            frameStart: sprites[spriteKey].frameStart,
 	            frameEnd: sprites[spriteKey].frameEnd,
-	            frameDurations: sprites[spriteKey].frameDurations,
+	            fps: sprites[spriteKey].fps,
 	            width: sprites[spriteKey].width,
 	            height: sprites[spriteKey].height,
 	            anchor: sprites[spriteKey].anchor,
@@ -48572,33 +48580,54 @@
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	var Sprite = function () {
-	  // the number of times we have displayed the current frame
-	  // (used for frameDurations)
+	
+	  // TODO: this only supports array based spritesheet data
 	  function Sprite(options) {
 	    _classCallCheck(this, Sprite);
 	
-	    this._currentFrameCount = 0;
-	    this.currentFrame = 0;
+	    this.startingFrame = 0;
 	
+	    // default it to 60fps
+	    this.fps = options.fps || 60;
 	    this.gob = options.gob;
 	    (0, _invariant2.default)(this.gob, '[Sprite.js] No gob was provided for this sprite ' + this.path);
 	    var gobClass = this.gob.constructor;
 	    // grab the textures
 	    var resource = this.gob.scene.resources[options.pixiKey];
 	    (0, _invariant2.default)(resource, '[Sprite.js] No resource found for ' + options.pixiKey);
+	
 	    this.animated = resource.texture ? true : false;
-	    var texture = resource.texture || resource.textures[this.currentFrame];
-	    (0, _invariant2.default)(texture, '[Sprite.js] No texture found\n      for ' + options.pixiKey);
-	    this._pixi = PIXI.Sprite.from(texture);
+	
+	    if (resource.texture) {
+	      this._pixi = PIXI.Sprite.from(texture);
+	      this.animated = false;
+	    } else {
+	      (0, _invariant2.default)(resource.textures, '[Sprite.js] No texture found\n        for ' + options.pixiKey);
+	      // if there are multiple textures, this is an animated sprite, and we need
+	      // the frameStart and frameEnd of the spritesheet
+	      this.frameStart = options.frameStart;
+	      this.frameEnd = options.frameEnd;
+	      (0, _invariant2.default)(this.frameStart != null, '[Sprite.js] No "frameStart" specified for ' + this.gob.constructor.name);
+	      (0, _invariant2.default)(this.frameEnd != null, '[Sprite.js] No "frameEnd" specified for\n        ' + this.gob.constructor.name + ' sprite');
+	
+	      // TODO: assumes that it is array based sprite atlas!
+	      var frames = [];
+	      for (var i = this.frameStart; i <= this.frameEnd; i++) {
+	        frames.push(resource.textures[i]);
+	      }
+	      console.log(frames);
+	      this._pixi = new PIXI.extras.AnimatedSprite(frames);
+	      console.log(this.fps);
+	      this._pixi.animationSpeed = this.fps / 60;
+	      console.log(this._pixi.animationSpeed);
+	      this.animated = true;
+	    }
+	
 	    this.path = options.path;
-	    this.frameStart = options.frameStart;
-	    this.frameEnd = options.frameEnd;
 	    this.width = options.width;
 	    this.height = options.height;
 	    (0, _invariant2.default)(this._pixi, '[Sprite.js] Something went wrong! No Pixi Sprite was passed during\n      the instantiation of this Sprite for ' + this.gob.constructor.name);
 	    (0, _invariant2.default)(this.path != null, 'a resource path must be specified');
-	    (0, _invariant2.default)(this.frameStart != null, '[Sprite.js] No "frameStart" specified for ' + this.gob.constructor.name);
-	    (0, _invariant2.default)(this.frameEnd != null, '[Sprite.js] No "frameEnd" specified for ' + this.gob.constructor.name + ' sprite');
 	    (0, _invariant2.default)(this.width != null, '[Sprite.js] No "width" provided for ' + this.gob.constructor.name + ' sprite');
 	
 	    var anchor = options.scale || { x: 0.5, y: 0.5 };
@@ -48618,18 +48647,35 @@
 	
 	    this._pixi.anchor.x = this.anchor.x;
 	    this._pixi.anchor.y = this.anchor.y;
-	
-	    // default it to have a single iteration per frame
-	    this.frameDurations = options.frameDurations || Array(options.frameEnd - options.frameStart + 1).fill(1);
 	  }
 	
-	  // updates the sprite's position. Should be called after committing position
-	  // on every frame update
+	  // if it's an animated sprite, play it
 	
-	  // the current frame we are displaying
+	  // the starting frame if we are showing an animation
 	
 	
 	  _createClass(Sprite, [{
+	    key: 'play',
+	    value: function play() {
+	      if (this.animated) {
+	        this._pixi.play();
+	      }
+	    }
+	
+	    // if it's an animated sprite, stop it
+	
+	  }, {
+	    key: 'stop',
+	    value: function stop() {
+	      if (this.animated) {
+	        this._pixi.stop();
+	      }
+	    }
+	
+	    // updates the sprite's position. Should be called after committing position
+	    // on every frame update
+	
+	  }, {
 	    key: 'update',
 	    value: function update() {
 	      // update zDepth
@@ -48637,10 +48683,6 @@
 	
 	      this._pixi.position.set(this.gob.transform.position.x, this.gob.transform.position.y);
 	      this._pixi.rotation = this.gob.transform.angle * Math.PI / 180;
-	      // if it's an animation we want to tick the frame forward
-	      if (this.animated) {
-	        var count = this.frameDurations[this.currentFrame];
-	      }
 	    }
 	  }]);
 	
@@ -49251,8 +49293,6 @@
 	      // after the scene has loaded, load up the gobs
 	      _this.gobs.map(function (gob) {
 	        gob.__onSceneLoad();
-	        // add the sprite to the stage
-	        _this.stage.addChild(gob.currentSprite._pixi);
 	      });
 	    };
 	
@@ -49483,7 +49523,7 @@
 	   *       <spriteName>: {
 	   *         frameStart: number
 	   *         frameEnd: number
-	   *         frameDurations: Array<number>
+	   *         fps: number
 	   *       }
 	   *     }
 	   *   }
