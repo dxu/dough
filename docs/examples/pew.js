@@ -85,17 +85,23 @@
 	
 	var _scene2 = _interopRequireDefault(_scene);
 	
+	var _keyboard = __webpack_require__(192);
+	
+	var _keyboard2 = _interopRequireDefault(_keyboard);
+	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	_matterJs2.default.use('matter-collision-events');
 	
+	
 	window.Pew = {
 	  Colliders: _entry2.default,
 	  Gob: _gob2.default,
 	  CONST: CONST,
 	  Game: _game2.default,
+	  Keyboard: _keyboard2.default,
 	  Scene: _scene2.default,
 	  Vector2: _vector2.default,
 	  V2: _vector2.default
@@ -353,17 +359,11 @@
 	    value: function prePhysicsUpdate() {}
 	  }, {
 	    key: '__prePhysicsUpdate',
-	    value: function __prePhysicsUpdate() {}
-	    // adjust the collider body velocities to be time per step to fit matter.js
-	    // instead of time per step
-	    // Matter.Body.setVelocity(
-	    //   this.collider.body,
-	    //   Matter.Vector.create(
-	    //     this.rigidbody.velocity.x * Time.dts,
-	    //     this.rigidbody.velocity.y * Time.dts,
-	    //   ),
-	    // );
-	
+	    value: function __prePhysicsUpdate() {
+	      // adjust the collider body velocities to be time per step to fit matter.js
+	      // instead of time per step
+	      _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x * _private.Time.dts, this.rigidbody.velocity.y * _private.Time.dts));
+	    }
 	
 	    // public version
 	
@@ -375,6 +375,7 @@
 	  }, {
 	    key: '__postPhysicsUpdate',
 	    value: function __postPhysicsUpdate() {
+	      console.log(this.rigidbody);
 	      this.__updatePostCollisionAttributes();
 	      this.currentSprite.update();
 	      // TODO: ideally we shouldn't even have to run this check in production :(
@@ -49074,7 +49075,7 @@
 	      // set up the event handlers
 	      Keyboard.canvas.addEventListener('keydown', function (evt) {
 	        // only execute the hold handlers if it's already down
-	        if (Keyboard.keys[evt.keyCode].pressed) {
+	        if (Keyboard.keys[evt.keyCode].pressed || Keyboard.keys[evt.keyCode].held) {
 	          Keyboard.keys[evt.keyCode].keyHold();
 	        } else {
 	          Keyboard.keys[evt.keyCode].keyDown();
@@ -49185,6 +49186,9 @@
 	    key: 'keyHold',
 	    value: function keyHold(evt, context) {
 	      this.held = true;
+	      // if it's held, we want to indicate that no more keydown so that
+	      // keydown is only on the first press
+	      // this.pressed = false;
 	      // assumes it's bound properly
 	      for (var id in this.keyHandlers[_public.EVENTS.ONKEYHOLD]) {
 	        this.keyHandlers[_public.EVENTS.ONKEYHOLD][id](evt);
