@@ -49149,6 +49149,19 @@
 	  }
 	
 	  _createClass(Keyboard, null, [{
+	    key: 'registerGob',
+	    value: function registerGob(gob) {
+	      Keyboard.registeredGobs[gob.id] = gob;
+	    }
+	
+	    // TODO: handle this better
+	
+	  }, {
+	    key: 'clearRegisteredGobs',
+	    value: function clearRegisteredGobs() {
+	      Keyboard.registeredGobs = {};
+	    }
+	  }, {
 	    key: 'init',
 	    value: function init(_ref) {
 	      var canvas = _ref.canvas;
@@ -49161,6 +49174,10 @@
 	        if (Keyboard.keys[evt.keyCode].pressed || Keyboard.keys[evt.keyCode].held) {
 	          Keyboard.keys[evt.keyCode].keyHold();
 	        } else {
+	          for (var _id in Keyboard.registeredGobs) {
+	            console.log(Keyboard.registeredGobs[_id]);
+	            Keyboard.registeredGobs[_id].onKeyDown && Keyboard.registeredGobs[_id].onKeyDown(evt);
+	          }
 	          Keyboard.keys[evt.keyCode].keyDown();
 	        }
 	      });
@@ -49192,6 +49209,7 @@
 	  return Keyboard;
 	}();
 	
+	Keyboard.registeredGobs = {};
 	Keyboard.keys = Object.keys(_public.KEYS).reduce(function (memo, k) {
 	  return memo[_public.KEYS[k]] = new _key2.default(_public.KEYS[k]), memo;
 	}, {});
@@ -49338,6 +49356,10 @@
 	var _game = __webpack_require__(190);
 	
 	var _game2 = _interopRequireDefault(_game);
+	
+	var _keyboard = __webpack_require__(192);
+	
+	var _keyboard2 = _interopRequireDefault(_keyboard);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -49525,6 +49547,9 @@
 	        _matterJs2.default.World.add(this.game.engine.world, gob.collider.body);
 	      }
 	      this.gobs.push(gob);
+	      if (gob.onKeyDown) {
+	        _keyboard2.default.registerGob(gob);
+	      }
 	    }
 	
 	    // TODO: test this method
@@ -49563,6 +49588,12 @@
 	  }, {
 	    key: 'postPhysicsUpdate',
 	    value: function postPhysicsUpdate() {}
+	  }, {
+	    key: 'destroy',
+	    value: function destroy() {
+	      // reset the keyboard listeners when we load a new scene
+	      _keyboard2.default.clearRegisteredGobs();
+	    }
 	  }]);
 	
 	  return Scene;
