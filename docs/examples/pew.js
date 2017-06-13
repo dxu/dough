@@ -139,15 +139,30 @@
 	
 	var _util = __webpack_require__(188);
 	
+	var _invariant = __webpack_require__(201);
+	
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
+	var RIGIDBODY_DEFAULTS = {
+	  mass: 3,
+	  friction: 0,
+	  frictionAir: 0,
+	  frictionStatic: 0,
+	  restitution: 0,
+	  angularVelocity: 0,
+	  isStatic: false
+	};
+	
 	// Gob.rb
 	// Every Collider will be an object itself
 	// Rb will
+	
 	var Gob = function () {
 	
 	  // possible options:
@@ -170,10 +185,14 @@
 	
 	
 	  // can support multiple audio sounds. You will be able to reference them
+	  // the string of the current loaded sprite for this instance
 	  function Gob() {
 	    _classCallCheck(this, Gob);
 	
+	    this.direction = _vector2.default.Right;
 	    this.sprites = {};
+	    this._previousSprite = _sprite2.default.emptySprite;
+	    this.currentSprite = _sprite2.default.emptySprite;
 	    this.transform = {
 	      position: new _vector2.default(0, 0),
 	      scale: new _vector2.default(1, 1),
@@ -213,16 +232,13 @@
 	        // if a rigidbody is being added, we have to default it
 	        this.rigidbody = this.rigidbody || {};
 	        var optsRigidbody = opts.rigidbody || {};
-	        this.rigidbody.mass = optsRigidbody.mass || this.rigidbody.mass || 3;
-	        this.rigidbody.friction = optsRigidbody.friction || this.rigidbody.friction || 0;
-	        this.rigidbody.frictionAir = optsRigidbody.frictionAir || this.rigidbody.frictionAir || 0;
-	        this.rigidbody.frictionStatic = optsRigidbody.frictionStatic || this.rigidbody.frictionStatic || 0;
-	        this.rigidbody.restitution = optsRigidbody.restitution || this.rigidbody.restitution || 0;
+	        for (var _key in RIGIDBODY_DEFAULTS) {
+	          this.rigidbody[_key] = optsRigidbody[_key] || this.rigidbody[_key] || RIGIDBODY_DEFAULTS[_key];
+	        }
 	        this.rigidbody.velocity = optsRigidbody.velocity ? new _vector2.default(optsRigidbody.velocity.x, optsRigidbody.velocity.y) : this.rigidbody.velocity ? new _vector2.default(this.rigidbody.velocity.x, this.rigidbody.velocity.y) : new _vector2.default(0, 0);
-	
-	        this.rigidbody.angularVelocity = optsRigidbody.angularVelocity || this.rigidbody.angularVelocity || 0;
-	        this.rigidbody.maxVelocity = optsRigidbody.maxVelocity || this.rigidbody.maxVelocity || new _vector2.default(Infinity, Infinity);
-	        this.rigidbody.maxAngularVelocity = optsRigidbody.maxAngularVelocity || this.rigidbody.maxAngularVelocity || Infinity;
+	        if (!optsRigidbody.rotatable) {
+	          _matterJs2.default.Body.setInertia(this.collider.body, Infinity);
+	        }
 	      }
 	
 	      this.scene = scene;
@@ -241,31 +257,46 @@
 	          this.collider.body.isSensor = true;
 	        } else {
 	          _matterJs2.default.Body.setPosition(this.collider.body, _matterJs2.default.Vector.create(this.transform.position.x, this.transform.position.y));
-	          _matterJs2.default.Body.setMass(this.collider.body, this.rigidbody.mass);
-	          this.collider.body.friction = this.rigidbody.friction;
-	          this.collider.body.frictionAir = this.rigidbody.frictionAir;
-	          this.collider.body.frictionStatic = this.rigidbody.frictionStatic;
-	          this.collider.body.restitution = this.rigidbody.restitution;
+	          for (var _key2 in RIGIDBODY_DEFAULTS) {
+	            this.collider.body[_key2] = this.rigidbody[_key2];
+	          }
 	          _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x * _private.Time.dts, this.rigidbody.velocity.y * _private.Time.dts));
 	          _matterJs2.default.Body.setAngularVelocity(this.collider.body, this.rigidbody.angularVelocity * _private.Time.dts * Math.PI / 180);
 	        }
 	        this.collider.body.onCollide(this.onCollide.bind(this));
 	        this.collider.body.onCollideEnd(this.onCollideEnd.bind(this));
 	        this.collider.body.onCollideActive(this.onCollideActive.bind(this));
+	        // Matter.Body.setInertia(this.collider.body, Infinity)
 	      }
+	    }
+	  }, {
+	    key: 'setDirection',
+	    value: function setDirection(direction) {
+	      (0, _invariant2.default)(direction instanceof _vector2.default, '[gob.js] setDirection must take in a Pew.Vector2');
+	      this.direction = direction;
+	    }
+	  }, {
+	    key: '_updateSprite',
+	    value: function _updateSprite() {
+	      // stop and replace the current sprite
+	      if (this._previousSprite) {
+	        if (this.currentSprite._id === this._previousSprite._id) {
+	          return;
+	        }
+	        this._previousSprite.hide();
+	        this._previousSprite.stop();
+	      }
+	      this._previousSprite = this.currentSprite;
+	      this._previousSprite.update();
+	      // add the new sprite to the stage
+	      this._previousSprite.show();
+	      this._previousSprite.play();
 	    }
 	  }, {
 	    key: '_setSprite',
 	    value: function _setSprite(sprite) {
-	      // stop and replace the current sprite
-	      if (this.currentSprite) {
-	        this.currentSprite.stop();
-	        this.scene.stage.addChild(this.currentSprite._pixi);
-	      }
+	      this._previousSprite = this.currentSprite;
 	      this.currentSprite = sprite;
-	      this.currentSprite.play();
-	      // add the new sprite to the stage
-	      this.scene.stage.addChild(this.currentSprite._pixi);
 	    }
 	
 	    // if there is no spriteKey passed, then that means they aren't using the
@@ -273,7 +304,7 @@
 	  }, {
 	    key: 'setSprite',
 	    value: function setSprite(sheetKey, spriteKey) {
-	      invariant(this.sprites[sheetKey], '[Gob.js] No sprite or spritesheet found for ' + sheetKey + ', ' + spriteKey);
+	      (0, _invariant2.default)(this.sprites[sheetKey], '[Gob.js] No sprite or spritesheet found for ' + sheetKey + ', ' + spriteKey);
 	
 	      this._setSprite(this.sprites[sheetKey][spriteKey] || this.sprites[sheetKey]);
 	    }
@@ -287,8 +318,12 @@
 	    value: function __initSprite() {
 	      var _this = this;
 	
-	      var opts = this.__opts;
 	      var gobClass = this.constructor;
+	      // if no sprites, then just return
+	      if (!gobClass.spriteSheets) {
+	        return;
+	      }
+	      var opts = this.__opts;
 	
 	      // create sprites out of the loaded resource based on the sprite class var
 	      var sheets = Object.keys(gobClass.spriteSheets);
@@ -296,9 +331,7 @@
 	      sheets.map(function (sheetKey) {
 	        var sprites = gobClass.spriteSheets[sheetKey].sprites;
 	        _this.sprites[sheetKey] = {};
-	        console.log(_this.scene.resources);
 	        Object.keys(sprites).map(function (spriteKey) {
-	          console.log(_util.Utils.getPixiResourceKey(gobClass.name, spriteKey));
 	          _this.sprites[sheetKey][spriteKey] = new _sprite2.default({
 	            gob: _this,
 	            pixiKey: _util.Utils.getPixiResourceKey(gobClass.name, sheetKey),
@@ -311,14 +344,15 @@
 	            anchor: sprites[spriteKey].anchor,
 	            instance: opts.sprite
 	          });
+	          console.log(_this.sprites[sheetKey][spriteKey]);
+	          // add each sprite to the stage
+	          _this.scene.stage.addChild(_this.sprites[sheetKey][spriteKey]._pixi);
 	        });
 	      });
 	
-	      console.log('wjj', this.sprites);
 	      var firstSpriteSheet = this.sprites[Object.keys(this.sprites)[0]];
 	      // default to the first sprite as the current sprite
 	      this._setSprite(firstSpriteSheet[Object.keys(firstSpriteSheet)[0]]);
-	      this.currentSprite.update();
 	    }
 	  }, {
 	    key: '__onSceneLoad',
@@ -375,8 +409,9 @@
 	  }, {
 	    key: '__postPhysicsUpdate',
 	    value: function __postPhysicsUpdate() {
-	      console.log(this.rigidbody);
 	      this.__updatePostCollisionAttributes();
+	      // update the sprite to new one
+	      this._updateSprite();
 	      this.currentSprite.update();
 	      // TODO: ideally we shouldn't even have to run this check in production :(
 	      // if this.debug is set, turn on debug mode
@@ -394,6 +429,9 @@
 	      this.transform.position.x = this.collider.body.position.x;
 	      this.transform.position.y = this.collider.body.position.y;
 	      this.transform.angle = this.collider.body.angle * 180 / Math.PI;
+	
+	      this.rigidbody.velocity.x = this.collider.body.velocity.x / _private.Time.dts;
+	      this.rigidbody.velocity.y = this.collider.body.velocity.y / _private.Time.dts;
 	    }
 	  }, {
 	    key: '_debug',
@@ -48583,11 +48621,18 @@
 	var Sprite = function () {
 	
 	  // TODO: this only supports array based spritesheet data
+	
+	  // the starting frame if we are showing an animation
 	  function Sprite(options) {
 	    _classCallCheck(this, Sprite);
 	
+	    this.direction = new _vector2.default(1, 0);
 	    this.startingFrame = 0;
 	
+	    this._id = _util.Utils.uuid();
+	    if (options === null) {
+	      return;
+	    }
 	    // default it to 60fps
 	    this.fps = options.fps || 60;
 	    this.gob = options.gob;
@@ -48652,14 +48697,17 @@
 	
 	  // if it's an animated sprite, play it
 	
-	  // the starting frame if we are showing an animation
+	
+	  // TODO: a hack for handling games without sprites
 	
 	
 	  _createClass(Sprite, [{
 	    key: 'play',
 	    value: function play() {
-	      if (this.animated) {
-	        this._pixi.play();
+	      console.log('joij', this._pixi.playing);
+	      if (this.animated && !this._pixi.playing) {
+	        // restart the animation each time you play
+	        this._pixi.gotoAndPlay(0);
 	      }
 	    }
 	
@@ -48668,8 +48716,23 @@
 	  }, {
 	    key: 'stop',
 	    value: function stop() {
-	      if (this.animated) {
+	      console.log('stopping');
+	      if (this.animated && this._pixi.playing) {
 	        this._pixi.stop();
+	      }
+	    }
+	  }, {
+	    key: 'hide',
+	    value: function hide() {
+	      if (this._pixi) {
+	        this._pixi.visible = false;
+	      }
+	    }
+	  }, {
+	    key: 'show',
+	    value: function show() {
+	      if (this._pixi) {
+	        this._pixi.visible = true;
 	      }
 	    }
 	
@@ -48679,10 +48742,18 @@
 	  }, {
 	    key: 'update',
 	    value: function update() {
+	      // TODO: hack
+	      if (!this._pixi) {
+	        return;
+	      }
 	      // update zDepth
 	      this._pixi.zDepth = typeof this.gob.depth === 'function' ? this.gob.depth() : this._pixi.zDepth = this.gob.depth;
 	
+	      this._pixi.scale.x = this.gob.direction.x || 1;
+	      this._pixi.scale.y = this.gob.direction.y || 1;
+	
 	      this._pixi.position.set(this.gob.transform.position.x, this.gob.transform.position.y);
+	
 	      this._pixi.rotation = this.gob.transform.angle * Math.PI / 180;
 	    }
 	  }]);
@@ -48690,6 +48761,7 @@
 	  return Sprite;
 	}();
 	
+	Sprite.emptySprite = new Sprite(null);
 	exports.default = Sprite;
 
 /***/ },
@@ -48919,8 +48991,6 @@
 	    this.gobs = [];
 	
 	    this.engine = _matterJs2.default.Engine.create();
-	    this.engine.world.gravity.x = 0;
-	    this.engine.world.gravity.y = 0;
 	
 	    this.audioContext = new AudioContext();
 	    this.debug = false || opts.debug;
@@ -48940,6 +49010,8 @@
 	      if (!scene.loaded) {
 	        this.currentScene.load(this);
 	      }
+	      this.engine.world.gravity.x = this.currentScene.gravity.x;
+	      this.engine.world.gravity.y = this.currentScene.gravity.y;
 	    }
 	
 	    // TODO: EXPERIMENTAL: How do we handle allowing the definition of updates
@@ -49282,7 +49354,14 @@
 	  function Scene(game) {
 	    var _this = this;
 	
+	    var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	
 	    _classCallCheck(this, Scene);
+	
+	    this.gravity = {
+	      x: 0,
+	      y: 0
+	    };
 	
 	    this.__preloaded = function (_ref) {
 	      var _ref2 = _slicedToArray(_ref, 2),
@@ -49303,6 +49382,10 @@
 	    // the name of the scene is the name of the function or class you define
 	    this.name = this.constructor.name;
 	    this.stage = new Pixi.Container();
+	    var gravity = opts.gravity || {};
+	    this.gravity.x = gravity.x || 0;
+	    this.gravity.y = gravity.y || 0;
+	
 	    // create a new camera for this instance
 	    this.camera = new _camera2.default(this.stage);
 	    this.loaded = false;
