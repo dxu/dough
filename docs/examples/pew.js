@@ -179,6 +179,7 @@
 	  //     rotation?: number,
 	  //     scale?: Vector2,
 	  //     pixi: PIXI.Sprite,
+	  //     loop?: boolean,
 	  //   },
 	  // }
 	  // Rigid bodies and Colliders should be set on the class itself
@@ -332,7 +333,9 @@
 	        var sprites = gobClass.spriteSheets[sheetKey].sprites;
 	        _this.sprites[sheetKey] = {};
 	        Object.keys(sprites).map(function (spriteKey) {
+	          console.log('joijioj', sprites[spriteKey].loop);
 	          _this.sprites[sheetKey][spriteKey] = new _sprite2.default({
+	            // TODO: TYPE THIS
 	            gob: _this,
 	            pixiKey: _util.Utils.getPixiResourceKey(gobClass.name, sheetKey),
 	            path: gobClass.spriteSheets[sheetKey].path,
@@ -342,9 +345,10 @@
 	            width: sprites[spriteKey].width,
 	            height: sprites[spriteKey].height,
 	            anchor: sprites[spriteKey].anchor,
+	            loop: sprites[spriteKey].loop,
 	            instance: opts.sprite
 	          });
-	          console.log(_this.sprites[sheetKey][spriteKey]);
+	          // console.log(this.sprites[sheetKey][spriteKey]);
 	          // add each sprite to the stage
 	          _this.scene.stage.addChild(_this.sprites[sheetKey][spriteKey]._pixi);
 	        });
@@ -394,6 +398,7 @@
 	  }, {
 	    key: '__prePhysicsUpdate',
 	    value: function __prePhysicsUpdate() {
+	      // console.log(this.rigidbody.velocity.y)
 	      // adjust the collider body velocities to be time per step to fit matter.js
 	      // instead of time per step
 	      _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x * _private.Time.dts, this.rigidbody.velocity.y * _private.Time.dts));
@@ -438,7 +443,7 @@
 	    value: function _debug() {
 	      // update the spriteOutline
 	      this._debugData.spriteOutline.clear();
-	      this._debugData.spriteOutline.lineStyle(2, 0x428ff4, 0.9);
+	      this._debugData.spriteOutline.lineStyle(1, 0x428ff4, 0.9);
 	      this._debugData.spriteOutline.drawRect(0, 0, this.currentSprite.width, this.currentSprite.height);
 	
 	      this._debugData.spriteOutline.setTransform(this.transform.position.x, this.transform.position.y);
@@ -450,7 +455,7 @@
 	      // update the colliderOutline
 	      if (this.collider) {
 	        this._debugData.colliderOutline.clear();
-	        this._debugData.colliderOutline.lineStyle(2, 0xf44265, 0.9);
+	        this._debugData.colliderOutline.lineStyle(1, 0xf44265, 0.9);
 	
 	        var _path = this.collider.body.vertices.reduce(function (memo, vertex, index, arr) {
 	          memo.push(vertex.x);
@@ -48643,6 +48648,7 @@
 	    (0, _invariant2.default)(resource, '[Sprite.js] No resource found for ' + options.pixiKey);
 	
 	    this.animated = resource.texture ? true : false;
+	    this.loop = options.loop != null ? options.loop : true;
 	
 	    if (resource.texture) {
 	      this._pixi = PIXI.Sprite.from(texture);
@@ -48661,11 +48667,11 @@
 	      for (var i = this.frameStart; i <= this.frameEnd; i++) {
 	        frames.push(resource.textures[i]);
 	      }
-	      console.log(frames);
+	      // console.log(frames);
 	      this._pixi = new PIXI.extras.AnimatedSprite(frames);
-	      console.log(this.fps);
+	      // console.log(this.fps);
 	      this._pixi.animationSpeed = this.fps / 60;
-	      console.log(this._pixi.animationSpeed);
+	      // console.log(this._pixi.animationSpeed);
 	      this.animated = true;
 	    }
 	
@@ -48693,6 +48699,8 @@
 	
 	    this._pixi.anchor.x = this.anchor.x;
 	    this._pixi.anchor.y = this.anchor.y;
+	    console.log('loop', this.loop);
+	    this._pixi.loop = this.loop;
 	  }
 	
 	  // if it's an animated sprite, play it
@@ -48704,10 +48712,13 @@
 	  _createClass(Sprite, [{
 	    key: 'play',
 	    value: function play() {
-	      console.log('joij', this._pixi.playing);
 	      if (this.animated && !this._pixi.playing) {
-	        // restart the animation each time you play
-	        this._pixi.gotoAndPlay(0);
+	        if (this.loop) {
+	          // restart the animation each time you play
+	          this._pixi.gotoAndPlay(0);
+	        } else {
+	          this._pixi.play();
+	        }
 	      }
 	    }
 	
@@ -48716,7 +48727,7 @@
 	  }, {
 	    key: 'stop',
 	    value: function stop() {
-	      console.log('stopping');
+	      // console.log('stopping');
 	      if (this.animated && this._pixi.playing) {
 	        this._pixi.stop();
 	      }
