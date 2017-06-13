@@ -281,17 +281,17 @@
 	    value: function _updateSprite() {
 	      // stop and replace the current sprite
 	      if (this._previousSprite) {
+	        console.log('inside', this.currentSprite._id, this._previousSprite._id);
 	        if (this.currentSprite._id === this._previousSprite._id) {
 	          return;
 	        }
 	        this._previousSprite.hide();
 	        this._previousSprite.stop();
 	      }
-	      this._previousSprite = this.currentSprite;
-	      this._previousSprite.update();
+	      console.log('play');
 	      // add the new sprite to the stage
-	      this._previousSprite.show();
-	      this._previousSprite.play();
+	      this.currentSprite.show();
+	      this.currentSprite.play();
 	    }
 	  }, {
 	    key: '_setSprite',
@@ -48634,10 +48634,12 @@
 	    this.direction = new _vector2.default(1, 0);
 	    this.startingFrame = 0;
 	
-	    this._id = _util.Utils.uuid();
 	    if (options === null) {
+	      this._id = null;
 	      return;
 	    }
+	    this._id = _util.Utils.uuid();
+	    console.log(this._id);
 	    // default it to 60fps
 	    this.fps = options.fps || 60;
 	    this.gob = options.gob;
@@ -48713,12 +48715,8 @@
 	    key: 'play',
 	    value: function play() {
 	      if (this.animated && !this._pixi.playing) {
-	        if (this.loop) {
-	          // restart the animation each time you play
-	          this._pixi.gotoAndPlay(0);
-	        } else {
-	          this._pixi.play();
-	        }
+	        // restart the animation each time you play
+	        this._pixi.gotoAndPlay(0);
 	      }
 	    }
 	
