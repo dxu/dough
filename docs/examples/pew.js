@@ -57,11 +57,11 @@
 	
 	var _gob2 = _interopRequireDefault(_gob);
 	
-	var _public = __webpack_require__(189);
+	var _public = __webpack_require__(190);
 	
 	var CONST = _interopRequireWildcard(_public);
 	
-	var _game = __webpack_require__(190);
+	var _game = __webpack_require__(191);
 	
 	var _game2 = _interopRequireDefault(_game);
 	
@@ -69,7 +69,7 @@
 	
 	var _vector2 = _interopRequireDefault(_vector);
 	
-	var _entry = __webpack_require__(198);
+	var _entry = __webpack_require__(199);
 	
 	var _entry2 = _interopRequireDefault(_entry);
 	
@@ -77,15 +77,15 @@
 	
 	var _matterJs2 = _interopRequireDefault(_matterJs);
 	
-	var _matterCollisionEvents = __webpack_require__(200);
+	var _matterCollisionEvents = __webpack_require__(202);
 	
 	var _matterCollisionEvents2 = _interopRequireDefault(_matterCollisionEvents);
 	
-	var _scene = __webpack_require__(194);
+	var _scene = __webpack_require__(195);
 	
 	var _scene2 = _interopRequireDefault(_scene);
 	
-	var _keyboard = __webpack_require__(192);
+	var _keyboard = __webpack_require__(193);
 	
 	var _keyboard2 = _interopRequireDefault(_keyboard);
 	
@@ -137,9 +137,9 @@
 	
 	var _sprite2 = _interopRequireDefault(_sprite);
 	
-	var _util = __webpack_require__(188);
+	var _util = __webpack_require__(189);
 	
-	var _invariant = __webpack_require__(201);
+	var _invariant = __webpack_require__(188);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
@@ -158,6 +158,21 @@
 	  angularVelocity: 0,
 	  isStatic: false
 	};
+	
+	function updateRigidBody(body, opts) {
+	  var mass = opts.mass,
+	      friction = opts.friction,
+	      fritionStatic = opts.fritionStatic,
+	      frictionAir = opts.frictionAir,
+	      restitution = opts.restitution,
+	      velocity = opts.velocity,
+	      angularVelocity = opts.angularVelocity,
+	      maxVelocity = opts.maxVelocity,
+	      maxAngularVelocity = opts.maxAngularVelocity;
+	
+	  mass && body.setMass(mass);
+	  mass && body.setMass(mass);
+	}
 	
 	// Gob.rb
 	// Every Collider will be an object itself
@@ -230,10 +245,13 @@
 	      // if this object has a rigidbody, lets set some sane defaults
 	      // if the object is instantiated with options for a rigid body, do the same
 	      if (this.rigidbody || opts.rigidbody) {
+	        console.log('first', this.rigidbody, opts.rigidbody);
 	        // if a rigidbody is being added, we have to default it
 	        this.rigidbody = this.rigidbody || {};
+	        console.log('second', this.rigidbody, opts.rigidbody);
 	        var optsRigidbody = opts.rigidbody || {};
 	        for (var _key in RIGIDBODY_DEFAULTS) {
+	          console.log(optsRigidbody[_key], this.rigidbody[_key]);
 	          this.rigidbody[_key] = optsRigidbody[_key] || this.rigidbody[_key] || RIGIDBODY_DEFAULTS[_key];
 	        }
 	        this.rigidbody.velocity = optsRigidbody.velocity ? new _vector2.default(optsRigidbody.velocity.x, optsRigidbody.velocity.y) : this.rigidbody.velocity ? new _vector2.default(this.rigidbody.velocity.x, this.rigidbody.velocity.y) : new _vector2.default(0, 0);
@@ -241,6 +259,7 @@
 	          _matterJs2.default.Body.setInertia(this.collider.body, Infinity);
 	        }
 	      }
+	      console.log('third', this.rigidbody, opts.rigidbody);
 	
 	      this.scene = scene;
 	      if (this.scene == null) {
@@ -260,6 +279,7 @@
 	          _matterJs2.default.Body.setPosition(this.collider.body, _matterJs2.default.Vector.create(this.transform.position.x, this.transform.position.y));
 	          for (var _key2 in RIGIDBODY_DEFAULTS) {
 	            this.collider.body[_key2] = this.rigidbody[_key2];
+	            console.log('jj', _key2, this.collider.body[_key2]);
 	          }
 	          _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x * _private.Time.dts, this.rigidbody.velocity.y * _private.Time.dts));
 	          _matterJs2.default.Body.setAngularVelocity(this.collider.body, this.rigidbody.angularVelocity * _private.Time.dts * Math.PI / 180);
@@ -267,6 +287,7 @@
 	        this.collider.body.onCollide(this.onCollide.bind(this));
 	        this.collider.body.onCollideEnd(this.onCollideEnd.bind(this));
 	        this.collider.body.onCollideActive(this.onCollideActive.bind(this));
+	        console.log('jjl', this.collider.body);
 	        // Matter.Body.setInertia(this.collider.body, Infinity)
 	      }
 	    }
@@ -281,14 +302,12 @@
 	    value: function _updateSprite() {
 	      // stop and replace the current sprite
 	      if (this._previousSprite) {
-	        console.log('inside', this.currentSprite._id, this._previousSprite._id);
 	        if (this.currentSprite._id === this._previousSprite._id) {
 	          return;
 	        }
 	        this._previousSprite.hide();
 	        this._previousSprite.stop();
 	      }
-	      console.log('play');
 	      // add the new sprite to the stage
 	      this.currentSprite.show();
 	      this.currentSprite.play();
@@ -333,7 +352,6 @@
 	        var sprites = gobClass.spriteSheets[sheetKey].sprites;
 	        _this.sprites[sheetKey] = {};
 	        Object.keys(sprites).map(function (spriteKey) {
-	          console.log('joijioj', sprites[spriteKey].loop);
 	          _this.sprites[sheetKey][spriteKey] = new _sprite2.default({
 	            // TODO: TYPE THIS
 	            gob: _this,
@@ -348,7 +366,6 @@
 	            loop: sprites[spriteKey].loop,
 	            instance: opts.sprite
 	          });
-	          // console.log(this.sprites[sheetKey][spriteKey]);
 	          // add each sprite to the stage
 	          _this.scene.stage.addChild(_this.sprites[sheetKey][spriteKey]._pixi);
 	        });
@@ -398,7 +415,6 @@
 	  }, {
 	    key: '__prePhysicsUpdate',
 	    value: function __prePhysicsUpdate() {
-	      // console.log(this.rigidbody.velocity.y)
 	      // adjust the collider body velocities to be time per step to fit matter.js
 	      // instead of time per step
 	      _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x * _private.Time.dts, this.rigidbody.velocity.y * _private.Time.dts));
@@ -48609,7 +48625,7 @@
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* a class for Sprites that wraps the PIXI Sprite class */
 	
 	
-	var _invariant = __webpack_require__(201);
+	var _invariant = __webpack_require__(188);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
@@ -48617,7 +48633,7 @@
 	
 	var _vector2 = _interopRequireDefault(_vector);
 	
-	var _util = __webpack_require__(188);
+	var _util = __webpack_require__(189);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -48777,6 +48793,64 @@
 /* 188 */
 /***/ function(module, exports, __webpack_require__) {
 
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+	
+	'use strict';
+	
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+	
+	var invariant = function(condition, format, a, b, c, d, e, f) {
+	  if (process.env.NODE_ENV !== 'production') {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+	
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error(
+	        'Minified exception occurred; use the non-minified dev environment ' +
+	        'for the full error message and additional helpful warnings.'
+	      );
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(
+	        format.replace(/%s/g, function() { return args[argIndex++]; })
+	      );
+	      error.name = 'Invariant Violation';
+	    }
+	
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	};
+	
+	module.exports = invariant;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(88)))
+
+/***/ },
+/* 189 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
@@ -48809,7 +48883,7 @@
 	};
 
 /***/ },
-/* 189 */
+/* 190 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -48927,7 +49001,7 @@
 	};
 
 /***/ },
-/* 190 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -48946,15 +49020,15 @@
 	
 	var _gob2 = _interopRequireDefault(_gob);
 	
-	var _camera = __webpack_require__(191);
+	var _camera = __webpack_require__(192);
 	
 	var _camera2 = _interopRequireDefault(_camera);
 	
-	var _keyboard = __webpack_require__(192);
+	var _keyboard = __webpack_require__(193);
 	
 	var _keyboard2 = _interopRequireDefault(_keyboard);
 	
-	var _scene = __webpack_require__(194);
+	var _scene = __webpack_require__(195);
 	
 	var _scene2 = _interopRequireDefault(_scene);
 	
@@ -48964,13 +49038,13 @@
 	
 	var _private = __webpack_require__(185);
 	
-	var _util = __webpack_require__(188);
+	var _util = __webpack_require__(189);
 	
-	var _loader = __webpack_require__(195);
+	var _loader = __webpack_require__(196);
 	
 	var _loader2 = _interopRequireDefault(_loader);
 	
-	var _stats = __webpack_require__(197);
+	var _stats = __webpack_require__(198);
 	
 	var _stats2 = _interopRequireDefault(_stats);
 	
@@ -49076,7 +49150,7 @@
 	exports.default = Game;
 
 /***/ },
-/* 191 */
+/* 192 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -49117,7 +49191,7 @@
 	exports.default = Camera;
 
 /***/ },
-/* 192 */
+/* 193 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49128,9 +49202,9 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _public = __webpack_require__(189);
+	var _public = __webpack_require__(190);
 	
-	var _key = __webpack_require__(193);
+	var _key = __webpack_require__(194);
 	
 	var _key2 = _interopRequireDefault(_key);
 	
@@ -49149,7 +49223,7 @@
 	  _createClass(Keyboard, null, [{
 	    key: 'registerGob',
 	    value: function registerGob(gob) {
-	      Keyboard.registeredGobs[gob.id] = gob;
+	      Keyboard.registeredGobs[gob._id] = gob;
 	    }
 	
 	    // TODO: handle this better
@@ -49173,7 +49247,6 @@
 	          Keyboard.keys[evt.keyCode].keyHold();
 	        } else {
 	          for (var _id in Keyboard.registeredGobs) {
-	            console.log(Keyboard.registeredGobs[_id]);
 	            Keyboard.registeredGobs[_id].onKeyDown && Keyboard.registeredGobs[_id].onKeyDown(evt);
 	          }
 	          Keyboard.keys[evt.keyCode].keyDown();
@@ -49214,7 +49287,7 @@
 	exports.default = Keyboard;
 
 /***/ },
-/* 193 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49225,7 +49298,7 @@
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _public = __webpack_require__(189);
+	var _public = __webpack_require__(190);
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -49318,7 +49391,7 @@
 	exports.default = Key;
 
 /***/ },
-/* 194 */
+/* 195 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49335,7 +49408,7 @@
 	
 	var Pixi = _interopRequireWildcard(_pixi);
 	
-	var _camera = __webpack_require__(191);
+	var _camera = __webpack_require__(192);
 	
 	var _camera2 = _interopRequireDefault(_camera);
 	
@@ -49343,7 +49416,7 @@
 	
 	var _gob2 = _interopRequireDefault(_gob);
 	
-	var _loader3 = __webpack_require__(195);
+	var _loader3 = __webpack_require__(196);
 	
 	var _loader4 = _interopRequireDefault(_loader3);
 	
@@ -49351,11 +49424,11 @@
 	
 	var _matterJs2 = _interopRequireDefault(_matterJs);
 	
-	var _game = __webpack_require__(190);
+	var _game = __webpack_require__(191);
 	
 	var _game2 = _interopRequireDefault(_game);
 	
-	var _keyboard = __webpack_require__(192);
+	var _keyboard = __webpack_require__(193);
 	
 	var _keyboard2 = _interopRequireDefault(_keyboard);
 	
@@ -49600,7 +49673,7 @@
 	exports.default = Scene;
 
 /***/ },
-/* 195 */
+/* 196 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49619,11 +49692,11 @@
 	
 	var Pixi = _interopRequireWildcard(_pixi);
 	
-	var _clip = __webpack_require__(196);
+	var _clip = __webpack_require__(197);
 	
 	var _clip2 = _interopRequireDefault(_clip);
 	
-	var _util = __webpack_require__(188);
+	var _util = __webpack_require__(189);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -49746,7 +49819,7 @@
 	exports.default = Loader;
 
 /***/ },
-/* 196 */
+/* 197 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -49798,7 +49871,7 @@
 	exports.default = Clip;
 
 /***/ },
-/* 197 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// stats.js - http://github.com/mrdoob/stats.js
@@ -49809,7 +49882,7 @@
 
 
 /***/ },
-/* 198 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49818,18 +49891,23 @@
 	  value: true
 	});
 	
-	var _box = __webpack_require__(199);
+	var _box = __webpack_require__(200);
 	
 	var _box2 = _interopRequireDefault(_box);
+	
+	var _polygon = __webpack_require__(201);
+	
+	var _polygon2 = _interopRequireDefault(_polygon);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = {
-	  Box: _box2.default
+	  Box: _box2.default,
+	  Polygon: _polygon2.default
 	};
 
 /***/ },
-/* 199 */
+/* 200 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -49875,68 +49953,50 @@
 	exports.default = BoxCollider;
 
 /***/ },
-/* 200 */
-/***/ function(module, exports, __webpack_require__) {
-
-	!function(e,t){ true?module.exports=t(__webpack_require__(186)):"function"==typeof define&&define.amd?define(["matter-js"],t):"object"==typeof exports?exports.MatterCollisionEvents=t(require("matter-js")):e.MatterCollisionEvents=t(e["matter-js"])}(this,function(e){return function(e){function t(o){if(n[o])return n[o].exports;var r=n[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,o){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:o})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=1)}([function(t,n){t.exports=e},function(e,t,n){var o=n(0),r={name:"matter-collision-events",version:"0.1.5",for:"matter-js@^0.12.0",install:function(e){var t=e.Body.create;e.Body.create=function(){var e=t.apply(null,arguments);return e.onCollide=function(t){e._mceOC=t},e.onCollideEnd=function(t){e._mceOCE=t},e.onCollideActive=function(t){e._mceOCA=t},e},e.after("Engine.create",function(){e.Events.on(this,"collisionStart",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollide",{pair:t}),e.Events.trigger(t.bodyB,"onCollide",{pair:t}),t.bodyA._mceOC&&t.bodyA._mceOC(t),t.bodyB._mceOC&&t.bodyB._mceOC(t)})}),e.Events.on(this,"collisionActive",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollideActive",{pair:t}),e.Events.trigger(t.bodyB,"onCollideActive",{pair:t}),t.bodyA._mceOCA&&t.bodyA._mceOCA(t),t.bodyB._mceOCA&&t.bodyB._mceOCA(t)})}),e.Events.on(this,"collisionEnd",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollideEnd",{pair:t}),e.Events.trigger(t.bodyB,"onCollideEnd",{pair:t}),t.bodyA._mceOCE&&t.bodyA._mceOCE(t),t.bodyB._mceOCE&&t.bodyB._mceOCE(t)})})})}};o.Plugin.register(r),e.exports.MatterCollisionEvents=r}])});
-
-/***/ },
 /* 201 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 */
-	
 	'use strict';
 	
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	
-	var invariant = function(condition, format, a, b, c, d, e, f) {
-	  if (process.env.NODE_ENV !== 'production') {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  }
+	var _matterJs = __webpack_require__(186);
 	
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error(
-	        'Minified exception occurred; use the non-minified dev environment ' +
-	        'for the full error message and additional helpful warnings.'
-	      );
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error(
-	        format.replace(/%s/g, function() { return args[argIndex++]; })
-	      );
-	      error.name = 'Invariant Violation';
-	    }
+	var _matterJs2 = _interopRequireDefault(_matterJs);
 	
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	// implements Collider interface
+	var PolygonCollider =
+	// vertices: Array<Matter.Vector>;
+	
+	// clockwise order
+	function PolygonCollider(gob, vertices) {
+	  _classCallCheck(this, PolygonCollider);
+	
+	  this.vertices = vertices;
+	  // Note that velocity and angularVelocity are read-only! they need to be
+	  // initialized by gob
+	  this.body = _matterJs2.default.Body.create({
+	    angle: gob.transform.angle,
+	    position: _matterJs2.default.Vector.create(gob.transform.position.x, gob.transform.position.y),
+	    vertices: vertices.map(function (vertex) {
+	      return _matterJs2.default.Vector.create(vertex.x, vertex.y);
+	    })
+	  });
 	};
 	
-	module.exports = invariant;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(88)))
+	exports.default = PolygonCollider;
+
+/***/ },
+/* 202 */
+/***/ function(module, exports, __webpack_require__) {
+
+	!function(e,t){ true?module.exports=t(__webpack_require__(186)):"function"==typeof define&&define.amd?define(["matter-js"],t):"object"==typeof exports?exports.MatterCollisionEvents=t(require("matter-js")):e.MatterCollisionEvents=t(e["matter-js"])}(this,function(e){return function(e){function t(o){if(n[o])return n[o].exports;var r=n[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,o){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:o})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=1)}([function(t,n){t.exports=e},function(e,t,n){var o=n(0),r={name:"matter-collision-events",version:"0.1.5",for:"matter-js@^0.12.0",install:function(e){var t=e.Body.create;e.Body.create=function(){var e=t.apply(null,arguments);return e.onCollide=function(t){e._mceOC=t},e.onCollideEnd=function(t){e._mceOCE=t},e.onCollideActive=function(t){e._mceOCA=t},e},e.after("Engine.create",function(){e.Events.on(this,"collisionStart",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollide",{pair:t}),e.Events.trigger(t.bodyB,"onCollide",{pair:t}),t.bodyA._mceOC&&t.bodyA._mceOC(t),t.bodyB._mceOC&&t.bodyB._mceOC(t)})}),e.Events.on(this,"collisionActive",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollideActive",{pair:t}),e.Events.trigger(t.bodyB,"onCollideActive",{pair:t}),t.bodyA._mceOCA&&t.bodyA._mceOCA(t),t.bodyB._mceOCA&&t.bodyB._mceOCA(t)})}),e.Events.on(this,"collisionEnd",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollideEnd",{pair:t}),e.Events.trigger(t.bodyB,"onCollideEnd",{pair:t}),t.bodyA._mceOCE&&t.bodyA._mceOCE(t),t.bodyB._mceOCE&&t.bodyB._mceOCE(t)})})})}};o.Plugin.register(r),e.exports.MatterCollisionEvents=r}])});
 
 /***/ }
 /******/ ]);
