@@ -61,9 +61,6 @@
     "babel-plugin-syntax-async-functions": "^6.13.0",
     "brfs": "*",
     "invariant": "^2.2.2",
-    "matter-attractors": "^0.1.5",
-    "matter-collision-events": "^0.1.5",
-    "matter-js": "^0.12.0",
     "p2": "^0.7.1",
     "pixi.js": "^4.2.3",
     "stats.js": "^0.17.0"
