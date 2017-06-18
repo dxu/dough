@@ -10,31 +10,26 @@ const buildConfig = {
     filename: 'pew.js',
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
-        loader: 'babel', // 'babel-loader' is also a legal name to reference
+        loader: 'babel-loader', // 'babel-loader' is also a legal name to reference
         query: {
           presets: ['es2015', 'stage-2'],
         },
       },
       {
         test: /\.css$/,
-        loader: 'style!css',
+        loader: 'style-loader!css',
       },
-    ],
-    // For pixi.js:
-    // https://gist.github.com/mjackson/ecd3914ebee934f4daf4
-    postLoaders: [
+      // For pixi.js:
+      // https://gist.github.com/mjackson/ecd3914ebee934f4daf4
       {
         include: path.resolve(__dirname + path.sep, 'node_modules/pixi.js'),
-        loader: 'transform/cacheable?brfs',
+        loader: 'transform-loader/cacheable?brfs',
       },
     ],
-  },
-  externals: {
-    'box2D': 'Box2D',
   },
   plugins: [new UglifyJSPlugin()],
 };
