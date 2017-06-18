@@ -57,11 +57,11 @@
 	
 	var _gob2 = _interopRequireDefault(_gob);
 	
-	var _public = __webpack_require__(190);
+	var _public = __webpack_require__(189);
 	
 	var CONST = _interopRequireWildcard(_public);
 	
-	var _game = __webpack_require__(191);
+	var _game = __webpack_require__(190);
 	
 	var _game2 = _interopRequireDefault(_game);
 	
@@ -69,32 +69,21 @@
 	
 	var _vector2 = _interopRequireDefault(_vector);
 	
-	var _entry = __webpack_require__(199);
+	var _entry = __webpack_require__(191);
 	
 	var _entry2 = _interopRequireDefault(_entry);
 	
-	var _matterJs = __webpack_require__(186);
-	
-	var _matterJs2 = _interopRequireDefault(_matterJs);
-	
-	var _matterCollisionEvents = __webpack_require__(202);
-	
-	var _matterCollisionEvents2 = _interopRequireDefault(_matterCollisionEvents);
-	
-	var _scene = __webpack_require__(195);
+	var _scene = __webpack_require__(192);
 	
 	var _scene2 = _interopRequireDefault(_scene);
 	
-	var _keyboard = __webpack_require__(193);
+	var _keyboard = __webpack_require__(196);
 	
 	var _keyboard2 = _interopRequireDefault(_keyboard);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	_matterJs2.default.use('matter-collision-events');
-	
 	
 	window.Pew = {
 	  Colliders: _entry2.default,
@@ -129,17 +118,13 @@
 	
 	var _private = __webpack_require__(185);
 	
-	var _matterJs = __webpack_require__(186);
-	
-	var _matterJs2 = _interopRequireDefault(_matterJs);
-	
-	var _sprite = __webpack_require__(187);
+	var _sprite = __webpack_require__(186);
 	
 	var _sprite2 = _interopRequireDefault(_sprite);
 	
-	var _util = __webpack_require__(189);
+	var _util = __webpack_require__(188);
 	
-	var _invariant = __webpack_require__(188);
+	var _invariant = __webpack_require__(187);
 	
 	var _invariant2 = _interopRequireDefault(_invariant);
 	
@@ -158,21 +143,6 @@
 	  angularVelocity: 0,
 	  isStatic: false
 	};
-	
-	function updateRigidBody(body, opts) {
-	  var mass = opts.mass,
-	      friction = opts.friction,
-	      fritionStatic = opts.fritionStatic,
-	      frictionAir = opts.frictionAir,
-	      restitution = opts.restitution,
-	      velocity = opts.velocity,
-	      angularVelocity = opts.angularVelocity,
-	      maxVelocity = opts.maxVelocity,
-	      maxAngularVelocity = opts.maxAngularVelocity;
-	
-	  mass && body.setMass(mass);
-	  mass && body.setMass(mass);
-	}
 	
 	// Gob.rb
 	// Every Collider will be an object itself
@@ -242,54 +212,18 @@
 	        this.transform.scale.y = opts.transform.scale.y;
 	      }
 	
-	      // if this object has a rigidbody, lets set some sane defaults
-	      // if the object is instantiated with options for a rigid body, do the same
-	      if (this.rigidbody || opts.rigidbody) {
-	        console.log('first', this.rigidbody, opts.rigidbody);
-	        // if a rigidbody is being added, we have to default it
-	        this.rigidbody = this.rigidbody || {};
-	        console.log('second', this.rigidbody, opts.rigidbody);
-	        var optsRigidbody = opts.rigidbody || {};
-	        for (var _key in RIGIDBODY_DEFAULTS) {
-	          console.log(optsRigidbody[_key], this.rigidbody[_key]);
-	          this.rigidbody[_key] = optsRigidbody[_key] || this.rigidbody[_key] || RIGIDBODY_DEFAULTS[_key];
-	        }
-	        this.rigidbody.velocity = optsRigidbody.velocity ? new _vector2.default(optsRigidbody.velocity.x, optsRigidbody.velocity.y) : this.rigidbody.velocity ? new _vector2.default(this.rigidbody.velocity.x, this.rigidbody.velocity.y) : new _vector2.default(0, 0);
-	        if (!optsRigidbody.rotatable) {
-	          _matterJs2.default.Body.setInertia(this.collider.body, Infinity);
-	        }
-	      }
-	      console.log('third', this.rigidbody, opts.rigidbody);
-	
 	      this.scene = scene;
 	      if (this.scene == null) {
 	        throw new Error('Gob instantiated without a scene object.');
 	      }
 	
+	      if (this.collider) {
+	        console.log(this.scene);
+	        this.collider.__init(this.scene.world);
+	      }
+	
 	      // default to no debug
 	      this.debug = opts.debug || false;
-	
-	      // if it has a collider defined, then we should create a Collider object -
-	      // and a body of that type of collider.
-	      if (this.collider != null) {
-	        // if it has no rigidbody property, then this should be considered a trigger
-	        if (!this.rigidbody) {
-	          this.collider.body.isSensor = true;
-	        } else {
-	          _matterJs2.default.Body.setPosition(this.collider.body, _matterJs2.default.Vector.create(this.transform.position.x, this.transform.position.y));
-	          for (var _key2 in RIGIDBODY_DEFAULTS) {
-	            this.collider.body[_key2] = this.rigidbody[_key2];
-	            console.log('jj', _key2, this.collider.body[_key2]);
-	          }
-	          _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x * _private.Time.dts, this.rigidbody.velocity.y * _private.Time.dts));
-	          _matterJs2.default.Body.setAngularVelocity(this.collider.body, this.rigidbody.angularVelocity * _private.Time.dts * Math.PI / 180);
-	        }
-	        this.collider.body.onCollide(this.onCollide.bind(this));
-	        this.collider.body.onCollideEnd(this.onCollideEnd.bind(this));
-	        this.collider.body.onCollideActive(this.onCollideActive.bind(this));
-	        console.log('jjl', this.collider.body);
-	        // Matter.Body.setInertia(this.collider.body, Infinity)
-	      }
 	    }
 	  }, {
 	    key: 'setDirection',
@@ -414,11 +348,17 @@
 	    value: function prePhysicsUpdate() {}
 	  }, {
 	    key: '__prePhysicsUpdate',
-	    value: function __prePhysicsUpdate() {
-	      // adjust the collider body velocities to be time per step to fit matter.js
-	      // instead of time per step
-	      _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(this.rigidbody.velocity.x * _private.Time.dts, this.rigidbody.velocity.y * _private.Time.dts));
-	    }
+	    value: function __prePhysicsUpdate() {}
+	    // adjust the collider body velocities to be time per step to fit matter.js
+	    // instead of time per step
+	    // Matter.Body.setVelocity(
+	    //   this.collider.body,
+	    //   Matter.Vector.create(
+	    //     this.rigidbody.velocity.x * Time.dts,
+	    //     this.rigidbody.velocity.y * Time.dts,
+	    //   ),
+	    // );
+	
 	
 	    // public version
 	
@@ -447,12 +387,11 @@
 	    key: '__updatePostCollisionAttributes',
 	    value: function __updatePostCollisionAttributes() {
 	      // Multiply by Time.dts to convert from matter to pew coords
-	      this.transform.position.x = this.collider.body.position.x;
-	      this.transform.position.y = this.collider.body.position.y;
-	      this.transform.angle = this.collider.body.angle * 180 / Math.PI;
-	
-	      this.rigidbody.velocity.x = this.collider.body.velocity.x / _private.Time.dts;
-	      this.rigidbody.velocity.y = this.collider.body.velocity.y / _private.Time.dts;
+	      // this.transform.position.x = this.collider.body.position.x;
+	      // this.transform.position.y = this.collider.body.position.y;
+	      // this.transform.angle = this.collider.body.angle * 180 / Math.PI;
+	      // this.rigidbody.velocity.x = this.collider.body.velocity.x / Time.dts;
+	      // this.rigidbody.velocity.y = this.collider.body.velocity.y / Time.dts;
 	    }
 	  }, {
 	    key: '_debug',
@@ -473,6 +412,7 @@
 	        this._debugData.colliderOutline.clear();
 	        this._debugData.colliderOutline.lineStyle(1, 0xf44265, 0.9);
 	
+	        console.log(this.collider.body.get_m_vertices);
 	        var _path = this.collider.body.vertices.reduce(function (memo, vertex, index, arr) {
 	          memo.push(vertex.x);
 	          memo.push(vertex.y);
@@ -38430,6 +38370,1419 @@
 /* 186 */
 /***/ function(module, exports, __webpack_require__) {
 
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* a class for Sprites that wraps the PIXI Sprite class */
+	
+	
+	var _invariant = __webpack_require__(187);
+	
+	var _invariant2 = _interopRequireDefault(_invariant);
+	
+	var _vector = __webpack_require__(3);
+	
+	var _vector2 = _interopRequireDefault(_vector);
+	
+	var _util = __webpack_require__(188);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Sprite = function () {
+	
+	  // TODO: this only supports array based spritesheet data
+	
+	  // the starting frame if we are showing an animation
+	  function Sprite(options) {
+	    _classCallCheck(this, Sprite);
+	
+	    this.direction = new _vector2.default(1, 0);
+	    this.startingFrame = 0;
+	
+	    if (options === null) {
+	      this._id = null;
+	      return;
+	    }
+	    this._id = _util.Utils.uuid();
+	    console.log(this._id);
+	    // default it to 60fps
+	    this.fps = options.fps || 60;
+	    this.gob = options.gob;
+	    (0, _invariant2.default)(this.gob, '[Sprite.js] No gob was provided for this sprite ' + this.path);
+	    var gobClass = this.gob.constructor;
+	    // grab the textures
+	    var resource = this.gob.scene.resources[options.pixiKey];
+	    (0, _invariant2.default)(resource, '[Sprite.js] No resource found for ' + options.pixiKey);
+	
+	    this.animated = resource.texture ? true : false;
+	    this.loop = options.loop != null ? options.loop : true;
+	
+	    if (resource.texture) {
+	      this._pixi = PIXI.Sprite.from(texture);
+	      this.animated = false;
+	    } else {
+	      (0, _invariant2.default)(resource.textures, '[Sprite.js] No texture found\n        for ' + options.pixiKey);
+	      // if there are multiple textures, this is an animated sprite, and we need
+	      // the frameStart and frameEnd of the spritesheet
+	      this.frameStart = options.frameStart;
+	      this.frameEnd = options.frameEnd;
+	      (0, _invariant2.default)(this.frameStart != null, '[Sprite.js] No "frameStart" specified for ' + this.gob.constructor.name);
+	      (0, _invariant2.default)(this.frameEnd != null, '[Sprite.js] No "frameEnd" specified for\n        ' + this.gob.constructor.name + ' sprite');
+	
+	      // TODO: assumes that it is array based sprite atlas!
+	      var frames = [];
+	      for (var i = this.frameStart; i <= this.frameEnd; i++) {
+	        frames.push(resource.textures[i]);
+	      }
+	      // console.log(frames);
+	      this._pixi = new PIXI.extras.AnimatedSprite(frames);
+	      // console.log(this.fps);
+	      this._pixi.animationSpeed = this.fps / 60;
+	      // console.log(this._pixi.animationSpeed);
+	      this.animated = true;
+	    }
+	
+	    this.path = options.path;
+	    this.width = options.width;
+	    this.height = options.height;
+	    (0, _invariant2.default)(this._pixi, '[Sprite.js] Something went wrong! No Pixi Sprite was passed during\n      the instantiation of this Sprite for ' + this.gob.constructor.name);
+	    (0, _invariant2.default)(this.path != null, 'a resource path must be specified');
+	    (0, _invariant2.default)(this.width != null, '[Sprite.js] No "width" provided for ' + this.gob.constructor.name + ' sprite');
+	
+	    var anchor = options.scale || { x: 0.5, y: 0.5 };
+	    this.anchor = new _vector2.default(anchor.x, anchor.y);
+	
+	    this._pixi.width = this.width;
+	    this._pixi.height = this.height;
+	
+	    if (options.instance != null) {
+	      if (options.instance.anchor) {
+	        (0, _invariant2.default)(options.instance.anchor.x != null, 'instance anchor options must contain x');
+	        (0, _invariant2.default)(options.instance.anchor.y != null, 'instance anchor options must contain y');
+	        this.anchor.x = options.instance.anchor.x;
+	        this.anchor.y = options.instance.anchor.y;
+	      }
+	    }
+	
+	    this._pixi.anchor.x = this.anchor.x;
+	    this._pixi.anchor.y = this.anchor.y;
+	    console.log('loop', this.loop);
+	    this._pixi.loop = this.loop;
+	  }
+	
+	  // if it's an animated sprite, play it
+	
+	
+	  // TODO: a hack for handling games without sprites
+	
+	
+	  _createClass(Sprite, [{
+	    key: 'play',
+	    value: function play() {
+	      if (this.animated && !this._pixi.playing) {
+	        // restart the animation each time you play
+	        this._pixi.gotoAndPlay(0);
+	      }
+	    }
+	
+	    // if it's an animated sprite, stop it
+	
+	  }, {
+	    key: 'stop',
+	    value: function stop() {
+	      // console.log('stopping');
+	      if (this.animated && this._pixi.playing) {
+	        this._pixi.stop();
+	      }
+	    }
+	  }, {
+	    key: 'hide',
+	    value: function hide() {
+	      if (this._pixi) {
+	        this._pixi.visible = false;
+	      }
+	    }
+	  }, {
+	    key: 'show',
+	    value: function show() {
+	      if (this._pixi) {
+	        this._pixi.visible = true;
+	      }
+	    }
+	
+	    // updates the sprite's position. Should be called after committing position
+	    // on every frame update
+	
+	  }, {
+	    key: 'update',
+	    value: function update() {
+	      // TODO: hack
+	      if (!this._pixi) {
+	        return;
+	      }
+	      // update zDepth
+	      this._pixi.zDepth = typeof this.gob.depth === 'function' ? this.gob.depth() : this._pixi.zDepth = this.gob.depth;
+	
+	      this._pixi.scale.x = this.gob.direction.x || 1;
+	      this._pixi.scale.y = this.gob.direction.y || 1;
+	
+	      this._pixi.position.set(this.gob.transform.position.x, this.gob.transform.position.y);
+	
+	      this._pixi.rotation = this.gob.transform.angle * Math.PI / 180;
+	    }
+	  }]);
+	
+	  return Sprite;
+	}();
+	
+	Sprite.emptySprite = new Sprite(null);
+	exports.default = Sprite;
+
+/***/ },
+/* 187 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 */
+	
+	'use strict';
+	
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+	
+	var invariant = function(condition, format, a, b, c, d, e, f) {
+	  if (process.env.NODE_ENV !== 'production') {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+	
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error(
+	        'Minified exception occurred; use the non-minified dev environment ' +
+	        'for the full error message and additional helpful warnings.'
+	      );
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(
+	        format.replace(/%s/g, function() { return args[argIndex++]; })
+	      );
+	      error.name = 'Invariant Violation';
+	    }
+	
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	};
+	
+	module.exports = invariant;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(88)))
+
+/***/ },
+/* 188 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.Utils = undefined;
+	
+	var _vector = __webpack_require__(3);
+	
+	var _vector2 = _interopRequireDefault(_vector);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var count = 0;
+	
+	// TODO: create a type out of the id
+	
+	
+	var Utils = exports.Utils = {
+	  uuid: function uuid() {
+	    return count++;
+	    // return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	    //     var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
+	    //     return v.toString(16);
+	    // });
+	  },
+	  getPixiResourceKey: function getPixiResourceKey(gobClass, spriteKey) {
+	    return '' + gobClass + spriteKey;
+	  }
+	};
+
+/***/ },
+/* 189 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var KEYS = exports.KEYS = {
+	  BACKSPACE: 8,
+	  TAB: 9,
+	  ENTER: 13,
+	  SHIFT: 16,
+	  CTRL: 17,
+	  ALT: 18,
+	  PAUSE: 19,
+	  CAPS: 20,
+	  ESC: 27,
+	  SPACE: 32,
+	  PAGEUP: 33,
+	  PAGEDOWN: 34,
+	  END: 35,
+	  HOME: 36,
+	  LEFT: 37,
+	  UP: 38,
+	  RIGHT: 39,
+	  DOWN: 40,
+	  INSERT: 45,
+	  DELETE: 46,
+	  '0': 48,
+	  '1': 49,
+	  '2': 50,
+	  '3': 51,
+	  '4': 52,
+	  '5': 53,
+	  '6': 54,
+	  '7': 55,
+	  '8': 56,
+	  '9': 57,
+	  A: 65,
+	  B: 66,
+	  C: 67,
+	  D: 68,
+	  E: 69,
+	  F: 70,
+	  G: 71,
+	  H: 72,
+	  I: 73,
+	  J: 74,
+	  K: 75,
+	  L: 76,
+	  M: 77,
+	  N: 78,
+	  O: 79,
+	  P: 80,
+	  Q: 81,
+	  R: 82,
+	  S: 83,
+	  T: 84,
+	  U: 85,
+	  V: 86,
+	  W: 87,
+	  X: 88,
+	  Y: 89,
+	  Z: 90,
+	  LEFT_WINDOW: 91,
+	  RIGHT_WINDOW: 92,
+	  SELECT: 93,
+	  NUM0: 96,
+	  NUM1: 97,
+	  NUM2: 98,
+	  NUM3: 99,
+	  NUM4: 100,
+	  NUM5: 101,
+	  NUM6: 102,
+	  NUM7: 103,
+	  NUM8: 104,
+	  NUM9: 105,
+	  MULTIPLY: 106,
+	  ADD: 107,
+	  SUBTRACT: 109,
+	  DECIMAL: 110,
+	  DIVIDE: 111,
+	  F1: 112,
+	  F2: 113,
+	  F3: 114,
+	  F4: 115,
+	  F5: 116,
+	  F6: 117,
+	  F7: 118,
+	  F8: 119,
+	  F9: 120,
+	  F10: 121,
+	  F11: 122,
+	  F12: 123,
+	  NUM_LOCK: 144,
+	  SCROLL_LOCK: 145,
+	  SEMICOLON: 186,
+	  EQUAL: 187,
+	  COMMA: 188,
+	  DASH: 189,
+	  PERIOD: 190,
+	  FSLASH: 191,
+	  BACKTICK: 192,
+	  OPEN_BRACKET: 219,
+	  BSLASH: 220,
+	  CLOSE_BRACKET: 221,
+	  QUOTE: 222
+	};
+	
+	var EVENTS = exports.EVENTS = {
+	  // Pew specific
+	  ONKEYDOWN: 'onKeyDown',
+	  ONKEYUP: 'onKeyUp',
+	  ONKEYHOLD: 'onKeyHold'
+	};
+
+/***/ },
+/* 190 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _pixi = __webpack_require__(4);
+	
+	var Pixi = _interopRequireWildcard(_pixi);
+	
+	var _gob = __webpack_require__(2);
+	
+	var _gob2 = _interopRequireDefault(_gob);
+	
+	var _camera = __webpack_require__(193);
+	
+	var _camera2 = _interopRequireDefault(_camera);
+	
+	var _keyboard = __webpack_require__(196);
+	
+	var _keyboard2 = _interopRequireDefault(_keyboard);
+	
+	var _scene = __webpack_require__(192);
+	
+	var _scene2 = _interopRequireDefault(_scene);
+	
+	var _private = __webpack_require__(185);
+	
+	var _util = __webpack_require__(188);
+	
+	var _loader = __webpack_require__(194);
+	
+	var _loader2 = _interopRequireDefault(_loader);
+	
+	var _stats = __webpack_require__(198);
+	
+	var _stats2 = _interopRequireDefault(_stats);
+	
+	var _box2D = __webpack_require__(199);
+	
+	var _box2D2 = _interopRequireDefault(_box2D);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Box2DLoadPromise = (0, _box2D2.default)();
+	
+	Box2DLoadPromise.then(function (Box2D) {
+	  Game.Box2D = Box2D;
+	  Game.loaded = true;
+	});
+	
+	var Game = function () {
+	  function Game(opts) {
+	    _classCallCheck(this, Game);
+	
+	    this._id = _util.Utils.uuid();
+	    this.canvas = opts.canvas;
+	    this.renderer = new Pixi.WebGLRenderer(opts.width, opts.height, {
+	      view: opts.canvas
+	    });
+	    this.renderer.backgroundColor = 0xffffff;
+	    _keyboard2.default.init({
+	      canvas: opts.canvas
+	    });
+	    // TODO: tilesize hardcoded
+	    this.tileSize = 30;
+	
+	    // array of gob objects
+	    this.gobs = [];
+	
+	    // this.engine = Matter.Engine.create();
+	
+	    this.audioContext = new AudioContext();
+	    this.debug = false || opts.debug;
+	
+	    this.stats = new _stats2.default();
+	    this.stats.showPanel(0);
+	    // && document.body just for flow..
+	    if (this.debug && document.body) {
+	      document.body.appendChild(this.stats.dom);
+	    }
+	  }
+	
+	  // has Box2D loaded?
+	
+	
+	  _createClass(Game, [{
+	    key: 'loadScene',
+	    value: function loadScene(scene) {
+	      var _this = this;
+	
+	      // we can only load scenes if Box2D has loaded
+	      Box2DLoadPromise.then(function () {
+	        console.log(Box2DLoadPromise, Box2D);
+	        _this.currentScene = scene;
+	        if (!scene.loaded) {
+	          _this.currentScene.load(_this);
+	        }
+	      });
+	      // this.engine.world.gravity.x = this.currentScene.gravity.x;
+	      // this.engine.world.gravity.y = this.currentScene.gravity.y;
+	    }
+	
+	    // TODO: EXPERIMENTAL: How do we handle allowing the definition of updates
+	    //                     from gobs themselves, as well as an overarching update?
+	    //                     Perhaps, have an internal method updateCanvas that
+	    //                     delegates and calls all the updates
+	    //
+	    // TODO: in the future, if game states are implemented, the Game object
+	    //       should shift between the states to determine which update methods
+	    //       are called
+	
+	  }, {
+	    key: 'updateCanvas',
+	    value: function updateCanvas() {
+	      // if Box2D hasn't loaded we can't do anything yet
+	      if (!Game.loaded) {
+	        return;
+	      }
+	      this.stats.begin();
+	      // if the resources haven't been loaded yet, do not do anything!
+	      // TODO: support multiple states in the game
+	      if (this.currentScene.resources == null) {
+	        return;
+	      }
+	
+	      this.currentScene.__prePhysicsUpdate();
+	      this.currentScene.prePhysicsUpdate();
+	      // 8 & 3 suggested by Box2D user manual
+	      this.currentScene.world && this.currentScene.world.Step(_private.Time.dtms, 8, 3);
+	      // Matter.Engine.update(this.engine, Time.dtms);
+	      this.currentScene.__postPhysicsUpdate();
+	      this.currentScene.postPhysicsUpdate();
+	
+	      this.currentScene.__update();
+	      this.currentScene.update();
+	
+	      this.currentScene.__preRenderUpdate();
+	      // TODO: physics responses
+	      // TODO: need to update spatial hash post physics response
+	      this.renderer.render(this.currentScene.stage);
+	      this.stats.end();
+	    }
+	
+	    // TODO: in the future, if game states are implemented, this should be found
+	    // in the game states. The Game object should shift between the states to
+	    // determine which update methods are called
+	    //
+	    // run through pool of objects and update positions based on the velocities
+	    // Should be defined/overwritten when extended
+	
+	  }, {
+	    key: 'update',
+	    value: function update() {}
+	  }]);
+	
+	  return Game;
+	}();
+	
+	Game.loaded = false;
+	exports.default = Game;
+
+/***/ },
+/* 191 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _box = __webpack_require__(200);
+	
+	var _box2 = _interopRequireDefault(_box);
+	
+	var _polygon = __webpack_require__(201);
+	
+	var _polygon2 = _interopRequireDefault(_polygon);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = {
+	  Box: _box2.default,
+	  Polygon: _polygon2.default
+	};
+
+/***/ },
+/* 192 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _pixi = __webpack_require__(4);
+	
+	var Pixi = _interopRequireWildcard(_pixi);
+	
+	var _camera = __webpack_require__(193);
+	
+	var _camera2 = _interopRequireDefault(_camera);
+	
+	var _gob = __webpack_require__(2);
+	
+	var _gob2 = _interopRequireDefault(_gob);
+	
+	var _loader3 = __webpack_require__(194);
+	
+	var _loader4 = _interopRequireDefault(_loader3);
+	
+	var _game = __webpack_require__(190);
+	
+	var _game2 = _interopRequireDefault(_game);
+	
+	var _keyboard = __webpack_require__(196);
+	
+	var _keyboard2 = _interopRequireDefault(_keyboard);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	/*
+	 * Scene lifecycle:
+	 *   Build-time Events:
+	 *     onSceneLoad
+	 *
+	 *   Run-time Events:
+	 *     __prePhysicsUpdate
+	 *     prePhysicsUpdate
+	 *     __postPhysicsUpdate
+	 *     postPhysicsUpdate
+	 *     __update
+	 *     update
+	 *     __preRenderUpdate
+	 */
+	var Scene = function () {
+	  function Scene(game) {
+	    var _this = this;
+	
+	    var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	
+	    _classCallCheck(this, Scene);
+	
+	    this.gravity = {
+	      x: 0,
+	      y: 0
+	    };
+	
+	    this.__preloaded = function (_ref) {
+	      var _ref2 = _slicedToArray(_ref, 2),
+	          resources = _ref2[0],
+	          audioResources = _ref2[1];
+	
+	      _this.loaded = true;
+	      console.log(resources);
+	      // $FlowFixMe: not sure why it thinks its mixed, TODO: report
+	      _this.resources = resources;
+	      _this.onSceneLoad();
+	      // after the scene has loaded, load up the gobs
+	      _this.gobs.map(function (gob) {
+	        gob.__onSceneLoad();
+	      });
+	    };
+	
+	    // the name of the scene is the name of the function or class you define
+	    this.name = this.constructor.name;
+	    this.stage = new Pixi.Container();
+	    var gravity = opts.gravity || {};
+	    this.gravity.x = gravity.x || 0;
+	    this.gravity.y = gravity.y || 0;
+	    // create a new camera for this instance
+	    this.camera = new _camera2.default(this.stage);
+	    this.loaded = false;
+	    this.gobs = [];
+	    this.__init();
+	  }
+	
+	  _createClass(Scene, [{
+	    key: '__init',
+	    value: function __init() {
+	      this.init();
+	    }
+	  }, {
+	    key: 'load',
+	    value: function load(game) {
+	      this.game = game;
+	
+	      // initialize the world after the scene has loaded
+	      this.world = new _game2.default.Box2D.b2World(new _game2.default.Box2D.b2Vec2(this.gravity.x, this.gravity.y));
+	      console.log(this.world, 'jiji');
+	      this.loader = new _loader4.default(this.__preloaded, this.game.audioContext);
+	      this.__preload.apply(this, _toConsumableArray(this.constructor.preload));
+	      this._drawGrid(this.game.debug);
+	    }
+	  }, {
+	    key: '__preload',
+	    value: function __preload() {
+	      var _loader, _loader2;
+	
+	      // if it's already loaded, just return a resolved promise with the resources
+	      if (this.loaded) {
+	        Promise.resolve([this.resources]);
+	        return;
+	      }
+	      var spritePromise = (_loader = this.loader).loadSprites.apply(_loader, arguments);
+	      var audioPromise = (_loader2 = this.loader).loadAudio.apply(_loader2, arguments);
+	
+	      Promise.all([spritePromise, audioPromise]).then(this.__preloaded).catch(function (err) {
+	        return console.log('Error loading resources: ', err);
+	      });
+	    }
+	  }, {
+	    key: '__prePhysicsUpdate',
+	
+	
+	    /* Run time Lifecycle Events */
+	
+	    value: function __prePhysicsUpdate() {
+	      for (var i = 0; i < this.gobs.length; i++) {
+	        if (this.gobs[i].collider) {
+	          this.gobs[i].prePhysicsUpdate();
+	          this.gobs[i].__prePhysicsUpdate();
+	        }
+	      }
+	    }
+	  }, {
+	    key: '__update',
+	    value: function __update() {
+	      this.gobs.map(function (gob) {
+	        gob.__update();
+	        gob.update();
+	      });
+	    }
+	  }, {
+	    key: '__postPhysicsUpdate',
+	    value: function __postPhysicsUpdate() {
+	      for (var i = 0; i < this.gobs.length; i++) {
+	        if (this.gobs[i].collider) {
+	          this.gobs[i].__postPhysicsUpdate();
+	          this.gobs[i].postPhysicsUpdate();
+	        }
+	      }
+	    }
+	
+	    // final update before rendering
+	
+	  }, {
+	    key: '__preRenderUpdate',
+	    value: function __preRenderUpdate() {
+	      // sort by the new z depth
+	      this.stage.children.sort(function (sprite1, sprite2) {
+	        if (sprite1.zDepth < sprite2.zDepth) {
+	          return -1;
+	        } else if (sprite1.zDepth >= sprite2.zDepth) {
+	          return 1;
+	        }
+	        // null or undefined
+	        return 0;
+	      });
+	    }
+	  }, {
+	    key: '_drawGrid',
+	    value: function _drawGrid(showGrid) {
+	      console.log('drawing grid');
+	      // draws a grid of given tilesize
+	      this.grid = new Pixi.Graphics();
+	      this.grid.moveTo(0, 0);
+	      this.grid.lineStyle(1, 0x336699, 0.3);
+	      for (var i = 0; i <= this.game.renderer.view.width; i += this.game.tileSize) {
+	        this.grid.moveTo(i, 0);
+	        this.grid.lineTo(i, this.game.renderer.view.height);
+	      }
+	      for (var _i = 0; _i < this.game.renderer.view.height; _i += this.game.tileSize) {
+	        this.grid.moveTo(0, _i);
+	        this.grid.lineTo(this.game.renderer.view.width, _i);
+	      }
+	      if (!showGrid) {
+	        this.grid.visible = false;
+	      }
+	      this.stage.addChild(this.grid);
+	    }
+	
+	    // TODO: test this method
+	    // creates a gob of type GobClass
+	    // TODO: in the future allow gob-specific events? might be interesting for
+	    //       clicks. maybe see what phaser offers
+	    // TODO: OPTIMIZATION: allow batch create with a custom position, etc.
+	    //       function!
+	
+	  }, {
+	    key: 'createGob',
+	    value: function createGob(opts) {
+	      var GobClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _gob2.default;
+	
+	      var gob = new GobClass();
+	      gob.__init(this, opts);
+	      // if it contains a collider, we need to put it into the collision engine,
+	      // regardless whether or not it is a rigid body
+	      if (gob.collider != null) {
+	        // Matter.World.add(this.game.engine.world, gob.collider.body);
+	      }
+	      this.gobs.push(gob);
+	      if (gob.onKeyDown) {
+	        _keyboard2.default.registerGob(gob);
+	      }
+	    }
+	
+	    // TODO: test this method
+	    // for destroy() and cleanup
+	
+	  }, {
+	    key: 'removeGob',
+	    value: function removeGob(gob) {
+	      if (gob.collider != null) {
+	        // Matter.World.remove(this.game.engine.world, gob.collider.body);
+	      }
+	      this.gobs = this.gobs.filter(function (compare) {
+	        return compare._id !== gob._id;
+	      });
+	      this.stage.removeChild(gob.currentSprite._pixi);
+	      if (gob.debug) {
+	        this.stage.removeChild(gob._debugData.colliderOutline);
+	        this.stage.removeChild(gob._debugData.spriteOutline);
+	      }
+	    }
+	
+	    /* can be overridden by implementations */
+	
+	  }, {
+	    key: 'init',
+	    value: function init() {}
+	  }, {
+	    key: 'onSceneLoad',
+	    value: function onSceneLoad() {}
+	  }, {
+	    key: 'prePhysicsUpdate',
+	    value: function prePhysicsUpdate() {}
+	  }, {
+	    key: 'update',
+	    value: function update() {}
+	  }, {
+	    key: 'postPhysicsUpdate',
+	    value: function postPhysicsUpdate() {}
+	  }, {
+	    key: 'destroy',
+	    value: function destroy() {
+	      // reset the keyboard listeners when we load a new scene
+	      _keyboard2.default.clearRegisteredGobs();
+	    }
+	  }]);
+	
+	  return Scene;
+	}();
+	
+	exports.default = Scene;
+
+/***/ },
+/* 193 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Camera = function () {
+	  function Camera(stage) {
+	    _classCallCheck(this, Camera);
+	
+	    this.stage = stage;
+	  }
+	
+	  _createClass(Camera, [{
+	    key: 'moveTo',
+	    value: function moveTo(x, y) {
+	      this.stage.setTransform(x, y);
+	    }
+	  }, {
+	    key: 'moveRelative',
+	    value: function moveRelative(x, y) {
+	      this.stage.setTransform(this.stage.position.x + x, this.stage.position.y + y);
+	    }
+	
+	    // can be overridden
+	
+	  }]);
+	
+	  return Camera;
+	}();
+	
+	exports.default = Camera;
+
+/***/ },
+/* 194 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _gob = __webpack_require__(2);
+	
+	var _gob2 = _interopRequireDefault(_gob);
+	
+	var _pixi = __webpack_require__(4);
+	
+	var Pixi = _interopRequireWildcard(_pixi);
+	
+	var _clip = __webpack_require__(195);
+	
+	var _clip2 = _interopRequireDefault(_clip);
+	
+	var _util = __webpack_require__(188);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Loader = function () {
+	  function Loader(onComplete, audioContext) {
+	    _classCallCheck(this, Loader);
+	
+	    this.loader = new Pixi.loaders.Loader();
+	
+	    this.onComplete = onComplete;
+	    this.audioContext = audioContext;
+	  }
+	
+	  /*
+	   * Sprite paths are of the form:
+	   * {
+	   *   <key>: {
+	   *     path: <path to file>,
+	   *     sprites: {
+	   *       <spriteName>: {
+	   *         frameStart: number
+	   *         frameEnd: number
+	   *         fps: number
+	   *       }
+	   *     }
+	   *   }
+	   * }
+	   */
+	
+	
+	  _createClass(Loader, [{
+	    key: 'loadSprites',
+	    value: function loadSprites() {
+	      var _this = this;
+	
+	      for (var _len = arguments.length, gobs = Array(_len), _key = 0; _key < _len; _key++) {
+	        gobs[_key] = arguments[_key];
+	      }
+	
+	      if (gobs.length === 0) {
+	        throw new Error('No resources were included in the load function.');
+	      }
+	      gobs.map(function (gob) {
+	        for (var key in gob.spriteSheets) {
+	          if (gob.spriteSheets == null) {
+	            throw new Error('Invalid game object ' + gob.name + ' created.\n              No sprite paths provided');
+	          }
+	          // for each spritesheet, load
+	          _this.loader.add(_util.Utils.getPixiResourceKey(gob.name, key), gob.spriteSheets[key].path);
+	        }
+	      });
+	
+	      return new Promise(function (resolve, reject) {
+	        _this.loader.load(function (loader, resources) {
+	          console.log('erlo');
+	          if (resources.error != null) {
+	            reject(resources);
+	          } else {
+	            resolve(resources);
+	          }
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'loadAudio',
+	    value: function loadAudio() {
+	      var _this2 = this;
+	
+	      var audioPromises = [];
+	
+	      for (var _len2 = arguments.length, gobs = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+	        gobs[_key2] = arguments[_key2];
+	      }
+	
+	      gobs.map(function (gob) {
+	        for (var key in gob.audioSources) {
+	          audioPromises.push(_this2.loadAudioClip(gob, key, gob.audioSources[key]));
+	        }
+	      });
+	
+	      return Promise.all(audioPromises);
+	    }
+	
+	    // TODO: better error handling!
+	
+	  }, {
+	    key: 'loadAudioClip',
+	    value: function loadAudioClip(gob, key, path) {
+	      var _this3 = this;
+	
+	      var audioPromise = new Promise(function (resolve, reject) {
+	        var request = new XMLHttpRequest();
+	        request.open('GET', path, true);
+	        request.responseType = 'arraybuffer';
+	        request.onload = function () {
+	          _this3.audioContext.decodeAudioData(request.response, function (buffer) {
+	            buffer == null ? reject('Error decoding file data for ' + path) : resolve(buffer);
+	          }, function (error) {
+	            return reject('Error decoding "' + key + '" audio for ' + gob.name + ': ' + error);
+	          });
+	        };
+	        request.onerror = reject;
+	        request.send();
+	      });
+	      audioPromise.then(function (buffer) {
+	        // if it successfully finishes, we want to update the gob's audio
+	        gob.__audio[key] = new _clip2.default(_this3.audioContext, buffer);
+	      });
+	      return audioPromise;
+	    }
+	  }]);
+	
+	  return Loader;
+	}();
+	
+	exports.default = Loader;
+
+/***/ },
+/* 195 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Clip = function () {
+	  function Clip(context, buffer) {
+	    _classCallCheck(this, Clip);
+	
+	    this.buffer = buffer;
+	    this.context = context;
+	  }
+	
+	  // we need to create a new audio node each time
+	
+	
+	  _createClass(Clip, [{
+	    key: "play",
+	    value: function play(volume) {
+	      var source = this.context.createBufferSource();
+	      source.buffer = this.buffer;
+	      if (volume != null) {
+	        if (!(volume >= 0 && volume <= 1)) {
+	          console.error("Invalid volume of " + volume + " specified.\n           Only values from 0 to 1 are allowed!");
+	          return;
+	        }
+	        var gainNode = this.context.createGain();
+	        console.log(volume);
+	        gainNode.gain.value = volume;
+	        source.connect(gainNode);
+	        gainNode.connect(this.context.destination);
+	      } else {
+	        source.connect(this.context.destination);
+	      }
+	      source.start(0);
+	    }
+	  }]);
+	
+	  return Clip;
+	}();
+	
+	exports.default = Clip;
+
+/***/ },
+/* 196 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _public = __webpack_require__(189);
+	
+	var _key = __webpack_require__(197);
+	
+	var _key2 = _interopRequireDefault(_key);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	// there should be one canvas per game, one keyboard per game,
+	//       hence one canvas per keyboard
+	// Note: Keyboard should never have a reference to gob
+	var Keyboard = function () {
+	  function Keyboard() {
+	    _classCallCheck(this, Keyboard);
+	  }
+	
+	  _createClass(Keyboard, null, [{
+	    key: 'registerGob',
+	    value: function registerGob(gob) {
+	      Keyboard.registeredGobs[gob._id] = gob;
+	    }
+	
+	    // TODO: handle this better
+	
+	  }, {
+	    key: 'clearRegisteredGobs',
+	    value: function clearRegisteredGobs() {
+	      Keyboard.registeredGobs = {};
+	    }
+	  }, {
+	    key: 'init',
+	    value: function init(_ref) {
+	      var canvas = _ref.canvas;
+	
+	      Keyboard.canvas = canvas;
+	
+	      // set up the event handlers
+	      Keyboard.canvas.addEventListener('keydown', function (evt) {
+	        // only execute the hold handlers if it's already down
+	        if (Keyboard.keys[evt.keyCode].pressed || Keyboard.keys[evt.keyCode].held) {
+	          Keyboard.keys[evt.keyCode].keyHold();
+	        } else {
+	          for (var _id in Keyboard.registeredGobs) {
+	            Keyboard.registeredGobs[_id].onKeyDown && Keyboard.registeredGobs[_id].onKeyDown(evt);
+	          }
+	          Keyboard.keys[evt.keyCode].keyDown();
+	        }
+	      });
+	
+	      Keyboard.canvas.addEventListener('keyup', function (evt) {
+	        Keyboard.keys[evt.keyCode].keyUp();
+	      });
+	    }
+	  }, {
+	    key: 'getKeyDown',
+	    value: function getKeyDown(keyCode) {
+	      return Keyboard.keys[keyCode].pressed;
+	    }
+	  }, {
+	    key: 'getKeyHeld',
+	    value: function getKeyHeld(keyCode) {
+	      return Keyboard.keys[keyCode].held;
+	    }
+	
+	    // returns true if this is the first frame you released the key
+	
+	  }, {
+	    key: 'getKeyUp',
+	    value: function getKeyUp(keyCode) {
+	      return Keyboard.keys[keyCode].released;
+	    }
+	  }]);
+	
+	  return Keyboard;
+	}();
+	
+	Keyboard.registeredGobs = {};
+	Keyboard.keys = Object.keys(_public.KEYS).reduce(function (memo, k) {
+	  return memo[_public.KEYS[k]] = new _key2.default(_public.KEYS[k]), memo;
+	}, {});
+	exports.default = Keyboard;
+
+/***/ },
+/* 197 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _public = __webpack_require__(189);
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	var Key = function () {
+	  //
+	  function Key(keyCode) {
+	    _classCallCheck(this, Key);
+	
+	    this.keyCode = keyCode;
+	    this.pressed = false;
+	    this.held = false;
+	    this.released = false;
+	
+	    // all subscribed handlers
+	    this.keyHandlers = {
+	      // [EventType]: {
+	      //   id: handlerFunc
+	      //   ...
+	      // },
+	      // ...
+	    };
+	
+	    // the number of handlers
+	    this.count = 0;
+	  }
+	
+	  _createClass(Key, [{
+	    key: 'processHandler',
+	    value: function processHandler(eventType, id, handler) {
+	      this.keyHandlers[eventType] = this.keyHandlers[eventType] || {};
+	      this.keyHandlers[eventType][id] = handler;
+	      this.count++;
+	    }
+	  }, {
+	    key: 'removeHandler',
+	    value: function removeHandler(eventType, id) {
+	      delete this.keyHandlers[eventType][id];
+	      this.count--;
+	    }
+	
+	    // should only be fired the first time it gets pressed, until the next time it gets pressed (after keyup)
+	    // assumes that the context is valid!
+	
+	  }, {
+	    key: 'keyDown',
+	    value: function keyDown(evt, context) {
+	      this.pressed = true;
+	      // assumes it's bound properly
+	      for (var id in this.keyHandlers[_public.EVENTS.ONKEYDOWN]) {
+	        this.keyHandlers[_public.EVENTS.ONKEYDOWN][id](evt);
+	      }
+	    }
+	
+	    // should only be fired 2nd time and beyond
+	
+	  }, {
+	    key: 'keyHold',
+	    value: function keyHold(evt, context) {
+	      this.held = true;
+	      // if it's held, we want to indicate that no more keydown so that
+	      // keydown is only on the first press
+	      // this.pressed = false;
+	      // assumes it's bound properly
+	      for (var id in this.keyHandlers[_public.EVENTS.ONKEYHOLD]) {
+	        this.keyHandlers[_public.EVENTS.ONKEYHOLD][id](evt);
+	      }
+	    }
+	  }, {
+	    key: 'keyUp',
+	    value: function keyUp(evt, context) {
+	      var _this = this;
+	
+	      this.pressed = false;
+	      this.held = false;
+	      this.released = true;
+	      // reset released on the next event loop
+	      window.setTimeout(function () {
+	        return _this.released = false;
+	      }, 0);
+	      // assumes it's bound properly
+	      for (var id in this.keyHandlers[_public.EVENTS.ONKEYUP]) {
+	        this.keyHandlers[_public.EVENTS.ONKEYUP][id](evt);
+	      }
+	    }
+	  }]);
+	
+	  return Key;
+	}();
+	
+	exports.default = Key;
+
+/***/ },
+/* 198 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// stats.js - http://github.com/mrdoob/stats.js
+	(function(f,e){ true?module.exports=e():"function"===typeof define&&define.amd?define(e):f.Stats=e()})(this,function(){var f=function(){function e(a){c.appendChild(a.dom);return a}function u(a){for(var d=0;d<c.children.length;d++)c.children[d].style.display=d===a?"block":"none";l=a}var l=0,c=document.createElement("div");c.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000";c.addEventListener("click",function(a){a.preventDefault();
+	u(++l%c.children.length)},!1);var k=(performance||Date).now(),g=k,a=0,r=e(new f.Panel("FPS","#0ff","#002")),h=e(new f.Panel("MS","#0f0","#020"));if(self.performance&&self.performance.memory)var t=e(new f.Panel("MB","#f08","#201"));u(0);return{REVISION:16,dom:c,addPanel:e,showPanel:u,begin:function(){k=(performance||Date).now()},end:function(){a++;var c=(performance||Date).now();h.update(c-k,200);if(c>g+1E3&&(r.update(1E3*a/(c-g),100),g=c,a=0,t)){var d=performance.memory;t.update(d.usedJSHeapSize/
+	1048576,d.jsHeapSizeLimit/1048576)}return c},update:function(){k=this.end()},domElement:c,setMode:u}};f.Panel=function(e,f,l){var c=Infinity,k=0,g=Math.round,a=g(window.devicePixelRatio||1),r=80*a,h=48*a,t=3*a,v=2*a,d=3*a,m=15*a,n=74*a,p=30*a,q=document.createElement("canvas");q.width=r;q.height=h;q.style.cssText="width:80px;height:48px";var b=q.getContext("2d");b.font="bold "+9*a+"px Helvetica,Arial,sans-serif";b.textBaseline="top";b.fillStyle=l;b.fillRect(0,0,r,h);b.fillStyle=f;b.fillText(e,t,v);
+	b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{dom:q,update:function(h,w){c=Math.min(c,h);k=Math.max(k,h);b.fillStyle=l;b.globalAlpha=1;b.fillRect(0,0,r,m);b.fillStyle=f;b.fillText(g(h)+" "+e+" ("+g(c)+"-"+g(k)+")",t,v);b.drawImage(q,d+a,m,n-a,p,d,m,n-a,p);b.fillRect(d+n-a,m,a,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d+n-a,m,a,g((1-h/w)*p))}}};return f});
+
+
+/***/ },
+/* 199 */
+/***/ function(module, exports) {
+
+	module.exports = Box2D;
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _game = __webpack_require__(190);
+	
+	var _game2 = _interopRequireDefault(_game);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	// implements Collider interface
+	var BoxCollider = function () {
+	
+	  // vertices: Array<Matter.Vector>;
+	  function BoxCollider(width, height) {
+	    _classCallCheck(this, BoxCollider);
+	
+	    this.width = width;
+	    this.height = height;
+	
+	    this.shape = new _game2.default.Box2D.b2PolygonShape();
+	    this.shape.SetAsBox(width, height);
+	  }
+	
+	  _createClass(BoxCollider, [{
+	    key: '__init',
+	    value: function __init(world) {
+	      var bodyDef = new _game2.default.Box2D.b2BodyDef();
+	      this.body = world.CreateBody(bodyDef);
+	      this.body.CreateFixture(this.shape, 5.0);
+	    }
+	  }, {
+	    key: 'getVertices',
+	    value: function getVertices() {}
+	  }]);
+	
+	  return BoxCollider;
+	}();
+	
+	exports.default = BoxCollider;
+
+/***/ },
+/* 201 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _matterJs = __webpack_require__(202);
+	
+	var _matterJs2 = _interopRequireDefault(_matterJs);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	// implements Collider interface
+	var PolygonCollider =
+	// vertices: Array<Matter.Vector>;
+	
+	// clockwise order
+	function PolygonCollider(gob, vertices) {
+	  _classCallCheck(this, PolygonCollider);
+	
+	  this.vertices = vertices;
+	  // Note that velocity and angularVelocity are read-only! they need to be
+	  // initialized by gob
+	  this.body = _matterJs2.default.Body.create({
+	    angle: gob.transform.angle,
+	    position: _matterJs2.default.Vector.create(gob.transform.position.x, gob.transform.position.y),
+	    vertices: vertices.map(function (vertex) {
+	      return _matterJs2.default.Vector.create(vertex.x, vertex.y);
+	    })
+	  });
+	};
+	
+	exports.default = PolygonCollider;
+
+/***/ },
+/* 202 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var require;var require;/* WEBPACK VAR INJECTION */(function(global) {/**
 	* matter-js 0.12.0 by @liabru 2017-02-02
 	* http://brm.io/matter-js/
@@ -48611,1392 +49964,6 @@
 	},{"../body/Composite":2,"../core/Common":14,"../core/Events":16,"../geometry/Bounds":26,"../geometry/Vector":28}]},{},[30])(30)
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
-
-/***/ },
-/* 187 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /* a class for Sprites that wraps the PIXI Sprite class */
-	
-	
-	var _invariant = __webpack_require__(188);
-	
-	var _invariant2 = _interopRequireDefault(_invariant);
-	
-	var _vector = __webpack_require__(3);
-	
-	var _vector2 = _interopRequireDefault(_vector);
-	
-	var _util = __webpack_require__(189);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Sprite = function () {
-	
-	  // TODO: this only supports array based spritesheet data
-	
-	  // the starting frame if we are showing an animation
-	  function Sprite(options) {
-	    _classCallCheck(this, Sprite);
-	
-	    this.direction = new _vector2.default(1, 0);
-	    this.startingFrame = 0;
-	
-	    if (options === null) {
-	      this._id = null;
-	      return;
-	    }
-	    this._id = _util.Utils.uuid();
-	    console.log(this._id);
-	    // default it to 60fps
-	    this.fps = options.fps || 60;
-	    this.gob = options.gob;
-	    (0, _invariant2.default)(this.gob, '[Sprite.js] No gob was provided for this sprite ' + this.path);
-	    var gobClass = this.gob.constructor;
-	    // grab the textures
-	    var resource = this.gob.scene.resources[options.pixiKey];
-	    (0, _invariant2.default)(resource, '[Sprite.js] No resource found for ' + options.pixiKey);
-	
-	    this.animated = resource.texture ? true : false;
-	    this.loop = options.loop != null ? options.loop : true;
-	
-	    if (resource.texture) {
-	      this._pixi = PIXI.Sprite.from(texture);
-	      this.animated = false;
-	    } else {
-	      (0, _invariant2.default)(resource.textures, '[Sprite.js] No texture found\n        for ' + options.pixiKey);
-	      // if there are multiple textures, this is an animated sprite, and we need
-	      // the frameStart and frameEnd of the spritesheet
-	      this.frameStart = options.frameStart;
-	      this.frameEnd = options.frameEnd;
-	      (0, _invariant2.default)(this.frameStart != null, '[Sprite.js] No "frameStart" specified for ' + this.gob.constructor.name);
-	      (0, _invariant2.default)(this.frameEnd != null, '[Sprite.js] No "frameEnd" specified for\n        ' + this.gob.constructor.name + ' sprite');
-	
-	      // TODO: assumes that it is array based sprite atlas!
-	      var frames = [];
-	      for (var i = this.frameStart; i <= this.frameEnd; i++) {
-	        frames.push(resource.textures[i]);
-	      }
-	      // console.log(frames);
-	      this._pixi = new PIXI.extras.AnimatedSprite(frames);
-	      // console.log(this.fps);
-	      this._pixi.animationSpeed = this.fps / 60;
-	      // console.log(this._pixi.animationSpeed);
-	      this.animated = true;
-	    }
-	
-	    this.path = options.path;
-	    this.width = options.width;
-	    this.height = options.height;
-	    (0, _invariant2.default)(this._pixi, '[Sprite.js] Something went wrong! No Pixi Sprite was passed during\n      the instantiation of this Sprite for ' + this.gob.constructor.name);
-	    (0, _invariant2.default)(this.path != null, 'a resource path must be specified');
-	    (0, _invariant2.default)(this.width != null, '[Sprite.js] No "width" provided for ' + this.gob.constructor.name + ' sprite');
-	
-	    var anchor = options.scale || { x: 0.5, y: 0.5 };
-	    this.anchor = new _vector2.default(anchor.x, anchor.y);
-	
-	    this._pixi.width = this.width;
-	    this._pixi.height = this.height;
-	
-	    if (options.instance != null) {
-	      if (options.instance.anchor) {
-	        (0, _invariant2.default)(options.instance.anchor.x != null, 'instance anchor options must contain x');
-	        (0, _invariant2.default)(options.instance.anchor.y != null, 'instance anchor options must contain y');
-	        this.anchor.x = options.instance.anchor.x;
-	        this.anchor.y = options.instance.anchor.y;
-	      }
-	    }
-	
-	    this._pixi.anchor.x = this.anchor.x;
-	    this._pixi.anchor.y = this.anchor.y;
-	    console.log('loop', this.loop);
-	    this._pixi.loop = this.loop;
-	  }
-	
-	  // if it's an animated sprite, play it
-	
-	
-	  // TODO: a hack for handling games without sprites
-	
-	
-	  _createClass(Sprite, [{
-	    key: 'play',
-	    value: function play() {
-	      if (this.animated && !this._pixi.playing) {
-	        // restart the animation each time you play
-	        this._pixi.gotoAndPlay(0);
-	      }
-	    }
-	
-	    // if it's an animated sprite, stop it
-	
-	  }, {
-	    key: 'stop',
-	    value: function stop() {
-	      // console.log('stopping');
-	      if (this.animated && this._pixi.playing) {
-	        this._pixi.stop();
-	      }
-	    }
-	  }, {
-	    key: 'hide',
-	    value: function hide() {
-	      if (this._pixi) {
-	        this._pixi.visible = false;
-	      }
-	    }
-	  }, {
-	    key: 'show',
-	    value: function show() {
-	      if (this._pixi) {
-	        this._pixi.visible = true;
-	      }
-	    }
-	
-	    // updates the sprite's position. Should be called after committing position
-	    // on every frame update
-	
-	  }, {
-	    key: 'update',
-	    value: function update() {
-	      // TODO: hack
-	      if (!this._pixi) {
-	        return;
-	      }
-	      // update zDepth
-	      this._pixi.zDepth = typeof this.gob.depth === 'function' ? this.gob.depth() : this._pixi.zDepth = this.gob.depth;
-	
-	      this._pixi.scale.x = this.gob.direction.x || 1;
-	      this._pixi.scale.y = this.gob.direction.y || 1;
-	
-	      this._pixi.position.set(this.gob.transform.position.x, this.gob.transform.position.y);
-	
-	      this._pixi.rotation = this.gob.transform.angle * Math.PI / 180;
-	    }
-	  }]);
-	
-	  return Sprite;
-	}();
-	
-	Sprite.emptySprite = new Sprite(null);
-	exports.default = Sprite;
-
-/***/ },
-/* 188 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 */
-	
-	'use strict';
-	
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-	
-	var invariant = function(condition, format, a, b, c, d, e, f) {
-	  if (process.env.NODE_ENV !== 'production') {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  }
-	
-	  if (!condition) {
-	    var error;
-	    if (format === undefined) {
-	      error = new Error(
-	        'Minified exception occurred; use the non-minified dev environment ' +
-	        'for the full error message and additional helpful warnings.'
-	      );
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error(
-	        format.replace(/%s/g, function() { return args[argIndex++]; })
-	      );
-	      error.name = 'Invariant Violation';
-	    }
-	
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-	    throw error;
-	  }
-	};
-	
-	module.exports = invariant;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(88)))
-
-/***/ },
-/* 189 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.Utils = undefined;
-	
-	var _vector = __webpack_require__(3);
-	
-	var _vector2 = _interopRequireDefault(_vector);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var count = 0;
-	
-	// TODO: create a type out of the id
-	
-	
-	var Utils = exports.Utils = {
-	  uuid: function uuid() {
-	    return count++;
-	    // return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-	    //     var r = Math.random()*16|0, v = c == 'x' ? r : (r&0x3|0x8);
-	    //     return v.toString(16);
-	    // });
-	  },
-	  getPixiResourceKey: function getPixiResourceKey(gobClass, spriteKey) {
-	    return '' + gobClass + spriteKey;
-	  }
-	};
-
-/***/ },
-/* 190 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var KEYS = exports.KEYS = {
-	  BACKSPACE: 8,
-	  TAB: 9,
-	  ENTER: 13,
-	  SHIFT: 16,
-	  CTRL: 17,
-	  ALT: 18,
-	  PAUSE: 19,
-	  CAPS: 20,
-	  ESC: 27,
-	  SPACE: 32,
-	  PAGEUP: 33,
-	  PAGEDOWN: 34,
-	  END: 35,
-	  HOME: 36,
-	  LEFT: 37,
-	  UP: 38,
-	  RIGHT: 39,
-	  DOWN: 40,
-	  INSERT: 45,
-	  DELETE: 46,
-	  '0': 48,
-	  '1': 49,
-	  '2': 50,
-	  '3': 51,
-	  '4': 52,
-	  '5': 53,
-	  '6': 54,
-	  '7': 55,
-	  '8': 56,
-	  '9': 57,
-	  A: 65,
-	  B: 66,
-	  C: 67,
-	  D: 68,
-	  E: 69,
-	  F: 70,
-	  G: 71,
-	  H: 72,
-	  I: 73,
-	  J: 74,
-	  K: 75,
-	  L: 76,
-	  M: 77,
-	  N: 78,
-	  O: 79,
-	  P: 80,
-	  Q: 81,
-	  R: 82,
-	  S: 83,
-	  T: 84,
-	  U: 85,
-	  V: 86,
-	  W: 87,
-	  X: 88,
-	  Y: 89,
-	  Z: 90,
-	  LEFT_WINDOW: 91,
-	  RIGHT_WINDOW: 92,
-	  SELECT: 93,
-	  NUM0: 96,
-	  NUM1: 97,
-	  NUM2: 98,
-	  NUM3: 99,
-	  NUM4: 100,
-	  NUM5: 101,
-	  NUM6: 102,
-	  NUM7: 103,
-	  NUM8: 104,
-	  NUM9: 105,
-	  MULTIPLY: 106,
-	  ADD: 107,
-	  SUBTRACT: 109,
-	  DECIMAL: 110,
-	  DIVIDE: 111,
-	  F1: 112,
-	  F2: 113,
-	  F3: 114,
-	  F4: 115,
-	  F5: 116,
-	  F6: 117,
-	  F7: 118,
-	  F8: 119,
-	  F9: 120,
-	  F10: 121,
-	  F11: 122,
-	  F12: 123,
-	  NUM_LOCK: 144,
-	  SCROLL_LOCK: 145,
-	  SEMICOLON: 186,
-	  EQUAL: 187,
-	  COMMA: 188,
-	  DASH: 189,
-	  PERIOD: 190,
-	  FSLASH: 191,
-	  BACKTICK: 192,
-	  OPEN_BRACKET: 219,
-	  BSLASH: 220,
-	  CLOSE_BRACKET: 221,
-	  QUOTE: 222
-	};
-	
-	var EVENTS = exports.EVENTS = {
-	  // Pew specific
-	  ONKEYDOWN: 'onKeyDown',
-	  ONKEYUP: 'onKeyUp',
-	  ONKEYHOLD: 'onKeyHold'
-	};
-
-/***/ },
-/* 191 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _pixi = __webpack_require__(4);
-	
-	var Pixi = _interopRequireWildcard(_pixi);
-	
-	var _gob = __webpack_require__(2);
-	
-	var _gob2 = _interopRequireDefault(_gob);
-	
-	var _camera = __webpack_require__(192);
-	
-	var _camera2 = _interopRequireDefault(_camera);
-	
-	var _keyboard = __webpack_require__(193);
-	
-	var _keyboard2 = _interopRequireDefault(_keyboard);
-	
-	var _scene = __webpack_require__(195);
-	
-	var _scene2 = _interopRequireDefault(_scene);
-	
-	var _matterJs = __webpack_require__(186);
-	
-	var _matterJs2 = _interopRequireDefault(_matterJs);
-	
-	var _private = __webpack_require__(185);
-	
-	var _util = __webpack_require__(189);
-	
-	var _loader = __webpack_require__(196);
-	
-	var _loader2 = _interopRequireDefault(_loader);
-	
-	var _stats = __webpack_require__(198);
-	
-	var _stats2 = _interopRequireDefault(_stats);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Game = function () {
-	  function Game(opts) {
-	    _classCallCheck(this, Game);
-	
-	    this._id = _util.Utils.uuid();
-	    this.canvas = opts.canvas;
-	    this.renderer = new Pixi.WebGLRenderer(opts.width, opts.height, {
-	      view: opts.canvas
-	    });
-	    this.renderer.backgroundColor = 0xffffff;
-	    _keyboard2.default.init({
-	      canvas: opts.canvas
-	    });
-	    // TODO: tilesize hardcoded
-	    this.tileSize = 30;
-	
-	    // array of gob objects
-	    this.gobs = [];
-	
-	    this.engine = _matterJs2.default.Engine.create();
-	
-	    this.audioContext = new AudioContext();
-	    this.debug = false || opts.debug;
-	
-	    this.stats = new _stats2.default();
-	    this.stats.showPanel(0);
-	    // && document.body just for flow..
-	    if (this.debug && document.body) {
-	      document.body.appendChild(this.stats.dom);
-	    }
-	  }
-	
-	  _createClass(Game, [{
-	    key: 'loadScene',
-	    value: function loadScene(scene) {
-	      this.currentScene = scene;
-	      if (!scene.loaded) {
-	        this.currentScene.load(this);
-	      }
-	      this.engine.world.gravity.x = this.currentScene.gravity.x;
-	      this.engine.world.gravity.y = this.currentScene.gravity.y;
-	    }
-	
-	    // TODO: EXPERIMENTAL: How do we handle allowing the definition of updates
-	    //                     from gobs themselves, as well as an overarching update?
-	    //                     Perhaps, have an internal method updateCanvas that
-	    //                     delegates and calls all the updates
-	    //
-	    // TODO: in the future, if game states are implemented, the Game object
-	    //       should shift between the states to determine which update methods
-	    //       are called
-	
-	  }, {
-	    key: 'updateCanvas',
-	    value: function updateCanvas() {
-	      this.stats.begin();
-	      // if the resources haven't been loaded yet, do not do anything!
-	      // TODO: support multiple states in the game
-	      if (this.currentScene.resources == null) {
-	        return;
-	      }
-	
-	      this.currentScene.__prePhysicsUpdate();
-	      this.currentScene.prePhysicsUpdate();
-	      _matterJs2.default.Engine.update(this.engine, _private.Time.dtms);
-	      this.currentScene.__postPhysicsUpdate();
-	      this.currentScene.postPhysicsUpdate();
-	
-	      this.currentScene.__update();
-	      this.currentScene.update();
-	
-	      this.currentScene.__preRenderUpdate();
-	      // TODO: physics responses
-	      // TODO: need to update spatial hash post physics response
-	      this.renderer.render(this.currentScene.stage);
-	      this.stats.end();
-	    }
-	
-	    // TODO: in the future, if game states are implemented, this should be found
-	    // in the game states. The Game object should shift between the states to
-	    // determine which update methods are called
-	    //
-	    // run through pool of objects and update positions based on the velocities
-	    // Should be defined/overwritten when extended
-	
-	  }, {
-	    key: 'update',
-	    value: function update() {}
-	  }]);
-	
-	  return Game;
-	}();
-	
-	exports.default = Game;
-
-/***/ },
-/* 192 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Camera = function () {
-	  function Camera(stage) {
-	    _classCallCheck(this, Camera);
-	
-	    this.stage = stage;
-	  }
-	
-	  _createClass(Camera, [{
-	    key: 'moveTo',
-	    value: function moveTo(x, y) {
-	      this.stage.setTransform(x, y);
-	    }
-	  }, {
-	    key: 'moveRelative',
-	    value: function moveRelative(x, y) {
-	      this.stage.setTransform(this.stage.position.x + x, this.stage.position.y + y);
-	    }
-	
-	    // can be overridden
-	
-	  }]);
-	
-	  return Camera;
-	}();
-	
-	exports.default = Camera;
-
-/***/ },
-/* 193 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _public = __webpack_require__(190);
-	
-	var _key = __webpack_require__(194);
-	
-	var _key2 = _interopRequireDefault(_key);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	// there should be one canvas per game, one keyboard per game,
-	//       hence one canvas per keyboard
-	// Note: Keyboard should never have a reference to gob
-	var Keyboard = function () {
-	  function Keyboard() {
-	    _classCallCheck(this, Keyboard);
-	  }
-	
-	  _createClass(Keyboard, null, [{
-	    key: 'registerGob',
-	    value: function registerGob(gob) {
-	      Keyboard.registeredGobs[gob._id] = gob;
-	    }
-	
-	    // TODO: handle this better
-	
-	  }, {
-	    key: 'clearRegisteredGobs',
-	    value: function clearRegisteredGobs() {
-	      Keyboard.registeredGobs = {};
-	    }
-	  }, {
-	    key: 'init',
-	    value: function init(_ref) {
-	      var canvas = _ref.canvas;
-	
-	      Keyboard.canvas = canvas;
-	
-	      // set up the event handlers
-	      Keyboard.canvas.addEventListener('keydown', function (evt) {
-	        // only execute the hold handlers if it's already down
-	        if (Keyboard.keys[evt.keyCode].pressed || Keyboard.keys[evt.keyCode].held) {
-	          Keyboard.keys[evt.keyCode].keyHold();
-	        } else {
-	          for (var _id in Keyboard.registeredGobs) {
-	            Keyboard.registeredGobs[_id].onKeyDown && Keyboard.registeredGobs[_id].onKeyDown(evt);
-	          }
-	          Keyboard.keys[evt.keyCode].keyDown();
-	        }
-	      });
-	
-	      Keyboard.canvas.addEventListener('keyup', function (evt) {
-	        Keyboard.keys[evt.keyCode].keyUp();
-	      });
-	    }
-	  }, {
-	    key: 'getKeyDown',
-	    value: function getKeyDown(keyCode) {
-	      return Keyboard.keys[keyCode].pressed;
-	    }
-	  }, {
-	    key: 'getKeyHeld',
-	    value: function getKeyHeld(keyCode) {
-	      return Keyboard.keys[keyCode].held;
-	    }
-	
-	    // returns true if this is the first frame you released the key
-	
-	  }, {
-	    key: 'getKeyUp',
-	    value: function getKeyUp(keyCode) {
-	      return Keyboard.keys[keyCode].released;
-	    }
-	  }]);
-	
-	  return Keyboard;
-	}();
-	
-	Keyboard.registeredGobs = {};
-	Keyboard.keys = Object.keys(_public.KEYS).reduce(function (memo, k) {
-	  return memo[_public.KEYS[k]] = new _key2.default(_public.KEYS[k]), memo;
-	}, {});
-	exports.default = Keyboard;
-
-/***/ },
-/* 194 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _public = __webpack_require__(190);
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Key = function () {
-	  //
-	  function Key(keyCode) {
-	    _classCallCheck(this, Key);
-	
-	    this.keyCode = keyCode;
-	    this.pressed = false;
-	    this.held = false;
-	    this.released = false;
-	
-	    // all subscribed handlers
-	    this.keyHandlers = {
-	      // [EventType]: {
-	      //   id: handlerFunc
-	      //   ...
-	      // },
-	      // ...
-	    };
-	
-	    // the number of handlers
-	    this.count = 0;
-	  }
-	
-	  _createClass(Key, [{
-	    key: 'processHandler',
-	    value: function processHandler(eventType, id, handler) {
-	      this.keyHandlers[eventType] = this.keyHandlers[eventType] || {};
-	      this.keyHandlers[eventType][id] = handler;
-	      this.count++;
-	    }
-	  }, {
-	    key: 'removeHandler',
-	    value: function removeHandler(eventType, id) {
-	      delete this.keyHandlers[eventType][id];
-	      this.count--;
-	    }
-	
-	    // should only be fired the first time it gets pressed, until the next time it gets pressed (after keyup)
-	    // assumes that the context is valid!
-	
-	  }, {
-	    key: 'keyDown',
-	    value: function keyDown(evt, context) {
-	      this.pressed = true;
-	      // assumes it's bound properly
-	      for (var id in this.keyHandlers[_public.EVENTS.ONKEYDOWN]) {
-	        this.keyHandlers[_public.EVENTS.ONKEYDOWN][id](evt);
-	      }
-	    }
-	
-	    // should only be fired 2nd time and beyond
-	
-	  }, {
-	    key: 'keyHold',
-	    value: function keyHold(evt, context) {
-	      this.held = true;
-	      // if it's held, we want to indicate that no more keydown so that
-	      // keydown is only on the first press
-	      // this.pressed = false;
-	      // assumes it's bound properly
-	      for (var id in this.keyHandlers[_public.EVENTS.ONKEYHOLD]) {
-	        this.keyHandlers[_public.EVENTS.ONKEYHOLD][id](evt);
-	      }
-	    }
-	  }, {
-	    key: 'keyUp',
-	    value: function keyUp(evt, context) {
-	      var _this = this;
-	
-	      this.pressed = false;
-	      this.held = false;
-	      this.released = true;
-	      // reset released on the next event loop
-	      window.setTimeout(function () {
-	        return _this.released = false;
-	      }, 0);
-	      // assumes it's bound properly
-	      for (var id in this.keyHandlers[_public.EVENTS.ONKEYUP]) {
-	        this.keyHandlers[_public.EVENTS.ONKEYUP][id](evt);
-	      }
-	    }
-	  }]);
-	
-	  return Key;
-	}();
-	
-	exports.default = Key;
-
-/***/ },
-/* 195 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _pixi = __webpack_require__(4);
-	
-	var Pixi = _interopRequireWildcard(_pixi);
-	
-	var _camera = __webpack_require__(192);
-	
-	var _camera2 = _interopRequireDefault(_camera);
-	
-	var _gob = __webpack_require__(2);
-	
-	var _gob2 = _interopRequireDefault(_gob);
-	
-	var _loader3 = __webpack_require__(196);
-	
-	var _loader4 = _interopRequireDefault(_loader3);
-	
-	var _matterJs = __webpack_require__(186);
-	
-	var _matterJs2 = _interopRequireDefault(_matterJs);
-	
-	var _game = __webpack_require__(191);
-	
-	var _game2 = _interopRequireDefault(_game);
-	
-	var _keyboard = __webpack_require__(193);
-	
-	var _keyboard2 = _interopRequireDefault(_keyboard);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	/*
-	 * Scene lifecycle:
-	 *   Build-time Events:
-	 *     onSceneLoad
-	 *
-	 *   Run-time Events:
-	 *     __prePhysicsUpdate
-	 *     prePhysicsUpdate
-	 *     __postPhysicsUpdate
-	 *     postPhysicsUpdate
-	 *     __update
-	 *     update
-	 *     __preRenderUpdate
-	 */
-	var Scene = function () {
-	  function Scene(game) {
-	    var _this = this;
-	
-	    var opts = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-	
-	    _classCallCheck(this, Scene);
-	
-	    this.gravity = {
-	      x: 0,
-	      y: 0
-	    };
-	
-	    this.__preloaded = function (_ref) {
-	      var _ref2 = _slicedToArray(_ref, 2),
-	          resources = _ref2[0],
-	          audioResources = _ref2[1];
-	
-	      _this.loaded = true;
-	      console.log(resources);
-	      // $FlowFixMe: not sure why it thinks its mixed, TODO: report
-	      _this.resources = resources;
-	      _this.onSceneLoad();
-	      // after the scene has loaded, load up the gobs
-	      _this.gobs.map(function (gob) {
-	        gob.__onSceneLoad();
-	      });
-	    };
-	
-	    // the name of the scene is the name of the function or class you define
-	    this.name = this.constructor.name;
-	    this.stage = new Pixi.Container();
-	    var gravity = opts.gravity || {};
-	    this.gravity.x = gravity.x || 0;
-	    this.gravity.y = gravity.y || 0;
-	
-	    // create a new camera for this instance
-	    this.camera = new _camera2.default(this.stage);
-	    this.loaded = false;
-	    this.gobs = [];
-	    this.__init();
-	  }
-	
-	  _createClass(Scene, [{
-	    key: '__init',
-	    value: function __init() {
-	      this.init();
-	    }
-	  }, {
-	    key: 'load',
-	    value: function load(game) {
-	      this.game = game;
-	      this.loader = new _loader4.default(this.__preloaded, this.game.audioContext);
-	      this.__preload.apply(this, _toConsumableArray(this.constructor.preload));
-	      this._drawGrid(this.game.debug);
-	    }
-	  }, {
-	    key: '__preload',
-	    value: function __preload() {
-	      var _loader, _loader2;
-	
-	      // if it's already loaded, just return a resolved promise with the resources
-	      if (this.loaded) {
-	        Promise.resolve([this.resources]);
-	        return;
-	      }
-	      var spritePromise = (_loader = this.loader).loadSprites.apply(_loader, arguments);
-	      var audioPromise = (_loader2 = this.loader).loadAudio.apply(_loader2, arguments);
-	
-	      Promise.all([spritePromise, audioPromise]).then(this.__preloaded).catch(function (err) {
-	        return console.log('Error loading resources: ', err);
-	      });
-	    }
-	  }, {
-	    key: '__prePhysicsUpdate',
-	
-	
-	    /* Run time Lifecycle Events */
-	
-	    value: function __prePhysicsUpdate() {
-	      for (var i = 0; i < this.gobs.length; i++) {
-	        if (this.gobs[i].collider) {
-	          this.gobs[i].prePhysicsUpdate();
-	          this.gobs[i].__prePhysicsUpdate();
-	        }
-	      }
-	    }
-	  }, {
-	    key: '__update',
-	    value: function __update() {
-	      this.gobs.map(function (gob) {
-	        gob.__update();
-	        gob.update();
-	      });
-	    }
-	  }, {
-	    key: '__postPhysicsUpdate',
-	    value: function __postPhysicsUpdate() {
-	      for (var i = 0; i < this.gobs.length; i++) {
-	        if (this.gobs[i].collider) {
-	          this.gobs[i].__postPhysicsUpdate();
-	          this.gobs[i].postPhysicsUpdate();
-	        }
-	      }
-	    }
-	
-	    // final update before rendering
-	
-	  }, {
-	    key: '__preRenderUpdate',
-	    value: function __preRenderUpdate() {
-	      // sort by the new z depth
-	      this.stage.children.sort(function (sprite1, sprite2) {
-	        if (sprite1.zDepth < sprite2.zDepth) {
-	          return -1;
-	        } else if (sprite1.zDepth >= sprite2.zDepth) {
-	          return 1;
-	        }
-	        // null or undefined
-	        return 0;
-	      });
-	    }
-	  }, {
-	    key: '_drawGrid',
-	    value: function _drawGrid(showGrid) {
-	      console.log('drawing grid');
-	      // draws a grid of given tilesize
-	      this.grid = new Pixi.Graphics();
-	      this.grid.moveTo(0, 0);
-	      this.grid.lineStyle(1, 0x336699, 0.3);
-	      for (var i = 0; i <= this.game.renderer.view.width; i += this.game.tileSize) {
-	        this.grid.moveTo(i, 0);
-	        this.grid.lineTo(i, this.game.renderer.view.height);
-	      }
-	      for (var _i = 0; _i < this.game.renderer.view.height; _i += this.game.tileSize) {
-	        this.grid.moveTo(0, _i);
-	        this.grid.lineTo(this.game.renderer.view.width, _i);
-	      }
-	      if (!showGrid) {
-	        this.grid.visible = false;
-	      }
-	      this.stage.addChild(this.grid);
-	    }
-	
-	    // TODO: test this method
-	    // creates a gob of type GobClass
-	    // TODO: in the future allow gob-specific events? might be interesting for
-	    //       clicks. maybe see what phaser offers
-	    // TODO: OPTIMIZATION: allow batch create with a custom position, etc.
-	    //       function!
-	
-	  }, {
-	    key: 'createGob',
-	    value: function createGob(opts) {
-	      var GobClass = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _gob2.default;
-	
-	      var gob = new GobClass();
-	      gob.__init(this, opts);
-	      // if it contains a collider, we need to put it into the collision engine,
-	      // regardless whether or not it is a rigid body
-	      if (gob.collider != null) {
-	        _matterJs2.default.World.add(this.game.engine.world, gob.collider.body);
-	      }
-	      this.gobs.push(gob);
-	      if (gob.onKeyDown) {
-	        _keyboard2.default.registerGob(gob);
-	      }
-	    }
-	
-	    // TODO: test this method
-	    // for destroy() and cleanup
-	
-	  }, {
-	    key: 'removeGob',
-	    value: function removeGob(gob) {
-	      if (gob.collider != null) {
-	        _matterJs2.default.World.remove(this.game.engine.world, gob.collider.body);
-	      }
-	      this.gobs = this.gobs.filter(function (compare) {
-	        return compare._id !== gob._id;
-	      });
-	      this.stage.removeChild(gob.currentSprite._pixi);
-	      if (gob.debug) {
-	        this.stage.removeChild(gob._debugData.colliderOutline);
-	        this.stage.removeChild(gob._debugData.spriteOutline);
-	      }
-	    }
-	
-	    /* can be overridden by implementations */
-	
-	  }, {
-	    key: 'init',
-	    value: function init() {}
-	  }, {
-	    key: 'onSceneLoad',
-	    value: function onSceneLoad() {}
-	  }, {
-	    key: 'prePhysicsUpdate',
-	    value: function prePhysicsUpdate() {}
-	  }, {
-	    key: 'update',
-	    value: function update() {}
-	  }, {
-	    key: 'postPhysicsUpdate',
-	    value: function postPhysicsUpdate() {}
-	  }, {
-	    key: 'destroy',
-	    value: function destroy() {
-	      // reset the keyboard listeners when we load a new scene
-	      _keyboard2.default.clearRegisteredGobs();
-	    }
-	  }]);
-	
-	  return Scene;
-	}();
-	
-	exports.default = Scene;
-
-/***/ },
-/* 196 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _gob = __webpack_require__(2);
-	
-	var _gob2 = _interopRequireDefault(_gob);
-	
-	var _pixi = __webpack_require__(4);
-	
-	var Pixi = _interopRequireWildcard(_pixi);
-	
-	var _clip = __webpack_require__(197);
-	
-	var _clip2 = _interopRequireDefault(_clip);
-	
-	var _util = __webpack_require__(189);
-	
-	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Loader = function () {
-	  function Loader(onComplete, audioContext) {
-	    _classCallCheck(this, Loader);
-	
-	    this.loader = new Pixi.loaders.Loader();
-	
-	    this.onComplete = onComplete;
-	    this.audioContext = audioContext;
-	  }
-	
-	  /*
-	   * Sprite paths are of the form:
-	   * {
-	   *   <key>: {
-	   *     path: <path to file>,
-	   *     sprites: {
-	   *       <spriteName>: {
-	   *         frameStart: number
-	   *         frameEnd: number
-	   *         fps: number
-	   *       }
-	   *     }
-	   *   }
-	   * }
-	   */
-	
-	
-	  _createClass(Loader, [{
-	    key: 'loadSprites',
-	    value: function loadSprites() {
-	      var _this = this;
-	
-	      for (var _len = arguments.length, gobs = Array(_len), _key = 0; _key < _len; _key++) {
-	        gobs[_key] = arguments[_key];
-	      }
-	
-	      if (gobs.length === 0) {
-	        throw new Error('No resources were included in the load function.');
-	      }
-	      gobs.map(function (gob) {
-	        for (var key in gob.spriteSheets) {
-	          if (gob.spriteSheets == null) {
-	            throw new Error('Invalid game object ' + gob.name + ' created.\n              No sprite paths provided');
-	          }
-	          // for each spritesheet, load
-	          _this.loader.add(_util.Utils.getPixiResourceKey(gob.name, key), gob.spriteSheets[key].path);
-	        }
-	      });
-	
-	      return new Promise(function (resolve, reject) {
-	        _this.loader.load(function (loader, resources) {
-	          console.log('erlo');
-	          if (resources.error != null) {
-	            reject(resources);
-	          } else {
-	            resolve(resources);
-	          }
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'loadAudio',
-	    value: function loadAudio() {
-	      var _this2 = this;
-	
-	      var audioPromises = [];
-	
-	      for (var _len2 = arguments.length, gobs = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-	        gobs[_key2] = arguments[_key2];
-	      }
-	
-	      gobs.map(function (gob) {
-	        for (var key in gob.audioSources) {
-	          audioPromises.push(_this2.loadAudioClip(gob, key, gob.audioSources[key]));
-	        }
-	      });
-	
-	      return Promise.all(audioPromises);
-	    }
-	
-	    // TODO: better error handling!
-	
-	  }, {
-	    key: 'loadAudioClip',
-	    value: function loadAudioClip(gob, key, path) {
-	      var _this3 = this;
-	
-	      var audioPromise = new Promise(function (resolve, reject) {
-	        var request = new XMLHttpRequest();
-	        request.open('GET', path, true);
-	        request.responseType = 'arraybuffer';
-	        request.onload = function () {
-	          _this3.audioContext.decodeAudioData(request.response, function (buffer) {
-	            buffer == null ? reject('Error decoding file data for ' + path) : resolve(buffer);
-	          }, function (error) {
-	            return reject('Error decoding "' + key + '" audio for ' + gob.name + ': ' + error);
-	          });
-	        };
-	        request.onerror = reject;
-	        request.send();
-	      });
-	      audioPromise.then(function (buffer) {
-	        // if it successfully finishes, we want to update the gob's audio
-	        gob.__audio[key] = new _clip2.default(_this3.audioContext, buffer);
-	      });
-	      return audioPromise;
-	    }
-	  }]);
-	
-	  return Loader;
-	}();
-	
-	exports.default = Loader;
-
-/***/ },
-/* 197 */
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var Clip = function () {
-	  function Clip(context, buffer) {
-	    _classCallCheck(this, Clip);
-	
-	    this.buffer = buffer;
-	    this.context = context;
-	  }
-	
-	  // we need to create a new audio node each time
-	
-	
-	  _createClass(Clip, [{
-	    key: "play",
-	    value: function play(volume) {
-	      var source = this.context.createBufferSource();
-	      source.buffer = this.buffer;
-	      if (volume != null) {
-	        if (!(volume >= 0 && volume <= 1)) {
-	          console.error("Invalid volume of " + volume + " specified.\n           Only values from 0 to 1 are allowed!");
-	          return;
-	        }
-	        var gainNode = this.context.createGain();
-	        console.log(volume);
-	        gainNode.gain.value = volume;
-	        source.connect(gainNode);
-	        gainNode.connect(this.context.destination);
-	      } else {
-	        source.connect(this.context.destination);
-	      }
-	      source.start(0);
-	    }
-	  }]);
-	
-	  return Clip;
-	}();
-	
-	exports.default = Clip;
-
-/***/ },
-/* 198 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// stats.js - http://github.com/mrdoob/stats.js
-	(function(f,e){ true?module.exports=e():"function"===typeof define&&define.amd?define(e):f.Stats=e()})(this,function(){var f=function(){function e(a){c.appendChild(a.dom);return a}function u(a){for(var d=0;d<c.children.length;d++)c.children[d].style.display=d===a?"block":"none";l=a}var l=0,c=document.createElement("div");c.style.cssText="position:fixed;top:0;left:0;cursor:pointer;opacity:0.9;z-index:10000";c.addEventListener("click",function(a){a.preventDefault();
-	u(++l%c.children.length)},!1);var k=(performance||Date).now(),g=k,a=0,r=e(new f.Panel("FPS","#0ff","#002")),h=e(new f.Panel("MS","#0f0","#020"));if(self.performance&&self.performance.memory)var t=e(new f.Panel("MB","#f08","#201"));u(0);return{REVISION:16,dom:c,addPanel:e,showPanel:u,begin:function(){k=(performance||Date).now()},end:function(){a++;var c=(performance||Date).now();h.update(c-k,200);if(c>g+1E3&&(r.update(1E3*a/(c-g),100),g=c,a=0,t)){var d=performance.memory;t.update(d.usedJSHeapSize/
-	1048576,d.jsHeapSizeLimit/1048576)}return c},update:function(){k=this.end()},domElement:c,setMode:u}};f.Panel=function(e,f,l){var c=Infinity,k=0,g=Math.round,a=g(window.devicePixelRatio||1),r=80*a,h=48*a,t=3*a,v=2*a,d=3*a,m=15*a,n=74*a,p=30*a,q=document.createElement("canvas");q.width=r;q.height=h;q.style.cssText="width:80px;height:48px";var b=q.getContext("2d");b.font="bold "+9*a+"px Helvetica,Arial,sans-serif";b.textBaseline="top";b.fillStyle=l;b.fillRect(0,0,r,h);b.fillStyle=f;b.fillText(e,t,v);
-	b.fillRect(d,m,n,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d,m,n,p);return{dom:q,update:function(h,w){c=Math.min(c,h);k=Math.max(k,h);b.fillStyle=l;b.globalAlpha=1;b.fillRect(0,0,r,m);b.fillStyle=f;b.fillText(g(h)+" "+e+" ("+g(c)+"-"+g(k)+")",t,v);b.drawImage(q,d+a,m,n-a,p,d,m,n-a,p);b.fillRect(d+n-a,m,a,p);b.fillStyle=l;b.globalAlpha=.9;b.fillRect(d+n-a,m,a,g((1-h/w)*p))}}};return f});
-
-
-/***/ },
-/* 199 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _box = __webpack_require__(200);
-	
-	var _box2 = _interopRequireDefault(_box);
-	
-	var _polygon = __webpack_require__(201);
-	
-	var _polygon2 = _interopRequireDefault(_polygon);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	exports.default = {
-	  Box: _box2.default,
-	  Polygon: _polygon2.default
-	};
-
-/***/ },
-/* 200 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _matterJs = __webpack_require__(186);
-	
-	var _matterJs2 = _interopRequireDefault(_matterJs);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	// implements Collider interface
-	var BoxCollider =
-	// vertices: Array<Matter.Vector>;
-	function BoxCollider(gob, width, height) {
-	  _classCallCheck(this, BoxCollider);
-	
-	  this.width = width;
-	  this.height = height;
-	  // create the collider from the width + height
-	  // Note that velocity and angularVelocity are read-only! they need to be
-	  // initialized by gob
-	  this.body = _matterJs2.default.Body.create({
-	    angle: gob.transform.angle,
-	    position: _matterJs2.default.Vector.create(gob.transform.position.x, gob.transform.position.y),
-	    vertices: [
-	    // TL
-	    _matterJs2.default.Vector.create(gob.transform.position.x - this.width / 2, gob.transform.position.y - this.height / 2),
-	    // TR
-	    _matterJs2.default.Vector.create(gob.transform.position.x + this.width / 2, gob.transform.position.y - this.height / 2),
-	    // BR
-	    _matterJs2.default.Vector.create(gob.transform.position.x + this.width / 2, gob.transform.position.y + this.height / 2),
-	    // BL
-	    _matterJs2.default.Vector.create(gob.transform.position.x - this.width / 2, gob.transform.position.y + this.height / 2)]
-	  });
-	};
-	
-	exports.default = BoxCollider;
-
-/***/ },
-/* 201 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _matterJs = __webpack_require__(186);
-	
-	var _matterJs2 = _interopRequireDefault(_matterJs);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	// implements Collider interface
-	var PolygonCollider =
-	// vertices: Array<Matter.Vector>;
-	
-	// clockwise order
-	function PolygonCollider(gob, vertices) {
-	  _classCallCheck(this, PolygonCollider);
-	
-	  this.vertices = vertices;
-	  // Note that velocity and angularVelocity are read-only! they need to be
-	  // initialized by gob
-	  this.body = _matterJs2.default.Body.create({
-	    angle: gob.transform.angle,
-	    position: _matterJs2.default.Vector.create(gob.transform.position.x, gob.transform.position.y),
-	    vertices: vertices.map(function (vertex) {
-	      return _matterJs2.default.Vector.create(vertex.x, vertex.y);
-	    })
-	  });
-	};
-	
-	exports.default = PolygonCollider;
-
-/***/ },
-/* 202 */
-/***/ function(module, exports, __webpack_require__) {
-
-	!function(e,t){ true?module.exports=t(__webpack_require__(186)):"function"==typeof define&&define.amd?define(["matter-js"],t):"object"==typeof exports?exports.MatterCollisionEvents=t(require("matter-js")):e.MatterCollisionEvents=t(e["matter-js"])}(this,function(e){return function(e){function t(o){if(n[o])return n[o].exports;var r=n[o]={i:o,l:!1,exports:{}};return e[o].call(r.exports,r,r.exports,t),r.l=!0,r.exports}var n={};return t.m=e,t.c=n,t.i=function(e){return e},t.d=function(e,n,o){t.o(e,n)||Object.defineProperty(e,n,{configurable:!1,enumerable:!0,get:o})},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},t.p="",t(t.s=1)}([function(t,n){t.exports=e},function(e,t,n){var o=n(0),r={name:"matter-collision-events",version:"0.1.5",for:"matter-js@^0.12.0",install:function(e){var t=e.Body.create;e.Body.create=function(){var e=t.apply(null,arguments);return e.onCollide=function(t){e._mceOC=t},e.onCollideEnd=function(t){e._mceOCE=t},e.onCollideActive=function(t){e._mceOCA=t},e},e.after("Engine.create",function(){e.Events.on(this,"collisionStart",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollide",{pair:t}),e.Events.trigger(t.bodyB,"onCollide",{pair:t}),t.bodyA._mceOC&&t.bodyA._mceOC(t),t.bodyB._mceOC&&t.bodyB._mceOC(t)})}),e.Events.on(this,"collisionActive",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollideActive",{pair:t}),e.Events.trigger(t.bodyB,"onCollideActive",{pair:t}),t.bodyA._mceOCA&&t.bodyA._mceOCA(t),t.bodyB._mceOCA&&t.bodyB._mceOCA(t)})}),e.Events.on(this,"collisionEnd",function(t){t.pairs.map(function(t){e.Events.trigger(t.bodyA,"onCollideEnd",{pair:t}),e.Events.trigger(t.bodyB,"onCollideEnd",{pair:t}),t.bodyA._mceOCE&&t.bodyA._mceOCE(t),t.bodyB._mceOCE&&t.bodyB._mceOCE(t)})})})}};o.Plugin.register(r),e.exports.MatterCollisionEvents=r}])});
 
 /***/ }
 /******/ ]);

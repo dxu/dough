@@ -33,6 +33,9 @@ const examplesConfig = {
       },
     ],
   },
+  externals: {
+    'box2D': 'Box2D',
+  },
 };
 
 module.exports = examplesConfig;

@@ -33,6 +33,9 @@ const buildConfig = {
       },
     ],
   },
+  externals: {
+    'box2D': 'Box2D',
+  },
   plugins: [new UglifyJSPlugin()],
 };
 
