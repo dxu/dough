@@ -2304,7 +2304,6 @@ var Gob = function () {
         throw new Error('Invalid game object created. No position provided.');
       }
       this.transform.position = new _vector2.default(opts.transform.position.x, opts.transform.position.y);
-      console.log('transform', this.transform.position);
       this.transform.angle = opts.transform.angle || this.transform.angle;
       if (opts.transform.scale != null) {
         this.transform.scale.x = opts.transform.scale.x;
@@ -11757,7 +11756,6 @@ var Loader = function () {
 
       return new Promise(function (resolve, reject) {
         _this.loader.load(function (loader, resources) {
-          console.log('erlo');
           if (resources.error != null) {
             reject(resources);
           } else {
@@ -11877,11 +11875,9 @@ var RigidBody = function () {
 
     _classCallCheck(this, RigidBody);
 
-    console.log('jiojoij');
     this.mass = mass;
     this.isStatic = isStatic;
     this.collider = collider;
-    console.log('collider', this.collider);
     (0, _invariant2.default)(this.collider, 'RigidBody must be provided a collider');
     this.collider.rigidbody = this;
   }
@@ -11927,7 +11923,6 @@ var RigidBody = function () {
       var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.collider.body.velocity.x;
       var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.collider.body.velocity.y;
 
-      console.log('joijoj');
       _matterJs2.default.Body.setVelocity(this.collider.body, { x: x, y: y });
     }
   }, {
@@ -11935,7 +11930,10 @@ var RigidBody = function () {
     value: function setVelocityY() {
       var y = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.collider.body.velocity.y;
 
-      _matterJs2.default.Body.setVelocity(this.collider.body, { x: this.collider.body.velocity.x, y: y });
+      _matterJs2.default.Body.setVelocity(this.collider.body, {
+        x: this.collider.body.velocity.x,
+        y: y
+      });
     }
   }]);
 
@@ -12030,7 +12028,6 @@ var Scene = function () {
           audioResources = _ref2[1];
 
       _this.loaded = true;
-      console.log(resources);
       // $FlowFixMe: not sure why it thinks its mixed, TODO: report
       _this.resources = resources;
       _this.onSceneLoad();
@@ -12071,7 +12068,6 @@ var Scene = function () {
         }
       });
       this.game.engine.world = this.world;
-      console.log(this.world, 'jiji');
       this.loader = new _loader4.default(this.__preloaded, this.game.audioContext);
       this.__preload.apply(this, _toConsumableArray(this.constructor.preload));
       this._drawGrid(this.game.debug);
@@ -12143,7 +12139,6 @@ var Scene = function () {
   }, {
     key: '_drawGrid',
     value: function _drawGrid(showGrid) {
-      console.log('drawing grid');
       // draws a grid of given tilesize
       this.grid = new Pixi.Graphics();
       this.grid.moveTo(0, 0);
@@ -20262,7 +20257,6 @@ var Clip = function () {
           return;
         }
         var gainNode = this.context.createGain();
-        console.log(volume);
         gainNode.gain.value = volume;
         source.connect(gainNode);
         gainNode.connect(this.context.destination);
@@ -20564,7 +20558,6 @@ var Sprite = function () {
       return;
     }
     this._id = _util.Utils.uuid();
-    console.log(this._id);
     // default it to 60fps
     this.fps = options.fps || 60;
     this.gob = options.gob;
@@ -20594,11 +20587,8 @@ var Sprite = function () {
       for (var i = this.frameStart; i <= this.frameEnd; i++) {
         frames.push(resource.textures[i]);
       }
-      // console.log(frames);
       this._pixi = new PIXI.extras.AnimatedSprite(frames);
-      // console.log(this.fps);
       this._pixi.animationSpeed = this.fps / 60;
-      // console.log(this._pixi.animationSpeed);
       this.animated = true;
     }
 
@@ -20626,7 +20616,6 @@ var Sprite = function () {
 
     this._pixi.anchor.x = this.anchor.x;
     this._pixi.anchor.y = this.anchor.y;
-    console.log('loop', this.loop);
     this._pixi.loop = this.loop;
   }
 
@@ -20650,7 +20639,6 @@ var Sprite = function () {
   }, {
     key: 'stop',
     value: function stop() {
-      // console.log('stopping');
       if (this.animated && this._pixi.playing) {
         this._pixi.stop();
       }
