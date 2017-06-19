@@ -11879,10 +11879,13 @@ var RigidBody = function () {
         _ref$frictionAir = _ref.frictionAir,
         frictionAir = _ref$frictionAir === undefined ? 0.00 : _ref$frictionAir,
         _ref$frictionStatic = _ref.frictionStatic,
-        frictionStatic = _ref$frictionStatic === undefined ? 1 : _ref$frictionStatic;
+        frictionStatic = _ref$frictionStatic === undefined ? 1 : _ref$frictionStatic,
+        _ref$density = _ref.density,
+        density = _ref$density === undefined ? 0.001 : _ref$density;
 
     _classCallCheck(this, RigidBody);
 
+    this.density = density;
     this.friction = friction;
     this.frictionAir = frictionAir;
     this.frictionStatic = frictionStatic;
@@ -11905,11 +11908,11 @@ var RigidBody = function () {
         _matterJs2.default.Body.setInertia(this.collider.body, Infinity);
       }
 
-      console.log('fric', this.friction, this.frictionAir, this.frictionStatic);
       _matterJs2.default.Body.set(this.collider.body, {
         friction: this.friction,
         frictionAir: this.frictionAir,
-        frictionStatic: this.frictionStatic
+        frictionStatic: this.frictionStatic,
+        density: this.density
       });
 
       this.collider.body.onCollide(function (pair) {
