@@ -11847,6 +11847,8 @@ var _matterJs = __webpack_require__(109);
 
 var _matterJs2 = _interopRequireDefault(_matterJs);
 
+var _private = __webpack_require__(45);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11871,10 +11873,19 @@ var RigidBody = function () {
         isStatic = _ref$isStatic === undefined ? false : _ref$isStatic,
         collider = _ref.collider,
         _ref$rotatable = _ref.rotatable,
-        rotatable = _ref$rotatable === undefined ? false : _ref$rotatable;
+        rotatable = _ref$rotatable === undefined ? false : _ref$rotatable,
+        _ref$friction = _ref.friction,
+        friction = _ref$friction === undefined ? 1 : _ref$friction,
+        _ref$frictionAir = _ref.frictionAir,
+        frictionAir = _ref$frictionAir === undefined ? 0.00 : _ref$frictionAir,
+        _ref$frictionStatic = _ref.frictionStatic,
+        frictionStatic = _ref$frictionStatic === undefined ? 1 : _ref$frictionStatic;
 
     _classCallCheck(this, RigidBody);
 
+    this.friction = friction;
+    this.frictionAir = frictionAir;
+    this.frictionStatic = frictionStatic;
     this.mass = mass;
     this.isStatic = isStatic;
     this.collider = collider;
@@ -11893,6 +11904,13 @@ var RigidBody = function () {
       if (!this.rotatable) {
         _matterJs2.default.Body.setInertia(this.collider.body, Infinity);
       }
+
+      console.log('fric', this.friction, this.frictionAir, this.frictionStatic);
+      _matterJs2.default.Body.set(this.collider.body, {
+        friction: this.friction,
+        frictionAir: this.frictionAir,
+        frictionStatic: this.frictionStatic
+      });
 
       this.collider.body.onCollide(function (pair) {
         _this.gob.onCollide(pair);
@@ -11915,15 +11933,18 @@ var RigidBody = function () {
   }, {
     key: 'getVelocity',
     value: function getVelocity() {
-      return new _vector2.default(this.collider.body.velocity[0], this.collider.body.velocity[1]);
+      return {
+        x: this.collider.body.velocity.x,
+        y: this.collider.body.velocity.y
+      };
     }
   }, {
     key: 'setVelocity',
     value: function setVelocity() {
-      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.collider.body.velocity.x;
-      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.collider.body.velocity.y;
+      var x = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.collider.body.velocity.x / _private.Time.dts;
+      var y = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.collider.body.velocity.y / _private.Time.dts;
 
-      _matterJs2.default.Body.setVelocity(this.collider.body, { x: x, y: y });
+      _matterJs2.default.Body.setVelocity(this.collider.body, _matterJs2.default.Vector.create(x * _private.Time.dts, y * _private.Time.dts));
     }
   }, {
     key: 'setVelocityY',
@@ -12097,7 +12118,7 @@ var Scene = function () {
 
     value: function __prePhysicsUpdate() {
       for (var i = 0; i < this.gobs.length; i++) {
-        if (this.gobs[i].collider) {
+        if (this.gobs[i].rigidbody) {
           this.gobs[i].prePhysicsUpdate();
           this.gobs[i].__prePhysicsUpdate();
         }
@@ -20316,11 +20337,10 @@ var BoxCollider = function () {
     key: '__init',
     value: function __init(world, gob) {
       this.gob = gob;
-      var mass = this.rigidbody ? this.rigidbody.mass : 0;
 
       this.body = _matterJs2.default.Body.create({
-        mass: mass,
-        isStatic: mass === 0,
+        mass: this.rigidbody ? this.rigidbody.mass : 0,
+        isStatic: this.rigidbody.isStatic,
         angle: this.gob.transform.angle,
         position: _matterJs2.default.Vector.create(this.gob.transform.position.x, this.gob.transform.position.y),
         vertices: [
