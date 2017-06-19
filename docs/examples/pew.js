@@ -11903,12 +11903,16 @@ var RigidBody = function () {
 
       this.gob = gob;
       this.collider.__init(world, gob);
+      (0, _invariant2.default)(this.collider.body, 'Error initializing the collider body');
+      _matterJs2.default.World.add(world, this.collider.body);
       // update ability to rotate
       if (!this.rotatable) {
         _matterJs2.default.Body.setInertia(this.collider.body, Infinity);
       }
 
       _matterJs2.default.Body.set(this.collider.body, {
+        mass: this.mass,
+        isStatic: this.isStatic,
         friction: this.friction,
         frictionAir: this.frictionAir,
         frictionStatic: this.frictionStatic,
@@ -20233,6 +20237,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _matterJs2.default.use('matter-collision-events');
 
 window.Pew = {
+  Matter: _matterJs2.default,
   RigidBody: _rigidbody2.default,
   Colliders: _entry2.default,
   Gob: _gob2.default,
@@ -20342,8 +20347,6 @@ var BoxCollider = function () {
       this.gob = gob;
 
       this.body = _matterJs2.default.Body.create({
-        mass: this.rigidbody ? this.rigidbody.mass : 0,
-        isStatic: this.rigidbody.isStatic,
         angle: this.gob.transform.angle,
         position: _matterJs2.default.Vector.create(this.gob.transform.position.x, this.gob.transform.position.y),
         vertices: [
@@ -20356,7 +20359,6 @@ var BoxCollider = function () {
         // BL
         _matterJs2.default.Vector.create(this.gob.transform.position.x - this.width / 2, this.gob.transform.position.y + this.height / 2)]
       });
-      _matterJs2.default.World.add(world, this.body);
     }
   }]);
 
@@ -20404,31 +20406,43 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _matterJs = __webpack_require__(109);
+
+var _matterJs2 = _interopRequireDefault(_matterJs);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // implements Collider interface
+var PolygonCollider = function () {
+  function PolygonCollider(vertices) {
+    _classCallCheck(this, PolygonCollider);
 
-// import Matter from 'matter-js';
-var PolygonCollider =
-// vertices: Array<Matter.Vector>;
+    this.vertices = vertices;
+  }
+  // clockwise order
 
-// body: Matter.Body;
-// clockwise order
-function PolygonCollider(gob, vertices) {
-  _classCallCheck(this, PolygonCollider);
 
-  this.vertices = vertices;
-  // Note that velocity and angularVelocity are read-only! they need to be
-  // initialized by gob
-  // this.body = Matter.Body.create({
-  //   angle: gob.transform.angle,
-  //   position: Matter.Vector.create(
-  //     gob.transform.position.x,
-  //     gob.transform.position.y,
-  //   ),
-  //   vertices: vertices.map(vertex => Matter.Vector.create(vertex.x, vertex.y))
-  // });
-};
+  _createClass(PolygonCollider, [{
+    key: '__init',
+    value: function __init(world, gob) {
+      this.gob = gob;
+
+      this.body = _matterJs2.default.Body.create({
+        angle: this.gob.transform.angle,
+        position: _matterJs2.default.Vector.create(this.gob.transform.position.x, this.gob.transform.position.y),
+        vertices: this.vertices.map(function (vertex) {
+          return _matterJs2.default.Vector.create(vertex.x, vertex.y);
+        })
+      });
+    }
+  }]);
+
+  return PolygonCollider;
+}();
 
 exports.default = PolygonCollider;
 
