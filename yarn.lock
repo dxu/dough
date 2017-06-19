@@ -1435,6 +1435,10 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
+dat.gui@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/dat.gui/-/dat.gui-0.6.1.tgz#7c3d0a2ac2c570dafb61b91203fd7fe3171d6ac7"
+
 date-fns@^1.27.2:
   version "1.28.5"
   resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-1.28.5.tgz#257cfc45d322df45ef5658665967ee841cd73faf"
@@ -2651,6 +2655,10 @@ jodid25519@^1.0.0:
   dependencies:
     jsbn "~0.1.0"
 
+jquery@>=1.9.1, jquery@^3.1.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.2.1.tgz#5c4d9de652af6cd0a770154a631bba12b015c787"
+
 js-tokens@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.1.tgz#08e9f132484a2c45a30907e9dc4d5567b7f114d7"
@@ -2717,6 +2725,16 @@ jsprim@^1.2.2:
     extsprintf "1.0.2"
     json-schema "0.2.3"
     verror "1.3.6"
+
+jstree@^3.3.3:
+  version "3.3.4"
+  resolved "https://registry.yarnpkg.com/jstree/-/jstree-3.3.4.tgz#3d089bb9623bd6f3f25f64c4e4ce547b30d40264"
+  dependencies:
+    jquery ">=1.9.1"
+
+keymaster@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/keymaster/-/keymaster-1.6.2.tgz#e1ae54d0ea9488f9f60b66b668f02e9a1946c6eb"
 
 kind-of@^3.0.2:
   version "3.1.0"
@@ -2995,6 +3013,27 @@ make-plural@~3.0.6:
 map-obj@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-2.0.0.tgz#a65cd29087a92598b8791257a523e021222ac1f9"
+
+matter-collision-events@^0.1.7:
+  version "0.1.7"
+  resolved "https://registry.yarnpkg.com/matter-collision-events/-/matter-collision-events-0.1.7.tgz#53eb8b198f5f42662453135e9ecfaa01c9075aff"
+  dependencies:
+    matter-js "0.12.0"
+    matter-tools "^0.10.0"
+
+matter-js@0.12.0, matter-js@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/matter-js/-/matter-js-0.12.0.tgz#dcb02d04326c47746c63a3772d1475753d72fe1e"
+
+matter-tools@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/matter-tools/-/matter-tools-0.10.0.tgz#832dd8b199999db2306aca4c814c6e641fd4df0a"
+  dependencies:
+    dat.gui "^0.6.1"
+    jquery "^3.1.1"
+    jstree "^3.3.3"
+    keymaster "^1.6.2"
+    matter-js "^0.12.0"
 
 media-typer@0.3.0:
   version "0.3.0"
@@ -3385,12 +3424,6 @@ p-map@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/p-map/-/p-map-1.1.1.tgz#05f5e4ae97a068371bc2a5cc86bfbdbc19c4ae7a"
 
-p2@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/p2/-/p2-0.7.1.tgz#25f2474d9bc3a6d3140a1da26a67c9e118ac9543"
-  dependencies:
-    poly-decomp "0.1.1"
-
 package-json@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/package-json/-/package-json-4.0.1.tgz#8869a0401253661c4c4ca3da6c2121ed555f5eed"
@@ -3530,10 +3563,6 @@ pkginfo@0.4.0:
 pluralize@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/pluralize/-/pluralize-1.2.1.tgz#d1a21483fd22bb41e58a12fa3421823140897c45"
-
-poly-decomp@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/poly-decomp/-/poly-decomp-0.1.1.tgz#9f68c4fa558663791c9ba4c2df7283f3096c23c9"
 
 prelude-ls@~1.1.2:
   version "1.1.2"
