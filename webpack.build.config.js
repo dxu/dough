@@ -7,7 +7,7 @@ const buildConfig = {
   entry: './lib/entry.js',
   output: {
     path: __dirname + '/build',
-    filename: 'pew.js',
+    filename: 'dough.js',
   },
   module: {
     rules: [

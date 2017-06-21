@@ -7,7 +7,7 @@ const examplesConfig = {
   entry: ['./lib/entry.js'],
   output: {
     path: path.join(__dirname, '/docs/examples'),
-    filename: 'pew.js',
+    filename: 'dough.js',
   },
   module: {
     rules: [

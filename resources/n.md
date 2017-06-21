@@ -1,4 +1,4 @@
-#gamedev Pew development
+#gamedev Dough development
 
 # Useful links
 - collision detection
@@ -94,7 +94,7 @@ v0.0.0-rc.6
 - An even bigger problem... If you have a pub/sub model, where the Gob will call game.onKeyDown(<keycode>, callback), when game (or Keyboard) executes the callback, you lose the `this` context.
 	- There might be no way to get around this other than creating the optional context parameter. It’s annoying, but javascript is javascript.
 	- One route: go back to this decision of this.events = { <keycode>: handler .... } instead of using an explicit game.onKeyDown model. This way, the game object handles the onKeyDown binding automatically.
-		- this is a little weird, because now you have to be explicit that these are Pew-specific events, not just the keyboard events. Backbone does this, but it might get confusing since these are “keyboard event”s
+		- this is a little weird, because now you have to be explicit that these are dough-specific events, not just the keyboard events. Backbone does this, but it might get confusing since these are “keyboard event”s
 
 - AFTER THINKING, THE ABOVE problem doesn’t even make sense. The keydown, keyhold, and keyup handlers should all use the context of the keydown and keyup events anyway!! it should be on the onus of the dev to do the appropriate that = this conversion. See the first implementation of the keyboard for what i mean by this.
 
